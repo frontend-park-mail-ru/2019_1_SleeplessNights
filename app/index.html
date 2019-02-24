@@ -1,41 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Our new cool game</title>
-    <link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    <div class="main__wrapper">
-        <h1>Hello dear friends!</h1>
-        <h3>This is start of developing of our Game. That's why please don't criticize me, it'll be changed.))) </h3>
-        <div class="list-block">
-            <h3>There are list of our pages:</h3>
-            <ul class="list-pages">
-                <li>
-                    <a href="menu.html">Menu</a>
-                </li>
-                <li>
-                    <a href="profile.html">User profile</a>
-                </li>
-                <li>
-                    <a href="login.html">Log in</a>
-                </li>
-                <li>
-                    <a href="signup.html">Sign Up</a>
-                </li>
-                <li>
-                    <a href="leaders.html">Game leaders</a>
-                </li>
-                <li>
-                    <a href="game_modes.html">Game modes</a>
-                </li>
-                <li>
-                    <a href="description.html">Game description</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</body>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Название игры</title>
+        <link rel="icon" href="img/sega_saturn.png">
+        <link rel="stylesheet" href="css/container/container.css">
+        <link rel="stylesheet" href="css/header/header.css">
+        <link rel="stylesheet" href="css/header/__title/header__title.css">
+        <link rel="stylesheet" href="css/header/__subtitle/header__subtitle.css">
+        <link rel="stylesheet" href="css/main-menu/main-menu.css">
+        <link rel="stylesheet" href="css/main-menu/__btn/main-menu__btn.css">
+        <link rel="stylesheet" href="css/list/list.css">
+        <link rel="stylesheet" href="css/list/__item/list__item.css">
+        <link rel="stylesheet" href="css/list/__item-row/list__item-row.css">
+    </head>
+    <body class="container">
+        <header class="header">
+            <h1 class="header__title">Название игры</h1>
+            <h3 class="header__subtitle"><a href="login.html">авторизируйтесь</a> чтобы играть онлайн</h3>
+        </header>
+        <ul class="main-menu list">
+            <li class="list__item">
+                <a class="main-menu__btn" href="game_modes.html">Играть</a>
+            </li>
+            <li class="list__item">
+                <a class="main-menu__btn" href="description.html">Описаие</a>
+            </li>
+            <li class="list__item">
+                <a class="main-menu__btn" href="leaders.html">Таблица рекордов</a>
+            </li>
+            <li class="list__item-row">
+                <a  class="main-menu__btn list__item" href="login.html">Войти</a>
+                <a  class="main-menu__btn list__item" href="signup.html">Регистрация</a>
+            </li>
+        </ul>
+    </body>
 </html>
