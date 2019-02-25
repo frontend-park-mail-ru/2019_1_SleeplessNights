@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Table of leaders</title>
+    <title>Таблица лидеров</title>
     <link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/card/card.css">
+    <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/lib/shadow/shadow-l.css">
+    <link rel="stylesheet" href="css/lib/flex/flex.css">
 </head>
 <body>
-    <div class="main__wrapper">
-        <header>
-            <a href="index.html"><-- Index</a>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">Лучшие игроки</h1>
+            <span class="btn-home" >
+                <a href="index.html">
+                    <img class="btn-home__icon" src="img/home.svg" alt="Home">
+                </a>
+            </span>
         </header>
-        <h1>Here will be table of leaders</h1>
-        <div>
-            <table>
-                <tr>
-                    <th>Username</th>
-                    <th>Rank</th>
-                </tr>
-                <tr>
-                    <td>John</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>Mike</td>
-                    <td>45</td>
-                </tr>
-            </table>
+        <div class="card d_flex hv-center empty-card shadow-l">
+            <div class="card__body">
+                <h2>В процессе разработки</h2>
+            </div>
         </div>
     </div>
 </body>

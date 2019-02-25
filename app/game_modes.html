@@ -1,20 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Game modes</title>
+    <title>Играть</title>
     <link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/game-modes/game-modes.css">
+    <link rel="stylesheet" href="css/blocks/game-modes/block-mode/block-mode.css">
+    <link rel="stylesheet" href="css/lib/grid/grid.css">
+    <link rel="stylesheet" href="css/lib/flex/flex.css">
 </head>
 <body>
-    <div class="main__wrapper">
-        <header>
-            <a href="index.html"><-- Index</a>
-        </header>
-        <h1>Here will be two big button with cool design</h1>
-        <div>
-            <button>Single player</button>
-            <button>Multi player</button>
+    <div class="container">
+        <span class="btn-home" >
+            <a href="index.html">
+                <img class="btn-home__icon" src="img/home.svg" alt="Home">
+            </a>
+        </span>
+        <div class="game-modes col-2">
+            <div class="grid__item block-mode d_flex hv-center">
+                <h1>Single player</h1>
+            </div>
+            <div class="grid__item block-mode d_flex hv-center">
+                <h1>Multi player</h1>
+            </div>
         </div>
     </div>
 </body>

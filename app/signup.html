@@ -4,32 +4,59 @@
     <meta charset="UTF-8">
     <title>Sign Up</title>
     <link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/card/card.css">
+    <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/blocks/card/__header/card__header.css">
+    <link rel="stylesheet" href="css/blocks/form/form__group.css">
+    <link rel="stylesheet" href="css/blocks/form/form__control.css">
+    <link rel="stylesheet" href="css/blocks/btn/btn.css">
+    <link rel="stylesheet" href="css/blocks/btn/btn-primary/btn-primary.css">
+    <link rel="stylesheet" href="css/lib/flex/flex.css">
+    <link rel="stylesheet" href="css/lib/text/text_align.css">
 </head>
 <body>
-    <div class="main__wrapper">
-        <header>
-            <a href="index.html"><-- Index</a>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">Название игры</h1>
+            <span class="btn-home" >
+                <a href="index.html">
+                    <img class="btn-home__icon" src="img/home.svg" alt="Home">
+                </a>
+            </span>
         </header>
-        <h1>Here will be Sign Up Page</h1>
-        <form>
-            <div>
-                <input type="text" placeholder="email" name="login">
+        <div class="card">
+            <div class="card__header">
+                <h1 class="text_center">Регистрация</h1>
             </div>
-            <div>
-                <input type="password" placeholder="password" name="password1">
+            <div class="card__body">
+                <form>
+                    <div class="form__group">
+                        <input type="text" class="form__control" placeholder="Почта" name="email">
+                    </div>
+                    <div class="form__group">
+                        <input type="text" class="form__control" placeholder="Никнейм" name="nickname">
+                    </div>
+                    <div class="form__group">
+                        <input type="password" class="form__control" placeholder="Пароль" name="password">
+                    </div>
+                    <div class="form__group">
+                        <input type="password" class="form__control" placeholder="Повторите пароль" name="password">
+                    </div>
+                    <div class="form__group d_flex v_center">
+                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <input type="password" placeholder="repeat password" name="password2">
+        </div>
+        <div class="card d_flex hv-center">
+            <div class="card__body">
+                Аккаунт уже есть? <a href="login.html">Войти</a>
             </div>
-            <div>
-                <button type="submit">Sign Up</button>
-            </div>
-        </form>
-        <div>
-            <p>
-                Have already account <a href="login.html">Log In</a>
-            </p>
         </div>
     </div>
 </body>

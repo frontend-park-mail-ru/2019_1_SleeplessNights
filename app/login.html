@@ -2,31 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Авторизация</title>
     <link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/card/card.css">
+    <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/blocks/card/__header/card__header.css">
+    <link rel="stylesheet" href="css/blocks/form/form__group.css">
+    <link rel="stylesheet" href="css/blocks/form/form__control.css">
+    <link rel="stylesheet" href="css/blocks/btn/btn.css">
+    <link rel="stylesheet" href="css/blocks/btn/btn-primary/btn-primary.css">
+    <link rel="stylesheet" href="css/lib/flex/flex.css">
+    <link rel="stylesheet" href="css/lib/text/text_align.css">
 </head>
 <body>
-    <div class="main__wrapper">
-        <header>
-            <a href="index.html"><-- Index</a>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">Название игры</h1>
+            <span class="btn-home" >
+                <a href="index.html">
+                    <img class="btn-home__icon" src="img/home.svg" alt="Home">
+                </a>
+            </span>
         </header>
-        <h1>Here will be login Page</h1>
-        <form>
-            <div>
-                <input type="text" placeholder="email or username" name="login">
+        <div class="card">
+            <div class="card__header">
+                <h1 class="text_center">Авторизация</h1>
             </div>
-            <div>
-                <input type="password" placeholder="password" name="password">
+            <div class="card__body">
+                <form>
+                    <div class="form__group">
+                        <input type="text" class="form__control" placeholder="Почта или никнейм" name="login">
+                    </div>
+                    <div class="form__group">
+                        <input type="password" class="form__control" placeholder="Пароль" name="password">
+                    </div>
+                    <div class="form__group d_flex v_center">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <button type="submit">Log In</button>
+        </div>
+        <div class="card d_flex hv-center">
+            <div class="card__body">
+                У вас нет аккаунта? <a href="signup.html">Зарегистрироваться</a>
             </div>
-        </form>
-        <div>
-            <p>
-                Don't have account? <a href="signup.html">Sign up</a>
-            </p>
         </div>
     </div>
 </body>

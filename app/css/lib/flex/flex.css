@@ -1,0 +1,16 @@
+.d_flex {
+    display: flex;
+}
+
+.hv-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.v_center {
+    justify-content: center;
+}
+
+.h_center {
+    align-items: center;
+}

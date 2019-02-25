@@ -1,25 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Description</title><link rel="icon" href="img/sega_saturn.png">
-    <link rel="stylesheet" href="css/main.css">
+    <title>Описание игры</title>
+    <link rel="icon" href="img/sega_saturn.png">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/container/page-content/page-content.css">
+    <link rel="stylesheet" href="css/blocks/container/left-sidebar/left-sidebar.css">
+    <link rel="stylesheet" href="css/blocks/container/screens-block/screens-block.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/card/card.css">
+    <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/lib/shadow/shadow-l.css">
+    <link rel="stylesheet" href="css/lib/flex/flex.css">
+    <link rel="stylesheet" href="css/lib/text/text_align.css">
 </head>
 <body>
-    <div class="main__wrapper">
-        <header>
-            <a href="index.html"><-- Index</a>
-        </header>
-        <h1>Here will be description of game.</h1>
-        <h3>In process of developing.</h3>
-        <div class="list-block">
-            <h3>Authors:</h3>
-            <ul class="list-pages">
-                <li>Maksim Uymin</li>
-                <li>Maksim Pirmamedov</li>
-                <li>Aleksey Larutin</li>
-                <li>Jahongir Tulforov</li>
-            </ul>
+    <div class="container-row">
+        <nav class="left-sidebar shadow-l">
+            <div class="screens-block card">
+                <div class="card__header text_center">
+                    <h1>Скрины</h1>
+                </div>
+                <div class="card__body">
+                    <div class="empty-card_m">Скрин 1</div>
+                    <div class="empty-card_m">Скрин 2</div>
+                    <div class="empty-card_m">Скрин 3</div>
+                    <div class="empty-card_m">Скрин 4</div>
+                </div>
+            </div>
+        </nav>
+        <div class="page-content">
+            <header class="header">
+                <h1 class="header__title">Описание игры</h1>
+                <span class="btn-home" >
+                    <a href="index.html">
+                        <img class="btn-home__icon" src="img/home.svg" alt="Home">
+                    </a>
+                </span>
+            </header>
+            <div class="card desc-block shadow-l">
+                <div class="desc-text">
+                    <p>
+                        Классический «Lorem ipsum dolor sit amet…» проход отнести к ремиксов римского философа Цицерона 45 г. до н.э. текст De Finibus Bonorum et Malorum («О крайностями добра и зла»). Более конкретно, проход, как полагают, происходит из секций 1.10.32 - 33 из его текста, с наиболее заметным часть извлечена ниже:
+
+                        “Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
+                    </p>
+                </div>
+                <div class="list-block">
+                    <h3>Authors:</h3>
+                    <ul class="list-pages">
+                        <li>Maksim Uymin</li>
+                        <li>Maksim Pirmamedov</li>
+                        <li>Aleksey Larutin</li>
+                        <li>Jahongir Tulforov</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>
