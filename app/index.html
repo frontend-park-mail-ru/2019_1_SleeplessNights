@@ -4,36 +4,38 @@
     <meta charset="UTF-8">
     <title>Название игры</title>
     <link rel="icon" href="img/sega_saturn.png">
+    <link rel="stylesheet" href="css/lib/global.css">
     <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/container/_align-y/container_align-y_center.css">
     <link rel="stylesheet" href="css/blocks/header/header.css">
     <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
     <link rel="stylesheet" href="css/blocks/header/__subtitle/header__subtitle.css">
-    <link rel="stylesheet" href="css/blocks/main-menu/main-menu.css">
-    <link rel="stylesheet" href="css/blocks/main-menu/__btn/main-menu__btn.css">
+    <link rel="stylesheet" href="css/blocks/menu/menu.css">
+    <link rel="stylesheet" href="css/blocks/menu/__btn/menu__btn.css">
     <link rel="stylesheet" href="css/blocks/list/list.css">
     <link rel="stylesheet" href="css/blocks/list/__item/list__item.css">
     <link rel="stylesheet" href="css/blocks/list/__item-row/list__item-row.css">
     <link rel="stylesheet" href="css/lib/flex/flex.css">
 </head>
 <body>
-    <div class="container v_center">
+    <div class="container container_align-y_center">
         <header class="header">
             <h1 class="header__title">Название игры</h1>
             <h3 class="header__subtitle"><a href="login.html">авторизируйтесь</a> чтобы играть онлайн</h3>
         </header>
-        <ul class="main-menu list">
+        <ul class="menu list">
             <li class="list__item">
-                <a class="main-menu__btn" href="game_modes.html">Играть</a>
+                <a class="menu__btn" href="game_modes.html">Играть</a>
             </li>
             <li class="list__item">
-                <a class="main-menu__btn" href="description.html">Описание</a>
+                <a class="menu__btn" href="description.html">Описание</a>
             </li>
             <li class="list__item">
-                <a class="main-menu__btn" href="leaders.html">Таблица рекордов</a>
+                <a class="menu__btn" href="leaders.html">Таблица рекордов</a>
             </li>
             <li class="list__item-row">
-                <a  class="main-menu__btn list__item" href="login.html">Войти</a>
-                <a  class="main-menu__btn list__item" href="signup.html">Регистрация</a>
+                <a class="menu__btn list__item" href="login.html">Войти</a>
+                <a class="menu__btn list__item" href="signup.html">Регистрация</a>
             </li>
         </ul>
     </div>

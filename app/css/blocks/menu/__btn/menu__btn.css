@@ -1,4 +1,4 @@
-.main-menu__btn {
+.menu__btn {
     display: block;
     padding: 20px 40px 20px 40px;
     border: .0625rem solid #E0E0E0;
@@ -11,7 +11,7 @@
     font-size: large;
 }
 
-.main-menu__btn:hover {
+.menu__btn:hover {
     color: #005ff9;
     background-color: #ffffff;
     border: .0625rem solid #E0E0E0;
