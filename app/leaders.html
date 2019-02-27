@@ -12,9 +12,10 @@
     <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
     <link rel="stylesheet" href="css/blocks/card/card.css">
     <link rel="stylesheet" href="css/blocks/card/_centered/card_centered_both.css">
+    <link rel="stylesheet" href="css/blocks/card/_empty/card_empty.css">
     <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/blocks/table/table.css">
     <link rel="stylesheet" href="css/lib/shadow/shadow-l.css">
-    <link rel="stylesheet" href="css/lib/flex/flex.css">
 </head>
 <body>
     <div class="container">
@@ -26,9 +27,19 @@
                 </a>
             </span>
         </header>
-        <div class="card card_centered_both empty-card shadow-l">
+        <div class="card card_centered_both card_empty shadow-l">
             <div class="card__body">
-                <h2>В процессе разработки</h2>
+                <table class="table">
+                    <thead>
+                        <tr><th>Игрок</th><th>Победы</th><th>Поражения</th><th>Время в игре</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Player1</td><td>5</td><td>5</td><td>2 часа</td></tr>
+                        <tr><td>Player2</td><td>4</td><td>6</td><td>1 час</td></tr>
+                        <tr><td>Player3</td><td>3</td><td>7</td><td>3 часа</td></tr>
+                        <tr><td>Player4</td><td>2</td><td>8</td><td>2 часа</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

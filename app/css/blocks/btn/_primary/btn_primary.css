@@ -1,8 +1,8 @@
-.btn-primary {
+.btn_primary {
     color: #ffffff;
     background-color: #005ff9;
 }
 
-.btn-primary:hover {
+.btn_primary:hover {
     opacity: 0.9;
 }

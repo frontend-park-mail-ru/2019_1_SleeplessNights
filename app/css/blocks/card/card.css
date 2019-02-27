@@ -9,21 +9,3 @@
     border-radius: .125rem;
     background-color: #ffffff;
 }
-
-.empty-card {
-    min-width: 350px;
-    min-height: 200px;
-}
-
-.empty-card_m {
-    border: .0625rem solid #E0E0E0;
-    border-radius: .25em;
-    background-color: #005ff9;
-    color: white;
-    font-size: x-large;
-    margin-bottom: 10px;
-    min-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
