@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link rel="icon" href="img/sega_saturn.png">
+    <link rel="stylesheet" href="css/lib/global.css">
+    <link rel="stylesheet" href="css/blocks/container/container.css">
+    <link rel="stylesheet" href="css/blocks/header/header.css">
+    <link rel="stylesheet" href="css/blocks/header/__title/header__title.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/btn-home.css">
+    <link rel="stylesheet" href="css/blocks/btn-home/__icon/btn-home__icon.css">
+    <link rel="stylesheet" href="css/blocks/card/card.css">
+    <link rel="stylesheet" href="css/blocks/card/_centered/card_centered_both.css">
+    <link rel="stylesheet" href="css/blocks/card/__body/card__body.css">
+    <link rel="stylesheet" href="css/blocks/card/__header/card__header.css">
+    <link rel="stylesheet" href="css/blocks/card/__title/card__title.css">
+    <link rel="stylesheet" href="css/blocks/form/form__group.css">
+    <link rel="stylesheet" href="css/blocks/form/form__control.css">
+    <link rel="stylesheet" href="css/blocks/btn/btn.css">
+    <link rel="stylesheet" href="css/blocks/btn/_primary/btn_primary.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">Название игры</h1>
+            <span class="btn-home" >
+                <a href="index.html">
+                    <img class="btn-home__icon" src="img/home.svg" alt="Home">
+                </a>
+            </span>
+        </header>
+        <div class="card">
+            <div class="card__header">
+                <h1 class="card__title">Авторизация</h1>
+            </div>
+            <div class="card__body">
+                <form>
+                    <div class="form__group">
+                        <input type="text" class="form__control" placeholder="Почта или никнейм" name="login">
+                    </div>
+                    <div class="form__group">
+                        <input type="password" class="form__control" placeholder="Пароль" name="password">
+                    </div>
+                    <div class="form__group">
+                        <button type="submit" class="btn btn_primary">Войти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card card_centered_both">
+            <div class="card__body">
+                У вас нет аккаунта? <a href="signup.html">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

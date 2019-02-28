@@ -1,0 +1,5 @@
+.container__content {
+    display: flex;
+    padding-left: 30px;
+    width: 100%;
+}
