@@ -2,7 +2,7 @@ import {HeaderComponent} from '../header/header.js'
 
 export class SignUpComponent {
     _template = Handlebars.templates.signup;
-    _pageTitle = 'Играть';
+    _pageTitle = 'Регистрация';
 
     constructor(el = document.body) {
         this._el = el;

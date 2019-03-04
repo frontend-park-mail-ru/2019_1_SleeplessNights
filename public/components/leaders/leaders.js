@@ -1,22 +1,18 @@
-import {HeaderComponent} from '../header/header.js'
+import { HeaderComponent } from '../header/header.js'
+import { LeadersService } from '../../services/leaders-service.js';
 
 export class LeadersComponent {
     _template = Handlebars.templates.leaders;
     _pageTitle = 'Таблица лидеров';
-    _players = [
-        {
-            name: 'Jahongir',
-            win: 0,
-            lost: 0,
-            playingTime: 60
-        }
-    ];
+    _players = [];
 
     constructor(el = document.body) {
         this._el = el;
         this._title = 'Лучшые игроки';
         this._subtitle = '';
         this._btnHome = true;
+
+        this._leaderService = new LeadersService();
     }
 
     get pageTitle(){
@@ -34,9 +30,15 @@ export class LeadersComponent {
             header: header.template,
             players: this._players
         });
-    }
 
-    getLeaders() {
-        // here will be AJAX query to server
+        this._leaderService.getLeaders()
+            .then(res => res.data)
+            .then(players => {
+                this._el.innerHTML = this._template({
+                    header: header.template,
+                    players: players
+                });
+            })
+            .catch(error => console.error('Error:', error));
     }
 }
