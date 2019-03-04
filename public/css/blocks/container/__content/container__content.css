@@ -1,5 +1,7 @@
 .container__content {
     display: flex;
     padding-left: 30px;
+    margin-left: 30%;
+    flex-direction: column;
     width: 100%;
 }
