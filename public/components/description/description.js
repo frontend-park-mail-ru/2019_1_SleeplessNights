@@ -3,6 +3,7 @@ import {HeaderComponent} from '../header/header.js';
 export class DescriptionComponent {
     _template = Handlebars.templates.description;
     _pageTitle = 'Описание игры';
+    _authors = ['Максим Уймин', 'Максим Пирмамедов', 'Алексей Ларютин', 'Джахонгир Тулфоров'];
 
     constructor(el = document.body) {
         this._el = el;
@@ -23,7 +24,8 @@ export class DescriptionComponent {
         });
 
         this._el.innerHTML = this._template({
-            header: header.template
+            header: header.template,
+            authors: this._authors
         });
     }
 }

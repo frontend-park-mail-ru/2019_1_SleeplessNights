@@ -3,6 +3,38 @@ import {HeaderComponent} from '../header/header.js'
 export class MenuComponent {
     _template = Handlebars.templates.menu;
     _pageTitle = 'Названые игры';
+    _pages = [
+        {
+            link: 'game_modes',
+            dataHref: 'gameModes',
+            text: 'Играть'
+        },
+        {
+            link: 'description',
+            dataHref: 'description',
+            text: 'Описание'
+        },
+        {
+            link: 'leaders',
+            dataHref: 'leaders',
+            text: 'Таблица лидеров'
+        },
+        {
+            link: 'profile',
+            dataHref: 'profile',
+            text: 'Профиль игрока(временно)'
+        },
+        {
+            link: 'login',
+            dataHref: 'login',
+            text: 'Войти'
+        },
+        {
+            link: 'signup',
+            dataHref: 'signup',
+            text: 'Регистрация'
+        }
+    ];
 
     constructor(el = document.body) {
         this._el = el;
@@ -26,8 +58,12 @@ export class MenuComponent {
            btnHome: this._btnHome
         });
 
+        const pageCount = this._pages.length;
+
         this._el.innerHTML = this._template({
-            header: header.template
+            header: header.template,
+            pages: this._pages.slice(0, pageCount - 2),
+            pages2: this._pages.slice(pageCount - 2, pageCount)
         });
     }
 }

@@ -1,23 +1,24 @@
-export class AJAXService {
+export class AjaxModule {
     constructor(){
     }
 
-    _fetch({
+    static _fetch({
         url = '/',
         method = 'GET',
         body = null,
-        headers = { "Content-Type": "application/json" },
+        headers = { 'Content-Type': 'application/json' },
     } = {}) {
         return fetch(url, {
             method: method, // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, cors, *same-origin
+            mode: 'cors', // no-cors, cors, *same-origin
+            credentials: 'include',
             headers: headers, // "Content-Type": "application/x-www-form-urlencoded",
             body: body, // body data type must match "Content-Type" header
         })
         .then(response => response.json()); // parses response to JSON
     }
 
-    post({ url, body, headers } = {}) {
+    static post({ url, body, headers } = {}) {
         return this._fetch({
             url,
             method: 'POST',
@@ -26,11 +27,10 @@ export class AJAXService {
         });
     }
 
-    get({ url, body, headers } = {}) {
+    static get({ url, headers } = {}) {
         return this._fetch({
             url,
             method: 'GET',
-            body,
             headers
         });
     }

@@ -22,10 +22,9 @@
             <div class="list-block">
                 <h3>Авторы:</h3>
                 <ul class="list-pages">
-                    <li>Максим Уймин</li>
-                    <li>Максим Пирмамедов</li>
-                    <li>Алексей Ларютин</li>
-                    <li>Джахонгир Тулфоров</li>
+                    {{#each authors}}
+                        <li>{{this}}</li>
+                    {{/each}}
                 </ul>
             </div>
         </div>

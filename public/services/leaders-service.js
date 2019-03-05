@@ -1,8 +1,8 @@
-import { AJAXService } from './ajax-service.js';
+import { AjaxModule } from '../modules/ajax.js';
 
 export class LeadersService {
     constructor() {
-        this._ajax = new AJAXService();
+        this._ajax = AjaxModule;
     }
 
     getLeaders() {
