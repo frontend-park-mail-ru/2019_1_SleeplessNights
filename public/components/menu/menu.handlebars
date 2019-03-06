@@ -1,15 +1,7 @@
-<div class="container container_align-y_center">
-    {{{header}}}
-    <ul class="menu list">
-        {{#each pages}}
-            <li class="list__item">
-                <a class="menu__btn" href="/{{link}}" data-href="{{dataHref}}">{{text}}</a>
-            </li>
-        {{/each}}
-        <li class="list__item-row">
-            {{#each pages2}}
-                <a class="menu__btn list__item" href="/{{link}}" data-href="{{dataHref}}">{{text}}</a>
-            {{/each}}
-        </li>
-    </ul>
+<div class="menu {{customClasses}}">
+    {{#each items as |item|}}
+        <div class="menu__btn {{item.className}}">
+            {{{item.content}}}
+        </div>
+    {{/each}}
 </div>

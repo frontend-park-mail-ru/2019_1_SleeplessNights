@@ -1,69 +1,48 @@
-import {HeaderComponent} from '../header/header.js'
+import { LinkComponent } from '../link/link.js';
 
 export class MenuComponent {
-    _template = Handlebars.templates.menu;
-    _pageTitle = 'Названые игры';
-    _pages = [
-        {
-            link: 'game_modes',
-            dataHref: 'gameModes',
-            text: 'Играть'
-        },
-        {
-            link: 'description',
-            dataHref: 'description',
-            text: 'Описание'
-        },
-        {
-            link: 'leaders',
-            dataHref: 'leaders',
-            text: 'Таблица лидеров'
-        },
-        {
-            link: 'profile',
-            dataHref: 'profile',
-            text: 'Профиль игрока(временно)'
-        },
-        {
-            link: 'login',
-            dataHref: 'login',
-            text: 'Войти'
-        },
-        {
-            link: 'signup',
-            dataHref: 'signup',
-            text: 'Регистрация'
-        }
-    ];
+    _template;
+    _customClasses;
+    _items = [];
 
-    constructor(el = document.body) {
-        this._el = el;
-        this._title = 'Названые игры';
-        this._subtitle = '<a href="/login" data-href="login">авторизируйтесь</a> чтобы играть онлайн';
-        this._btnHome = false;
-    }
+    constructor({
+        customClasses = '',
+        items = [{
+            className: '',
+            content: {
+                href: '/',
+                dataHref: 'menu',
+                className: '',
+                text: ''
+            }
+        }]
+    } = {}){
+        this._customClasses = customClasses;
 
-    get pageTitle(){
-        return this._pageTitle;
+        items.forEach(item => {
+            const content = item.content;
+            const link = new LinkComponent({
+                href:      content.href,
+                dataHref:  content.dataHref,
+                className: content.className,
+                text:      content.text
+            });
+
+            this._items.push({
+                className: item.className,
+                content: link.template
+            });
+        });
     }
 
     get template() {
-        return this._template();
+        return this._template;
     }
 
     render() {
-        const header = new HeaderComponent({
-           title: this._title,
-           subtitle: this._subtitle,
-           btnHome: this._btnHome
-        });
-
-        const pageCount = this._pages.length;
-
-        this._el.innerHTML = this._template({
-            header: header.template,
-            pages: this._pages.slice(0, pageCount - 2),
-            pages2: this._pages.slice(pageCount - 2, pageCount)
+        this._template = Handlebars.templates.menu({
+            customClasses: this._customClasses,
+            items:         this._items
         });
     }
 }

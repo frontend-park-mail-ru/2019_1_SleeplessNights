@@ -12,7 +12,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(body.json());
 app.use(cookie());
 
-const pages = ['game_modes', 'description', 'leaders', 'profile', 'login', 'signup'];
+const pages = ['play', 'description', 'leaders', 'profile', 'login', 'signup'];
 const leaders = [
     {
         name: 'Алексей',

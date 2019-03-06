@@ -4,7 +4,7 @@
   "description": "Educational project for Technopark 2019",
   "main": "server/index.js",
   "scripts": {
-    "start": "npm start",
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

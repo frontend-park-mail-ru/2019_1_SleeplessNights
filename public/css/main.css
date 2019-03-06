@@ -1,7 +1,46 @@
-.main__wrapper {
-    text-align: center;
-}
+@import "../components/button/btn.css";
+@import "../components/button/_primary/btn_primary.css";
 
-.list-pages {
-    list-style: none;
-}
+@import "../components/buttonHome/btn-home.css";
+@import "../components/buttonHome/__icon/btn-home__icon.css";
+
+@import "../components/card/card.css";
+@import "../components/card/__body/card__body.css";
+@import "../components/card/__header/card__header.css";
+@import "../components/card/__title/card__title.css";
+@import "../components/card/_centered/card_centered_both.css";
+@import "../components/card/_empty/card_empty.css";
+
+@import "../components/container/container.css";
+@import "../components/container/__content/container__content.css";
+@import "../components/container/_align-y/container_align-y_center.css";
+
+@import "../components/form/form__group.css";
+@import "../components/formControl/form__control.css";
+
+@import "../components/header/header.css";
+@import "../components/header/__title/header__title.css";
+@import "../components/header/__subtitle/header__subtitle.css";
+
+@import "../components/link/link.css";
+@import "../components/link/_primary/link_primary.css";
+
+@import "../components/list/list.css";
+@import "../components/list/__item/list__item.css";
+@import "../components/list/__item-row/list__item-row.css";
+
+@import "../components/menu/menu.css";
+@import "../components/menu/__btn/menu__btn.css";
+@import "../components/menu/__btn/_huge/menu__btn_huge.css";
+@import "../components/menu/_horizontal/menu_horizontal.css";
+
+@import "../components/plug/plug.css";
+@import "../components/scoreboard/table.css";
+
+@import "../components/sidebar/sidebar.css";
+@import "../components/sidebar/__header/sidebar__header.css";
+@import "../components/sidebar/__title/sidebar__title.css";
+
+@import "./lib/global.css";
+@import "./lib/shadow/shadow-l.css";
+@import "./lib/shadow/shadow-xl.css";

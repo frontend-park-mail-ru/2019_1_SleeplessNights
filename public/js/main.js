@@ -1,12 +1,26 @@
 'use strict';
-
-import { MenuComponent } from '../components/menu/menu.js';
-import { LeadersComponent } from '../components/leaders/leaders.js';
-import { ProfileComponent } from '../components/profile/profile.js';
-import { LoginComponent } from '../components/login/login.js';
-import { SignUpComponent } from '../components/signup/signup.js';
-import { DescriptionComponent } from '../components/description/description.js';
-import { GameModesComponent } from '../components/game_modes/game_modes.js';
+/********************** Templates **************************/
+import {} from '../components/button/button.tmpl.js';
+import {} from '../components/buttonHome/buttonHome.tmpl.js';
+import {} from '../components/card/card.tmpl.js';
+import {} from '../components/scoreboard/board.tmpl.js';
+import {} from '../components/container/container.tmpl.js';
+import {} from '../components/form/form.tmpl.js';
+import {} from '../components/formControl/formControl.tmpl.js';
+import {} from '../components/header/header.tmpl.js';
+import {} from '../components/link/link.tmpl.js';
+import {} from '../components/list/list.tmpl.js';
+import {} from '../components/menu/menu.tmpl.js';
+import {} from '../components/plug/plug.tmpl.js';
+import {} from '../components/sidebar/sidebar.tmpl.js';
+/********************** Views *********************************/
+import { MenuView }        from '../views/menu.js';
+import { PlayView }        from '../views/play.js';
+import { DescriptionView } from '../views/description.js';
+import { LeadersView }     from '../views/leaders.js';
+import { LoginView }       from '../views/login.js';
+import { SignUpView }      from '../views/signup.js';
+import { ProfileView }     from '../views/profile.js';
 
 const app = document.getElementById('app');
 
@@ -14,9 +28,9 @@ const pages = {
     menu: createMenu,
     leaders: createLeaders,
     description: createDescription,
-    gameModes: createGameModes,
+    play: createPlay,
     login: createLogin,
-    signup: createSignup,
+    signup: createSignUp,
     profile: createProfile
 };
 
@@ -27,7 +41,7 @@ function changeUrl(title, url) {
 }
 
 function createMenu(url) {
-    const menu = new MenuComponent(app);
+    const menu = new MenuView(app);
     const title = menu.pageTitle;
 
     changeUrl(title, url);
@@ -35,23 +49,23 @@ function createMenu(url) {
 }
 
 function createLeaders(url) {
-    const leaders = new LeadersComponent(app);
+    const leaders = new LeadersView(app);
     const title = leaders.pageTitle;
 
     changeUrl(title, url);
     leaders.render();
 }
 
-function createGameModes(url) {
-    const gameModes = new GameModesComponent(app);
-    const title = gameModes.pageTitle;
+function createPlay(url) {
+    const play = new PlayView(app);
+    const title = play.pageTitle;
 
     changeUrl(title, url);
-    gameModes.render();
+    play.render();
 }
 
 function createDescription(url) {
-    const description = new DescriptionComponent(app);
+    const description = new DescriptionView(app);
     const title = description.pageTitle;
 
     changeUrl(title, url);
@@ -59,23 +73,23 @@ function createDescription(url) {
 }
 
 function createLogin(url) {
-    const login = new LoginComponent(app);
+    const login = new LoginView(app);
     const title = login.pageTitle;
 
     changeUrl(title, url);
     login.render();
 }
 
-function createSignup(url) {
-    const signup = new SignUpComponent(app);
-    const title = signup.pageTitle;
+function createSignUp(url) {
+    const signUp = new SignUpView(app);
+    const title = signUp.pageTitle;
 
     changeUrl(title, url);
-    signup.render();
+    signUp.render();
 }
 
 function createProfile(url) {
-    const profile = new ProfileComponent(app);
+    const profile = new ProfileView(app);
     const title = profile.pageTitle;
 
     changeUrl(title, url);
