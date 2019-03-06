@@ -1,7 +1,6 @@
-import { HeaderComponent } from '../components/header/header.js'
-import { CardComponent }   from '../components/card/card.js';
-import { ListComponent }   from '../components/list/list.js';
-import { BaseView }        from './base.js';
+import { CardComponent } from '../components/card/card.js';
+import { ListComponent } from '../components/list/list.js';
+import { BaseView }      from './base.js';
 
 export class ProfileView extends BaseView {
     _pageTitle = 'Профиль игрока';
@@ -29,13 +28,6 @@ export class ProfileView extends BaseView {
     }
 
     render() {
-        const header = new HeaderComponent({
-            title:    'Профиль игрока',
-            subtitle: '',
-            btnHome:  true
-        });
-        header.render();
-
         const list = new ListComponent({
             list: this._list
         });
@@ -47,7 +39,11 @@ export class ProfileView extends BaseView {
 
         super.renderContainer({
             customClasses: '',
-            header: header.template,
+            header: {
+                title:    'Профиль игрока',
+                subtitle: '',
+                btnHome:  true
+            },
             container: card.template
         });
     }

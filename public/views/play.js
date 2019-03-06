@@ -1,6 +1,5 @@
-import { HeaderComponent } from '../components/header/header.js'
-import { MenuComponent }   from '../components/menu/menu.js';
-import { BaseView }        from './base.js';
+import { MenuComponent } from '../components/menu/menu.js';
+import { BaseView }      from './base.js';
 
 export class PlayView extends BaseView{
     _template = Handlebars.templates.game_modes;
@@ -35,13 +34,6 @@ export class PlayView extends BaseView{
     }
 
     render() {
-        const header = new HeaderComponent({
-            title:    '',
-            subtitle: '',
-            btnHome:  true
-        });
-        header.render();
-
         const menu = new MenuComponent({
             customClasses: 'menu_horizontal',
             items:         this._items
@@ -50,7 +42,9 @@ export class PlayView extends BaseView{
 
         super.renderContainer({
             customClasses: 'container_align-y_center',
-            header: header.template,
+            header: {
+                btnHome:  true
+            },
             container: menu.template
         });
     }

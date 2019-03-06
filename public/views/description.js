@@ -1,4 +1,3 @@
-import { HeaderComponent }  from '../components/header/header.js'
 import { PlugComponent }    from '../components/plug/plug.js';
 import { SidebarComponent } from '../components/sidebar/sidebar.js';
 import { CardComponent }    from '../components/card/card.js';
@@ -28,13 +27,6 @@ export class DescriptionView extends BaseView {
     }
 
     render() {
-        const header = new HeaderComponent({
-            title:    'Описание игры',
-            subtitle: '',
-            btnHome:  true
-        });
-        header.render();
-
         for (let i = 1; i <= 3; i++) {
             const plug = new PlugComponent({
                 text: `Скрин ${i}`
@@ -66,7 +58,11 @@ export class DescriptionView extends BaseView {
 
         super.renderContainer({
             customClasses: 'container-row',
-            header: header.template,
+            header: {
+                title:    'Описание игры',
+                subtitle: '',
+                btnHome:  true
+            },
             container: sidebar.template + description.template,
             sideBar: true
         });

@@ -1,8 +1,7 @@
-import { HeaderComponent } from '../components/header/header.js'
-import { FormComponent }   from '../components/form/form.js';
-import { LinkComponent }   from '../components/link/link.js';
-import { CardComponent }   from '../components/card/card.js';
-import { BaseView }        from './base.js';
+import { FormComponent } from '../components/form/form.js';
+import { LinkComponent } from '../components/link/link.js';
+import { CardComponent } from '../components/card/card.js';
+import { BaseView }      from './base.js';
 
 export class LoginView extends BaseView {
     _pageTitle = 'Авторизация';
@@ -48,13 +47,6 @@ export class LoginView extends BaseView {
     }
 
     render() {
-        const header = new HeaderComponent({
-            title:    'Название игры',
-            subtitle: '',
-            btnHome:  true
-        });
-        header.render();
-
         const link = new LinkComponent({
             className: 'link_primary',
             href: 'signup',
@@ -81,7 +73,11 @@ export class LoginView extends BaseView {
 
         super.renderContainer({
             customClasses: '',
-            header: header.template,
+            header: {
+                title:    'Название игры',
+                subtitle: '',
+                btnHome:  true
+            },
             container: card.template + card2.template
         });
     }
