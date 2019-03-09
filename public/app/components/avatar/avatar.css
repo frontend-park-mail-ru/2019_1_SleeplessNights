@@ -1,0 +1,9 @@
+.avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 70px;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 5px;
+    right: 35px;
+}

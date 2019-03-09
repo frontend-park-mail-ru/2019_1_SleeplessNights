@@ -1,0 +1,15 @@
+<div class="custom-file {{customClasses}}">
+    {{#with input}}
+        <input type="file"
+               accept="{{accept}}"
+               class="custom-file__input {{customClasses}}"
+               name="{{name}}"
+               form="{{form}}"
+        >
+    {{/with}}
+    {{#with label}}
+        <label class="custom-file__label {{customClasses}}">
+            <i class="material-icons">{{icon}}</i>
+        </label>
+    {{/with}}
+</div>

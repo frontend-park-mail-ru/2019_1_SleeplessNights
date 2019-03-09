@@ -1,0 +1,14 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    min-height: 50px;
+    margin: 10px;
+    border: .0625rem solid #E0E0E0;
+    border-radius: .125rem;
+    background-color: #ffffff;
+}
+
+.card_profile {
+    width: 500px;
+}

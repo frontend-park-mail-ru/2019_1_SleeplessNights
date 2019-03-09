@@ -1,18 +1,26 @@
 'use strict';
 
 const express = require('express');
-const body = require('body-parser');
 const cookie = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
-
 app.use(morgan('dev'));
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
-app.use(body.json());
 app.use(cookie());
 
-const pages = ['play', 'description', 'leaders', 'profile', 'login', 'signup'];
+const multer  = require('multer');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+        const ext = file.originalname.split('.')[1];
+        cb(null, `${file.fieldname}-${Date.now()}.${ext}`)
+    }
+});
+const upload = multer({storage: storage});
+
 const leaders = [
     {
         name: 'Алексей',
@@ -47,6 +55,8 @@ app.get('/getLeaders', function (req, res) {
     res.json({data: scorelist});
 });
 
+const pages = ['play', 'description', 'leaders', 'profile', 'login', 'signup'];
+
 app.get('/:page', function (req, res) {
     const page = req.params.page;
     if (pages.indexOf(page) !== -1) {
@@ -56,7 +66,11 @@ app.get('/:page', function (req, res) {
     }
 });
 
-const port = process.env.PORT || 8000;
+app.patch('/api/profile', upload.single('avatar'), (req, res) => {
+    res.json({'message': 'ok'});
+});
+
+const port = process.env.PORT || 8080;
 
 app.listen(port, function () {
     console.log(`Server listening port ${port}`);
