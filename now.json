@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "name": "sleepless-nights",
-  "alias": ["sleepless-nights"],
-  "builds": [
-    { "src": "index.js", "use": "@now/node-server" },
-    { "src": "public/(.*)", "use": "@now/static"}
-  ]
-}
