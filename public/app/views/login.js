@@ -1,19 +1,20 @@
 import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
 import { CardComponent } from '../components/card/card.js';
+import { AuthService }   from '../services/auth-service.js';
 import { gameName }      from '../modules/constants.js';
 import { BaseView }      from './base.js';
 
 export class LoginView extends BaseView {
     _pageTitle = 'Авторизация';
-    _formControls = [
+    _formGroups = [
         {
             customClasses: '',
             content: {
-                type: 'text',
+                type: 'email',
                 customClasses: '',
-                placeholder: 'Почта или никнейм',
-                name: 'login'
+                placeholder: 'Почта',
+                name: 'email'
             }
         },
         {
@@ -54,7 +55,7 @@ export class LoginView extends BaseView {
         });
 
         const form = new FormComponent({
-           formControls: this._formControls
+            formGroups: this._formGroups
         });
         form.render();
 
@@ -79,5 +80,20 @@ export class LoginView extends BaseView {
             },
             container: card.template + card2.template
         });
+
+        form.on({event: 'submit', callback: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.path[0]);
+
+            if (form.isValid) {
+                AuthService.auth(formData)
+                    .then(res => console.log(res))
+                    .catch(res => {
+                        Object.entries(res.data).forEach((item) => {
+                            form.addError(item[0], item[1]);
+                        });
+                    });
+            }
+        }});
     }
 }

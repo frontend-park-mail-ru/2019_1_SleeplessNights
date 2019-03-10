@@ -2,7 +2,7 @@
   "name": "2019_1_sleeplessnights",
   "version": "1.0.0",
   "description": "Educational project for Technopark 2019",
-  "main": "server/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"

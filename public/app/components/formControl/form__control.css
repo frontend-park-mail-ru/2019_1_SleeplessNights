@@ -5,3 +5,12 @@
     border-radius: 1px;
     box-sizing: border-box;
 }
+
+.input_invalid {
+    border: 1px solid #FF5B89;
+}
+
+.fd_invalid {
+    color: #FF497D;
+    font-size: small;
+}

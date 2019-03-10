@@ -67,7 +67,10 @@ app.get('/:page', function (req, res) {
 });
 
 app.patch('/api/profile', upload.single('avatar'), (req, res) => {
-    res.json({'message': 'ok'});
+    res.status(400).json({
+        'nickname': 'Nickname is too short',
+        'email': 'This email has already exist'
+    });
 });
 
 const port = process.env.PORT || 8080;

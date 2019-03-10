@@ -8,19 +8,20 @@ export class FormComponent {
     _method;
     _action;
     _formControls = [];
+    _formGroups = [];
 
     constructor({
         customClasses = '',
         method = 'post',
         action = '',
-        formControls = []
+        formGroups = []
     } = {}){
         this._customClasses = customClasses;
         this._method = method;
         this._action = action;
         this._id = 'form' + uniqueId();
 
-        formControls.forEach(item => {
+        formGroups.forEach(item => {
             const formControl = item.content;
             const newControl = new FormControlComponent({
                 type:          formControl.type,
@@ -31,9 +32,14 @@ export class FormComponent {
                 form:          formControl.form
             });
 
-            this._formControls.push({
+            this._formGroups.push({
                 customClasses: item.customClasses,
                 content:       newControl.template
+            });
+
+            this._formControls.push({
+                name:    formControl.name,
+                element: newControl
             });
         });
     }
@@ -56,12 +62,26 @@ export class FormComponent {
             customClasses: this._customClasses,
             method:        this._method,
             action:        this._action,
-            formControls:  this._formControls
+            formGroups:    this._formGroups
         });
+    }
+
+    addError(name, error) {
+        const input = this._formControls.find(fc => fc.name === name);
+        if (input !== undefined) {
+            input.element.addError(error);
+        }
+    }
+
+    get isValid() {
+        let res = true;
+        this._formControls.forEach(fc => res &= fc.element.isValid);
+        return res;
     }
 
     on({ event = 'submit', callback = noop, capture = false }) {
         this._innerElem.addEventListener(event, callback, capture);
+        this._formControls.forEach(fc => fc.element.startValidation());
     }
 
     off({ event = 'submit', callback = noop, capture = false }) {

@@ -21,7 +21,7 @@ export class ProfileView extends BaseView {
             text: 'Время в игре'
         }
     ];
-    _formControls = [
+    _formGroups = [
         {
             customClasses: '',
             content: {
@@ -67,7 +67,7 @@ export class ProfileView extends BaseView {
 
         const form = new FormComponent({
             customClasses: 'form_width_60',
-            formControls: this._formControls
+            formGroups:    this._formGroups
         });
         form.render();
         const avatar = new AvatarComponent({ form: form.id });
@@ -89,13 +89,18 @@ export class ProfileView extends BaseView {
         });
 
         form.on({event: 'submit', callback: (event) => {
-                event.preventDefault();
-                const formData = new FormData(event.path[0]);
+            event.preventDefault();
+            const formData = new FormData(event.path[0]);
 
+            if (form.isValid) {
                 ProfileService.updateProfile(formData)
                     .then(res => console.log(res))
-                    .catch(error => console.log(`Error ${error}`));
+                    .catch(res => {
+                        Object.entries(res.data).forEach((item) => {
+                            form.addError(item[0], item[1]);
+                        });
+                    });
             }
-        });
+        }});
     }
 }

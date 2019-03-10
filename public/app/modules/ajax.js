@@ -1,3 +1,5 @@
+import { backendUrl } from './constants.js';
+
 export class AjaxModule {
     static _fetch({
         url = '/',
@@ -5,6 +7,11 @@ export class AjaxModule {
         body = null,
         headers = [[ 'Content-Type', 'application/json;charset=UTF-8' ]],
     } = {}) {
+
+        if (url.indexOf('api') !== -1) {
+            url = backendUrl + url;
+        }
+
         return fetch(url, {
             method, // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
@@ -12,7 +19,15 @@ export class AjaxModule {
             headers: new Headers(headers), // "Content-Type": "application/x-www-form-urlencoded",
             body, // body data type must match "Content-Type" header
         })
-        .then(response => response.json()); // parses response to JSON
+        .then(response => {
+            return new Promise((resolve, reject) => {
+                if (response.status === 200) {
+                    response.json().then(data => resolve(data));
+                } else {
+                    response.json().then(data => reject({'status': response.status, 'data': data}));
+                }
+            });
+        });
     }
 
     static post({

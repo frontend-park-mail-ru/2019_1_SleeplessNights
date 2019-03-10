@@ -15,6 +15,8 @@ templates['formControl'] = template({"compiler":[7,">= 4.0.0"],"main":function(c
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "\"\n       value=\""
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
-    + "\"\n>\n";
+    + "\"\n>\n<span class=\"fd_invalid\">"
+    + alias4(((helper = (helper = helpers.fdInvalid || (depth0 != null ? depth0.fdInvalid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fdInvalid","hash":{},"data":data}) : helper)))
+    + "</span>\n";
 },"useData":true});
 })();
