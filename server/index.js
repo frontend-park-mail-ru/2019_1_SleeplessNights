@@ -58,6 +58,7 @@ app.get('/getLeaders', function (req, res) {
 const pages = ['play', 'description', 'leaders', 'profile', 'login', 'signup'];
 
 app.get('/:page', function (req, res) {
+    console.log(req);
     const page = req.params.page;
     if (pages.indexOf(page) !== -1) {
         res.sendFile(path.resolve(__dirname, '../public/index.html'));
@@ -73,7 +74,7 @@ app.patch('/api/profile', upload.single('avatar'), (req, res) => {
     });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 
 app.listen(port, function () {
     console.log(`Server listening port ${port}`);

@@ -1,8 +1,9 @@
 import { ScoreboardService } from '../../services/scoreboard-service.js';
+import { PaginationComponent } from '../pagination/pagination.js';
 
 export class BoardComponent {
     _el;
-    _template = Handlebars.templates.board;
+    _template;
     _players = [];
 
     constructor(el) {
@@ -14,16 +15,20 @@ export class BoardComponent {
     }
 
     render() {
-        this._el.innerHTML = this._template({
+        this._el.innerHTML = Handlebars.templates.board({
             players: this._players
         });
 
         ScoreboardService.getLeaders()
             .then(res => res.data)
             .then(players => {
-                this._el.innerHTML = this._template({
-                    players
+                const pager = new PaginationComponent({
+                    baseUrl:    'leaders',
+                    pagesNumber: 5
                 });
+                this._el.innerHTML = Handlebars.templates.board({
+                    players
+                }) + pager.template;
             })
             .catch(error => console.error('Error:', error));
     }

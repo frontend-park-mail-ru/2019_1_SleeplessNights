@@ -7,6 +7,10 @@ export class BaseView {
         this._el = el;
     }
 
+    get el() {
+        return this._el;
+    }
+
     renderContainer({
         customClasses,
         header = {

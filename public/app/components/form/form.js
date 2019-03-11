@@ -68,8 +68,13 @@ export class FormComponent {
 
     addError(name, error) {
         const input = this._formControls.find(fc => fc.name === name);
-        if (input !== undefined) {
+        if (input !== undefined && error !== '') {
             input.element.addError(error);
+        }
+
+        if (name === 'error') {
+            const fdInvalid = this._innerElem.lastElementChild;
+            fdInvalid.innerText = error.join(',');
         }
     }
 

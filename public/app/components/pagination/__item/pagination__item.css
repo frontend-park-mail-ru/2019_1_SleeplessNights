@@ -1,0 +1,16 @@
+.pagination__item {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: .0625rem solid #E0E0E0;
+    border-radius: .25rem;
+    background: #005ff9;
+    color: white;
+    text-align: center;
+}
+
+.pagination__item:hover {
+    color: #005ff9;
+    background-color: #ffffff;
+    border: .0625rem solid #E0E0E0;
+    box-shadow: 0 0 20px rgba(156,156,156, 0.7);
+}

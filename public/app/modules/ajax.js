@@ -1,4 +1,5 @@
 import { backendUrl } from './constants.js';
+import { urlencodeFormData } from '../modules/utils.js';
 
 export class AjaxModule {
     static _fetch({
@@ -16,7 +17,7 @@ export class AjaxModule {
             method, // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
             credentials: 'include',
-            headers: new Headers(headers), // "Content-Type": "application/x-www-form-urlencoded",
+            headers: headers, // "Content-Type": "application/x-www-form-urlencoded",
             body, // body data type must match "Content-Type" header
         })
         .then(response => {
@@ -33,12 +34,12 @@ export class AjaxModule {
     static post({
         url,
         body,
-        headers = [[ 'Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8' ]]
+        headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
     } = {}) {
         return this._fetch({
             url,
             method: 'POST',
-            body,
+            body: urlencodeFormData(body),
             headers
         });
     }

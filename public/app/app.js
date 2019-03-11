@@ -1,5 +1,5 @@
 'use strict';
-/********************** Templates **************************/
+/********************** Templates *****************************/
 import {} from './components/avatar/avatar.tmpl.js';
 import {} from './components/button/button.tmpl.js';
 import {} from './components/buttonHome/buttonHome.tmpl.js';
@@ -13,6 +13,7 @@ import {} from './components/link/link.tmpl.js';
 import {} from './components/list/list.tmpl.js';
 import {} from './components/menu/menu.tmpl.js';
 import {} from './components/plug/plug.tmpl.js';
+import {} from './components/pagination/pagination.tmpl.js';
 import {} from './components/sidebar/sidebar.tmpl.js';
 import {} from './components/scoreboard/board.tmpl.js';
 /********************** Views *********************************/
