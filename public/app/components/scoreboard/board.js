@@ -9,22 +9,23 @@ export class BoardComponent {
 
     constructor(el) {
         this._el = el;
+        this._render();
     }
 
     get template() {
         return this._el.outerHTML;
     }
 
-    render() {
+    _render() {
         this._el.innerHTML = Handlebars.templates.board({
             players: this._players
         });
 
-        this._getLeaders();
+        this._getLeaders(1);
     }
 
-    _getLeaders() {
-        ScoreboardService.getLeaders()
+    _getLeaders(page) {
+        ScoreboardService.getLeaders(page)
             .then(res => {
                 const players = res.data;
                 const pageCount = res.pages_total;
@@ -39,21 +40,21 @@ export class BoardComponent {
                     players
                 }) + pager.template;
 
-                this._pager = pager.innerElement;
-                // console.log();
+                this._pager = pager;
             })
+            .then(() => this.runGetScoreboardByPage())
             .catch(error => console.error('Error:', error));
     }
 
     runGetScoreboardByPage() {
-        this._pager.addEventListener('click', (event) => {
+        this._pager.on({event: 'click', callback: (event) => {
             let target = event.target;
             if (!(target instanceof HTMLAnchorElement)) {
                 return;
             }
 
             event.preventDefault();
-            this._getLeaders();
-        });
+            this._getLeaders(target.innerText);
+        }});
     }
 }

@@ -2,7 +2,10 @@ import { CardComponent }   from '../components/card/card.js';
 import { ListComponent }   from '../components/list/list.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { FormComponent }   from '../components/form/form.js';
+
 import { BaseView }        from './base.js';
+import { LoginView }       from './login.js';
+
 import { ProfileService }  from '../services/profile-service.js';
 import { backendUrl }      from '../modules/constants.js';
 
@@ -86,7 +89,12 @@ export class ProfileView extends BaseView {
             .then(() => {
                 this._avatar.innerElement.src = backendUrl + '/img/' + this._profile.avatar_path;
             })
-            .catch(error => console.log(error));
+            .catch(res => {
+                if (res.status === 401) {
+                    const login = new LoginView(el);
+                    login.render();
+                }
+            });
     }
 
     get pageTitle(){

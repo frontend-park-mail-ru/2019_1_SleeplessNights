@@ -1,5 +1,5 @@
-import { LinkComponent } from '../link/link.js';
-import { uniqueId }      from '../../modules/utils.js';
+import { LinkComponent }  from '../link/link.js';
+import { noop, uniqueId } from '../../modules/utils.js';
 
 export class PaginationComponent {
     _template;
@@ -14,7 +14,7 @@ export class PaginationComponent {
     } = {}) {
         this._baseUrl = baseUrl;
         this._pagesNumber = pagesNumber;
-        this._id = 'btn' + uniqueId();
+        this._id = 'pagination' + uniqueId();
         this._render();
     }
 
@@ -39,7 +39,16 @@ export class PaginationComponent {
         });
 
         this._template = Handlebars.templates.pagination({
-            pages: this._pages
+            pages: this._pages,
+            id:    this._id
         });
+    }
+
+    on({ event = 'click', callback = noop, capture = false }) {
+        this.innerElement.addEventListener(event, callback, capture);
+    }
+
+    off({ event = 'click', callback = noop, capture = false }) {
+        this.innerElement.removeEventListener(event, callback, capture);
     }
 }

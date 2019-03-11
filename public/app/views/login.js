@@ -87,10 +87,9 @@ export class LoginView extends BaseView {
 
             if (form.isValid) {
                 AuthService.auth(formData)
-                    .then(res => {
+                    .then(() => {
                         const profile = new ProfileView(super.el);
                         profile.render();
-                        console.log(res);
                     })
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {

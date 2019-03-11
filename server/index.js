@@ -74,11 +74,12 @@ const leaders = [
 
 app.get('/scoreboard', function (req, res) {
     let page = req.query.page;
+    console.log(req.query.page);
     const pagePerList = 4;
     const pageTotal = Math.ceil(leaders.length / pagePerList);
     let scorelist = [];
 
-    if (page === undefined || typeof page === 'string' || page >= 1) {
+    if (page === undefined || +page <= 1) {
         page = 1;
     } else {
         page = +page;
@@ -87,6 +88,10 @@ app.get('/scoreboard', function (req, res) {
     scorelist = leaders.slice((page - 1) * pagePerList, pagePerList * page);
     // const data = Object.values(scorelist)
     //     .sort((l, r) => (r.win - r.lost) - (l.win - l.lost));
+
+    console.log(scorelist);
+    console.log(page);
+    console.log(leaders);
 
     res.json({
         pages_total: pageTotal,
