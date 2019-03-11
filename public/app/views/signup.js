@@ -80,7 +80,6 @@ export class SignUpView extends BaseView {
         const form = new FormComponent({
             formGroups: this._formGroups
         });
-        form.render();
 
         const card = new CardComponent({
             customClasses: '',
@@ -110,10 +109,9 @@ export class SignUpView extends BaseView {
 
             if (form.isValid) {
                 RegisterService.register(formData)
-                    .then(res => {
+                    .then(() => {
                         const profile = new ProfileView(super.el);
                         profile.render();
-                        console.log(res)
                     })
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {

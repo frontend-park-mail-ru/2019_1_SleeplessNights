@@ -63,7 +63,6 @@ export class MenuView extends BaseView {
         const menu = new MenuComponent({
             items: this._items
         });
-        menu.render();
 
         super.renderContainer({
             customClasses: 'container_align-y_center',

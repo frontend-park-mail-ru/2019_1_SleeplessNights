@@ -31,7 +31,6 @@ export class PlayView extends BaseView {
             customClasses: 'menu_horizontal',
             items:         this._items
         });
-        menu.render();
 
         super.renderContainer({
             customClasses: 'container_align-y_center',

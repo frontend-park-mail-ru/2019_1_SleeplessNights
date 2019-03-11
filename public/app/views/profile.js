@@ -2,8 +2,12 @@ import { CardComponent }   from '../components/card/card.js';
 import { ListComponent }   from '../components/list/list.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { FormComponent }   from '../components/form/form.js';
+
 import { BaseView }        from './base.js';
+import { LoginView }       from './login.js';
+
 import { ProfileService }  from '../services/profile-service.js';
+import { backendUrl }      from '../modules/constants.js';
 
 export class ProfileView extends BaseView {
     _pageTitle = 'Профиль игрока';
@@ -51,18 +55,45 @@ export class ProfileView extends BaseView {
             }
         }
     ];
+    _profile = {
+        nickname: '',
+        email: '',
+        won: 0,
+        lost: 0,
+        play_time: 0,
+        avatar_path: 'static/img/my_avatar.jpeg'
+    };
+    _form;
+    _avatar;
 
     constructor(el) {
         super(el);
+        this.render();
 
         ProfileService.getProfile()
             .then(res => {
-               console.log(res);
-            });
+                this._profile = {
+                    nickname: res.nickname,
+                    email: res.email,
+                    won: res.won,
+                    lost: res.lost,
+                    play_time: res.play_time,
+                    avatar_path: res.avatar_path
+                };
 
-        ProfileService.getAvatar()
-            .then(res => {
-               console.log(res);
+                if (this._form !== undefined) {
+                    this._form.setFormControlValue('nickname', this._profile.nickname);
+                    this._form.setFormControlValue('email', this._profile.email);
+                }
+            })
+            .then(() => {
+                this._avatar.innerElement.src = backendUrl + '/img/' + this._profile.avatar_path;
+            })
+            .catch(res => {
+                if (res.status === 401) {
+                    const login = new LoginView(el);
+                    login.render();
+                }
             });
     }
 
@@ -75,17 +106,17 @@ export class ProfileView extends BaseView {
             list: this._list
         });
 
-        const form = new FormComponent({
+        this._form = new FormComponent({
             customClasses: 'form_width_60',
             formGroups:    this._formGroups
         });
-        form.render();
-        const avatar = new AvatarComponent({ form: form.id });
+
+        this._avatar = new AvatarComponent({ form: this._form.id });
 
         const card = new CardComponent({
             title: 'Профиль игрока',
             customClasses: 'card_profile shadow-l',
-            body: `${form.template} ${avatar.template} ${list.template}`
+            body: `${this._form.template} ${this._avatar.template} ${list.template}`
         });
 
         super.renderContainer({
@@ -98,16 +129,16 @@ export class ProfileView extends BaseView {
             container: card.template
         });
 
-        form.on({event: 'submit', callback: (event) => {
+        this._form.on({event: 'submit', callback: (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
-            if (form.isValid) {
+            if (this._form.isValid) {
                 ProfileService.updateProfile(formData)
                     .then(res => console.log(res))
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
-                            form.addError(item[0], item[1]);
+                            this._form.addError(item[0], item[1]);
                         });
                     });
             }

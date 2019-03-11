@@ -9,6 +9,10 @@
     background-color: #ffffff;
 }
 
+.card_width-100 {
+    width: 98% !important;
+}
+
 .card_profile {
     width: 500px;
 }
