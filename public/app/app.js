@@ -24,6 +24,7 @@ import { LeadersView }     from './views/leaders.js';
 import { LoginView }       from './views/login.js';
 import { SignUpView }      from './views/signup.js';
 import { ProfileView }     from './views/profile.js';
+import { ProfileService }  from './services/profile-service.js';
 
 const app = document.getElementById('app');
 
@@ -92,11 +93,18 @@ function createSignUp(url) {
 }
 
 function createProfile(url) {
-    const profile = new ProfileView(app);
-    const title = profile.pageTitle;
-
-    changeUrl(title, url);
-    profile.render();
+    ProfileService.getProfile()
+        .then((r) => {
+            const profile = new ProfileView(app);
+            const title = profile.pageTitle;
+            changeUrl(title, url);
+            profile.render();
+        })
+        .catch(res => {
+            if (res.status === 401) {
+                createLogin('login');
+            }
+        });
 }
 
 function renderPage() {
@@ -121,6 +129,9 @@ app.addEventListener('click', function (event) {
 
         event.preventDefault();
         const url = target.href;
+        if (target.dataset.href === 'scoreboard') {
+            return;
+        }
 
         app.innerHTML = '';
         pages[ target.dataset.href ](url);

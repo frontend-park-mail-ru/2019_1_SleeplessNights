@@ -109,10 +109,9 @@ export class SignUpView extends BaseView {
 
             if (form.isValid) {
                 RegisterService.register(formData)
-                    .then(res => {
+                    .then(() => {
                         const profile = new ProfileView(super.el);
                         profile.render();
-                        console.log(res)
                     })
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
