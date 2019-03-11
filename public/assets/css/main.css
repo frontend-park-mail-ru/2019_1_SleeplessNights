@@ -1,0 +1,57 @@
+@import "../../app/components/avatar/avatar.css";
+@import "../../app/components/avatar/__choose-photo/avatar__choose-photo.css";
+@import "../../app/components/avatar/__upload-icon/avatar__upload-icon.css";
+
+@import "../../app/components/button/btn.css";
+@import "../../app/components/button/_primary/btn_primary.css";
+@import "../../app/components/buttonHome/btn-home.css";
+
+@import "../../app/components/card/card.css";
+@import "../../app/components/card/__body/card__body.css";
+@import "../../app/components/card/__header/card__header.css";
+@import "../../app/components/card/__title/card__title.css";
+@import "../../app/components/card/_centered/card_centered_both.css";
+@import "../../app/components/card/_empty/card_empty.css";
+
+@import "../../app/components/container/container.css";
+@import "../../app/components/container/__content/container__content.css";
+@import "../../app/components/container/_align-y/container_align-y_center.css";
+
+@import "../../app/components/customFileInput/custom-file.css";
+@import "../../app/components/customFileInput/__input/custom-file__input.css";
+@import "../../app/components/customFileInput/__label/custom-file__label.css";
+
+@import "../../app/components/form/__group/form__group.css";
+@import "../../app/components/form/__group/_center/form__group_center.css";
+@import "../../app/components/form/_width/form_width.css";
+@import "../../app/components/formControl/form__control.css";
+
+@import "../../app/components/header/header.css";
+@import "../../app/components/header/__title/header__title.css";
+@import "../../app/components/header/__subtitle/header__subtitle.css";
+
+@import "../../app/components/link/link.css";
+@import "../../app/components/link/_primary/link_primary.css";
+
+@import "../../app/components/list/list.css";
+@import "../../app/components/list/__item/list__item.css";
+@import "../../app/components/list/__item-row/list__item-row.css";
+
+@import "../../app/components/menu/menu.css";
+@import "../../app/components/menu/__btn/menu__btn.css";
+@import "../../app/components/menu/__btn/_huge/menu__btn_huge.css";
+@import "../../app/components/menu/_horizontal/menu_horizontal.css";
+
+@import "../../app/components/pagination/pagination.css";
+@import "../../app/components/pagination/__item/pagination__item.css";
+@import "../../app/components/plug/plug.css";
+@import "../../app/components/scoreboard/table.css";
+
+@import "../../app/components/sidebar/sidebar.css";
+@import "../../app/components/sidebar/__header/sidebar__header.css";
+@import "../../app/components/sidebar/__title/sidebar__title.css";
+
+@import "lib/global.css";
+@import "lib/shadow/shadow-l.css";
+@import "lib/shadow/shadow-xl.css";
+@import "icons.css";

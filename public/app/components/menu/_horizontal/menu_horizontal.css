@@ -1,0 +1,11 @@
+.menu_horizontal {
+    flex-direction: row; !important;
+}
+
+.menu_horizontal .menu__btn {
+    width: 100%;
+}
+
+.menu_horizontal .menu__btn:not(:last-child) {
+    margin-right: 8px !important;
+}

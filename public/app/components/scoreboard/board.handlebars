@@ -1,0 +1,16 @@
+<table class="table">
+    <tr>
+        <th>Игрок</th>
+        <th>Победы</th>
+        <th>Поражения</th>
+        <th>Время в игре</th>
+    </tr>
+    {{#each players}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{win}}</td>
+            <td>{{lost}}</td>
+            <td>{{playingTime}}</td>
+        </tr>
+    {{/each}}
+</table>

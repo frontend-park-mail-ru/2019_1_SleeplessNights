@@ -1,0 +1,7 @@
+.avatar__choose-photo {
+    position: absolute;
+    top: 110px;
+    right: 68px;
+    font-size: 30px;
+    opacity: 0.5;
+}

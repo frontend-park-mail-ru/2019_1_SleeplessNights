@@ -1,0 +1,11 @@
+.container__content {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container__content-sidebar {
+    margin-left: 30%;
+}
