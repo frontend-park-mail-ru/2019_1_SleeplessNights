@@ -26,13 +26,15 @@ export class MenuComponent {
 
             this._items.push(link.template);
         });
+        
+        this._render();
     }
 
     get template() {
         return this._template;
     }
 
-    render() {
+    _render() {
         this._template = Handlebars.templates.menu({
             customClasses: this._customClasses,
             items:         this._items

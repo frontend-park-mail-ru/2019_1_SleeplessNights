@@ -42,6 +42,8 @@ export class FormComponent {
                 element: newControl
             });
         });
+
+        this.render();
     }
 
     get _innerElem() {
@@ -54,6 +56,19 @@ export class FormComponent {
 
     get id() {
         return this._id;
+    }
+
+    get isValid() {
+        let res = true;
+        this._formControls.forEach(fc => res &= fc.element.isValid);
+        return res;
+    }
+
+    setFormControlValue(name, text) {
+        const fc = this._formControls.find(fc => fc.name === name);
+        if (fc !== undefined && text !== '') {
+            fc.element.value = text;
+        }
     }
 
     render() {
@@ -76,12 +91,6 @@ export class FormComponent {
             const fdInvalid = this._innerElem.lastElementChild;
             fdInvalid.innerText = error.join(',');
         }
-    }
-
-    get isValid() {
-        let res = true;
-        this._formControls.forEach(fc => res &= fc.element.isValid);
-        return res;
     }
 
     on({ event = 'submit', callback = noop, capture = false }) {

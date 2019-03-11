@@ -1,9 +1,11 @@
 import { CustomFileInputComponent } from '../customFileInput/customFileInput.js';
+import { uniqueId } from '../../modules/utils.js';
 
 export class AvatarComponent {
     _template;
     _customClasses;
     _avatarUrl;
+    _id;
 
     constructor({
         customClasses = '',
@@ -12,6 +14,7 @@ export class AvatarComponent {
     } = {}){
         this._customClasses = customClasses;
         this._avatarUrl = avatarUrl;
+        this._id = 'avatar' + uniqueId();
 
         const customFileInput = new CustomFileInputComponent({
             customClasses: '',
@@ -30,11 +33,16 @@ export class AvatarComponent {
         this._template = Handlebars.templates.avatar({
             customClasses:  this._customClasses,
             avatarUrl:      this._avatarUrl,
-            customImgInput: customFileInput.template
+            customImgInput: customFileInput.template,
+            id: this._id
         });
     }
 
     get template() {
         return this._template;
+    }
+
+    get innerElement() {
+        return document.getElementById(this._id);
     }
 }

@@ -61,7 +61,7 @@ export class FormControlComponent {
 
     _checkPassword(value) {
         const passwordReg = RegExp(/^(?=.*[A-Z])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/);
-        this._checkValid(passwordReg.test(value), 'Ненадёжный пароль. Пароль должен быть минимум 8 символов');
+        this._checkValid(passwordReg.test(value), 'Ненадёжный пароль. Пароль должен быть минимум 8 символов, только из латинских букв и одна заглавная');
     }
 
     _checkNickname(value) {
@@ -91,6 +91,10 @@ export class FormControlComponent {
 
     get isValid() {
         return this._isValid;
+    }
+
+    set value(text) {
+        this._innerElem.value = text;
     }
 
     on({ event = 'input', callback = noop, capture = false }) {
