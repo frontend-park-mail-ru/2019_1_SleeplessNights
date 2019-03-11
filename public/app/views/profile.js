@@ -41,7 +41,7 @@ export class ProfileView extends BaseView {
             }
         },
         {
-            customClasses: '',
+            customClasses: 'form__group_center',
             content: {
                 type: 'submit',
                 customClasses: 'btn btn_primary',

@@ -5,7 +5,7 @@ import { BaseView }      from './base.js';
 
 export class MenuView extends BaseView {
     _pageTitle = gameName;
-    _pages = [
+    _items = [
         {
             href: 'play',
             dataHref: 'play',
@@ -61,7 +61,7 @@ export class MenuView extends BaseView {
         });
 
         const menu = new MenuComponent({
-            items: this._pages
+            items: this._items
         });
         menu.render();
 

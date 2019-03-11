@@ -5,6 +5,7 @@ export class BoardComponent {
     _el;
     _template;
     _players = [];
+    _pager;
 
     constructor(el) {
         this._el = el;
@@ -19,17 +20,40 @@ export class BoardComponent {
             players: this._players
         });
 
+        this._getLeaders();
+    }
+
+    _getLeaders() {
         ScoreboardService.getLeaders()
-            .then(res => res.data)
-            .then(players => {
+            .then(res => {
+                const players = res.data;
+                const pageCount = res.pages_total;
+                const currentPage = res.page;
+
                 const pager = new PaginationComponent({
-                    baseUrl:    'leaders',
-                    pagesNumber: 5
+                    baseUrl:    'scoreboard',
+                    pagesNumber: pageCount
                 });
+
                 this._el.innerHTML = Handlebars.templates.board({
                     players
                 }) + pager.template;
+
+                this._pager = pager.innerElement;
+                // console.log();
             })
             .catch(error => console.error('Error:', error));
+    }
+
+    runGetScoreboardByPage() {
+        this._pager.addEventListener('click', (event) => {
+            let target = event.target;
+            if (!(target instanceof HTMLAnchorElement)) {
+                return;
+            }
+
+            event.preventDefault();
+            this._getLeaders();
+        });
     }
 }

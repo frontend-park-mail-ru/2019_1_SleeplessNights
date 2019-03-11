@@ -27,7 +27,7 @@ export class LoginView extends BaseView {
             }
         },
         {
-            customClasses: '',
+            customClasses: 'form__group_center',
             content: {
                 type: 'submit',
                 customClasses: 'btn btn_primary',
@@ -42,7 +42,7 @@ export class LoginView extends BaseView {
         super(el);
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
