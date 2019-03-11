@@ -47,7 +47,7 @@ export class DescriptionView extends BaseView {
         });
 
         const description = new CardComponent({
-            customClasses: 'shadow-l',
+            customClasses: 'shadow-l card_width-100',
             body: `<p>
                         Классический «Lorem ipsum dolor sit amet…» проход отнести к ремиксов римского философа Цицерона 45 г. до н.э. текст De Finibus Bonorum et Malorum («О крайностями добра и зла»). Более конкретно, проход, как полагают, происходит из секций 1.10.32 - 33 из его текста, с наиболее заметным часть извлечена ниже:
                         “Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”

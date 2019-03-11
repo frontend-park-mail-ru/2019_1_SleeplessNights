@@ -80,7 +80,6 @@ export class SignUpView extends BaseView {
         const form = new FormComponent({
             formGroups: this._formGroups
         });
-        form.render();
 
         const card = new CardComponent({
             customClasses: '',

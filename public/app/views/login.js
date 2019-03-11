@@ -4,6 +4,7 @@ import { CardComponent } from '../components/card/card.js';
 import { AuthService }   from '../services/auth-service.js';
 import { gameName }      from '../modules/constants.js';
 import { BaseView }      from './base.js';
+import { ProfileView }   from './profile.js';
 
 export class LoginView extends BaseView {
     _pageTitle = 'Авторизация';
@@ -57,7 +58,6 @@ export class LoginView extends BaseView {
         const form = new FormComponent({
             formGroups: this._formGroups
         });
-        form.render();
 
         const card = new CardComponent({
             customClasses: '',
@@ -87,7 +87,11 @@ export class LoginView extends BaseView {
 
             if (form.isValid) {
                 AuthService.auth(formData)
-                    .then(res => console.log(res))
+                    .then(res => {
+                        const profile = new ProfileView(super.el);
+                        profile.render();
+                        console.log(res);
+                    })
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
                             form.addError(item[0], item[1]);

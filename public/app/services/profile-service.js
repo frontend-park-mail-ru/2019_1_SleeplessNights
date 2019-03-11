@@ -7,12 +7,6 @@ export class ProfileService {
         });
     }
 
-    static getAvatar() {
-        return AjaxModule.get({
-            url: '/api/avatar'
-        });
-    }
-
     static updateProfile(data) {
         return AjaxModule.patch({
             url: '/api/profile',
