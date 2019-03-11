@@ -31,5 +31,6 @@ export class LeadersView extends BaseView {
 
         const board = new BoardComponent(card.body);
         board.render();
+        // board.runGetScoreboardByPage();
     }
 }

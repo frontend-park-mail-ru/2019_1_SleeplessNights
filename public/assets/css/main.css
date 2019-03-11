@@ -22,6 +22,7 @@
 @import "../../app/components/customFileInput/__label/custom-file__label.css";
 
 @import "../../app/components/form/__group/form__group.css";
+@import "../../app/components/form/__group/_center/form__group_center.css";
 @import "../../app/components/form/_width/form_width.css";
 @import "../../app/components/formControl/form__control.css";
 
@@ -42,6 +43,7 @@
 @import "../../app/components/menu/_horizontal/menu_horizontal.css";
 
 @import "../../app/components/pagination/pagination.css";
+@import "../../app/components/pagination/__item/pagination__item.css";
 @import "../../app/components/plug/plug.css";
 @import "../../app/components/scoreboard/table.css";
 

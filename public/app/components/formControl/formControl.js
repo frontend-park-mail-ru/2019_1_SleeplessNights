@@ -65,7 +65,7 @@ export class FormControlComponent {
     }
 
     _checkNickname(value) {
-        const usernameReg = RegExp(/^[a-z0-9_-]{4,16}$/);
+        const usernameReg = RegExp(/^[A-Za-z0-9_-]{4,16}$/);
         this._checkValid(usernameReg.test(value), 'Невалидный никнейм');
     }
 

@@ -4,6 +4,7 @@ import { CardComponent }   from '../components/card/card.js';
 import { gameName }        from '../modules/constants.js';
 import { RegisterService } from '../services/register-service.js';
 import { BaseView }        from './base.js';
+import { ProfileView }     from './profile.js';
 
 export class SignUpView extends BaseView {
     _pageTitle = 'Регистрация';
@@ -49,7 +50,7 @@ export class SignUpView extends BaseView {
             }
         },
         {
-            customClasses: '',
+            customClasses: 'form__group_center',
             content: {
                 type: 'submit',
                 customClasses: 'btn btn_primary',
@@ -108,8 +109,12 @@ export class SignUpView extends BaseView {
             const formData = new FormData(event.path[0]);
 
             if (form.isValid) {
-                RegisterService.updateProfile(formData)
-                    .then(res => console.log(res))
+                RegisterService.register(formData)
+                    .then(res => {
+                        const profile = new ProfileView(super.el);
+                        profile.render();
+                        console.log(res)
+                    })
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
                             form.addError(item[0], item[1]);

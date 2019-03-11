@@ -41,7 +41,7 @@ export class ProfileView extends BaseView {
             }
         },
         {
-            customClasses: '',
+            customClasses: 'form__group_center',
             content: {
                 type: 'submit',
                 customClasses: 'btn btn_primary',
@@ -54,6 +54,16 @@ export class ProfileView extends BaseView {
 
     constructor(el) {
         super(el);
+
+        ProfileService.getProfile()
+            .then(res => {
+               console.log(res);
+            });
+
+        ProfileService.getAvatar()
+            .then(res => {
+               console.log(res);
+            });
     }
 
     get pageTitle(){
