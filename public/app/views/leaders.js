@@ -1,5 +1,4 @@
 import { CardComponent }  from '../components/card/card.js';
-import { BoardComponent } from '../components/scoreboard/board.js';
 import { BaseView }       from './base.js';
 
 export class LeadersView extends BaseView {
@@ -28,7 +27,5 @@ export class LeadersView extends BaseView {
             },
             container: card.template
         });
-
-        const board = new BoardComponent(card.body);
     }
 }

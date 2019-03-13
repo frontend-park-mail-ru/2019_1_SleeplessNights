@@ -1,4 +1,4 @@
-import { backendUrl } from './constants.js';
+import { backendUrl }        from './constants.js';
 import { urlencodeFormData } from '../modules/utils.js';
 
 export class AjaxModule {
@@ -6,7 +6,7 @@ export class AjaxModule {
         url = '/',
         method = 'GET',
         body = null,
-        headers = [[ 'Content-Type', 'application/json;charset=UTF-8' ]],
+        headers = [['Content-Type', 'application/json;charset=UTF-8']],
     } = {}) {
 
         if (url.indexOf('api') !== -1 || url.indexOf('img') !== -1) {
@@ -20,21 +20,21 @@ export class AjaxModule {
             headers: headers, // "Content-Type": "application/x-www-form-urlencoded",
             body, // body data type must match "Content-Type" header
         })
-        .then(response => {
-            return new Promise((resolve, reject) => {
-                if (response.status === 200) {
-                    response.json().then(data => resolve(data));
-                } else {
-                    response.json().then(data => reject({'status': response.status, 'data': data}));
-                }
+            .then(response => {
+                return new Promise((resolve, reject) => {
+                    if (response.status === 200) {
+                        response.json().then(data => resolve(data));
+                    } else {
+                        response.json().then(data => reject({'status': response.status, 'data': data}));
+                    }
+                });
             });
-        });
     }
 
     static post({
         url,
         body,
-        headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     } = {}) {
         return this._fetch({
             url,
@@ -45,9 +45,9 @@ export class AjaxModule {
     }
 
     static patch({
-         url,
-         body,
-         headers = []
+        url,
+        body,
+        headers = []
     } = {}) {
         return this._fetch({
             url,
@@ -57,7 +57,7 @@ export class AjaxModule {
         });
     }
 
-    static get({ url, headers } = {}) {
+    static get({url, headers} = {}) {
         return this._fetch({
             url,
             method: 'GET',
@@ -65,7 +65,7 @@ export class AjaxModule {
         });
     }
 
-    static delete({ url, headers } = {}) {
+    static delete({url, headers} = {}) {
         return this._fetch({
             url,
             method: 'DELETE',

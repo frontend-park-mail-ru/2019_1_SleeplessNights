@@ -94,7 +94,7 @@ function createSignUp(url) {
 
 function createProfile(url) {
     ProfileService.getProfile()
-        .then((r) => {
+        .then(() => {
             const profile = new ProfileView(app);
             const title = profile.pageTitle;
             changeUrl(title, url);
