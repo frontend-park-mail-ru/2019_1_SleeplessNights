@@ -28,6 +28,14 @@ export class BoardComponent {
         ScoreboardService.getLeaders(page)
             .then(res => {
                 const players = res.data;
+                res.data.forEach(item => {
+                   players.push({
+                       name: item.nickname,
+                       win: item.won,
+                       lost: item.lost,
+                       playingTime: item.play_time
+                   });
+                });
                 const pageCount = res.pages_total;
                 const currentPage = res.page; // eslint-disable-line
 
