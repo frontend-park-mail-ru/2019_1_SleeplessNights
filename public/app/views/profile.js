@@ -135,7 +135,9 @@ export class ProfileView extends BaseView {
 
             if (this._form.isValid) {
                 ProfileService.updateProfile(formData)
-                    .then(res => console.log(res))
+                    .then(res =>
+                        this._avatar.innerElement.src = backendUrl + '/img/' + res.avatar_path
+                    )
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
                             this._form.addError(item[0], item[1]);

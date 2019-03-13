@@ -23,7 +23,7 @@ export class DescriptionView extends BaseView {
             return {
                 customClasses: '',
                 text: author
-            }
+            };
         });
     }
 

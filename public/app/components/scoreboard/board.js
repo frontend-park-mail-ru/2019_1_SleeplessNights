@@ -29,7 +29,7 @@ export class BoardComponent {
             .then(res => {
                 const players = res.data;
                 const pageCount = res.pages_total;
-                const currentPage = res.page;
+                const currentPage = res.page; // eslint-disable-line
 
                 const pager = new PaginationComponent({
                     baseUrl:    'scoreboard',
