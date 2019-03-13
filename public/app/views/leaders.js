@@ -1,5 +1,6 @@
 import { CardComponent }  from '../components/card/card.js';
 import { BaseView }       from './base.js';
+import { BoardComponent } from '../components/scoreboard/board.js';
 
 export class LeadersView extends BaseView {
     _pageTitle = 'Таблица лидеров';
@@ -27,5 +28,7 @@ export class LeadersView extends BaseView {
             },
             container: card.template
         });
+
+        new BoardComponent(card.body);
     }
 }
