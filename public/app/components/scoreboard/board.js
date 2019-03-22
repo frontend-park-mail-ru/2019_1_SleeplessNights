@@ -1,4 +1,4 @@
-import { ScoreboardService } from '../../services/scoreboard-service.js';
+import { ScoreboardService }   from '../../services/scoreboard-service.js';
 import { PaginationComponent } from '../pagination/pagination.js';
 
 export class BoardComponent {
@@ -27,9 +27,8 @@ export class BoardComponent {
     _getLeaders(page) {
         ScoreboardService.getLeaders(page)
             .then(res => {
-                const players = res.data;
                 res.data.forEach(item => {
-                   players.push({
+                   this._players.push({
                        name: item.nickname,
                        win: item.won,
                        lost: item.lost,
@@ -45,7 +44,7 @@ export class BoardComponent {
                 });
 
                 this._el.innerHTML = Handlebars.templates.board({
-                    players
+                    players: this._players
                 }) + pager.template;
 
                 this._pager = pager;

@@ -7,7 +7,7 @@ import { BaseView }        from './base.js';
 import { LoginView }       from './login.js';
 
 import { ProfileService }  from '../services/profile-service.js';
-import { backendUrl }      from '../modules/constants.js';
+import { makeAvatarPath }  from '../modules/utils.js';
 
 export class ProfileView extends BaseView {
     _pageTitle = 'Профиль игрока';
@@ -87,7 +87,7 @@ export class ProfileView extends BaseView {
                 }
             })
             .then(() => {
-                this._avatar.innerElement.src = backendUrl + '/img/' + this._profile.avatar_path;
+                this._avatar.innerElement.src = makeAvatarPath(this._profile.avatar_path);
             })
             .catch(res => {
                 if (res.status === 401) {
@@ -136,7 +136,7 @@ export class ProfileView extends BaseView {
             if (this._form.isValid) {
                 ProfileService.updateProfile(formData)
                     .then(res =>
-                        this._avatar.innerElement.src = backendUrl + '/img/' + res.avatar_path
+                        this._avatar.innerElement.src = makeAvatarPath(res.avatar_path)
                     )
                     .catch(res => {
                         Object.entries(res.data).forEach((item) => {
