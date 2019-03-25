@@ -10,7 +10,7 @@ export class AjaxModule {
         headers = [['Content-Type', 'application/json;charset=UTF-8']],
     } = {}) {
 
-        if (url.indexOf('api') !== -1 || url.indexOf('img') !== -1) {
+        if (url.includes('api')) {
             url = backendUrl + url;
         }
 
