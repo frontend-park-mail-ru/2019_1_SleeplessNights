@@ -7,7 +7,7 @@ import { BaseView }        from './base.js';
 import { LoginView }       from './login.js';
 
 import { ProfileService }  from '../services/profile-service.js';
-import { makeAvatarPath }  from "../modules/utils";
+import { makeAvatarPath }  from '../modules/utils.js';
 
 export class ProfileView extends BaseView {
     _pageTitle = 'Профиль игрока';

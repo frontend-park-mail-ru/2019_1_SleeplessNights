@@ -1,4 +1,4 @@
-import { backendUrl } from './constants';
+import { backendUrl } from './constants.js';
 
 export const noop = () => null;
 
