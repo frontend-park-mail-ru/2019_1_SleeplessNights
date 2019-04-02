@@ -1,8 +1,6 @@
-import { AjaxModule } from '../modules/ajax.js';
-
 export class AuthService {
     static auth(data) {
-        return AjaxModule.post({
+        return ajax.post({
             url: '/api/session',
             body: data
         });

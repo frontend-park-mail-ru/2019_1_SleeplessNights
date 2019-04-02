@@ -6,12 +6,16 @@ import { gameName }         from '../modules/constants.js';
 import { BaseView }         from './base.js';
 
 export class DescriptionView extends BaseView {
-    _pageTitle = gameName;
-    _authors = ['Максим Уймин', 'Максим Пирмамедов', 'Алексей Ларютин', 'Джахонгир Тулфоров'];
-    _screens = [];
+    _pageTitle;
+    _authors;
+    _screens;
 
-    constructor(el = document.body) {
+    constructor(el) {
         super(el);
+        this._pageTitle = gameName;
+        this._authors = ['Максим Уймин', 'Максим Пирмамедов', 'Алексей Ларютин', 'Джахонгир Тулфоров'];
+        this._screens = [];
+        this._render();
     }
 
     get pageTitle(){
@@ -27,7 +31,7 @@ export class DescriptionView extends BaseView {
         });
     }
 
-    render() {
+    _render() {
         [...Array(3).keys()].forEach(i => {
             const plug = new PlugComponent({
                 text: `Скрин ${i + 1}`

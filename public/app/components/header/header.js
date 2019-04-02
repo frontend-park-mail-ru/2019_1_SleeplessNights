@@ -16,9 +16,11 @@ export class HeaderComponent {
         this._subtitle = subtitle;
         this._btnHome = btnHome;
         this._btnHomeTemplate = '';
+
+        this._render();
     }
 
-    render() {
+    _render() {
         if (this._btnHome) {
             const btnHome = new ButtonHomeComponent();
             this._btnHomeTemplate = btnHome.template;

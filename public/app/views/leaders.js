@@ -3,20 +3,23 @@ import { BaseView }       from './base.js';
 import { BoardComponent } from '../components/scoreboard/board.js';
 
 export class LeadersView extends BaseView {
-    _pageTitle = 'Таблица лидеров';
+    _pageTitle;
 
     constructor(el) {
         super(el);
+        this._pageTitle = 'Таблица лидеров';
+        this._render();
     }
 
     get pageTitle(){
         return this._pageTitle;
     }
 
-    render() {
+    _render() {
+        const board = new BoardComponent();
         const card = new CardComponent({
             customClasses: 'card_centered_both card_empty shadow-l',
-            body: ''
+            body: board.template
         });
 
         super.renderContainer({
@@ -28,7 +31,5 @@ export class LeadersView extends BaseView {
             },
             container: card.template
         });
-
-        new BoardComponent(card.body);
     }
 }

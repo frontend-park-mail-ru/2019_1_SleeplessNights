@@ -4,55 +4,59 @@ import { gameName }      from '../modules/constants.js';
 import { BaseView }      from './base.js';
 
 export class MenuView extends BaseView {
-    _pageTitle = gameName;
-    _items = [
-        {
-            href: 'play',
-            dataHref: 'play',
-            className: 'menu__btn',
-            text: 'Играть'
-        },
-        {
-            href: 'description',
-            dataHref: 'description',
-            className: 'menu__btn',
-            text: 'Описание'
-        },
-        {
-            href: 'leaders',
-            dataHref: 'leaders',
-            className: 'menu__btn',
-            text: 'Таблица лидеров'
-        },
-        {
-            href: 'profile',
-            dataHref: 'profile',
-            className: 'menu__btn',
-            text: 'Профиль игрока(временно)'
-        },
-        {
-            href: 'login',
-            dataHref: 'login',
-            className: 'menu__btn',
-            text: 'Войти'
-        },
-        {
-            href: 'signup',
-            dataHref: 'signup',
-            className: 'menu__btn',
-            text: 'Регистрация'
-        }
-    ];
+    _pageTitle;
+    _items;
 
     constructor(el) {
         super(el);
+        this._pageTitle = gameName;
+        this._items  = [
+            {
+                href: 'play',
+                dataHref: 'play',
+                className: 'menu__btn',
+                text: 'Играть'
+            },
+            {
+                href: 'description',
+                dataHref: 'description',
+                className: 'menu__btn',
+                text: 'Описание'
+            },
+            {
+                href: 'leaders',
+                dataHref: 'leaders',
+                className: 'menu__btn',
+                text: 'Таблица лидеров'
+            },
+            {
+                href: 'profile',
+                dataHref: 'profile',
+                className: 'menu__btn',
+                text: 'Профиль игрока(временно)'
+            },
+            {
+                href: 'login',
+                dataHref: 'login',
+                className: 'menu__btn',
+                text: 'Войти'
+            },
+            {
+                href: 'signup',
+                dataHref: 'signup',
+                className: 'menu__btn',
+                text: 'Регистрация'
+            }
+        ];
+
+        this._render();
     }
 
     get pageTitle(){
         return this._pageTitle;
     }
 
-    render() {
+    _render() {
         const link = new LinkComponent({
             href: 'login',
             dataHref: 'login',

@@ -17,19 +17,19 @@ export class CardComponent {
         this._body = body;
         this._id = 'card' + uniqueId();
 
-        this._template = Handlebars.templates.card({
-            customClasses: this._customClasses,
-            title:         this._title,
-            body:          this._body,
-            id:            this._id
-        });
+        this._render();
     }
 
     get template() {
         return this._template;
     }
 
-    get body() {
-        return document.getElementById(this._id);
+    _render() {
+        this._template = Handlebars.templates.card({
+            customClasses: this._customClasses,
+            title:         this._title,
+            body:          this._body,
+            id:            this._id
+        });
     }
 }

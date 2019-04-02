@@ -45,4 +45,8 @@ export class AvatarComponent {
     get innerElement() {
         return document.getElementById(this._id);
     }
+
+    set src(path) {
+        this.innerElement.src = path;
+    }
 }
