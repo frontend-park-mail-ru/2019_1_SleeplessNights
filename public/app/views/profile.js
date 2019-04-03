@@ -67,8 +67,72 @@ export class ProfileView extends BaseView {
             play_time: 0,
             avatar_path: 'static/img/my_avatar.jpeg'
         };
-        
+
+        this._scoreSectionHTML = document.createElement('section');
+        this._scoreSectionHTML.id = 'profile-score';
         this._render();
+        this._getProfile();
+    }
+
+    get pageTitle(){
+        return this._pageTitle;
+    }
+
+    get _scoreSection() {
+        return this._scoreSectionHTML.outerHTML;
+    }
+
+    set _scoreSection(data) {
+        const ss = document.getElementById(this._scoreSectionHTML.id);
+        ss.innerHTML = data;
+    }
+
+    _render() {
+        this._form = new FormComponent({
+            customClasses: 'form_width_60',
+            formGroups:    this._formGroups
+        });
+        this._avatar = new AvatarComponent({ form: this._form.id });
+
+        const card = new CardComponent({
+            title: 'Профиль игрока',
+            customClasses: 'card_profile shadow-l',
+            body: `${this._form.template} ${this._avatar.template} ${this._scoreSection}`
+        });
+
+        super.renderContainer({
+            customClasses: '',
+            header: {
+                title:    '',
+                subtitle: '',
+                btnHome:  true
+            },
+            container: card.template
+        });
+
+        const list = new ListComponent({ list: this._list });
+        this._scoreSection = list.template;
+        this._submit();
+    }
+
+    _submit() {
+        this._form.on('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.path[0]);
+
+            if (this._form.isValid) {
+                bus.emit('update-profile', formData);
+                bus.on('success:update-profile', (path) => this._avatar.src = path)
+                bus.on('error:update-profile', (data) => {
+                    Object.entries(data).forEach((item) => {
+                        this._form.addError(item[0], item[1]);
+                    });
+                });
+            }
+        });
+    }
+
+    _getProfile() {
         bus.emit('get-profile');
         bus.on('success:get-profile', (profile) => {
             this._profile = {
@@ -85,58 +149,13 @@ export class ProfileView extends BaseView {
                 this._form.setFormControlValue('email', this._profile.email);
             }
 
+            this._list[0].text += ` ${profile.won}`;
+            this._list[1].text += ` ${profile.lost}`;
+            this._list[2].text += ` ${profile.play_time}`;
+            const list = new ListComponent({ list: this._list });
+
+            this._scoreSection = list.template;
             this._avatar.src = profile.avatar_path;
-        });
-    }
-
-    get pageTitle(){
-        return this._pageTitle;
-    }
-
-    _render() {
-        const list = new ListComponent({
-            list: this._list
-        });
-
-        this._form = new FormComponent({
-            customClasses: 'form_width_60',
-            formGroups:    this._formGroups
-        });
-
-        this._avatar = new AvatarComponent({ form: this._form.id });
-
-        const card = new CardComponent({
-            title: 'Профиль игрока',
-            customClasses: 'card_profile shadow-l',
-            body: `${this._form.template} ${this._avatar.template} ${list.template}`
-        });
-
-        super.renderContainer({
-            customClasses: '',
-            header: {
-                title:    '',
-                subtitle: '',
-                btnHome:  true
-            },
-            container: card.template
-        });
-        this._submit();
-    }
-
-    _submit() {
-        this._form.on('submit', (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.path[0]);
-
-            if (this._form.isValid) {
-                bus.emit('update-profile', formData);
-                bus.on('success:update-profile', (path) => this._avatar.src = path);
-                bus.on('error:update-profile', (data) => {
-                    Object.entries(data).forEach((item) => {
-                        this._form.addError(item[0], item[1]);
-                    });
-                });
-            }
         });
     }
 }

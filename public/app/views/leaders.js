@@ -31,5 +31,6 @@ export class LeadersView extends BaseView {
             },
             container: card.template
         });
+        bus.emit('fetch-leaders');
     }
 }

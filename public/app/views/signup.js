@@ -86,7 +86,7 @@ export class SignUpView extends BaseView {
         const card = new CardComponent({
             customClasses: '',
             title: 'Регистрация',
-            body: form.template
+            body: this._form.template
         });
 
         const card2 = new CardComponent({

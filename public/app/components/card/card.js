@@ -18,10 +18,15 @@ export class CardComponent {
         this._id = 'card' + uniqueId();
 
         this._render();
+        this._updateContent();
     }
 
     get template() {
         return this._template;
+    }
+
+    get _innerElement() {
+        return document.getElementById(this._id);
     }
 
     _render() {
@@ -31,5 +36,9 @@ export class CardComponent {
             body:          this._body,
             id:            this._id
         });
+    }
+
+    _updateContent() {
+        bus.on('update-card', (content) => this._innerElement.innerHTML = content);
     }
 }

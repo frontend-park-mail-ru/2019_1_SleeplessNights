@@ -39,24 +39,9 @@ import bus from './modules/bus.js';                           /**/
 window.bus = bus;
 window.ajax = AjaxModule;
 
-const app = document.getElementById('app');
-const router = new Router(app);
-
-router
-    .register('/', MenuView)
-    .register('/description', DescriptionView)
-    .register('/menu', MenuView)
-    .register('/leaders', LeadersView)
-    .register('/login', LoginView)
-    .register('/play', PlayView)
-    .register('/profile', ProfileView)
-    .register('/signup', SignUpView);
-
-router.start();
-
 bus.on('signup', (data) => {
     RegisterService.register(data)
-        .then(() => window.history.pushState(null, '', '/profile'))
+        .then(() => router.open('/profile'))
         .catch(res => bus.emit('error:signup', res.data));
 });
 
@@ -66,12 +51,9 @@ bus.on('get-profile', () => {
             profile.avatar_path = makeAvatarPath(profile.avatar_path);
             bus.emit('success:get-profile', profile);
         })
-        .catch(res => {
-            if (res.status === 401) {
-                window.history.pushState(null, '', '/login');
-            } else {
-                console.log(res);
-            }
+        .catch(error => {
+            if (error.status === 401) router.open('/login');
+            else console.error('Error:', error);
         });
 });
 
@@ -83,12 +65,26 @@ bus.on('update-profile', (data) => {
 
 bus.on('login', (data) => {
     AuthService.auth(data)
-        .then(() => window.history.pushState(null, '', '/profile'))
+        .then(() => router.open('/profile'))
         .catch(res => bus.emit('error:login', res.data));
 });
 
 bus.on('get-leaders', (page) => {
     ScoreboardService.getLeaders(page)
-        .then(res => bus.emit('success:get-leaders', res.data))
+        .then(res => bus.emit('success:get-leaders', res))
         .catch(error => console.error('Error:', error));
 });
+
+const app = document.getElementById('app');
+const router = new Router(app);
+router
+    .register('/', MenuView)
+    .register('/description', DescriptionView)
+    .register('/menu', MenuView)
+    .register('/leaders', LeadersView)
+    .register('/login', LoginView)
+    .register('/play', PlayView)
+    .register('/profile', ProfileView)
+    .register('/signup', SignUpView);
+
+router.start();

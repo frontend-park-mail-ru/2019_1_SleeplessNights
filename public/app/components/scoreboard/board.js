@@ -7,7 +7,7 @@ export class BoardComponent {
 
     constructor() {
         this._render();
-        this._getLeaders(1);
+        bus.on('fetch-leaders', () => this._getLeaders(1));
     }
 
     get template() {
@@ -22,8 +22,9 @@ export class BoardComponent {
 
     _getLeaders(page) {
         bus.emit('get-leaders', page);
-        bus.on('success:get-leaders', (players) => {
-            players.forEach(item => {
+        bus.on('success:get-leaders', (res) => {
+            this._players = [];
+            res.data.forEach(item => {
                 this._players.push({
                     name: item.nickname,
                     win: item.won,
@@ -44,7 +45,8 @@ export class BoardComponent {
             }) + pager.template;
 
             this._pager = pager;
-            this.runGetScoreboardByPage()
+            bus.emit('update-card', this.template);
+            this.runGetScoreboardByPage();
         });
     }
 
