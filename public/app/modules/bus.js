@@ -6,6 +6,7 @@ class Bus {
     on (event, callback) {    // подписываемся на событие
         this.listeners[ event ] = this.listeners[ event ] || [];
         this.listeners[ event ].push(callback);
+        return this;
     }
 
     off (event, callback) {   // отписываемся от события
@@ -19,6 +20,7 @@ class Bus {
         this.listeners[ event ].forEach(function (listener) {
             listener(data);
         });
+        return this;
     }
 }
 

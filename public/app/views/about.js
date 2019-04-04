@@ -5,7 +5,7 @@ import { ListComponent }    from '../components/list/list.js';
 import { gameName }         from '../modules/constants.js';
 import { BaseView }         from './base.js';
 
-export class DescriptionView extends BaseView {
+export class AboutView extends BaseView {
     _pageTitle;
     _authors;
     _screens;

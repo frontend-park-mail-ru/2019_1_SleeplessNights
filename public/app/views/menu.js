@@ -10,45 +10,63 @@ export class MenuView extends BaseView {
     constructor(el) {
         super(el);
         this._pageTitle = gameName;
-        this._items  = [
-            {
-                href: 'play',
-                dataHref: 'play',
-                className: 'menu__btn',
-                text: 'Играть'
-            },
-            {
-                href: 'description',
-                dataHref: 'description',
-                className: 'menu__btn',
-                text: 'Описание'
-            },
-            {
-                href: 'leaders',
-                dataHref: 'leaders',
-                className: 'menu__btn',
-                text: 'Таблица лидеров'
-            },
-            {
-                href: 'profile',
-                dataHref: 'profile',
-                className: 'menu__btn',
-                text: 'Профиль игрока(временно)'
-            },
-            {
-                href: 'login',
-                dataHref: 'login',
-                className: 'menu__btn',
-                text: 'Войти'
-            },
-            {
-                href: 'signup',
-                dataHref: 'signup',
-                className: 'menu__btn',
-                text: 'Регистрация'
-            }
-        ];
+        this._items = new Map([
+            [
+                'play', {
+                    href: 'play',
+                    dataHref: 'play',
+                    className: 'menu__btn',
+                    text: 'Играть'
+                }
+            ],
+            [
+                'about', {
+                    href: 'about',
+                    dataHref: 'about',
+                    className: 'menu__btn',
+                    text: 'Описание'
+                },
+            ],
+            [
+                'leaders', {
+                    href: 'leaders',
+                    dataHref: 'leaders',
+                    className: 'menu__btn',
+                    text: 'Таблица лидеров'
+                },
+            ],
+            [
+                'profile', {
+                    href: 'profile',
+                    dataHref: 'profile',
+                    className: 'menu__btn',
+                    text: 'Профиль игрока'
+                },
+            ],
+            [
+                'login', {
+                    href: 'login',
+                    dataHref: 'login',
+                    className: 'menu__btn',
+                    text: 'Войти'
+                },
+            ],
+            [
+                'signup', {
+                    href: 'signup',
+                    dataHref: 'signup',
+                    className: 'menu__btn',
+                    text: 'Регистрация'
+                }
+            ]
+        ]);
 
+        if (user.isAuthorised) {
+            this._items.delete('signup');
+            this._items.delete('login');
+        } else {
+            this._items.delete('profile');
+        }
         this._render();
     }
 
@@ -65,7 +83,7 @@ export class MenuView extends BaseView {
         });
 
         const menu = new MenuComponent({
-            items: this._items
+            items: Array.from(this._items.values())
         });
 
         super.renderContainer({

@@ -42,6 +42,7 @@ export class LoginView extends BaseView {
                 }
             }
         ];
+
         this._render();
     }
 
@@ -86,18 +87,18 @@ export class LoginView extends BaseView {
     }
 
     _submit() {
-        this._form.on({event: 'submit', callback: (event) => {
+        this._form.on('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
             if (this._form.isValid) {
-                bus.emit('login', formData);
-                bus.on('error:login', (data) => {
-                    Object.entries(data).forEach((item) => {
-                        this._form.addError(item[0], item[1]);
+                bus.emit('login', formData)
+                    .on('error:login', (data) => {
+                        Object.entries(data).forEach((item) => {
+                            this._form.addError(item[0], item[1]);
+                        });
                     });
-                });
             }
-        }});
+        });
     }
 }

@@ -64,6 +64,7 @@ export class SignUpView extends BaseView {
                 }
             }
         ];
+
         this._render();
     }
 
@@ -113,12 +114,12 @@ export class SignUpView extends BaseView {
             const formData = new FormData(event.path[0]);
 
             if (this._form.isValid) {
-                bus.emit('signup', formData);
-                bus.on('error:signup', (data) => {
-                    Object.entries(data).forEach((item) => {
-                        this._form.addError(item[0], item[1]);
+                bus.emit('signup', formData)
+                    .on('error:signup', (data) => {
+                        Object.entries(data).forEach((item) => {
+                            this._form.addError(item[0], item[1]);
+                        });
                     });
-                });
             }
         });
     }

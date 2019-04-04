@@ -1,6 +1,7 @@
 export class Router {
     constructor (root) {
         this.routes = {};
+        this.inAccessRoutes = {};
         this.root = root;
     }
 
@@ -12,6 +13,28 @@ export class Router {
         };
 
         return this;
+    }
+
+    registerInAccess(path, authorised, locationTo) {
+        this.inAccessRoutes[ path ] = {
+            authorised: authorised,
+            locationTo: locationTo || '/'
+        };
+        return this;
+    }
+
+    reopen(path) {
+        const views = Array.from(this.root.children);
+        const reOpenView = this.routes[ path ];
+        const index = views.find(v => v.dataset.view === reOpenView.View.name);
+
+        if (index !== -1) {
+            reOpenView.view = null;
+            reOpenView.el = null;
+            this.root.removeChild(index);
+        }
+
+        this.open(path);
     }
 
     open (path) {
@@ -73,7 +96,20 @@ export class Router {
             this.open(currentPath);
         });
 
+        this.observeLocation();
+    }
+
+    observeLocation () {
         const currentPath = window.location.pathname;
+
+        if (this.inAccessRoutes.hasOwnProperty(currentPath)) {
+            const route = this.inAccessRoutes[currentPath];
+            if ((user.isAuthorised && route.authorised) || !(user.isAuthorised && route.authorised)) {
+                this.open(route.locationTo);
+                return;
+            }
+        }
+
         this.open(currentPath);
     }
 }

@@ -121,13 +121,13 @@ export class ProfileView extends BaseView {
             const formData = new FormData(event.path[0]);
 
             if (this._form.isValid) {
-                bus.emit('update-profile', formData);
-                bus.on('success:update-profile', (path) => this._avatar.src = path)
-                bus.on('error:update-profile', (data) => {
-                    Object.entries(data).forEach((item) => {
-                        this._form.addError(item[0], item[1]);
+                bus.emit('update-profile', formData)
+                    .on('success:update-profile', (path) => this._avatar.src = path)
+                    .on('error:update-profile', (data) => {
+                        Object.entries(data).forEach((item) => {
+                            this._form.addError(item[0], item[1]);
+                        });
                     });
-                });
             }
         });
     }
