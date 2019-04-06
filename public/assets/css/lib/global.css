@@ -3,6 +3,14 @@ html, body {
     height: 100%;
 }
 
+
+@font-face {
+    font-family: 'BurnstownDam-Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: url(../../fonts/BurnstownDam-Regular.woff2) format('woff2');
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }

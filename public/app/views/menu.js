@@ -16,31 +16,15 @@ export class MenuView extends BaseView {
                     href: 'play',
                     dataHref: 'play',
                     className: 'menu__btn',
-                    text: 'Играть'
+                    text: 'Play'
                 }
-            ],
-            [
-                'about', {
-                    href: 'about',
-                    dataHref: 'about',
-                    className: 'menu__btn',
-                    text: 'Описание'
-                },
-            ],
-            [
-                'leaders', {
-                    href: 'leaders',
-                    dataHref: 'leaders',
-                    className: 'menu__btn',
-                    text: 'Таблица лидеров'
-                },
             ],
             [
                 'profile', {
                     href: 'profile',
                     dataHref: 'profile',
                     className: 'menu__btn',
-                    text: 'Профиль игрока'
+                    text: 'My Profile'
                 },
             ],
             [
@@ -48,7 +32,7 @@ export class MenuView extends BaseView {
                     href: 'login',
                     dataHref: 'login',
                     className: 'menu__btn',
-                    text: 'Войти'
+                    text: 'Log In'
                 },
             ],
             [
@@ -56,8 +40,24 @@ export class MenuView extends BaseView {
                     href: 'signup',
                     dataHref: 'signup',
                     className: 'menu__btn',
-                    text: 'Регистрация'
+                    text: 'Sign Up'
                 }
+            ],
+            [
+                'leaders', {
+                    href: 'leaders',
+                    dataHref: 'leaders',
+                    className: 'menu__btn',
+                    text: 'Leaderboard'
+                },
+            ],
+            [
+                'about', {
+                    href: 'about',
+                    dataHref: 'about',
+                    className: 'menu__btn',
+                    text: 'About'
+                },
             ]
         ]);
 
@@ -75,12 +75,12 @@ export class MenuView extends BaseView {
     }
 
     _render() {
-        const link = new LinkComponent({
-            href: 'login',
-            dataHref: 'login',
-            text: 'авторизируйтесь',
-            className: 'link_primary'
-        });
+        // const link = new LinkComponent({
+        //     href: 'login',
+        //     dataHref: 'login',
+        //     text: 'авторизируйтесь',
+        //     className: 'link_primary'
+        // });
 
         const menu = new MenuComponent({
             items: Array.from(this._items.values())
@@ -90,7 +90,7 @@ export class MenuView extends BaseView {
             customClasses: 'container_align-y_center',
             header: {
                 title:    gameName,
-                subtitle: `${link.template} чтобы играть онлайн`,
+                subtitle: ``,
                 btnHome:  false
             },
             container: menu.template

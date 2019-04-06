@@ -2,9 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <!--  резолвит DNS заранее -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
     <title>Название игры</title>
-    <link rel="icon" href="../assets/img/sega_saturn.png">
-    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <link rel="dns-prefetch" href="//localhost:8000">
+    <!-- dns-prefetch на стероидах, также инициирует коннект -->
+    <link rel="preconnect" href="//localhost:8000">
+    <!-- загружает ресурс с низким приоритетом и кладет в кеш -->
+<!--    <link rel="prefetch" href="https://myawesomegame.io/img/sprite.jpg">-->
+    <!-- загружает ресурс с высоким приоритетом и кладет в кеш -->
+    <link rel="subresource" href="assets/fonts/material-icons.woff2">
+    <link rel="subresource" href="assets/img/default-avatar.png">
+    <link rel="icon" href="assets/img/icons/icon-128x128.png">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="assets/manifest.json">
 </head>
 <body>
     <div id="app"></div>

@@ -81,7 +81,10 @@ bus
     .on('get-leaders', (page) => {
         ScoreboardService.getLeaders(page)
             .then(res => bus.emit('success:get-leaders', res))
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+
+                console.error(error)
+            });
     });
 
 const app = document.getElementById('app');
@@ -102,3 +105,23 @@ router
     .registerInAccess('/signup', true, '/profile');
 
 router.start();
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then((registration) => {
+            if (registration.installing) {
+                const data = {
+                    type: 'CACHE_URLS',
+                    payload: [
+                        location.href,
+                        ...performance.getEntriesByType('resource').map((r) => r.name)
+                    ]
+                };
+                // const urls =performance.getEntriesByType('resource').map((r) => r.name).slice();
+                // console.log(urls);
+                // console.log(urls.length);
+                registration.installing.postMessage(data);
+            }
+        })
+        .catch((err) => console.log('SW registration FAIL:', err));
+}
