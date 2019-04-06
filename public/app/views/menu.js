@@ -1,5 +1,4 @@
 import { MenuComponent } from '../components/menu/menu.js';
-import { LinkComponent } from '../components/link/link.js';
 import { gameName }      from '../modules/constants.js';
 import { BaseView }      from './base.js';
 
@@ -75,13 +74,6 @@ export class MenuView extends BaseView {
     }
 
     _render() {
-        // const link = new LinkComponent({
-        //     href: 'login',
-        //     dataHref: 'login',
-        //     text: 'авторизируйтесь',
-        //     className: 'link_primary'
-        // });
-
         const menu = new MenuComponent({
             items: Array.from(this._items.values())
         });

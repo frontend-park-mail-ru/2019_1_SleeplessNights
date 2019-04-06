@@ -11,7 +11,7 @@ export class LeadersView extends BaseView {
         this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 

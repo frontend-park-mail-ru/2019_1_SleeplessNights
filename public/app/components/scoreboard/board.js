@@ -21,33 +21,37 @@ export class BoardComponent {
     }
 
     _getLeaders(page) {
-        bus.emit('get-leaders', page);
-        bus.on('success:get-leaders', (res) => {
-            this._players = [];
-            res.data.forEach(item => {
-                this._players.push({
-                    name: item.nickname,
-                    win: item.won,
-                    lost: item.lost,
-                    playingTime: item.play_time
+        bus
+            .emit('get-leaders', page)
+            .on('success:get-leaders', (res) => {
+                this._players = [];
+                res.data.forEach(item => {
+                    this._players.push({
+                        name: item.nickname,
+                        win: item.won,
+                        lost: item.lost,
+                        playingTime: item.play_time
+                    });
                 });
+                const pageCount = res.pages_total;
+                const currentPage = res.page; // eslint-disable-line
+
+                const pager = new PaginationComponent({
+                    baseUrl:    'scoreboard',
+                    pagesNumber: pageCount
+                });
+
+                this._template = Handlebars.templates.board({
+                    players: this._players
+                }) + pager.template;
+
+                this._pager = pager;
+                bus.emit('update-card', this.template);
+                this.runGetScoreboardByPage();
+            })
+            .on('error:get-leaders', (data) => {
+                bus.emit('update-card', data);
             });
-            const pageCount = res.pages_total;
-            const currentPage = res.page; // eslint-disable-line
-
-            const pager = new PaginationComponent({
-                baseUrl:    'scoreboard',
-                pagesNumber: pageCount
-            });
-
-            this._template = Handlebars.templates.board({
-                players: this._players
-            }) + pager.template;
-
-            this._pager = pager;
-            bus.emit('update-card', this.template);
-            this.runGetScoreboardByPage();
-        });
     }
 
     runGetScoreboardByPage() {

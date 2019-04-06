@@ -89,7 +89,7 @@ export class FormComponent {
 
         if (name === 'error') {
             const fdInvalid = this._innerElem.lastElementChild;
-            fdInvalid.innerText = error.join(',');
+            fdInvalid.innerText = (typeof error === 'object' ? error.join(',') : error);
         }
     }
 

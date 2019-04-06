@@ -104,7 +104,7 @@ export class Router {
 
         if (this.inAccessRoutes.hasOwnProperty(currentPath)) {
             const route = this.inAccessRoutes[currentPath];
-            if ((user.isAuthorised && route.authorised) || !(user.isAuthorised && route.authorised)) {
+            if ((user.isAuthorised && route.authorised) || (!user.isAuthorised && !route.authorised)) {
                 this.open(route.locationTo);
                 return;
             }

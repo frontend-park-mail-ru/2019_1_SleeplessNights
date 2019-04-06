@@ -49,7 +49,13 @@ bus
                 AuthService.setAuthorised();
                 router.reopen('/');
             })
-            .catch(res => bus.emit('error:signup', res.data));
+            .catch(res =>{
+                if (res.status === 418 || !navigator.onLine) {
+                    bus.emit('error:sign-up', {error: `Your are offline buddy`});
+                } else {
+                    bus.emit('error:signup', res.data)
+                }
+            });
     })
     .on('login', (data) => {
         AuthService.auth(data)
@@ -58,8 +64,11 @@ bus
                 router.reopen('/');
             })
             .catch(res => {
-                if (res.status) bus.emit('error:login', res.data);
-                else console.error(res);
+                if (res.status === 418 || !navigator.onLine) {
+                    bus.emit('error:login', {error: `Your are offline buddy`});
+                } else {
+                    bus.emit('error:login', res.data)
+                }
             });
     })
     .on('get-profile', () => {
@@ -81,9 +90,12 @@ bus
     .on('get-leaders', (page) => {
         ScoreboardService.getLeaders(page)
             .then(res => bus.emit('success:get-leaders', res))
-            .catch(error => {
-
-                console.error(error)
+            .catch(res => {
+                if (res.status === 418 || !navigator.onLine) {
+                    bus.emit('error:get-leaders', `Content is not available in offline mode`);
+                } else {
+                    console.error(res)
+                }
             });
     });
 
@@ -117,9 +129,6 @@ if ('serviceWorker' in navigator) {
                         ...performance.getEntriesByType('resource').map((r) => r.name)
                     ]
                 };
-                // const urls =performance.getEntriesByType('resource').map((r) => r.name).slice();
-                // console.log(urls);
-                // console.log(urls.length);
                 registration.installing.postMessage(data);
             }
         })

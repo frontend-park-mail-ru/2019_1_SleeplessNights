@@ -1,7 +1,7 @@
 .menu__btn {
     font-family: 'BurnstownDam-Regular';
     display: block;
-    padding: 10px 40px;
+    padding: 0 40px;
     border: .3rem solid #b55e28;
     box-shadow: 0 0 0 .125rem #ffd544 ;
     border-radius: .3rem;
@@ -9,7 +9,7 @@
     color: #b55e28;
     text-align: center;
     text-decoration: none;
-    font-size: 40px;
+    font-size: 55px;
     cursor: pointer;
     width: 100%;
     margin-bottom: 8px;
