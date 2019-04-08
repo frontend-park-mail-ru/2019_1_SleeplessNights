@@ -1,0 +1,16 @@
+@import "../../../../assets/scss/global";
+
+.container__column {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+}
+
+.container__column_ {
+    @each $key, $size in $grid-columns {
+        &-#{$key} {
+            width: $size;
+        }
+    }
+}

@@ -13,8 +13,8 @@
 @import "../../app/components/card/_centered/card_centered_both.css";
 @import "../../app/components/card/_empty/card_empty.css";
 
-@import "../../app/components/container/container.css";
-@import "../../app/components/container/__content/container__content.css";
+@import "../../app/components/container/container";
+@import "../../app/components/container/__column/container__column";
 @import "../../app/components/container/_align-y/container_align-y_center.css";
 
 @import "../../app/components/customFileInput/custom-file.css";
@@ -51,7 +51,31 @@
 @import "../../app/components/sidebar/__header/sidebar__header.css";
 @import "../../app/components/sidebar/__title/sidebar__title.css";
 
-@import "lib/global.css";
-@import "lib/shadow/shadow-l.css";
-@import "lib/shadow/shadow-xl.css";
-@import "icons.css";
+
+@import "icons.scss";
+@import "shadow.scss";
+
+html, body {
+        margin: 0;
+        height: 100%;
+}
+
+::-webkit-scrollbar {
+        width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+}
+
+
+

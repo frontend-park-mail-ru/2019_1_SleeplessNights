@@ -1,0 +1,20 @@
+$colors: (
+        "primary": #005ff9,
+        "primary-dark": #004ecc,
+        "secondary": #0c5460,
+        "secondary-light": #44a9ae,
+        "background": #ffffff
+);
+
+@function color($color-key) {
+  @return map-get($colors, $color-key)
+}
+
+$page-padding: 20px, 10px;
+
+$grid-columns: (
+        w25:  25%,
+        w50:  50%,
+        w75:  75%,
+        w100: 100%
+);
