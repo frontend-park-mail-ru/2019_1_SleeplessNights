@@ -1,3 +1,9 @@
 <div class="container {{customClasses}}">
-    {{{content}}}
+    {{#if sideBar}}
+        <div class="container__content-sidebar">
+    {{else}}
+        <div class="container__content">
+    {{/if}}
+        {{{content}}}
+    </div>
 </div>

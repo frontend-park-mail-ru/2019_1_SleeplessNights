@@ -1,0 +1,11 @@
+@import "../../global.scss";
+@import "../vars.scss";
+
+.game-field__cell {
+  width: $cell-size;
+  height: $cell-size;
+  min-width: $cell-size;
+  min-height: $cell-size;
+  color: white;
+  @extend %border-light;
+}

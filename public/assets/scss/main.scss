@@ -13,8 +13,8 @@
 @import "../../app/components/card/_centered/card_centered_both.css";
 @import "../../app/components/card/_empty/card_empty.css";
 
-@import "../../app/components/container/container";
-@import "../../app/components/container/__column/container__column";
+@import "../../app/components/container/container.css";
+@import "../../app/components/container/__content/container__content.css";
 @import "../../app/components/container/_align-y/container_align-y_center.css";
 
 @import "../../app/components/customFileInput/custom-file.css";
@@ -54,6 +54,20 @@
 
 @import "icons.scss";
 @import "shadow.scss";
+@import "container/container.scss";
+@import "container/__col/container__col.scss";
+@import "container/__row/container__row.scss";
+@import "container/__square/container__square.scss";
+@import "container/__absolute/container__absolute.scss";
+@import "game-field/game-field.scss";
+@import "game-field/__cell/game-field__cell.scss";
+@import "game-field/__cell/_prize/game-fied__cell_prize.scss";
+@import "game-field/__cell/_active/game-field__cell_active.scss";
+@import "game-field/__cell/_disabled/game-field__cell_disabled.scss";
+@import "game-field/__cell/_answered/game-field__cell_answered.scss";
+@import "back-to-menu-btn/back-to-menu-btn.scss";
+
+@import "global.scss";
 
 html, body {
         margin: 0;
@@ -66,7 +80,7 @@ html, body {
 
 ::-webkit-scrollbar-thumb {
         background: rgba(0, 0, 0, 0.3);
-        border-radius: 3px;
+        @include border-radius(3px)
 }
 
 ::-webkit-scrollbar-thumb:hover {

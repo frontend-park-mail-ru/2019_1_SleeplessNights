@@ -1,5 +1,4 @@
 import { ContainerComponent } from '../components/container/container.js';
-import { ContainerColumnComponent } from "../components/container/__column/container__column";
 import { HeaderComponent }    from '../components/header/header.js';
 
 export class BaseView {
@@ -14,16 +13,13 @@ export class BaseView {
 
     renderContainer({
         customClasses,
-        containerColumn = {
-            customClasses = "",
-
-        },
         header = {
             title: '',
             subtitle: '',
             btnHome: false
         },
-        container = ''
+        container = '',
+        sideBar
     } = {}) {
 
         const headerComponent = new HeaderComponent({
@@ -35,7 +31,8 @@ export class BaseView {
 
         const base = new ContainerComponent({
             customClasses,
-            content: headerComponent.template + container
+            content: headerComponent.template + container,
+            sideBar
         });
 
         this._el.innerHTML = base.template;

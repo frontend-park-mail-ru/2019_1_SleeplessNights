@@ -3,7 +3,7 @@
     templates['container'] = template({'1':function(container,depth0,helpers,partials,data) {
         return '        <div class="container__content-sidebar">\n';
     },'3':function(container,depth0,helpers,partials,data) {
-        return '        <div class="container__column">\n';
+        return '        <div class="container__content">\n';
     },'compiler':[7,'>= 4.0.0'],'main':function(container,depth0,helpers,partials,data) {
         var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3='function';
 

@@ -3,14 +3,25 @@ $colors: (
         "primary-dark": #004ecc,
         "secondary": #0c5460,
         "secondary-light": #44a9ae,
-        "background": #ffffff
+        "background": #ffffff,
+        "success": green,
+        "error": red
+);
+
+$question-pack-colors: (
+        1: #B3B156,
+        2: #ADE0FF,
+        3: #FFFD94,
+        4: #CC6264,
+        5: #00ffc5,
+        
 );
 
 @function color($color-key) {
   @return map-get($colors, $color-key)
 }
 
-$page-padding: 20px, 10px;
+$page-padding: 10px;
 
 $grid-columns: (
         w25:  25%,
@@ -18,3 +29,80 @@ $grid-columns: (
         w75:  75%,
         w100: 100%
 );
+
+$grid-rows: (
+        h25:  25%,
+        h50:  50%,
+        h75:  75%,
+        h100: 100%
+);
+
+@mixin box-shadow($args) {
+  -moz-box-shadow: $args;
+  -o-box-shadow: $args;
+  -webkit-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin transition($args) {
+  -moz-transition: $args;
+  -o-transition: $args;
+  -webkit-transition: $args;
+  transition: $args;
+}
+
+@mixin font-feature-settings($args) {
+  -moz-font-feature-settings: $args;
+  -o-font-feature-settings: $args;
+  -webkit-font-feature-settings: $args;
+}
+
+@mixin box-sizing($args) {
+  -moz-box-sizing: $args;
+  -webkit-box-sizing: $args;
+  box-sizing: $args;
+}
+
+@mixin flex-direction($args) {
+  -ms-flex-direction: $args;
+  -webkit-flex-direction: $args;
+  flex-direction: $args;
+}
+
+@mixin flex-wrap($args) {
+  -ms-flex-wrap: $args;
+  -webkit-flex-wrap: $args;
+  flex-wrap: $args;
+}
+
+@mixin align-items($args) {
+  -webkit-align-items: $args;
+  align-items: $args;
+}
+
+@mixin justify-content($args) {
+  -webkit-justify-content: $args;
+  justify-content: $args;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+%border-default {
+  border: 7px solid color("primary-dark");
+  @include border-radius(10px);
+}
+
+%border-light {
+  @extend %border-default;
+  border-width: 2px;
+}
