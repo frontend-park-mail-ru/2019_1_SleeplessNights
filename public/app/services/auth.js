@@ -12,8 +12,10 @@ export class AuthService {
         return !!Cookie.read('authorised');
     }
 
-    static setAuthorised() {
+    static setAuthorised(data) {
         user.isAuthorised = true;
+        user.nickname = data.nickname;
+        user.avatar_path = data.avatar_path;
         Cookie.add('authorised', 1, 1)
     }
 

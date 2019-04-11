@@ -51,6 +51,8 @@
 @import "../../app/components/sidebar/__header/sidebar__header.css";
 @import "../../app/components/sidebar/__title/sidebar__title.css";
 
+@import "../../app/components/timer/timer.css";
+
 @import "lib/global.css";
 @import "lib/shadow/shadow-l.css";
 @import "lib/shadow/shadow-xl.css";

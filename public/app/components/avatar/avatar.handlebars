@@ -1,6 +1,8 @@
 <div class="avatar {{customClasses}}">
     <img src="{{ avatarUrl }}" id="{{id}}" alt="avatar" class="avatar__upload-icon">
 </div>
-<div class="avatar__choose-photo">
-    {{{customImgInput}}}
-</div>
+{{#if isEditable}}
+    <div class="avatar__choose-photo">
+        {{{customImgInput}}}
+    </div>
+{{/if}}

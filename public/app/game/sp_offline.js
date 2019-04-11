@@ -1,4 +1,4 @@
-import { GameCore } from './core.mjs';
+import { GameCore } from './core.js';
 
 class SinglePlayerOffline extends GameCore {
 

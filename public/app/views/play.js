@@ -1,27 +1,11 @@
-import { MenuComponent } from '../components/menu/menu.js';
-import { BaseView }      from './base.js';
+import { BaseView }        from './base.js';
+import { TimerComponent }  from '../components/timer/timer.js';
+import { AvatarComponent } from '../components/avatar/avatar.js';
 
 export class PlayView extends BaseView {
-    _pageTitle;
-    _items;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Играть';
-        this._items = [
-            {
-                href: 'play?mode=single',
-                dataHref: 'play',
-                className: 'menu__btn menu__btn_huge',
-                text: 'Single player'
-            },
-            {
-                href: 'play?mode=multi',
-                dataHref: 'play',
-                className: 'menu__btn menu__btn_huge',
-                text: 'Multi player'
-            }
-        ];
         this._render();
     }
 
@@ -30,17 +14,19 @@ export class PlayView extends BaseView {
     }
 
     _render() {
-        const menu = new MenuComponent({
-            customClasses: 'menu_horizontal',
-            items:         this._items
-        });
+        const timer = new TimerComponent({ time: 8});
+
+        const avatar1 = new AvatarComponent();
+        const avatar2 = new AvatarComponent();
 
         super.renderContainer({
             customClasses: 'container_align-y_center',
             header: {
                 btnHome:  true
             },
-            container: menu.template
+            container: avatar1.template + avatar2.template
         });
+
+        // bus.emit('start-timer');
     }
 }

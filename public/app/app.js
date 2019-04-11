@@ -12,10 +12,11 @@ import './components/header/header.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/menu/menu.tmpl.js';                      /**/
-import './components/plug/plug.tmpl.js';                      /**/
 import './components/pagination/pagination.tmpl.js';          /**/
-import './components/sidebar/sidebar.tmpl.js';                /**/
+import './components/plug/plug.tmpl.js';                      /**/
 import './components/scoreboard/board.tmpl.js';               /**/
+import './components/sidebar/sidebar.tmpl.js';                /**/
+import './components/timer/timer.tmpl.js';                    /**/
 /*************************** Views **************************\/**/
 import { MenuView }    from './views/menu.js';                /**/
 import { PlayView }    from './views/play.js';                /**/
@@ -34,19 +35,23 @@ import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
 import { AjaxModule } from './modules/ajax.js';               /**/
 import bus from './modules/bus.js';                           /**/
+import idb from './modules/indexdb.js';                       /**/
 /************************************************************\/**/
 
 window.bus = bus;
+window.idb = idb;
 window.ajax = AjaxModule;
 window.user = {
+    nickname: '',
+    avatar_path: '',
     isAuthorised: AuthService.isAuthorised
 };
 
 bus
     .on('signup', (data) => {
         RegisterService.register(data)
-            .then(() => {
-                AuthService.setAuthorised();
+            .then((response) => {
+                AuthService.setAuthorised(data);
                 router.reopen('/');
             })
             .catch(res =>{
@@ -60,7 +65,7 @@ bus
     .on('login', (data) => {
         AuthService.auth(data)
             .then(() => {
-                AuthService.setAuthorised();
+                AuthService.setAuthorised(data);
                 router.reopen('/');
             })
             .catch(res => {
@@ -118,19 +123,19 @@ router
 
 router.start();
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then((registration) => {
-            if (registration.installing) {
-                const data = {
-                    type: 'CACHE_URLS',
-                    payload: [
-                        location.href,
-                        ...performance.getEntriesByType('resource').map((r) => r.name)
-                    ]
-                };
-                registration.installing.postMessage(data);
-            }
-        })
-        .catch((err) => console.log('SW registration FAIL:', err));
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('/sw.js', { scope: '/' })
+//         .then((registration) => {
+//             if (registration.installing) {
+//                 const data = {
+//                     type: 'CACHE_URLS',
+//                     payload: [
+//                         location.href,
+//                         ...performance.getEntriesByType('resource').map((r) => r.name)
+//                     ]
+//                 };
+//                 registration.installing.postMessage(data);
+//             }
+//         })
+//         .catch((err) => console.log('SW registration FAIL:', err));
+// }
