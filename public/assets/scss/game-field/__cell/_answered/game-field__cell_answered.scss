@@ -1,0 +1,8 @@
+@import "../../../global.scss";
+@import "../../vars.scss";
+
+.game-field__cell_answered {
+  background: color("success");
+  border-color: color("success") !important;
+  @include border-radius(50% !important);
+}

@@ -1,3 +1,5 @@
+@import "global";
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -6,10 +8,10 @@
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons', sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #0c5460;
+  color: color("secondary");
   font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
@@ -18,10 +20,10 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  -webkit-font-feature-settings: 'liga';
+  @include font-feature-settings('liga');
   -webkit-font-smoothing: antialiased;
   cursor: pointer;
-  transition: color 0.1s;
+  @include transition(color 0.2s);
 }
 
 .material-icons.md-18 { font-size: 18px; }
@@ -30,5 +32,5 @@
 .material-icons.md-48 { font-size: 48px; }
 
 .material-icons:hover {
-  color: #44a9ae;
+  color: color("secondary-light");
 }

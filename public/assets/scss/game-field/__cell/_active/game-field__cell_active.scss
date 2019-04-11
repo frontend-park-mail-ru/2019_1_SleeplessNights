@@ -1,0 +1,7 @@
+@import "../../../global.scss";
+@import "../../../shadow.scss";
+
+.game-field__cell_active {
+  @include box-shadow(0 0 10px color("secondary"));
+  cursor: pointer;
+}

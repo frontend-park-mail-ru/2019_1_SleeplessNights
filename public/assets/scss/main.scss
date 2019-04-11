@@ -51,9 +51,50 @@
 @import "../../app/components/sidebar/__header/sidebar__header.css";
 @import "../../app/components/sidebar/__title/sidebar__title.css";
 
+<<<<<<< HEAD:public/assets/css/main.css
 @import "../../app/components/timer/timer.css";
 
 @import "lib/global.css";
 @import "lib/shadow/shadow-l.css";
 @import "lib/shadow/shadow-xl.css";
 @import "icons.css";
+=======
+
+@import "icons.scss";
+@import "shadow.scss";
+@import "container/container.scss";
+@import "container/__col/container__col.scss";
+@import "container/__row/container__row.scss";
+@import "container/__square/container__square.scss";
+@import "container/__absolute/container__absolute.scss";
+@import "game-field/game-field.scss";
+@import "game-field/__cell/game-field__cell.scss";
+@import "game-field/__cell/_prize/game-fied__cell_prize.scss";
+@import "game-field/__cell/_active/game-field__cell_active.scss";
+@import "game-field/__cell/_disabled/game-field__cell_disabled.scss";
+@import "game-field/__cell/_answered/game-field__cell_answered.scss";
+@import "back-to-menu-btn/back-to-menu-btn.scss";
+
+@import "global.scss";
+
+html, body {
+        margin: 0;
+        height: 100%;
+}
+
+::-webkit-scrollbar {
+        width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        @include border-radius(3px)
+}
+
+::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+}

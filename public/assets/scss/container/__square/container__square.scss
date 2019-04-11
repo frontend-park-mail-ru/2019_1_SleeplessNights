@@ -1,0 +1,11 @@
+.container__square {
+  width: 75%;
+  display: inline-block;
+  position: relative;
+}
+
+.container__square:after {
+  padding-top: 100%;
+  display: block;
+  content: '';
+}
