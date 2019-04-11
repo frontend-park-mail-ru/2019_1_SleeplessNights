@@ -3,7 +3,7 @@ export class GameCore {
 
     }
 
-    start () {
+    start() {
 
     }
 
@@ -12,10 +12,6 @@ export class GameCore {
     }
 
     resume () {
-
-    }
-
-    destroy () {
 
     }
 }

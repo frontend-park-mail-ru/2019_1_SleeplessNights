@@ -9,7 +9,7 @@ export class CellComponent {
 
     constructor({
         customClasses = '',
-        bgColor = '',
+        bgColor = '#fff',
         type = 'question'
     } = {}) {
         this._bgColor = bgColor;
@@ -23,7 +23,7 @@ export class CellComponent {
         return this._template;
     }
 
-    get _innerElem() {
+    get innerElem() {
         return document.getElementById(this._id);
     }
 
@@ -37,11 +37,20 @@ export class CellComponent {
     }
 
     addClass(className) {
-        this._innerElem.classList.add(className);
+        this.innerElem.style = '';
+        this.innerElem.classList.add(className);
+    }
+
+    setAnswered() {
+        this.addClass('game-board__cell_answered');
+    }
+
+    setFailed() {
+        this.addClass('game-board__cell_failed');
     }
 
     removeClass(className) {
-        this._innerElem.classList.remove(className);
+        this.innerElem.classList.remove(className);
     }
 
 }

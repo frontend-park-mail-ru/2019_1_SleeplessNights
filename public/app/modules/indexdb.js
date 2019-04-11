@@ -41,11 +41,20 @@ class IndexedDB {
         dbOpenRequest.addEventListener('error', event => console.error(event));
         dbOpenRequest.addEventListener('upgradeneeded', event => {
             this.db = event.target.result;
-            console.log(`Upgrading to version ${db.version}`);
+            console.log(`Upgrading to version ${this.db.version}`);
 
-            const user = db.createObjectStore('user', { keyPath: 'pk', autoIncrement: true });
+            const user = this.db.createObjectStore('user', { keyPath: 'id', autoIncrement: true });
             user.createIndex('nickname', 'nickname', { unique: false });
             user.createIndex('avatar_path', 'avatar_path', { unique: false });
+
+            const pack = this.db.createObjectStore('pack', { keyPath: 'id', autoIncrement: true });
+            pack.createIndex('name', 'name', { unique: false });
+
+            const question = this.db.createObjectStore('question', { keyPath: 'id', autoIncrement: true });
+            question.createIndex('answers', 'answers', { unique: false });
+            question.createIndex('correct', 'correct', { unique: false });
+            question.createIndex('text', 'text', { unique: false });
+            question.createIndex('packId', 'packId', { unique: false });
         });
     }
 }

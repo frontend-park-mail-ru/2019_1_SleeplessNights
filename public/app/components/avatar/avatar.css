@@ -4,3 +4,8 @@
     border-radius: 70px;
     margin-bottom: 10px;
 }
+
+.avatar_game-board {
+    position: absolute;
+    top: 100px;
+}

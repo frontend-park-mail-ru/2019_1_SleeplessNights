@@ -1,7 +1,4 @@
 export const modes = {
-    SINGLE_PLAYER: {
-        OFFLINE: 'single_player_offline',
-        ONLINE: 'single_player_online'
-    },
+    SINGLE_PLAYER:'single_player',
     MULTI_PLAYER: 'multi_player'
 };
