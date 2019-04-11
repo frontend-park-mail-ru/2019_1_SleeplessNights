@@ -1,6 +1,7 @@
-import { MenuComponent } from '../components/menu/menu.js';
-import { gameName }      from '../modules/constants.js';
-import { BaseView }      from './base.js';
+import { gameName } from '../modules/constants.js';
+import { BaseView } from './base.js';
+import { HeaderComponent } from '../components/header/header.js';
+import { MenuComponent }   from '../components/menu/menu.js';
 
 export class MenuView extends BaseView {
     _pageTitle;
@@ -78,14 +79,18 @@ export class MenuView extends BaseView {
             items: Array.from(this._items.values())
         });
 
+        const header = new HeaderComponent({
+            title:    gameName,
+            subtitle: ``,
+            btnHome:  false
+        });
+
         super.renderContainer({
             customClasses: 'container_align-y_center',
-            header: {
-                title:    gameName,
-                subtitle: ``,
-                btnHome:  false
-            },
-            container: menu.template
+            container: `
+                ${header.template}
+                ${menu.template}
+            `
         });
     }
 }

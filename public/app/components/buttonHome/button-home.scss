@@ -1,0 +1,10 @@
+@import "../../../assets/scss/global";
+
+.back-to-menu-btn {
+  position: absolute;
+  top: $page-padding;
+  left: $page-padding;
+  border: none;
+  background: color("background");
+  cursor: pointer;
+}

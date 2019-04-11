@@ -1,0 +1,7 @@
+@import "../../../../assets/scss/global.scss";
+@import "../../../../assets/scss/shadow.scss";
+
+.game-board__cell_active {
+  @include box-shadow(0 0 10px color("secondary"));
+  cursor: pointer;
+}

@@ -92,7 +92,10 @@ export class ProfileView extends BaseView {
             customClasses: 'form_width_60',
             formGroups:    this._formGroups
         });
-        this._avatar = new AvatarComponent({ form: this._form.id });
+        this._avatar = new AvatarComponent({
+            customClasses: 'avatar_profile',
+            form: this._form.id
+        });
 
         const card = new CardComponent({
             title: 'Профиль игрока',

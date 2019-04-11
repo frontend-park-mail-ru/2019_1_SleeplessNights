@@ -5,9 +5,12 @@ import './components/button/button.tmpl.js';                  /**/
 import './components/buttonHome/buttonHome.tmpl.js';          /**/
 import './components/card/card.tmpl.js';                      /**/
 import './components/container/container.tmpl.js';            /**/
+import './components/_new/container/container.tmpl.js';            /**/
 import './components/customFileInput/customFileInput.tmpl.js';/**/
 import './components/form/form.tmpl.js';                      /**/
 import './components/formControl/formControl.tmpl.js';        /**/
+import './components/gameBoard/gameBoard.tmpl.js';             /**/
+import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
@@ -42,15 +45,13 @@ window.bus = bus;
 window.idb = idb;
 window.ajax = AjaxModule;
 window.user = {
-    nickname: '',
-    avatar_path: '',
     isAuthorised: AuthService.isAuthorised
 };
 
 bus
     .on('signup', (data) => {
         RegisterService.register(data)
-            .then((response) => {
+            .then(() => {
                 AuthService.setAuthorised(data);
                 router.reopen('/');
             })

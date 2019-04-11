@@ -1,6 +1,7 @@
 import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
 import { CardComponent } from '../components/card/card.js';
+import { HeaderComponent } from '../components/header/header.js';
 import { gameName }      from '../modules/constants.js';
 import { BaseView }      from './base.js';
 

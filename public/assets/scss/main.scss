@@ -4,7 +4,6 @@
 
 @import "../../app/components/button/btn.css";
 @import "../../app/components/button/_primary/btn_primary.css";
-@import "../../app/components/buttonHome/btn-home.css";
 
 @import "../../app/components/card/card.css";
 @import "../../app/components/card/__body/card__body.css";
@@ -51,14 +50,7 @@
 @import "../../app/components/sidebar/__header/sidebar__header.css";
 @import "../../app/components/sidebar/__title/sidebar__title.css";
 
-<<<<<<< HEAD:public/assets/css/main.css
 @import "../../app/components/timer/timer.css";
-
-@import "lib/global.css";
-@import "lib/shadow/shadow-l.css";
-@import "lib/shadow/shadow-xl.css";
-@import "icons.css";
-=======
 
 @import "icons.scss";
 @import "shadow.scss";
@@ -67,15 +59,15 @@
 @import "container/__row/container__row.scss";
 @import "container/__square/container__square.scss";
 @import "container/__absolute/container__absolute.scss";
-@import "game-field/game-field.scss";
-@import "game-field/__cell/game-field__cell.scss";
-@import "game-field/__cell/_prize/game-fied__cell_prize.scss";
-@import "game-field/__cell/_active/game-field__cell_active.scss";
-@import "game-field/__cell/_disabled/game-field__cell_disabled.scss";
-@import "game-field/__cell/_answered/game-field__cell_answered.scss";
-@import "back-to-menu-btn/back-to-menu-btn.scss";
 
-@import "global.scss";
+@import "../../app/components/gameBoard/game-board.scss";
+@import "../../app/components/gameBoardCell/game-board__cell.scss";
+@import "../../app/components/gameBoardCell/game-board__cell.scss";
+@import "../../app/components/gameBoardCell/_prize/game-board__cell_prize.scss";
+@import "../../app/components/gameBoardCell/_active/game-board__cell_active.scss";
+@import "../../app/components/gameBoardCell/_failed/game-board__cell_failed.scss";
+@import "../../app/components/gameBoardCell/_answered/game-board__cell_answered.scss";
+@import "../../app/components/buttonHome/button-home.scss";
 
 html, body {
         margin: 0;
