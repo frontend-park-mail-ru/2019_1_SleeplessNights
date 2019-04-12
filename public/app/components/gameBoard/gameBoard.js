@@ -41,8 +41,7 @@ export class GameBoardComponent {
         this.innerElem.addEventListener('click', (event) => {
             const target = event.target;
             if ('packName' in target.dataset) {
-                console.log(target.dataset.packName);
-                // bus.emit('selected-cell', target.dataset.packName);
+                bus.emit('selected-cell', target.dataset.packName);
             }
         });
     }

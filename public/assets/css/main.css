@@ -41,6 +41,7 @@
 @import url(../../app/components/sidebar/__header/sidebar__header.css);
 @import url(../../app/components/sidebar/__title/sidebar__title.css);
 @import url(../../app/components/timer/timer.css);
+@import url(../../app/components/modal/modal.css);
 .game-board__cell {
   border: 7px solid #004ecc;
   -webkit-border-radius: 10px;

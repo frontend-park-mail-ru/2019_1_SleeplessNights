@@ -1,41 +1,64 @@
 class IndexedDB {
     constructor () {
         this.DB_NAME = 'quiz-planet';
-        this.DB_VERSION = 1;
+        this.DB_VERSION = 2;
         this.db = null;
 
         if (!('indexedDB' in window)) {
             console.log('This browser doesn\'t support IndexedDB');
         } else {
-            this.open();
+            this.createDB();
         }
     }
 
-    _ObjectStore(storeName) {
-        const tx = this.db.transaction(storeName, 'readwrite');
-        return tx.objectStore(storeName);
-    }
-
     add(storeName, data) {
-        data.forEach( item => this._ObjectStore(storeName).add(item));
-    }
-
-    get(storeName, item) {
-        const request = this._ObjectStore(storeName).get(item);
-        request.addEventListener('error', err => console.error(err));
-        request.addEventListener('success', (data) => bus.emit(`success:get-${storeName}-${item}`, data));
-    }
-
-    remove(storeName, item) {
-        const request = this._ObjectStore(storeName).delete(item);
-        request.addEventListener('error', err => console.error(err));
-        request.addEventListener('success', () => {
-            console.log(`Successfully deleted ${item} from ${storeName}`);
-            // bus.emit(`success:dele-${storeName}-${item}`)
+        this.open2((event) => {
+            this.db = event.target.result;
+            const tx = this.db.transaction(storeName, 'readwrite').objectStore(storeName);
+            data.forEach( item => tx.add(item));
         });
     }
 
-    open() {
+    getAll(storeName, key, item, count) {
+        this.open((event) => {
+            this.db = event.target.result;
+            const tx = this.db.transaction(storeName, 'readonly').objectStore(storeName);
+            const index = tx.index(key);
+            index.getAll(item, count).onsuccess = (event) => {
+                bus.emit(`success:get-${storeName}-${key}`, event.target.result);
+            };
+        });
+    }
+
+    get(storeName, item) {
+        this.open((event) => {
+            this.db = event.target.result;
+            const tx = this.db.transaction(storeName, 'readonly').objectStore(storeName);
+            tx.get(item).onsuccess = (event) => {
+                bus.emit(`success:get-${storeName}-${item}`, event.target.result);
+            };
+        });
+    }
+
+    remove(storeName, item) {
+        this.open((event) => {
+            this.db = event.target.result;
+            const tx = this.db.transaction(storeName, 'readonly').objectStore(storeName);
+            tx.delete(item).onsuccess = () => {
+                console.log(`Successfully deleted ${item} from ${storeName}`);
+                // bus.emit(`success:delete-${storeName}-${item}`)
+            };
+        });
+    }
+
+    open(callback) {
+        const dbOpenRequest = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+
+        dbOpenRequest.addEventListener('error', event => console.error(event));
+        dbOpenRequest.addEventListener('success', callback);
+    }
+
+    createDB() {
         const dbOpenRequest = indexedDB.open(this.DB_NAME, this.DB_VERSION);
 
         dbOpenRequest.addEventListener('error', event => console.error(event));

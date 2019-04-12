@@ -13,6 +13,7 @@ import { modes } from '../game/modes.js';
 export class PlayView extends BaseView {
     constructor(el) {
         super(el);
+        this.root = el;
         this._pageTitle = 'Играть';
 
         bus.on('fill-pack-list', (data) => this._updatePackList(data));
@@ -70,7 +71,10 @@ export class PlayView extends BaseView {
             `
         });
 
+        this.root.style.background = 'linear-gradient(180deg, #ffffff 50%, #f3f3f3 50%)';
+
         const game = new Game({
+            root: this.root,
             mode: modes.SINGLE_PLAYER
         });
         game.start();

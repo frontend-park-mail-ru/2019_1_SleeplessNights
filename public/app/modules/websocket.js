@@ -1,4 +1,4 @@
-class IWebSocket {
+export class IWebSocket {
     constructor() {
         this.socket = new WebSocket('');
         this.socket.onopen = () => {
@@ -7,15 +7,13 @@ class IWebSocket {
         };
     }
 
-    sendMessage (message) {
-        this.socket.send(message);
+    sendMessage(type, payload) {
+        this.socket.send(type, payload);
     }
 
-    startListening () {
+    startListening() {
         this.socket.onmessage = (msg) => {
             bus.emit('ws-message', msg);
         }
     }
 }
-
-export default new IWebSocket();

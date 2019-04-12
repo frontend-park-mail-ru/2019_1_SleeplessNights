@@ -5,16 +5,17 @@ import './components/button/button.tmpl.js';                  /**/
 import './components/buttonHome/buttonHome.tmpl.js';          /**/
 import './components/card/card.tmpl.js';                      /**/
 import './components/container/container.tmpl.js';            /**/
-import './components/_new/container/container.tmpl.js';            /**/
+import './components/_new/container/container.tmpl.js';       /**/
 import './components/customFileInput/customFileInput.tmpl.js';/**/
 import './components/form/form.tmpl.js';                      /**/
 import './components/formControl/formControl.tmpl.js';        /**/
-import './components/gameBoard/gameBoard.tmpl.js';             /**/
+import './components/gameBoard/gameBoard.tmpl.js';            /**/
 import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/menu/menu.tmpl.js';                      /**/
+import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
 import './components/plug/plug.tmpl.js';                      /**/
 import './components/scoreboard/board.tmpl.js';               /**/
@@ -123,6 +124,13 @@ router
     .registerInAccess('/signup', true, '/profile');
 
 router.start();
+
+// idb.get('pack', 1);
+// idb.getByOtherKey('pack', 'name', 'История');
+// bus.on('success:get-pack-name', (data) => console.log(data));
+// idb.getAll('question', 'packId', 1, 10);
+// bus.on('success:get-pack-1', (data) => console.log(data));
+// bus.on('success:get-question-packId', (data) => console.log(data));
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })
