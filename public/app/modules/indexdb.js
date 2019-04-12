@@ -12,7 +12,7 @@ class IndexedDB {
     }
 
     add(storeName, data) {
-        this.open2((event) => {
+        this.open((event) => {
             this.db = event.target.result;
             const tx = this.db.transaction(storeName, 'readwrite').objectStore(storeName);
             data.forEach( item => tx.add(item));
@@ -23,9 +23,12 @@ class IndexedDB {
         this.open((event) => {
             this.db = event.target.result;
             const tx = this.db.transaction(storeName, 'readonly').objectStore(storeName);
-            const index = tx.index(key);
+
+            let index = tx;
+            if (key) index = tx.index(key);
+
             index.getAll(item, count).onsuccess = (event) => {
-                bus.emit(`success:get-${storeName}-${key}`, event.target.result);
+                bus.emit(`success:get-${storeName}-${key ? key: 'id'}-${item ? item: ''}`, event.target.result);
             };
         });
     }
@@ -34,6 +37,7 @@ class IndexedDB {
         this.open((event) => {
             this.db = event.target.result;
             const tx = this.db.transaction(storeName, 'readonly').objectStore(storeName);
+
             tx.get(item).onsuccess = (event) => {
                 bus.emit(`success:get-${storeName}-${item}`, event.target.result);
             };

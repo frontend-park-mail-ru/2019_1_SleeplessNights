@@ -125,13 +125,6 @@ router
 
 router.start();
 
-// idb.get('pack', 1);
-// idb.getByOtherKey('pack', 'name', 'История');
-// bus.on('success:get-pack-name', (data) => console.log(data));
-// idb.getAll('question', 'packId', 1, 10);
-// bus.on('success:get-pack-1', (data) => console.log(data));
-// bus.on('success:get-question-packId', (data) => console.log(data));
-
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })
 //         .then((registration) => {

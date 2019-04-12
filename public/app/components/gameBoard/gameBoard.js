@@ -41,14 +41,14 @@ export class GameBoardComponent {
         this.innerElem.addEventListener('click', (event) => {
             const target = event.target;
             if ('packName' in target.dataset) {
-                bus.emit('selected-cell', target.dataset.packName);
+                bus.emit('selected-cell', target.dataset.id);
             }
         });
     }
 
     _fillCells(data) {
         const count = data.length;
-        let i = 0;
+        let [i, j] = [0, 0];
 
         const timer = setInterval(() => {
             const d = data[i];
@@ -56,7 +56,11 @@ export class GameBoardComponent {
             cell.dataset.type = d.type;
             cell.style.backgroundColor = d.color;
 
-            if (d.type === 'question') cell.dataset.packName = d.name;
+            if (d.type === 'question') {
+                cell.dataset.packName = d.name;
+                cell.dataset.id = ++j;
+            }
+
             if (++i >= count) clearInterval(timer);
         }, 10);
     }

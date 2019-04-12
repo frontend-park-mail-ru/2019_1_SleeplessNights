@@ -2,6 +2,7 @@ import { modes } from './modes.js';
 import { SinglePlayer } from './core/single_player.js';
 import { MultiPlayer }  from './core/multi_player.js';
 import { GameScene } from './game-scene/index.js';
+import { GameController } from './controller.js';
 
 export class Game {
     constructor ({
@@ -23,6 +24,7 @@ export class Game {
 
         this.gameScene = new GameScene();
         this.gameCore = new GameConstructor(root);
+        this.gameContoller = new GameController();
     }
 
     start() {

@@ -9,6 +9,10 @@ export class SinglePlayer extends GameCore {
         super.start();
     }
 
+    gameLoop() {
+
+    }
+
     onGameStarted(evt) {
 
     }
