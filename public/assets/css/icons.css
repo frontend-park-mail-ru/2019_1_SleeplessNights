@@ -9,7 +9,7 @@
   font-family: 'Material Icons', sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #0c5460;
+  color: #b55e28;
   font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
@@ -46,5 +46,5 @@
 }
 
 .material-icons:hover {
-  color: #44a9ae;
+  color: #ffd544;
 }

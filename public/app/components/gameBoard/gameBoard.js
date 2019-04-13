@@ -1,5 +1,5 @@
 import { CellComponent } from '../gameBoardCell/cell.js';
-import { uniqueId } from '../../modules/utils.js';
+import { uniqueId, noop } from '../../modules/utils.js';
 
 export class GameBoardComponent {
     _cells;
@@ -8,12 +8,22 @@ export class GameBoardComponent {
     constructor({cellCount = 8} = {}) {
         this.CELL_COUNT = cellCount;
         this._cells = [];
-        this._id = `ceil_${uniqueId()}`;
+        this.selectedCell = null;
+        this._id = `gameBoard_${uniqueId()}`;
 
         this._render();
         bus.on('fill-cells', (data) => {
             this._fillCells(data);
             this._startListening();
+        });
+
+        bus.on('answered-cell', (answer) => {
+            const cell = this._cells[this.selectedCell];
+            if (answer) {
+                cell.setAnswered();
+            } else {
+                cell.setFailed();
+            }
         });
     }
 
@@ -21,8 +31,12 @@ export class GameBoardComponent {
         return this._template;
     }
 
-    get innerElem() {
+    get _innerElem() {
         return document.getElementById(this._id);
+    }
+
+    get cells() {
+        return this._cells;
     }
 
     _render() {
@@ -38,9 +52,10 @@ export class GameBoardComponent {
     }
 
     _startListening() {
-        this.innerElem.addEventListener('click', (event) => {
+        this._innerElem.addEventListener('click', (event) => {
             const target = event.target;
-            if ('packName' in target.dataset) {
+            if ('packName' in target.dataset && target.dataset.type === 'question') {
+                this.selectedCell = target.dataset.id;
                 bus.emit('selected-cell', target.dataset.id);
             }
         });
@@ -48,7 +63,7 @@ export class GameBoardComponent {
 
     _fillCells(data) {
         const count = data.length;
-        let [i, j] = [0, 0];
+        let i = 0;
 
         const timer = setInterval(() => {
             const d = data[i];
@@ -58,10 +73,18 @@ export class GameBoardComponent {
 
             if (d.type === 'question') {
                 cell.dataset.packName = d.name;
-                cell.dataset.id = ++j;
+                cell.dataset.id = i;
             }
 
             if (++i >= count) clearInterval(timer);
         }, 10);
+    }
+
+    on(event, callback = noop) {
+        this._innerElem.addEventListener(event, callback);
+    }
+
+    off(event, callback = noop) {
+        this._innerElem.removeEventListener(event, callback);
     }
 }

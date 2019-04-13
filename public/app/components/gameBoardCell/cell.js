@@ -42,15 +42,26 @@ export class CellComponent {
     }
 
     setAnswered() {
-        this.addClass('game-board__cell_answered');
+        this.addClass('game-board__cell_answered_1');
+        this.innerElem.dataset.type += '_answered';
+
+        setTimeout(() => {
+            this.removeClass('game-board__cell_answered_1');
+            this.addClass('game-board__cell_answered_2');
+        }, 1000);
     }
 
     setFailed() {
-        this.addClass('game-board__cell_failed');
+        this.addClass('game-board__cell_failed_1');
+        this.innerElem.dataset.type += '_failed';
+
+        setTimeout(() => {
+            this.removeClass('game-board__cell_failed_1');
+            this.addClass('game-board__cell_failed_2');
+        }, 1000);
     }
 
     removeClass(className) {
         this.innerElem.classList.remove(className);
     }
-
 }

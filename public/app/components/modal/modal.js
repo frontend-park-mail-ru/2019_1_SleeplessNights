@@ -3,18 +3,23 @@ import { uniqueId } from '../../modules/utils.js';
 export class ModalComponent {
     _body;
     _customClasses;
+    _id;
+    _isCloseable;
     _header;
     _template;
 
     constructor({
         customClasses = '',
         header = '',
+        isCloseable = true,
         body = ''
     } = {}){
-        this._customClasses = customClasses;
-        this._header = header;
         this._body = body;
+        this._customClasses = customClasses;
         this._id = `modal_${uniqueId()}`;
+        this._isCloseable = isCloseable;
+        this._header = header;
+
         this._render();
     }
 
@@ -37,7 +42,9 @@ export class ModalComponent {
 
     show() {
         this.innerElement.style.opacity = 1;
-        this.closeModal();
+        if (this._isCloseable) {
+            this.listenClosing();
+        }
     }
 
     hide() {
@@ -48,7 +55,7 @@ export class ModalComponent {
         }, 100);
     }
 
-    closeModal() {
+    listenClosing() {
         const closeBtn = document.getElementById(`close_${this._id}`);
         closeBtn.addEventListener('click', () => this.hide());
     }
