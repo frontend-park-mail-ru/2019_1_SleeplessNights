@@ -1,4 +1,5 @@
 export class GameScene {
-    constructor() {
+    constructor(root) {
+        this.root = root;
     }
 }

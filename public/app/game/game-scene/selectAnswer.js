@@ -1,6 +1,6 @@
-import { ModalComponent }    from '../../components/modal/modal.js';
+import { AnswerComponent } from '../../components/answer/answer.js';
+import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
-import { AnswerComponent }   from '../../components/answer/answer.js';
 
 export class SelectAnswerScene {
     constructor(root) {
@@ -9,11 +9,10 @@ export class SelectAnswerScene {
         this.correctAnswer = null;
         this.modal = null;
 
-        this.onSelectedQuestion = this.onSelectedQuestion.bind(this);
         bus.on('selected-question', this.onSelectedQuestion);
     }
 
-    onSelectedQuestion(question) {
+    onSelectedQuestion = (question) => {
         const questionText = new QuestionComponent({
             text: question.text
         });
@@ -50,12 +49,12 @@ export class SelectAnswerScene {
             const target = event.target;
             if ('index' in target.dataset) {
                 anBlock.removeEventListener('click', answerChoosing);
-                this.selectAnswer(target.dataset.index);
+                this.selectAnswer(+target.dataset.index);
             }
         };
 
         anBlock.addEventListener('click', answerChoosing);
-    }
+    };
 
     selectAnswer(id) {
         let isTrue;

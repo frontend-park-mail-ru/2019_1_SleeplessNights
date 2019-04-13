@@ -9,14 +9,22 @@ import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 
 export class PlayingScene extends GameScene {
     constructor(root) {
-        super();
+        super(root);
         this.root = root;
+        this.CELL_COUNT = 8;
+        this.cells = [];
+        this.gameBoard = null;
+        this.selectedCell = null;
+
+        bus.on('fill-pack-list', this.updatePackList);
+        bus.on('fill-cells', this.fillCells);
+        bus.on('answered-cell', this.onAnsweredCell);
+
         new SelectAnswerScene(root);
-        bus.on('fill-pack-list', (data) => this._updatePackList(data));
 
         this._packsSection = document.createElement('section');
         this._packsSection.className = 'packs-section';
-        this._render();
+        this.render();
     }
 
     get packsSection() {
@@ -28,7 +36,7 @@ export class PlayingScene extends GameScene {
         ps.innerHTML = data;
     }
 
-    _render() {
+    render() {
         const avatar1 = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'container__col-w25',
@@ -41,10 +49,15 @@ export class PlayingScene extends GameScene {
             content: avatar2.template
         });
 
-        const gameBoard = new GameBoardComponent();
+        for (let i = 0; i < this.CELL_COUNT ** 2; i++) {
+            const newCell = new CellComponent();
+            this.cells.push(newCell);
+        }
+        this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
+
         const centreContainer = new ContainerComponent({
             customClasses: 'container__col-w50',
-            content: gameBoard.template
+            content: this.gameBoard.template
         });
 
         this.root.insertAdjacentHTML('beforeend', `
@@ -56,7 +69,7 @@ export class PlayingScene extends GameScene {
         this.root.style.background = 'linear-gradient(180deg, #ffffff 50%, #f3f3f3 50%)';
     }
 
-    _updatePackList(packs) {
+    updatePackList = (packs) => {
         const _list = [];
         packs.forEach(pack => {
             const cell = new CellComponent({
@@ -78,5 +91,41 @@ export class PlayingScene extends GameScene {
         });
 
         this.packsSection = card.template;
-    }
+    };
+
+    fillCells = (data) => {
+        const count = data.length;
+        let i = 0;
+
+        const timer = setInterval(() => {
+            const d = data[i];
+            const cell = this.cells[i].innerElem;
+            cell.dataset.type = d.type;
+            cell.style.backgroundColor = d.color;
+
+            if (d.type === 'question') {
+                cell.dataset.packName = d.name;
+                cell.dataset.id = i;
+            }
+
+            if (++i >= count) clearInterval(timer);
+        }, 10);
+
+        this.gameBoard.on('click', (event) => {
+            const target = event.target;
+            if ('packName' in target.dataset && target.dataset.type === 'question') {
+                this.selectedCell = target.dataset.id;
+                bus.emit('selected-cell', target.dataset.id);
+            }
+        });
+    };
+
+    onAnsweredCell = (answer) => {
+        const cell = this.cells[this.selectedCell];
+        if (answer) {
+            cell.setAnswered();
+        } else {
+            cell.setFailed();
+        }
+    };
 }
