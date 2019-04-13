@@ -1,9 +1,10 @@
 import { PlugComponent }    from '../components/plug/plug.js';
 import { SidebarComponent } from '../components/sidebar/sidebar.js';
-import { CardComponent }    from '../components/card/card.js';
-import { ListComponent }    from '../components/list/list.js';
-import { gameName }         from '../modules/constants.js';
-import { BaseView }         from './base.js';
+import { HeaderComponent }  from '../components/header/header.js';
+import { CardComponent } from '../components/card/card.js';
+import { ListComponent } from '../components/list/list.js';
+import { gameName } from '../modules/constants.js';
+import { BaseView } from './base.js';
 
 export class AboutView extends BaseView {
     _pageTitle;
@@ -57,17 +58,22 @@ export class AboutView extends BaseView {
                         “Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
                    </p> 
                    <h3>Авторы:</h3>
-                   ${authorsList.template}`
+                   ${authorsList.template}
+            `
+        });
+
+        const header = new HeaderComponent({
+            title:    'Описание игры'
         });
 
         super.renderContainer({
             customClasses: 'container-row',
-            header: {
-                title:    'Описание игры',
-                subtitle: '',
-                btnHome:  true
-            },
-            container: sidebar.template + description.template,
+            btnBack: true,
+            container: `
+                ${header.template}
+                ${sidebar.template}
+                ${description.template}
+            `,
             sideBar: true
         });
     }

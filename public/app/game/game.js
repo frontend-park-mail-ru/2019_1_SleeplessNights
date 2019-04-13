@@ -1,8 +1,8 @@
 import { modes } from './modes.js';
 import { SinglePlayer } from './core/single_player.js';
 import { MultiPlayer }  from './core/multi_player.js';
-import { GameScene } from './game-scene/index.js';
 import { GameController } from './controller.js';
+import {PlayingScene} from "./game-scene/playing.js";
 
 export class Game {
     constructor ({
@@ -22,8 +22,8 @@ export class Game {
                 throw new Error(`Invalid game mode ${mode}`);
         }
 
-        this.gameScene = new GameScene();
-        this.gameCore = new GameConstructor(root);
+        this.gameScene = new PlayingScene(root);
+        this.gameCore = new GameConstructor();
         this.gameContoller = new GameController();
     }
 

@@ -1,6 +1,7 @@
-import { CardComponent }  from '../components/card/card.js';
-import { BaseView }       from './base.js';
-import { BoardComponent } from '../components/scoreboard/board.js';
+import { CardComponent }   from '../components/card/card.js';
+import { BoardComponent }  from '../components/scoreboard/board.js';
+import { HeaderComponent } from '../components/header/header.js';
+import { BaseView } from './base.js';
 
 export class LeadersView extends BaseView {
     _pageTitle;
@@ -22,15 +23,17 @@ export class LeadersView extends BaseView {
             body: board.template
         });
 
+        const header = new HeaderComponent({ title: 'Лучшие игрокы' });
+
         super.renderContainer({
             customClasses: '',
-            header: {
-                title:    'Лучшие игрокы',
-                subtitle: '',
-                btnHome:  true
-            },
-            container: card.template
+            btnBack: true,
+            container: `
+                ${header.template}
+                ${card.template}
+            `,
         });
+
         bus.emit('fetch-leaders');
     }
 }

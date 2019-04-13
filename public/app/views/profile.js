@@ -1,8 +1,9 @@
-import { CardComponent }   from '../components/card/card.js';
-import { ListComponent }   from '../components/list/list.js';
+import { CardComponent } from '../components/card/card.js';
+import { ListComponent } from '../components/list/list.js';
+import { FormComponent } from '../components/form/form.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
-import { FormComponent }   from '../components/form/form.js';
-import { BaseView }        from './base.js';
+import { HeaderComponent } from '../components/header/header.js';
+import { BaseView } from './base.js';
 
 export class ProfileView extends BaseView {
     _pageTitle;
@@ -103,14 +104,15 @@ export class ProfileView extends BaseView {
             body: `${this._form.template} ${this._avatar.template} ${this._scoreSection}`
         });
 
+        const header = new HeaderComponent();
+
         super.renderContainer({
             customClasses: '',
-            header: {
-                title:    '',
-                subtitle: '',
-                btnHome:  true
-            },
-            container: card.template
+            btnBack: true,
+            container: `
+                ${header.template}
+                ${card.template}
+            `
         });
 
         const list = new ListComponent({ list: this._list });

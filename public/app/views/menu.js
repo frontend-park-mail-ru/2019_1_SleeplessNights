@@ -79,11 +79,7 @@ export class MenuView extends BaseView {
             items: Array.from(this._items.values())
         });
 
-        const header = new HeaderComponent({
-            title:    gameName,
-            subtitle: ``,
-            btnHome:  false
-        });
+        const header = new HeaderComponent({ title: gameName });
 
         super.renderContainer({
             customClasses: 'container_align-y_center',

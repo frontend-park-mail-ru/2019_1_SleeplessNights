@@ -380,9 +380,8 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  border: none;
-  background: #ffffff;
   cursor: pointer;
+  z-index: 2;
 }
 
 html, body {
