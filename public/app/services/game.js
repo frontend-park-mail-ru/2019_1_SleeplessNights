@@ -134,9 +134,8 @@ export class GameService {
                         answers: [...q.answers],
                         correct: q.correct,
                         packId: pack.id
-                    }
+                    };
                 });
-
                 idb.add('question', _questions);
             });
         });
