@@ -1,6 +1,6 @@
 import { modes } from './modes.js';
-import { SinglePlayer } from './core/single_player.js';
-import { MultiPlayer }  from './core/multi_player.js';
+import { SinglePlayer } from './core/singlePlayer.js';
+import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
 import { PlayingScene }   from './game-scene/playing.js';
 

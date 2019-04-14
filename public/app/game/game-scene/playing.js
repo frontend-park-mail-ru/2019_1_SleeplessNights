@@ -1,11 +1,12 @@
-import { GameScene } from './index.js';
-import { SelectAnswerScene } from './selectAnswer.js';
-import { AvatarComponent }   from '../../components/avatar/avatar.js';
+import { AvatarComponent } from '../../components/avatar/avatar.js';
 import { ListComponent } from '../../components/list/list.js';
 import { CellComponent } from '../../components/gameBoardCell/cell.js';
 import { CardComponent } from '../../components/card/card.js';
 import { ContainerComponent } from '../../components/_new/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
+import { SelectAnswerScene }  from './selectAnswer.js';
+import { EndGameScene } from './endGame.js';
+import { GameScene }    from './index.js';
 
 export class PlayingScene extends GameScene {
     constructor(root) {
@@ -16,14 +17,15 @@ export class PlayingScene extends GameScene {
         this.gameBoard = null;
         this.currentPlayer = null;
 
-        bus.on('fill-pack-list', this.updatePackList);
-        bus.on('fill-cells', this.fillCells);
-        bus.on('selected-cell', this.onSelectedCell);
-        bus.on('answered-cell', this.onAnsweredCell);
-        bus.on('success:get-available-cells', this.onGetAvailableCells);
-        bus.on('set-current-player', this.onChangePlayer);
+        bus.on('fill-pack-list', this.updatePackList)
+            .on('fill-cells', this.fillCells)
+            .on('selected-cell', this.onSelectedCell)
+            .on('answered-cell', this.onAnsweredCell)
+            .on('success:get-available-cells', this.onGetAvailableCells)
+            .on('set-current-player', this.onChangePlayer);
 
         new SelectAnswerScene(root);
+        new EndGameScene(root);
 
         this._packsSection = document.createElement('section');
         this._packsSection.className = 'packs-section';
@@ -119,8 +121,13 @@ export class PlayingScene extends GameScene {
         if (pl === 'me') {
             this.gameBoard.on('click', (event) => {
                 const target = event.target;
-                if ('packName' in target.dataset && target.dataset.state === 'active') {
-                    bus.emit('selected-cell', +target.dataset.id);
+                if ('type' in target.dataset && target.dataset.state === 'active') {
+                    const type = target.dataset.type;
+                    if (type === 'question') {
+                        bus.emit('selected-cell', +target.dataset.id);
+                    } else if (type === 'prize') {
+                        bus.emit('selected-prize');
+                    }
                 }
             });
         }
@@ -133,7 +140,7 @@ export class PlayingScene extends GameScene {
         } else {
             cell.setFailed();
         }
-        bus.emit('set-answered-cell', this.selectedCell);
+        bus.emit('set-answered-cell', { id: this.selectedCell, answer });
     };
 
     onGetAvailableCells = (availableCells) => {

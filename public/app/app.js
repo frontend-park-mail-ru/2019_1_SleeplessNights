@@ -36,6 +36,7 @@ import { RegisterService }   from './services/register.js';   /**/
 import { ProfileService }    from './services/profile.js';    /**/
 import { AuthService }       from './services/auth.js';       /**/
 import { ScoreboardService } from './services/scoreboard.js'  /**/
+import { GameService }       from './services/game.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
@@ -128,10 +129,7 @@ router
 
 router.start();
 
-// idb.add('user', [{
-//     nickname: 'guest',
-//     avatar_path: 'assets/img/avatar_male.png'
-// }]);
+// GameService.fillTestDB();
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })

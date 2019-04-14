@@ -1,5 +1,6 @@
 import { events} from './events.js';
 import { GameCore } from './core.js';
+import { BotPlayer } from './bot.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {
@@ -9,15 +10,17 @@ export class SinglePlayer extends GameCore {
         this.packs = [];
         this.currentPlayer = null;
 
-        bus.on('set-current-player', (pl) => this.currentPlayer = pl);
-        bus.on('set-answered-cell', (id) => {
-            this.GAME_MATRIX[id].answered = true;
-            if (this.currentPlayer === 'me') {
-                this.waitOpponent();
-            } else {
-                this.gameLoop();
-            }
-        });
+        bus.on('set-current-player', (pl) => this.currentPlayer = pl)
+            .on('set-answered-cell', ({id, answer}) => {
+                this.GAME_MATRIX[id].answered = true;
+
+                const cond = this.currentPlayer === 'me';
+                if (answer) {
+                    this[cond ? 'me': 'opponent'].lastMove = id;
+                }
+                cond ? this.waitOpponent(): this.gameLoop();
+            })
+            .on('get-available-cells', this.getAvailableCells);
     }
 
     start() {
@@ -28,55 +31,53 @@ export class SinglePlayer extends GameCore {
             nickname: 'Fool bot',
             lastMove: null
         };
+
+        new BotPlayer();
     }
 
     gameLoop() {
         bus.emit('set-current-player', 'me');
-        this.getAvailableCells();
+        bus.emit('get-available-cells');
     };
 
     waitOpponent() {
         bus.emit('set-current-player', 'bot');
-
-        const rndTime = Math.floor(Math.random() * (5 - 3 + 1)) + 3;
-
-        const botChoosingQuestion = (question) => {
-            const answers = question.answers;
-            const rndAnswer = Math.floor(Math.random() * answers.length);
-            setTimeout(() => {
-                bus.emit('selected-answer', rndAnswer);
-                bus.off('success:get-available-cells', botChoosingCell);
-                bus.off('selected-question', botChoosingQuestion);
-            }, rndTime * 1000);
-        };
-
-        const botChoosingCell = (availableCells) => {
-            setTimeout(() => {
-                const rndCell = availableCells[Math.floor(Math.random() * availableCells.length)];
-                bus.on('selected-question', botChoosingQuestion);
-                bus.emit('selected-cell', rndCell);
-            }, rndTime * 1000);
-        };
-
-        bus.on('success:get-available-cells', botChoosingCell);
-
-        this.getAvailableCells();
     }
 
     getAvailableCells = () => {
         let availables = [];
-        if (this.currentPlayer === 'me') {
-            availables = this.GAME_MATRIX
-                .reduce((accum, cell, i) => {
-                    if (i >= this.CELL_COUNT * (this.CELL_COUNT - 1) && !cell.answered) {
-                        accum.push(i);
-                    }
-                    return accum;
-                }, []);
+        const cond = this.currentPlayer === 'me';
+        const lastMove = this[cond ? 'me': 'opponent'].lastMove;
+
+        if (lastMove) {
+            let temp = [];
+            let i = lastMove - this.CELL_COUNT;
+
+            for (let j = 0; j < 3; i += this.CELL_COUNT, j++) {
+                const currentRow = Math.floor(i / this.CELL_COUNT);
+                [i - 1, i + 1].forEach(el =>
+                    (Math.floor(el / this.CELL_COUNT ) === currentRow) ? temp.push(el): null
+                );
+
+                temp.push(i);
+            }
+
+            availables = temp.filter(el =>
+                el >= 0 &&
+                el !== lastMove &&
+                el <= 63 &&
+                !this.GAME_MATRIX[el].answered
+            );
         } else {
             availables = this.GAME_MATRIX
                 .reduce((accum, cell, i) => {
-                    if (i < this.CELL_COUNT && !cell.answered) {
+                    const cond = (
+                        this.currentPlayer === 'me'
+                            ? i >= this.CELL_COUNT * (this.CELL_COUNT - 1)
+                            : i < this.CELL_COUNT
+                    );
+
+                    if (cond && !cell.answered) {
                         accum.push(i);
                     }
                     return accum;
@@ -90,7 +91,6 @@ export class SinglePlayer extends GameCore {
         idb.getAll('pack', null, null, 6);
         bus.on('success:get-pack-id-', (data) => {
             const packs = data;
-
             packs.forEach((pack, i) =>
                 Object.assign(pack, this.colors[i])
             );
@@ -139,7 +139,6 @@ export class SinglePlayer extends GameCore {
             idb.getAll('question', 'packId', pack.id, 10);
             bus.on(`success:get-question-packId-${pack.id}`, (data) => {
                 questions.push(...data);
-
                 if (i === this.packs.length - 1) {
                     this.onQuestionsReady(questions);
                 }

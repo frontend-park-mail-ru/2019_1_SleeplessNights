@@ -33,10 +33,11 @@ export class ModalComponent {
 
     _render() {
         this._template = Handlebars.templates.modal({
-            customClasses: this._customClasses,
-            header:        this._header,
             body: this._body,
-            id:   this._id
+            customClasses: this._customClasses,
+            id: this._id,
+            isCloseable: this._isCloseable,
+            header: this._header
         });
     }
 

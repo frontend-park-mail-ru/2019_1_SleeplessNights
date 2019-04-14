@@ -47,10 +47,6 @@ export class GameCore {
         });
     }
 
-    // getAvailableCells() {
-    //     throw new Error('This method must be overridden');
-    // }
-
     onGameStarted(evt) {
         throw new Error('This method must be overridden');
     }
