@@ -10,7 +10,6 @@ export class Game {
         mode = ''
     } = {}) {
         let GameConstructor = null;
-
         switch (mode) {
             case modes.SINGLE_PLAYER:
                 GameConstructor = SinglePlayer;
@@ -33,5 +32,6 @@ export class Game {
 
     destroy() {
         this.gameCore.destroy();
+        this.gameScene.destroy();
     }
 }

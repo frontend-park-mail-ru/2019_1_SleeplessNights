@@ -15,8 +15,10 @@ export class EndGameScene {
 
         bus.on('selected-prize', this.showModalEndGame);
         bus.on('selected-answer-end-game', this.selectAnswer);
-        bus.on('set-current-player', (pl) => this.currentPlayer = pl);
+        bus.on('set-current-player', this.setCurrentPlayer);
     }
+
+    setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     showModalEndGame = () => {
         if (this.modal) return;
@@ -31,7 +33,7 @@ export class EndGameScene {
 
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
-        
+
         this.buttons.forEach((answer, id) => {
             const button = new AnswerComponent({
                 answerId: id,
@@ -66,8 +68,25 @@ export class EndGameScene {
     };
 
     selectAnswer = (id) => {
-        // if (id === 0) {
-            console.log(this.buttons[id]);
-        // }
+        if (!id) {
+            router.reopen('/play');
+        } else {
+            const parent = this.root.parentNode;
+            const mainDiv = parent.parentNode;
+            mainDiv.removeChild(parent);
+            router.open('/menu');
+        }
     };
+
+    destroy() {
+        bus.off('selected-prize', this.showModalEndGame);
+        bus.off('selected-answer-end-game', this.selectAnswer);
+        bus.off('set-current-player', this.setCurrentPlayer);
+
+        this.root = null;
+        this.answers = null;
+        this.buttons = null;
+        this.modal = null;
+        this.currentPlayer = null;
+    }
 }

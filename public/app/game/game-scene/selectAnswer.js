@@ -12,8 +12,10 @@ export class SelectAnswerScene {
 
         bus.on('selected-question', this.onSelectedQuestion);
         bus.on('selected-answer', this.selectAnswer);
-        bus.on('set-current-player', (pl) => this.currentPlayer = pl);
+        bus.on('set-current-player', this.setCurrentPlayer);
     }
+
+    setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     onSelectedQuestion = (question) => {
         const questionText = new QuestionComponent({
@@ -77,4 +79,16 @@ export class SelectAnswerScene {
             bus.emit('answered-cell', isTrue);
         }, 1300);
     };
+
+    destroy() {
+        bus.off('selected-question', this.onSelectedQuestion);
+        bus.off('selected-answer', this.selectAnswer);
+        bus.off('set-current-player', this.setCurrentPlayer);
+
+        this.root = null;
+        this.answers = null;
+        this.correctAnswer = null;
+        this.modal = null;
+        this.currentPlayer = null;
+    }
 }

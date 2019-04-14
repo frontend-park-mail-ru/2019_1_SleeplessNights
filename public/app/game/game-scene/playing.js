@@ -15,20 +15,20 @@ export class PlayingScene extends GameScene {
         this.cells = [];
         this.availableCells = [];
         this.gameBoard = null;
-        this.currentPlayer = null;
 
-        bus.on('fill-pack-list', this.updatePackList)
-            .on('fill-cells', this.fillCells)
-            .on('selected-cell', this.onSelectedCell)
-            .on('answered-cell', this.onAnsweredCell)
-            .on('success:get-available-cells', this.onGetAvailableCells)
-            .on('set-current-player', this.onChangePlayer);
-
-        new SelectAnswerScene(root);
-        new EndGameScene(root);
+        this.selectAnswerScene = new SelectAnswerScene(root);
+        this.endGameScene = new EndGameScene(root);
 
         this._packsSection = document.createElement('section');
         this._packsSection.className = 'packs-section';
+
+        bus.on('fill-pack-list', this.updatePackList);
+        bus.on('fill-cells', this.fillCells);
+        bus.on('selected-cell', this.onSelectedCell);
+        bus.on('answered-cell', this.onAnsweredCell);
+        bus.on('success:get-available-cells', this.onGetAvailableCells);
+        bus.on('set-current-player', this.onChangePlayer);
+
         this.render();
     }
 
@@ -153,4 +153,21 @@ export class PlayingScene extends GameScene {
         this.availableCells.forEach(i => this.cells[i].setDeActive());
         this.availableCells = [];
     };
+
+    destroy() {
+        this.selectAnswerScene.destroy();
+        this.endGameScene.destroy();
+
+        bus.off('fill-pack-list', this.updatePackList);
+        bus.off('fill-cells', this.fillCells);
+        bus.off('selected-cell', this.onSelectedCell);
+        bus.off('answered-cell', this.onAnsweredCell);
+        bus.off('success:get-available-cells', this.onGetAvailableCells);
+        bus.off('set-current-player', this.onChangePlayer);
+
+        this.CELL_COUNT = null;
+        this.cells = null;
+        this.availableCells = null;
+        this.gameBoard = null;
+    }
 }

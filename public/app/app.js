@@ -53,6 +53,10 @@ window.user = {
     isAuthorised: AuthService.isAuthorised
 };
 
+const app = document.getElementById('app');
+const router = new Router(app);
+window.router = router;
+
 bus
     .on('signup', (data) => {
         RegisterService.register(data)
@@ -110,8 +114,6 @@ bus
             });
     });
 
-const app = document.getElementById('app');
-const router = new Router(app);
 router
     .register('/', MenuView)
     .register('/about', AboutView)
@@ -129,7 +131,7 @@ router
 
 router.start();
 
-GameService.fillTestDB();
+// GameService.fillTestDB();
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })

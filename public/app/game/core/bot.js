@@ -3,14 +3,17 @@ const fieldSize = 8;
 export class BotPlayer {
     constructor() {
         this.waitingTime = {
-            min: 3, //second
-            max: 6 //second
+            min: 1, //second
+            max: 3 //second
         };
+        this.winChance = 75; // %
 
-        bus.on('set-current-player', (pl) => {
-            if (pl === 'bot')  this.startActing();
-        });
+        bus.on('set-current-player', this.setCurrentPlayer);
     }
+
+    setCurrentPlayer = (pl) => {
+        if (pl === 'bot')  this.startActing();
+    };
 
     startActing() {
         bus.on('success:get-available-cells', this.botChoosingCell);
@@ -28,21 +31,18 @@ export class BotPlayer {
     }
 
     botChoosingQuestion = (question) => {
-        const winChance = 75;//%
         const answers = question.answers;
-        const r = Math.random()*100;//Получаем случайное число процентов
+        const r = Math.random() * 100; //Получаем случайное число процентов
         let answer;
-        if (r <= winChance) {
-            //Победа
-            answer = question.correct;//Выбираем правильный ответ
+        if (r <= this.winChance) {
+            answer = question.correct; // Выбираем правильный ответ
         } else {
-            //Поражеие
-            answers.splice(question.correct, 1);//Удаляем правильный ответ
-            answer = this.getRandomArrayIndex(answers.length);//Выбираем случайный ответ из неправильных
+            answers.splice(question.correct, 1); // Удаляем правильный ответ
+            answer = this.getRandomArrayIndex(answers.length); // Выбираем случайный ответ из неправильных
         }
 
         setTimeout(() => {
-            bus.emit('selected-answer', answer);//Возвращаем выбранный ответ
+            bus.emit('selected-answer', answer); // Возвращаем выбранный ответ
             bus.off('success:get-available-cells', this.botChoosingCell);
             bus.off('selected-question', this.botChoosingQuestion);
         }, this.randomTime * 1000);
@@ -50,29 +50,37 @@ export class BotPlayer {
 
     botChoosingCell = (availableCells) => {
         setTimeout(() => {
-            const mid = fieldSize/2;
-            let aim = {x: 0, y: 0};
-            //Найдём тномер той ячейки, пкть из которой к центру поля будет минимальным
-            const bestCeil = availableCells.reduce((accumulator, currentValue, index) => {
-                //Приз занимает 4 центральных клетки
-                //Выберем ближайшую клетку в формате координат
-                let currentX = currentValue % fieldSize;
-                let currentY = Math.floor(currentValue / fieldSize);
+            const mid = fieldSize / 2;
+            const aim = {x: 0, y: 0};
+            // Найдём номер той ячейки, путь из которой к центру поля будет минимальным
+            const bestCell = availableCells.reduce((accumulator, currentValue, index) => {
+                // Приз занимает 4 центральных клетки
+                // Выберем ближ     айшую клетку в формате координат
+                const currentX = currentValue % fieldSize;
+                const currentY = Math.floor(currentValue / fieldSize);
                 aim.x = currentX <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
                 aim.y = currentY <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
-                //Найдём разницу по обеим координатам относительно текущей позиции
-                let dx = Math.abs(currentX - aim.x);
-                let dy = Math.abs(currentY - aim.y);
-                //Найдём расстояние в ходах от текущей позиции до
-                let pathLen = Math.abs(dx - dy) + Math.min(dx, dy);
+                // Найдём разницу по обеим координатам относительно текущей позиции
+                const dx = Math.abs(currentX - aim.x);
+                const dy = Math.abs(currentY - aim.y);
+                // Найдём расстояние в ходах от текущей позиции до
+                const pathLen = Math.abs(dx - dy) + Math.min(dx, dy);
                 if (pathLen < accumulator.pathLen) {
                     accumulator.index = index;
                     accumulator.pathLen = pathLen;
                 }
+
+                return accumulator;
             }, {index: -1, pathLen: fieldSize});
 
             bus.on('selected-question', this.botChoosingQuestion);
-            bus.emit('selected-cell', availableCells[bestCeil.index]);//Возвращаем клетку с кратчайшим путём до цели
+            bus.emit('selected-cell', availableCells[bestCell.index]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
+
+    destroy() {
+        bus.off('set-current-player', this.setCurrentPlayer);
+        this.waitingTime = null;
+        this.winChance = null;
+    }
 }
