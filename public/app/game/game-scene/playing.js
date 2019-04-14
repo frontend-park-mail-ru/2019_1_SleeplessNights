@@ -10,15 +10,18 @@ import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 export class PlayingScene extends GameScene {
     constructor(root) {
         super(root);
-        this.root = root;
         this.CELL_COUNT = 8;
         this.cells = [];
+        this.availableCells = [];
         this.gameBoard = null;
-        this.selectedCell = null;
+        this.currentPlayer = null;
 
         bus.on('fill-pack-list', this.updatePackList);
         bus.on('fill-cells', this.fillCells);
+        bus.on('selected-cell', this.onSelectedCell);
         bus.on('answered-cell', this.onAnsweredCell);
+        bus.on('success:get-available-cells', this.onGetAvailableCells);
+        bus.on('set-current-player', this.onChangePlayer);
 
         new SelectAnswerScene(root);
 
@@ -37,16 +40,16 @@ export class PlayingScene extends GameScene {
     }
 
     render() {
-        const avatar1 = new AvatarComponent({ customClasses: 'avatar_game-board' });
+        this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'container__col-w25',
-            content: `${avatar1.template} ${this.packsSection}`
+            content: `${this.avatarMe.template} ${this.packsSection}`
         });
 
-        const avatar2 = new AvatarComponent({ customClasses: 'avatar_game-board' });
+        this.avatarOponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
             customClasses: 'container__col-w25',
-            content: avatar2.template
+            content: this.avatarOponent.template
         });
 
         for (let i = 0; i < this.CELL_COUNT ** 2; i++) {
@@ -110,14 +113,17 @@ export class PlayingScene extends GameScene {
 
             if (++i >= count) clearInterval(timer);
         }, 10);
+    };
 
-        this.gameBoard.on('click', (event) => {
-            const target = event.target;
-            if ('packName' in target.dataset && target.dataset.type === 'question') {
-                this.selectedCell = target.dataset.id;
-                bus.emit('selected-cell', target.dataset.id);
-            }
-        });
+    onChangePlayer = (pl) => {
+        if (pl === 'me') {
+            this.gameBoard.on('click', (event) => {
+                const target = event.target;
+                if ('packName' in target.dataset && target.dataset.state === 'active') {
+                    bus.emit('selected-cell', +target.dataset.id);
+                }
+            });
+        }
     };
 
     onAnsweredCell = (answer) => {
@@ -127,5 +133,17 @@ export class PlayingScene extends GameScene {
         } else {
             cell.setFailed();
         }
+        bus.emit('set-answered-cell', this.selectedCell);
+    };
+
+    onGetAvailableCells = (availableCells) => {
+        this.availableCells = availableCells;
+        availableCells.forEach(i => this.cells[i].setActive());
+    };
+
+    onSelectedCell = (id) => {
+        this.selectedCell = id;
+        this.availableCells.forEach(i => this.cells[i].setDeActive());
+        this.availableCells = [];
     };
 }

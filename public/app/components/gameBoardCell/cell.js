@@ -37,13 +37,14 @@ export class CellComponent {
     }
 
     addClass(className) {
-        this.innerElem.style = '';
         this.innerElem.classList.add(className);
     }
 
     setAnswered() {
+        this.innerElem.style = '';
         this.addClass('game-board__cell_answered_1');
         this.innerElem.dataset.type += '_answered';
+        this.innerElem.dataset.state = 'answered';
 
         setTimeout(() => {
             this.removeClass('game-board__cell_answered_1');
@@ -52,13 +53,25 @@ export class CellComponent {
     }
 
     setFailed() {
+        this.innerElem.style = '';
         this.addClass('game-board__cell_failed_1');
         this.innerElem.dataset.type += '_failed';
+        this.innerElem.dataset.state = 'failed';
 
         setTimeout(() => {
             this.removeClass('game-board__cell_failed_1');
             this.addClass('game-board__cell_failed_2');
         }, 1000);
+    }
+
+    setActive() {
+        this.addClass('game-board__cell_active');
+        this.innerElem.dataset.state = 'active';
+    }
+
+    setDeActive() {
+        this.removeClass('game-board__cell_active');
+        this.innerElem.dataset.state = 'deactive';
     }
 
     removeClass(className) {

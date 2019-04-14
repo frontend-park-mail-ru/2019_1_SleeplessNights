@@ -19,7 +19,7 @@ import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
 import './components/plug/plug.tmpl.js';                      /**/
-import './components/question/question.tmpl.js';                      /**/
+import './components/question/question.tmpl.js';              /**/
 import './components/scoreboard/board.tmpl.js';               /**/
 import './components/sidebar/sidebar.tmpl.js';                /**/
 import './components/timer/timer.tmpl.js';                    /**/
@@ -48,6 +48,7 @@ window.bus = bus;
 window.idb = idb;
 window.ajax = AjaxModule;
 window.user = {
+    nickname: 'guest',
     isAuthorised: AuthService.isAuthorised
 };
 
@@ -126,6 +127,11 @@ router
     .registerInAccess('/signup', true, '/profile');
 
 router.start();
+
+// idb.add('user', [{
+//     nickname: 'guest',
+//     avatar_path: 'assets/img/avatar_male.png'
+// }]);
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })

@@ -8,8 +8,11 @@ export class SelectAnswerScene {
         this.answers = [];
         this.correctAnswer = null;
         this.modal = null;
+        this.currentPlayer = null;
 
         bus.on('selected-question', this.onSelectedQuestion);
+        bus.on('selected-answer', this.selectAnswer);
+        bus.on('set-current-player', (pl) => this.currentPlayer = pl);
     }
 
     onSelectedQuestion = (question) => {
@@ -44,19 +47,21 @@ export class SelectAnswerScene {
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
         this.modal.show();
 
-        const anBlock = document.getElementsByClassName('answer-block')[0];
-        const answerChoosing = (event) => {
-            const target = event.target;
-            if ('index' in target.dataset) {
-                anBlock.removeEventListener('click', answerChoosing);
-                this.selectAnswer(+target.dataset.index);
-            }
-        };
+        if (this.currentPlayer === 'me') {
+            const anBlock = document.getElementsByClassName('answer-block')[0];
+            const answerChoosing = (event) => {
+                const target = event.target;
+                if ('index' in target.dataset) {
+                    anBlock.removeEventListener('click', answerChoosing);
+                    bus.emit('selected-answer', +target.dataset.index);
+                }
+            };
 
-        anBlock.addEventListener('click', answerChoosing);
+            anBlock.addEventListener('click', answerChoosing);
+        }
     };
 
-    selectAnswer(id) {
+    selectAnswer = (id) => {
         let isTrue;
         if (id === this.correctAnswer) {
             this.answers[id].setCorrect();
@@ -71,5 +76,5 @@ export class SelectAnswerScene {
             this.modal.hide();
             bus.emit('answered-cell', isTrue);
         }, 1300);
-    }
+    };
 }

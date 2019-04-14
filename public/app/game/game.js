@@ -2,7 +2,7 @@ import { modes } from './modes.js';
 import { SinglePlayer } from './core/single_player.js';
 import { MultiPlayer }  from './core/multi_player.js';
 import { GameController } from './controller.js';
-import {PlayingScene} from "./game-scene/playing.js";
+import { PlayingScene }   from './game-scene/playing.js';
 
 export class Game {
     constructor ({

@@ -2,6 +2,8 @@ import { events} from './events.js';
 
 export class GameCore {
     constructor() {
+        this.me = null;
+        this.opponent = null;
         this.CELL_COUNT = 8;
         this.colors = [
             {
@@ -36,7 +38,18 @@ export class GameCore {
     start() {
         bus.on(events.START_GAME, this.onGameStarted);
         bus.on(events.FINISH_GAME, this.onGameFinished);
+
+        idb.getAll('user', 'nickname', user.nickname, 1);
+        bus.on(`success:get-user-nickname-${user.nickname}`, (data) => {
+            this.me = data[0];
+            bus.emit('loaded-users', {me: this.me, opponent: this.opponent});
+            this.me.lastMove = null;
+        });
     }
+
+    // getAvailableCells() {
+    //     throw new Error('This method must be overridden');
+    // }
 
     onGameStarted(evt) {
         throw new Error('This method must be overridden');
