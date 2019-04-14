@@ -129,7 +129,7 @@ router
 
 router.start();
 
-// GameService.fillTestDB();
+GameService.fillTestDB();
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })
