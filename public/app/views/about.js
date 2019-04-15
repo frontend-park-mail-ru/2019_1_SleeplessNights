@@ -3,7 +3,6 @@ import { SidebarComponent } from '../components/sidebar/sidebar.js';
 import { HeaderComponent }  from '../components/header/header.js';
 import { CardComponent } from '../components/card/card.js';
 import { ListComponent } from '../components/list/list.js';
-import { gameName } from '../modules/constants.js';
 import { BaseView } from './base.js';
 
 export class AboutView extends BaseView {
@@ -13,7 +12,7 @@ export class AboutView extends BaseView {
 
     constructor(el) {
         super(el);
-        this._pageTitle = gameName;
+        this._pageTitle = 'Описание игры';
         this._authors = ['Максим Уймин', 'Максим Пирмамедов', 'Алексей Ларютин', 'Джахонгир Тулфоров'];
         this._screens = [];
         this._render();

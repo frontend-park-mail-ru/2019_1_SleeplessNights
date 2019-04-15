@@ -96,7 +96,7 @@ export class SignUpView extends BaseView {
             body: `Аккаунт уже есть? ${link.template}`
         });
 
-        const header = new HeaderComponent({ title: 'Описание игры' });
+        const header = new HeaderComponent({ title: 'Регистрация' });
 
         super.renderContainer({
             customClasses: '',
