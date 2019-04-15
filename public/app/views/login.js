@@ -75,7 +75,7 @@ export class LoginView extends BaseView {
             body: `У вас нет аккаунта? ${link.template}`
         });
 
-        const header = new HeaderComponent({ title: gameName });
+        const header = new HeaderComponent({ title: 'Авторизация' });
 
         super.renderContainer({
             customClasses: '',

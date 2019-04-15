@@ -12,7 +12,7 @@ export class BotPlayer {
     }
 
     setCurrentPlayer = (pl) => {
-        if (pl === 'bot')  this.startActing();
+        if (pl === 'bot') this.startActing();
     };
 
     startActing() {
