@@ -10,5 +10,9 @@ export class GameScene {
     updatePlayers = ({me, opponent}) => {
         this.avatarMe.src = me.avatar_path;
         this.avatarOponent.src = opponent.avatar_path;
+    };
+
+    destroy() {
+        bus.off('loaded-users', this.updatePlayers);
     }
 }

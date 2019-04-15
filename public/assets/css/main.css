@@ -50,7 +50,6 @@
   -moz-border-radius: 10px;
   border-radius: 10px;
   transition: all ease-in-out 750ms;
-  cursor: pointer;
 }
 
 .game-board__cell_active {
@@ -64,9 +63,6 @@
 .game-board__cell_failed_2 {
   background: #d42013;
   border-color: #d42013 !important;
-  /*-webkit-border-radius: 50% !important;*/
-  /*-moz-border-radius: 50% !important;*/
-  /*border-radius: 50% !important;*/
 }
 
 .game-board__cell_failed_1 {
@@ -77,9 +73,6 @@
 .game-board__cell_answered_2 {
   background: #399a3d;
   border-color: #399a3d !important;
-  /*-webkit-border-radius: 50% !important;*/
-  /*-moz-border-radius: 50% !important;*/
-  /*border-radius: 50% !important;*/
 }
 
 .game-board__cell_answered_1 {
@@ -367,12 +360,22 @@
   box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
 }
 
+@keyframes changeBoxShadow {
+    from {
+      box-shadow: 0 0 10px #0c5460;
+    }
+
+    to {
+      box-shadow: none;
+    }
+}
+
 .game-board__cell_active {
-  -moz-box-shadow: 0 0 10px #0c5460;
-  -o-box-shadow: 0 0 10px #0c5460;
-  -webkit-box-shadow: 0 0 10px #0c5460;
-  box-shadow: 0 0 10px #0c5460;
   cursor: pointer;
+  animation-duration: 400ms;
+  animation-name: changeBoxShadow;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 

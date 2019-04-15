@@ -40,15 +40,15 @@ export class GameCore {
 
     getMe = (data) => {
         this.me = data[0];
-        bus.emit('loaded-users', {me: this.me, opponent: this.opponent});
         this.me.lastMove = null;
+        bus.emit('loaded-users', { me: this.me, opponent: this.opponent });
     };
 
-    onGameStarted(evt) {
+    onGameStarted() {
         throw new Error('This method must be overridden');
     }
 
-    onGameFinished(evt) {
+    onGameFinished() {
         throw new Error('This method must be overridden');
     }
 
@@ -56,13 +56,13 @@ export class GameCore {
         throw new Error('This method must be overridden');
     };
 
-    onFillPacksList(evt) {
+    onFillPacksList = () => {
         throw new Error('This method must be overridden');
-    }
+    };
 
-    onSelectedCell(evt) {
+    onSelectedCell = () => {
         throw new Error('This method must be overridden');
-    }
+    };
 
     destroy() {
         bus.off(events.START_GAME, this.onGameStarted);
@@ -71,10 +71,5 @@ export class GameCore {
         bus.off('selected-cell', this.onSelectedCell);
         bus.off('success:get-pack-id-', this.onGetPacks);
         bus.off(`success:get-user-nickname-${user.nickname}`, this.getMe);
-
-        this.me = null;
-        this.opponent = null;
-        this.CELL_COUNT = null;
-        this.colors = null;
     }
 }

@@ -80,7 +80,5 @@ export class BotPlayer {
 
     destroy() {
         bus.off('set-current-player', this.setCurrentPlayer);
-        this.waitingTime = null;
-        this.winChance = null;
     }
 }

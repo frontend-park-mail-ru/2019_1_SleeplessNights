@@ -1,6 +1,7 @@
 import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
+import { events } from '../core/events.js';
 
 export class EndGameScene {
     constructor(root) {
@@ -14,17 +15,18 @@ export class EndGameScene {
         this.currentPlayer = null;
 
         bus.on('selected-prize', this.showModalEndGame);
+        bus.on('no-available-cells', this.showModalEndGame);
         bus.on('selected-answer-end-game', this.selectAnswer);
         bus.on('set-current-player', this.setCurrentPlayer);
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
-    showModalEndGame = () => {
+    showModalEndGame = (lost) => {
         if (this.modal) return;
         const text = `
-            ${ this.currentPlayer === 'me' ? `Поздравляем вы победили !!!`
-                : `Ваш соперник выиграл.`
+            ${ this.currentPlayer === 'me' && !lost ? `Поздравляем вы победили !!!`
+                : `Вы проиграли.`
             }`;
         const questionText = new QuestionComponent({
             customClasses: 'question_big',
@@ -68,25 +70,14 @@ export class EndGameScene {
     };
 
     selectAnswer = (id) => {
-        if (!id) {
-            router.reopen('/play');
-        } else {
-            const parent = this.root.parentNode;
-            const mainDiv = parent.parentNode;
-            mainDiv.removeChild(parent);
-            router.open('/menu');
-        }
+        bus.emit(events.FINISH_GAME);
+        id ? router.open('/menu') : router.reopen('/play');
     };
 
     destroy() {
         bus.off('selected-prize', this.showModalEndGame);
+        bus.off('no-available-cells', this.showModalEndGame);
         bus.off('selected-answer-end-game', this.selectAnswer);
         bus.off('set-current-player', this.setCurrentPlayer);
-
-        this.root = null;
-        this.answers = null;
-        this.buttons = null;
-        this.modal = null;
-        this.currentPlayer = null;
     }
 }

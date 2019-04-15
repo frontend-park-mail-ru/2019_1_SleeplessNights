@@ -1,25 +1,25 @@
 class Bus {
     constructor () {
         this.listeners = {};
+        this.i = 0;
     }
 
     on (event, callback) {    // подписываемся на событие
+        // console.log('on', event,  ++this.i);
         this.listeners[ event ] = this.listeners[ event ] || [];
         this.listeners[ event ].push(callback);
         return this;
     }
 
-    off (event, callback) {   // отписываемся от события
+    off (event, callback) {
+        // console.log('off', event, --this.i);
         this.listeners[ event ] = this.listeners[ event ]
-            .filter(function (listener) {
-                return listener !== callback;
-            });
+            .filter(listener => listener !== callback);
     }
 
     emit (event, data) {      // публикуем (диспатчим, эмитим) событие
-        this.listeners[ event ].forEach(function (listener) {
-            listener(data);
-        });
+        // console.log('emit', event);
+        this.listeners[ event ].forEach(listener => listener(data));
         return this;
     }
 }

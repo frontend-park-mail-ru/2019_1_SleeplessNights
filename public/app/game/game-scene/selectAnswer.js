@@ -84,11 +84,5 @@ export class SelectAnswerScene {
         bus.off('selected-question', this.onSelectedQuestion);
         bus.off('selected-answer', this.selectAnswer);
         bus.off('set-current-player', this.setCurrentPlayer);
-
-        this.root = null;
-        this.answers = null;
-        this.correctAnswer = null;
-        this.modal = null;
-        this.currentPlayer = null;
     }
 }

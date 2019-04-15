@@ -3,6 +3,7 @@ import { SinglePlayer } from './core/singlePlayer.js';
 import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
 import { PlayingScene }   from './game-scene/playing.js';
+import { events } from './core/events.js';
 
 export class Game {
     constructor ({
@@ -27,11 +28,13 @@ export class Game {
     }
 
     start() {
-       this.gameCore.start();
+        this.gameCore.start();
+        bus.on(events.FINISH_GAME, this.destroy);
     }
 
-    destroy() {
+    destroy = () => {
         this.gameCore.destroy();
         this.gameScene.destroy();
+        bus.off(events.FINISH_GAME);
     }
 }

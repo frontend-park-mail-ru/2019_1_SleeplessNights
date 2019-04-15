@@ -109,7 +109,6 @@ export class PlayingScene extends GameScene {
             cell.style.backgroundColor = d.color;
 
             if (d.type === 'question') {
-                cell.dataset.packName = d.name;
                 cell.dataset.id = i;
             }
 
@@ -155,6 +154,7 @@ export class PlayingScene extends GameScene {
     };
 
     destroy() {
+        super.destroy();
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
 
@@ -164,10 +164,5 @@ export class PlayingScene extends GameScene {
         bus.off('answered-cell', this.onAnsweredCell);
         bus.off('success:get-available-cells', this.onGetAvailableCells);
         bus.off('set-current-player', this.onChangePlayer);
-
-        this.CELL_COUNT = null;
-        this.cells = null;
-        this.availableCells = null;
-        this.gameBoard = null;
     }
 }

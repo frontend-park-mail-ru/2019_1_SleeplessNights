@@ -6,6 +6,7 @@ export class SinglePlayer extends GameCore {
     constructor() {
         super();
         this.questions = [];
+        this.availableCells = [];
         this.GAME_MATRIX = [];
         this.packs = [];
         this.currentPlayer = null;
@@ -30,7 +31,7 @@ export class SinglePlayer extends GameCore {
     gameLoop() {
         bus.emit('set-current-player', 'me');
         bus.emit('get-available-cells');
-        bus.emit('selected-prize');
+        // bus.emit('selected-prize');
     };
 
     waitOpponent() {
@@ -39,17 +40,24 @@ export class SinglePlayer extends GameCore {
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
-    setAnsweredCell = ({id, answer}) => {
+    setAnsweredCell = ({ id, answer }) => {
         this.GAME_MATRIX[id].answered = true;
         const cond = this.currentPlayer === 'me';
         if (answer) {
             this[cond ? 'me': 'opponent'].lastMove = id;
+        } else {
+            // is any other available cell or not
+            this.availableCells.shift();
+            if (!this.availableCells.length) {
+                bus.emit('no-available-cells', true);
+                return;
+            }
         }
         cond ? this.waitOpponent(): this.gameLoop();
     };
 
     getAvailableCells = () => {
-        let availables = [];
+        this.availableCells = [];
         const cond = this.currentPlayer === 'me';
         const lastMove = this[cond ? 'me': 'opponent'].lastMove;
 
@@ -66,14 +74,14 @@ export class SinglePlayer extends GameCore {
                 temp.push(i);
             }
 
-            availables = temp.filter(el =>
+            this.availableCells = temp.filter(el =>
                 el >= 0 &&
                 el !== lastMove &&
                 el <= 63 &&
                 !this.GAME_MATRIX[el].answered
             );
         } else {
-            availables = this.GAME_MATRIX
+            this.availableCells = this.GAME_MATRIX
                 .reduce((accum, cell, i) => {
                     const cond = (
                         this.currentPlayer === 'me'
@@ -88,15 +96,15 @@ export class SinglePlayer extends GameCore {
                 }, []);
         }
 
-        bus.emit('success:get-available-cells', availables);
+        bus.emit('success:get-available-cells', this.availableCells);
     };
 
-    onGameStarted = (evt) => {
+    onGameStarted = () => {
         idb.getAll('pack', null, null, 6);
     };
 
-    onGameFinished = (evt) => {
-        bus.emit('CLOSE_GAME');
+    onGameFinished = () => {
+        this.destroy();
     };
 
     onGetPacks = (data) => {
@@ -146,11 +154,11 @@ export class SinglePlayer extends GameCore {
                 questions.push(...data);
                 if (i === this.packs.length - 1) {
                     this.onQuestionsReady(questions);
+                    bus.off(`success:get-question-packId-${pack.id}`, getQuestions);
                 }
             };
 
             bus.on(`success:get-question-packId-${pack.id}`, getQuestions);
-            bus.off(`success:get-question-packId-${pack.id}`, getQuestions);
         });
     };
 
@@ -184,10 +192,5 @@ export class SinglePlayer extends GameCore {
         bus.off('set-current-player', this.setCurrentPlayer);
         bus.off('set-answered-cell', this.setAnsweredCell);
         bus.off('get-available-cells', this.getAvailableCells);
-
-        this.questions = null;
-        this.GAME_MATRIX = null;
-        this.packs = null;
-        this.currentPlayer = null;
     }
 }

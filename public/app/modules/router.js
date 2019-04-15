@@ -28,7 +28,7 @@ export class Router {
         const reOpenView = this.routes[ path ];
         const index = views.find(v => v.dataset.view === reOpenView.View.name);
 
-        if (index !== -1) {
+        if (index) {
             reOpenView.view = null;
             reOpenView.el = null;
             this.root.removeChild(index);
@@ -87,13 +87,13 @@ export class Router {
                 }
 
                 const url = target.pathname;
-                this.open(url);
+                url !== '/play' ? this.open(url) : this.reopen(url);
             }
         });
 
         window.addEventListener('popstate', () => {
             const currentPath = window.location.pathname;
-            this.open(currentPath);
+            currentPath !== '/play' ? this.open(currentPath) : this.reopen(path);
         });
 
         this.observeLocation();
