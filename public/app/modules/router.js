@@ -93,7 +93,7 @@ export class Router {
 
         window.addEventListener('popstate', () => {
             const currentPath = window.location.pathname;
-            currentPath !== '/play' ? this.open(currentPath) : this.reopen(path);
+            currentPath !== '/play' ? this.open(currentPath) : this.reopen(currentPath);
         });
 
         this.observeLocation();

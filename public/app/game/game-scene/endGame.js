@@ -25,8 +25,8 @@ export class EndGameScene {
     showModalEndGame = (lost) => {
         if (this.modal) return;
         const text = `
-            ${ this.currentPlayer === 'me' && !lost ? `Поздравляем вы победили !!!`
-                : `Вы проиграли.`
+            ${ this.currentPlayer === 'me' && !lost ? 'Поздравляем вы победили !!!'
+            : 'Вы проиграли.'
             }`;
         const questionText = new QuestionComponent({
             customClasses: 'question_big',

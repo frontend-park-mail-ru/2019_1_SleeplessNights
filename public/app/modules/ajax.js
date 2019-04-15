@@ -5,7 +5,6 @@ export class AjaxModule {
     static _fetch({
         url = '/',
         method = 'GET',
-        mode = "cors",
         body = null,
         headers = [['Content-Type', 'application/json;charset=UTF-8']],
     } = {}) {

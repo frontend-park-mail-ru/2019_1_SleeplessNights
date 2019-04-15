@@ -16,7 +16,7 @@ export class AuthService {
         user.isAuthorised = true;
         user.nickname = data.nickname;
         user.avatar_path = data.avatar_path;
-        Cookie.add('authorised', 1, 1)
+        Cookie.add('authorised', 1, 1);
     }
 
     static removeAuthorised() {

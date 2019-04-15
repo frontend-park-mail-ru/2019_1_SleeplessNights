@@ -26,11 +26,6 @@ export class BaseView {
 
     renderContainer({
         customClasses,
-        header = {
-            title: '',
-            subtitle: '',
-            btnHome: false
-        },
         btnBack = false,
         container = '',
         sideBar

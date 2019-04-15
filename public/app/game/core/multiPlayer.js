@@ -12,10 +12,9 @@ export class MultiPlayer extends GameCore {
         this.ws.sendMessage('start-game', null);
     }
 
-    onGameStarted(evt) {
-    }
+    onGameStarted = () => {
+    };
 
-    onGameFinished(evt) {
-        bus.emit('CLOSE_GAME');
+    onGameFinished = () => {
     }
 }

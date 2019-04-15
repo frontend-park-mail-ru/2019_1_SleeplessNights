@@ -86,7 +86,7 @@ export class PlayingScene extends GameScene {
             _list.push({
                 customClasses: '',
                 text: `${cell.template} <span class="pack-name d_inline-block">${pack.name}</span>`
-            })
+            });
         });
 
         const list = new ListComponent({ list: _list });
