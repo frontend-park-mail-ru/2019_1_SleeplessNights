@@ -12,14 +12,14 @@ export class Game {
     } = {}) {
         let GameConstructor = null;
         switch (mode) {
-            case modes.SINGLE_PLAYER:
-                GameConstructor = SinglePlayer;
-                break;
-            case modes.MULTI_PLAYER:
-                GameConstructor = MultiPlayer;
-                break;
-            default:
-                throw new Error(`Invalid game mode ${mode}`);
+        case modes.SINGLE_PLAYER:
+            GameConstructor = SinglePlayer;
+            break;
+        case modes.MULTI_PLAYER:
+            GameConstructor = MultiPlayer;
+            break;
+        default:
+            throw new Error(`Invalid game mode ${mode}`);
         }
 
         this.gameScene = new PlayingScene(root);

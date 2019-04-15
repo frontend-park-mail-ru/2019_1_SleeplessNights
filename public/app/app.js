@@ -35,7 +35,7 @@ import { ProfileView } from './views/profile.js';             /**/
 import { RegisterService }   from './services/register.js';   /**/
 import { ProfileService }    from './services/profile.js';    /**/
 import { AuthService }       from './services/auth.js';       /**/
-import { ScoreboardService } from './services/scoreboard.js'  /**/
+import { ScoreboardService } from './services/scoreboard.js';  /**/
 import { GameService }       from './services/game.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
@@ -66,9 +66,9 @@ bus
             })
             .catch(res =>{
                 if (res.status === 418 || !navigator.onLine) {
-                    bus.emit('error:sign-up', {error: `Your are offline buddy`});
+                    bus.emit('error:sign-up', {error: 'Your are offline buddy'});
                 } else {
-                    bus.emit('error:signup', res.data)
+                    bus.emit('error:signup', res.data);
                 }
             });
     })
@@ -80,9 +80,9 @@ bus
             })
             .catch(res => {
                 if (res.status === 418 || !navigator.onLine) {
-                    bus.emit('error:login', {error: `Your are offline buddy`});
+                    bus.emit('error:login', {error: 'Your are offline buddy'});
                 } else {
-                    bus.emit('error:login', res.data)
+                    bus.emit('error:login', res.data);
                 }
             });
     })
@@ -107,9 +107,9 @@ bus
             .then(res => bus.emit('success:get-leaders', res))
             .catch(res => {
                 if (res.status === 418 || !navigator.onLine) {
-                    bus.emit('error:get-leaders', `Content is not available in offline mode`);
+                    bus.emit('error:get-leaders', 'Content is not available in offline mode');
                 } else {
-                    console.error(res)
+                    console.error(res);
                 }
             });
     });
@@ -131,7 +131,12 @@ router
 
 router.start();
 
-// GameService.fillTestDB();
+idb.get('user', 1);
+bus.on('success:get-user-1', (user) => {
+    if (!user) {
+        GameService.fillTestDB();
+    }
+});
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })

@@ -14,6 +14,6 @@ export class IWebSocket {
     startListening() {
         this.socket.onmessage = (msg) => {
             bus.emit('ws-message', msg);
-        }
+        };
     }
 }

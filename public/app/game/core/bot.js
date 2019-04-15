@@ -72,7 +72,7 @@ export class BotPlayer {
                     accumulator.index.push(index);
                 }
                 return accumulator;
-            }, {index: [], pathLen: fieldSize});
+            }, {index: [], pathLen: fieldSize}).index;
 
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 

@@ -6,8 +6,12 @@ module.exports = {
     },
     "extends": "eslint:recommended",
     "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "Handlebars": true,
+        "bus": true,
+        "router": true,
+        "idb": true,
+        "user": true,
+        "ajax": true
     },
     "parserOptions": {
         "ecmaVersion": 2018,
@@ -18,6 +22,7 @@ module.exports = {
         "semi": ["error", "always"],
         "quotes": ["warn", "single"],
         "indent": ["error", 4],
-        "linebreak-style": ["error", "unix"]
+        "linebreak-style": ["error", "unix"],
+        "no-console": "off"
     }
 };

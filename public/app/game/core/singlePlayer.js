@@ -32,7 +32,7 @@ export class SinglePlayer extends GameCore {
         bus.emit('set-current-player', 'me');
         bus.emit('get-available-cells');
         // bus.emit('selected-prize');
-    };
+    }
 
     waitOpponent() {
         bus.emit('set-current-player', 'bot');
