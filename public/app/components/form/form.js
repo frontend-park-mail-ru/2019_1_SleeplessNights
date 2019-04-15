@@ -89,16 +89,16 @@ export class FormComponent {
 
         if (name === 'error') {
             const fdInvalid = this._innerElem.lastElementChild;
-            fdInvalid.innerText = error.join(',');
+            fdInvalid.innerText = (typeof error === 'object' ? error.join(',') : error);
         }
     }
 
-    on({ event = 'submit', callback = noop, capture = false }) {
-        this._innerElem.addEventListener(event, callback, capture);
+    on(event, callback = noop) {
+        this._innerElem.addEventListener(event, callback);
         this._formControls.forEach(fc => fc.element.startValidation());
     }
 
-    off({ event = 'submit', callback = noop, capture = false }) {
-        this._innerElem.removeEventListener(event, callback, capture);
+    off(event, callback = noop) {
+        this._innerElem.removeEventListener(event, callback);
     }
 }

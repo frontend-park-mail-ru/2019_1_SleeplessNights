@@ -1,0 +1,12 @@
+.question {
+    text-align: center;
+    line-height: 1.4;
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #b55e28;
+}
+
+.question_big {
+    font-size: 36px;
+    margin-bottom: 50px;
+}

@@ -12,11 +12,11 @@ app.use(cookie());
 const multer  = require('multer');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
         const ext = file.originalname.split('.')[1];
-        cb(null, `${file.fieldname}-${Date.now()}.${ext}`)
+        cb(null, `${file.fieldname}-${Date.now()}.${ext}`);
     }
 });
 const upload = multer({storage: storage});
@@ -74,10 +74,8 @@ const leaders = [
 
 app.get('/scoreboard', function (req, res) {
     let page = req.query.page;
-    console.log(req.query.page);
     const pagePerList = 4;
     const pageTotal = Math.ceil(leaders.length / pagePerList);
-    let scorelist = [];
 
     if (page === undefined || +page <= 1) {
         page = 1;
@@ -85,13 +83,7 @@ app.get('/scoreboard', function (req, res) {
         page = +page;
     }
 
-    scorelist = leaders.slice((page - 1) * pagePerList, pagePerList * page);
-    // const data = Object.values(scorelist)
-    //     .sort((l, r) => (r.win - r.lost) - (l.win - l.lost));
-
-    console.log(scorelist);
-    console.log(page);
-    console.log(leaders);
+    const scorelist = leaders.slice((page - 1) * pagePerList, pagePerList * page);
 
     res.json({
         pages_total: pageTotal,
@@ -100,10 +92,9 @@ app.get('/scoreboard', function (req, res) {
     });
 });
 
-const pages = ['play', 'description', 'leaders', 'profile', 'login', 'signup'];
+const pages = ['play', 'about', 'leaders', 'profile', 'login', 'signup'];
 
 app.get('/:page', function (req, res) {
-    console.log(req);
     const page = req.params.page;
     if (pages.indexOf(page) !== -1) {
         res.sendFile(path.resolve(__dirname, '../public/index.html'));
@@ -122,5 +113,5 @@ app.patch('/api/profile', upload.single('avatar'), (req, res) => {
 const port = process.env.PORT || 8000;
 
 app.listen(port, function () {
-    console.log(`Server listening port ${port}`);
+    console.log(`Server listening port ${port}`); // eslint-disable-line
 });

@@ -1,57 +1,412 @@
-@import "../../app/components/avatar/avatar.css";
-@import "../../app/components/avatar/__choose-photo/avatar__choose-photo.css";
-@import "../../app/components/avatar/__upload-icon/avatar__upload-icon.css";
+@import url(../../app/components/avatar/avatar.css);
+@import url(../../app/components/avatar/_profile/avatar_profile.css);
+@import url(../../app/components/avatar/__choose-photo/avatar__choose-photo.css);
+@import url(../../app/components/avatar/__upload-icon/avatar__upload-icon.css);
+@import url(../../app/components/button/btn.css);
+@import url(../../app/components/button/_primary/btn_primary.css);
+@import url(../../app/components/card/card.css);
+@import url(../../app/components/card/__body/card__body.css);
+@import url(../../app/components/card/__header/card__header.css);
+@import url(../../app/components/card/__title/card__title.css);
+@import url(../../app/components/card/_centered/card_centered_both.css);
+@import url(../../app/components/card/_empty/card_empty.css);
+@import url(../../app/components/container/container.css);
+@import url(../../app/components/container/__content/container__content.css);
+@import url(../../app/components/container/_align-y/container_align-y_center.css);
+@import url(../../app/components/customFileInput/custom-file.css);
+@import url(../../app/components/customFileInput/__input/custom-file__input.css);
+@import url(../../app/components/customFileInput/__label/custom-file__label.css);
+@import url(../../app/components/form/__group/form__group.css);
+@import url(../../app/components/form/__group/_center/form__group_center.css);
+@import url(../../app/components/form/_width/form_width.css);
+@import url(../../app/components/formControl/form__control.css);
+@import url(../../app/components/header/header.css);
+@import url(../../app/components/header/__title/header__title.css);
+@import url(../../app/components/header/__subtitle/header__subtitle.css);
+@import url(../../app/components/link/link.css);
+@import url(../../app/components/link/_primary/link_primary.css);
+@import url(../../app/components/list/list.css);
+@import url(../../app/components/list/__item/list__item.css);
+@import url(../../app/components/list/__item-row/list__item-row.css);
+@import url(../../app/components/menu/menu.css);
+@import url(../../app/components/menu/__btn/menu__btn.css);
+@import url(../../app/components/menu/__btn/_huge/menu__btn_huge.css);
+@import url(../../app/components/menu/_horizontal/menu_horizontal.css);
+@import url(../../app/components/pagination/pagination.css);
+@import url(../../app/components/pagination/__item/pagination__item.css);
+@import url(../../app/components/plug/plug.css);
+@import url(../../app/components/pack/pack.css);
+@import url(../../app/components/scoreboard/table.css);
+@import url(../../app/components/sidebar/sidebar.css);
+@import url(../../app/components/sidebar/__header/sidebar__header.css);
+@import url(../../app/components/sidebar/__title/sidebar__title.css);
+@import url(../../app/components/timer/timer.css);
+@import url(../../app/components/modal/modal.css);
+@import url(../../app/components/answer/answer.css);
+@import url(../../app/components/question/question.css);
+.game-board__cell {
+  border: 2px solid #0d5460;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  transition: all ease-in-out 750ms;
+}
 
-@import "../../app/components/button/btn.css";
-@import "../../app/components/button/_primary/btn_primary.css";
-@import "../../app/components/buttonHome/btn-home.css";
+.game-board__cell_active {
+  -moz-box-shadow: 0 0 10px #0c5460;
+  -o-box-shadow: 0 0 10px #0c5460;
+  -webkit-box-shadow: 0 0 10px #0c5460;
+  box-shadow: 0 0 10px #0c5460;
+  cursor: pointer;
+}
 
-@import "../../app/components/card/card.css";
-@import "../../app/components/card/__body/card__body.css";
-@import "../../app/components/card/__header/card__header.css";
-@import "../../app/components/card/__title/card__title.css";
-@import "../../app/components/card/_centered/card_centered_both.css";
-@import "../../app/components/card/_empty/card_empty.css";
+.game-board__cell_failed_2 {
+  background: #d42013;
+  border-color: #d42013 !important;
+}
 
-@import "../../app/components/container/container.css";
-@import "../../app/components/container/__content/container__content.css";
-@import "../../app/components/container/_align-y/container_align-y_center.css";
+.game-board__cell_failed_1 {
+  background: #ff1100;
+  border-color: #ff1100 !important;
+}
 
-@import "../../app/components/customFileInput/custom-file.css";
-@import "../../app/components/customFileInput/__input/custom-file__input.css";
-@import "../../app/components/customFileInput/__label/custom-file__label.css";
+.game-board__cell_answered_2 {
+  background: #399a3d;
+  border-color: #399a3d !important;
+}
 
-@import "../../app/components/form/__group/form__group.css";
-@import "../../app/components/form/__group/_center/form__group_center.css";
-@import "../../app/components/form/_width/form_width.css";
-@import "../../app/components/formControl/form__control.css";
+.game-board__cell_answered_1 {
+  background: #21d229;
+  border-color: #21d229 !important;
+}
 
-@import "../../app/components/header/header.css";
-@import "../../app/components/header/__title/header__title.css";
-@import "../../app/components/header/__subtitle/header__subtitle.css";
+.game-board__cell {
+  width: 12%;
+  height: 12%;
+  min-width: 12%;
+  min-height: 12%;
+  box-sizing: border-box;
+}
 
-@import "../../app/components/link/link.css";
-@import "../../app/components/link/_primary/link_primary.css";
+.game-field__cell_prize {
+  width: 12%;
+  height: 12%;
+  min-width: 12%;
+  min-height: 12%;
+  background: #0c5460;
+  border: none;
+}
 
-@import "../../app/components/list/list.css";
-@import "../../app/components/list/__item/list__item.css";
-@import "../../app/components/list/__item-row/list__item-row.css";
 
-@import "../../app/components/menu/menu.css";
-@import "../../app/components/menu/__btn/menu__btn.css";
-@import "../../app/components/menu/__btn/_huge/menu__btn_huge.css";
-@import "../../app/components/menu/_horizontal/menu_horizontal.css";
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/material-icons.woff2) format("woff2");
+}
 
-@import "../../app/components/pagination/pagination.css";
-@import "../../app/components/pagination/__item/pagination__item.css";
-@import "../../app/components/plug/plug.css";
-@import "../../app/components/scoreboard/table.css";
+@font-face {
+  font-family: 'BurnstownDam-Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url(../fonts/BurnstownDam-Regular.woff2) format("woff2");
+}
 
-@import "../../app/components/sidebar/sidebar.css";
-@import "../../app/components/sidebar/__header/sidebar__header.css";
-@import "../../app/components/sidebar/__title/sidebar__title.css";
 
-@import "lib/global.css";
-@import "lib/shadow/shadow-l.css";
-@import "lib/shadow/shadow-xl.css";
-@import "icons.css";
+.material-icons {
+  font-family: 'Material Icons', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: #b55e28;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: "liga";
+  -o-font-feature-settings: "liga";
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  -moz-transition: color 0.2s;
+  -o-transition: color 0.2s;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+.material-icons:hover {
+  color: #ffd544;
+}
+
+.shadow-l {
+  -moz-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  -o-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  -webkit-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+}
+
+.shadow-xl {
+  -moz-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  -o-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  -webkit-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+}
+
+.container-new {
+  padding: 10px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.container__col-w25 {
+  height: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 25%;
+}
+
+.container__col-w50 {
+  height: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.container__col-w75 {
+  height: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 75%;
+}
+
+.container__col-w100 {
+  height: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.container__row-h25 {
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 25%;
+}
+
+.container__row-h50 {
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 50%;
+}
+
+.container__row-h75 {
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 75%;
+}
+
+.container__row-h100 {
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.container__square {
+  width: 75%;
+  display: inline-block;
+  position: relative;
+}
+
+.container__square:after {
+  padding-top: 100%;
+  display: block;
+  content: '';
+}
+
+.container__absolute {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.game-board {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: space-between;
+  align-items: space-between;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.shadow-l {
+  -moz-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  -o-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  -webkit-box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+  box-shadow: 0 0 20px rgba(156, 156, 156, 0.7);
+}
+
+.shadow-xl {
+  -moz-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  -o-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  -webkit-box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+  box-shadow: 0 0 30px rgba(156, 156, 156, 0.7);
+}
+
+@keyframes changeBoxShadow {
+    from {
+      box-shadow: 0 0 10px #0c5460;
+    }
+
+    to {
+      box-shadow: none;
+    }
+}
+
+.game-board__cell_active {
+  cursor: pointer;
+  animation-duration: 400ms;
+  animation-name: changeBoxShadow;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+.back-to-menu-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}

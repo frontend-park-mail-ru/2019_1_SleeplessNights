@@ -1,14 +1,15 @@
 .menu__btn {
+    font-family: 'BurnstownDam-Regular';
     display: block;
-    padding: 20px 40px 20px 40px;
-    border: .0625rem solid #E0E0E0;
-    border-radius: .25rem;
-    background: #005ff9;
-    color: white;
+    padding: 0 40px;
+    border: .3rem solid #b55e28;
+    box-shadow: 0 0 0 .125rem #ffd544 ;
+    border-radius: .3rem;
+    background: #ffd544;
+    color: #b55e28;
     text-align: center;
-    outline: none;
     text-decoration: none;
-    font-size: large;
+    font-size: 55px;
     cursor: pointer;
     width: 100%;
     margin-bottom: 8px;
@@ -16,8 +17,5 @@
 }
 
 .menu__btn:hover {
-    color: #005ff9;
-    background-color: #ffffff;
-    border: .0625rem solid #E0E0E0;
-    box-shadow: 0 0 20px rgba(156,156,156, 0.7);
+    box-shadow: 0 0 10px rgba(156,156,156, 0.7);
 }

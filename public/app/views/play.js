@@ -1,43 +1,32 @@
-import { MenuComponent } from '../components/menu/menu.js';
-import { BaseView }      from './base.js';
+import { BaseView } from './base.js';
+import { Game }  from '../game/game.js';
+import { modes } from '../game/modes.js';
 
 export class PlayView extends BaseView {
-    _pageTitle = 'Играть';
-    _items = [
-        {
-            href: 'play?mode=single',
-            dataHref: 'play',
-            className: 'menu__btn menu__btn_huge',
-            text: 'Single player'
-        },
-        {
-            href: 'play?mode=multi',
-            dataHref: 'play',
-            className: 'menu__btn menu__btn_huge',
-            text: 'Multi player'
-        }
-    ];
-
     constructor(el) {
         super(el);
+        this.root = el;
+        this._pageTitle = 'Играть';
+
+        this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
-    render() {
-        const menu = new MenuComponent({
-            customClasses: 'menu_horizontal',
-            items:         this._items
+    _render() {
+        super.renderContainer({
+            customClasses: 'container-new game',
+            btnBack: true
         });
 
-        super.renderContainer({
-            customClasses: 'container_align-y_center',
-            header: {
-                btnHome:  true
-            },
-            container: menu.template
+        const container = document.getElementsByClassName('game')[0];
+        const game = new Game({
+            root: container,
+            mode: modes.SINGLE_PLAYER
         });
+
+        game.start();
     }
 }

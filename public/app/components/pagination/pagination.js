@@ -44,11 +44,11 @@ export class PaginationComponent {
         });
     }
 
-    on({ event = 'click', callback = noop, capture = false }) {
-        this.innerElement.addEventListener(event, callback, capture);
+    on(event, callback = noop) {
+        this.innerElement.addEventListener(event, callback);
     }
 
-    off({ event = 'click', callback = noop, capture = false }) {
-        this.innerElement.removeEventListener(event, callback, capture);
+    off(event, callback = noop) {
+        this.innerElement.removeEventListener(event, callback);
     }
 }

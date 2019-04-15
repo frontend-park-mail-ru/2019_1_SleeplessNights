@@ -13,14 +13,18 @@ export class ContainerComponent {
         this._content = content;
         this._sideBar = sideBar;
 
+        this._render();
+    }
+
+    get template() {
+        return this._template;
+    }
+
+    _render() {
         this._template = Handlebars.templates.container({
             customClasses: this._customClasses,
             content:       this._content,
             sideBar:       this._sideBar
         });
-    }
-
-    get template() {
-        return this._template;
     }
 }

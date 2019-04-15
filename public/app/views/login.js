@@ -1,53 +1,57 @@
 import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
 import { CardComponent } from '../components/card/card.js';
-import { AuthService }   from '../services/auth-service.js';
-import { gameName }      from '../modules/constants.js';
-import { BaseView }      from './base.js';
-import { ProfileView }   from './profile.js';
+import { HeaderComponent } from '../components/header/header.js';
+import { gameName } from '../modules/constants.js';
+import { BaseView } from './base.js';
 
 export class LoginView extends BaseView {
-    _pageTitle = 'Авторизация';
-    _formGroups = [
-        {
-            customClasses: '',
-            content: {
-                type: 'email',
-                customClasses: '',
-                placeholder: 'Почта',
-                name: 'email'
-            }
-        },
-        {
-            customClasses: '',
-            content: {
-                type: 'password',
-                customClasses: '',
-                placeholder: 'Пароль',
-                name: 'password'
-            }
-        },
-        {
-            customClasses: 'form__group_center',
-            content: {
-                type: 'submit',
-                customClasses: 'btn btn_primary',
-                placeholder: '',
-                name: '',
-                value: 'Войти'
-            }
-        }
-    ];
+    _pageTitle;
+    _formGroups;
+    _form;
 
-    constructor(el = document.body) {
+    constructor(el) {
         super(el);
+        this._pageTitle = 'Авторизация';
+        this._formGroups = [
+            {
+                customClasses: '',
+                content: {
+                    type: 'email',
+                    customClasses: '',
+                    placeholder: 'Почта',
+                    name: 'email'
+                }
+            },
+            {
+                customClasses: '',
+                content: {
+                    type: 'password',
+                    customClasses: '',
+                    placeholder: 'Пароль',
+                    name: 'password'
+                }
+            },
+            {
+                customClasses: 'form__group_center',
+                content: {
+                    type: 'submit',
+                    customClasses: 'btn btn_primary',
+                    placeholder: '',
+                    name: '',
+                    value: 'Войти'
+                }
+            }
+        ];
+
+        this._render();
     }
 
     get pageTitle() {
         return this._pageTitle;
     }
 
-    render() {
+    _render() {
         const link = new LinkComponent({
             className: 'link_primary',
             href: 'signup',
@@ -55,14 +59,14 @@ export class LoginView extends BaseView {
             text: 'Зарегистрироваться'
         });
 
-        const form = new FormComponent({
+        this._form = new FormComponent({
             formGroups: this._formGroups
         });
 
         const card = new CardComponent({
             customClasses: '',
             title: 'Авторизация',
-            body: form.template
+            body: this._form.template
         });
 
         const card2 = new CardComponent({
@@ -71,32 +75,33 @@ export class LoginView extends BaseView {
             body: `У вас нет аккаунта? ${link.template}`
         });
 
+        const header = new HeaderComponent({ title: gameName });
+
         super.renderContainer({
             customClasses: '',
-            header: {
-                title:    gameName,
-                subtitle: '',
-                btnHome:  true
-            },
-            container: card.template + card2.template
+            btnBack: true,
+            container: `
+                ${header.template}
+                ${card.template}
+                ${card2.template}
+            `
         });
+        this._submit();
+    }
 
-        form.on({event: 'submit', callback: (event) => {
+    _submit() {
+        this._form.on('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
-            if (form.isValid) {
-                AuthService.auth(formData)
-                    .then(() => {
-                        const profile = new ProfileView(super.el);
-                        profile.render();
-                    })
-                    .catch(res => {
-                        Object.entries(res.data).forEach((item) => {
-                            form.addError(item[0], item[1]);
+            if (this._form.isValid) {
+                bus.emit('login', formData)
+                    .on('error:login', (data) => {
+                        Object.entries(data).forEach((item) => {
+                            this._form.addError(item[0], item[1]);
                         });
                     });
             }
-        }});
+        });
     }
 }
