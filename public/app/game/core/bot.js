@@ -52,8 +52,8 @@ export class BotPlayer {
         setTimeout(() => {
             const mid = fieldSize / 2;
             const aim = {x: 0, y: 0};
-            // Найдём номер той ячейки, путь из которой к центру поля будет минимальным
-            const bestCell = availableCells.reduce((accumulator, currentValue, index) => {
+            // Найдём номера тех ячеек, путь из которой к центру поля будет минимальным
+            const bestCells = availableCells.reduce((accumulator, currentValue, index) => {
                 // Приз занимает 4 центральных клетки
                 // Выберем ближ     айшую клетку в формате координат
                 const currentX = currentValue % fieldSize;
@@ -66,15 +66,18 @@ export class BotPlayer {
                 // Найдём расстояние в ходах от текущей позиции до
                 const pathLen = Math.abs(dx - dy) + Math.min(dx, dy);
                 if (pathLen < accumulator.pathLen) {
-                    accumulator.index = index;
+                    accumulator.index = [index];
                     accumulator.pathLen = pathLen;
+                } else if (pathLen === accumulator.pathLen) {
+                    accumulator.index.push(index);
                 }
-
                 return accumulator;
-            }, {index: -1, pathLen: fieldSize});
+            }, {index: [], pathLen: fieldSize});
+
+            const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 
             bus.on('selected-question', this.botChoosingQuestion);
-            bus.emit('selected-cell', availableCells[bestCell.index]); // Возвращаем клетку с кратчайшим путём до цели
+            bus.emit('selected-cell', availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
 
