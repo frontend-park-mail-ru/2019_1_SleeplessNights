@@ -1,3 +1,5 @@
+import idb from '../modules/indexdb.js';
+
 export class GameService {
     static fillTestDB() {
         const packs = [

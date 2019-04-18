@@ -1,10 +1,9 @@
-const fieldSize = 8;
-
 export class BotPlayer {
     constructor() {
+        this.fieldSize = 8;
         this.waitingTime = {
-            min: 1, //second
-            max: 3 //second
+            min: 1, // second
+            max: 3 // second
         };
         this.winChance = 75; // %
 
@@ -50,14 +49,14 @@ export class BotPlayer {
 
     botChoosingCell = (availableCells) => {
         setTimeout(() => {
-            const mid = fieldSize / 2;
+            const mid = this.fieldSize / 2;
             const aim = {x: 0, y: 0};
             // Найдём номера тех ячеек, путь из которой к центру поля будет минимальным
             const bestCells = availableCells.reduce((accumulator, currentValue, index) => {
                 // Приз занимает 4 центральных клетки
                 // Выберем ближ     айшую клетку в формате координат
-                const currentX = currentValue % fieldSize;
-                const currentY = Math.floor(currentValue / fieldSize);
+                const currentX = currentValue % this.fieldSize;
+                const currentY = Math.floor(currentValue / this.fieldSize);
                 aim.x = currentX <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
                 aim.y = currentY <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
                 // Найдём разницу по обеим координатам относительно текущей позиции
@@ -72,7 +71,7 @@ export class BotPlayer {
                     accumulator.index.push(index);
                 }
                 return accumulator;
-            }, {index: [], pathLen: fieldSize}).index;
+            }, {index: [], pathLen: this.fieldSize}).index;
 
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 

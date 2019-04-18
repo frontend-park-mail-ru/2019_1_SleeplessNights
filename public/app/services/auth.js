@@ -1,10 +1,30 @@
 import { Cookie } from '../modules/cookie.js';
+import { AjaxModule } from '../modules/ajax.js';
+import Validators from '../modules/validators.js';
 
 export class AuthService {
     static auth(data) {
-        return ajax.post({
+        return AjaxModule.post({
             url: '/api/session',
             body: data
+        });
+    }
+
+    static checkValidity(formControls) {
+        return new Promise((resolve, reject) => {
+            let wholeRes = true;
+            const errors = {};
+
+            formControls.forEach(fc => {
+                const { res , error } = Validators.isValid(fc.name, fc.value);
+                if (!res) {
+                    errors[fc.name] = error;
+                }
+
+                wholeRes &= res;
+            });
+
+            wholeRes ? resolve() : reject(errors);
         });
     }
 

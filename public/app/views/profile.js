@@ -43,6 +43,7 @@ export class ProfileView extends BaseView {
             {
                 customClasses: '',
                 content: {
+                    attributes: 'disabled',
                     type: 'email',
                     customClasses: '',
                     placeholder: 'test@mail.ru',
@@ -99,20 +100,15 @@ export class ProfileView extends BaseView {
         });
 
         const card = new CardComponent({
-            title: 'Профиль игрока',
+            title: 'Мой профиль',
             customClasses: 'card_profile shadow-l',
             body: `${this._form.template} ${this._avatar.template} ${this._scoreSection}`
         });
-
-        const header = new HeaderComponent();
-
+        // const header = new HeaderComponent({ title: 'Профиль игрока' }); ${header.template}
         super.renderContainer({
             customClasses: '',
             btnBack: true,
-            container: `
-                ${header.template}
-                ${card.template}
-            `
+            container: ` ${card.template} `
         });
 
         const list = new ListComponent({ list: this._list });
@@ -121,19 +117,23 @@ export class ProfileView extends BaseView {
     }
 
     _submit() {
+        bus.on('error:update-profile', (data) => {
+            Object.entries(data).forEach((item) => {
+                this._form.addError(item[0], item[1]);
+            });
+        });
+
         this._form.on('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
-            if (this._form.isValid) {
-                bus.emit('update-profile', formData)
-                    .on('success:update-profile', (path) => this._avatar.src = path)
-                    .on('error:update-profile', (data) => {
-                        Object.entries(data).forEach((item) => {
-                            this._form.addError(item[0], item[1]);
-                        });
-                    });
-            }
+            const inputs = this._form.formControls.filter(fc => fc.type === 'text');
+            this._form.reset();
+            bus.emit('check-validity-profile', inputs)
+                .on('success:check-validity-profile', () => {
+                    bus.emit('update-profile', formData)
+                        .on('success:update-profile', (path) => this._avatar.src = path);
+                });
         });
     }
 

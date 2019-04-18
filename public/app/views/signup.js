@@ -16,7 +16,7 @@ export class SignUpView extends BaseView {
             {
                 customClasses: '',
                 content: {
-                    type: 'text',
+                    type: 'email',
                     customClasses: '',
                     placeholder: 'Почта',
                     name: 'email',
@@ -85,24 +85,21 @@ export class SignUpView extends BaseView {
         });
 
         const card = new CardComponent({
-            customClasses: '',
+            customClasses: 'shadow-l',
             title: 'Регистрация',
             body: this._form.template
         });
 
         const card2 = new CardComponent({
-            customClasses: 'card_centered_both',
+            customClasses: 'card_centered_both shadow-l',
             title: '',
             body: `Аккаунт уже есть? ${link.template}`
         });
-
-        const header = new HeaderComponent({ title: 'Регистрация' });
-
+        // const header = new HeaderComponent({ title: 'Регистрация' }); // ${header.template}
         super.renderContainer({
             customClasses: '',
             btnBack: true,
             container: `
-                ${header.template}
                 ${card.template}
                 ${card2.template}
             `
@@ -112,18 +109,22 @@ export class SignUpView extends BaseView {
     }
 
     _submit() {
+        bus.on('error:signup', (data) => {
+            Object.entries(data).forEach((item) => {
+                this._form.addError(item[0], item[1]);
+            });
+        });
+
         this._form.on('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
-            if (this._form.isValid) {
-                bus.emit('signup', formData)
-                    .on('error:signup', (data) => {
-                        Object.entries(data).forEach((item) => {
-                            this._form.addError(item[0], item[1]);
-                        });
-                    });
-            }
+            const inputs = this._form.formControls.filter(fc => fc.type !== 'submit');
+            this._form.reset();
+            bus.emit('check-validity-signup', inputs)
+                .on('success:check-validity-signup', () =>
+                    bus.emit('signup', formData)
+                );
         });
     }
 }

@@ -118,17 +118,21 @@ export class PlayingScene extends GameScene {
 
     onChangePlayer = (pl) => {
         if (pl === 'me') {
-            this.gameBoard.on('click', (event) => {
-                const target = event.target;
-                if ('type' in target.dataset && target.dataset.state === 'active') {
-                    const type = target.dataset.type;
-                    if (type === 'question') {
-                        bus.emit('selected-cell', +target.dataset.id);
-                    } else if (type === 'prize') {
-                        bus.emit('selected-prize');
-                    }
-                }
-            });
+            this.gameBoard.on('click', this.chooseQuestion);
+        } else {
+            this.gameBoard.off('click', this.chooseQuestion);
+        }
+    };
+
+    chooseQuestion = (event) => {
+        const target = event.target;
+        if ('type' in target.dataset && target.dataset.state === 'active') {
+            const type = target.dataset.type;
+            if (type === 'question') {
+                bus.emit('selected-cell', +target.dataset.id);
+            } else if (type === 'prize') {
+                bus.emit('selected-prize');
+            }
         }
     };
 

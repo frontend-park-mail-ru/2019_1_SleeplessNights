@@ -70,8 +70,7 @@ export class EndGameScene {
     };
 
     selectAnswer = (id) => {
-        bus.emit(events.FINISH_GAME);
-        id ? router.open('/menu') : router.reopen('/play');
+        bus.emit(events.FINISH_GAME, id);
     };
 
     destroy() {

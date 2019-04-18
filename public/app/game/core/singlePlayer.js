@@ -1,6 +1,7 @@
 import { events} from './events.js';
 import { GameCore } from './core.js';
 import { BotPlayer } from './bot.js';
+import idb from '../../modules/indexdb.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {
