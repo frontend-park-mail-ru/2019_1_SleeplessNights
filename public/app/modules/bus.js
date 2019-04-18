@@ -1,7 +1,6 @@
 class Bus {
     constructor () {
         this.listeners = {};
-        this.i = 0;
     }
 
     on(event, callback) {
@@ -20,8 +19,8 @@ class Bus {
     }
 
     emit(event, data) {
-        if (this.listeners[ event ]) {
-            this.listeners[ event ].forEach(listener => listener(data));
+        if (this.listeners[event]) {
+            this.listeners[event].forEach(listener => listener(data));
         } else {
             console.error(`There is subscribed such event: ${event}`);
         }
