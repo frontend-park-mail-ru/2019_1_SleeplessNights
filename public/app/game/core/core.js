@@ -1,4 +1,5 @@
 import { events} from './events.js';
+import idb from '../../modules/indexdb.js';
 
 export class GameCore {
     constructor() {

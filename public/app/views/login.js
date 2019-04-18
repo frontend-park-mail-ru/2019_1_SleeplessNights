@@ -2,7 +2,6 @@ import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
 import { CardComponent } from '../components/card/card.js';
 import { HeaderComponent } from '../components/header/header.js';
-import { gameName } from '../modules/constants.js';
 import { BaseView } from './base.js';
 
 export class LoginView extends BaseView {
@@ -64,24 +63,21 @@ export class LoginView extends BaseView {
         });
 
         const card = new CardComponent({
-            customClasses: '',
+            customClasses: 'shadow-l',
             title: 'Авторизация',
             body: this._form.template
         });
 
         const card2 = new CardComponent({
-            customClasses: 'card_centered_both',
+            customClasses: 'shadow-l card_centered_both',
             title: '',
             body: `У вас нет аккаунта? ${link.template}`
         });
-
-        const header = new HeaderComponent({ title: 'Авторизация' });
-
+        // const header = new HeaderComponent({ title: 'Авторизация' }); ${header.template}
         super.renderContainer({
             customClasses: '',
             btnBack: true,
             container: `
-                ${header.template}
                 ${card.template}
                 ${card2.template}
             `
@@ -90,18 +86,22 @@ export class LoginView extends BaseView {
     }
 
     _submit() {
+        bus.on('error:login', (data) => {
+            Object.entries(data).forEach((item) => {
+                this._form.addError(item[0], item[1]);
+            });
+        });
+
         this._form.on('submit', (event) => {
             event.preventDefault();
             const formData = new FormData(event.path[0]);
 
-            if (this._form.isValid) {
-                bus.emit('login', formData)
-                    .on('error:login', (data) => {
-                        Object.entries(data).forEach((item) => {
-                            this._form.addError(item[0], item[1]);
-                        });
-                    });
-            }
+            const inputs = this._form.formControls.filter(fc => fc.type === 'email');
+            this._form.reset();
+            bus.emit('check-validity-login', inputs)
+                .on('success:check-validity-login', () =>
+                    bus.emit('login', formData)
+                );
         });
     }
 }

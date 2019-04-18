@@ -27,20 +27,22 @@ self.addEventListener('fetch',   (event) => {
                     return cachedResponse;
                 }
 
+                const url = new URL(event.request.url);
+
                 if (navigator.onLine) {
                     return fetch(request)
                         .then(res => {
                             const resClone = res.clone();
-                            caches.open(KEY).then((cache) => cache.put(request, resClone));
+                            if (!url.includes('api')) {
+                                caches.open(KEY).then((cache) => cache.put(request, resClone));
+                            }
                         })
                         .catch(err => console.error(err));
                 }
 
-                const url = new URL(event.request.url);
                 const path = url.pathname.replace('/', '');
 
                 if (pages.includes(path)) {
-                    console.log('43');
                     const baseUrl = url.toString().replace(path, '');
                     try {
                         const cache = await caches.open(KEY);
@@ -51,7 +53,6 @@ self.addEventListener('fetch',   (event) => {
                         console.dir(e);
                     }
                 } else {
-                    console.log('54');
                     const init = {
                         status: 418,
                         statusText: 'Offline Mode'
