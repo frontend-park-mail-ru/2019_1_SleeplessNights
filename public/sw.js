@@ -33,15 +33,15 @@ self.addEventListener('fetch',   (event) => {
                     return fetch(request)
                         .then(res => {
                             const resClone = res.clone();
-                            if (!url.includes('api')) {
+                            if (!url.href.includes('api')) {
                                 caches.open(KEY).then((cache) => cache.put(request, resClone));
                             }
+                            return res;
                         })
                         .catch(err => console.error(err));
                 }
 
                 const path = url.pathname.replace('/', '');
-
                 if (pages.includes(path)) {
                     const baseUrl = url.toString().replace(path, '');
                     try {
@@ -53,6 +53,14 @@ self.addEventListener('fetch',   (event) => {
                         console.dir(e);
                     }
                 } else {
+                    if (!url.href.includes('api')) {
+                        const init = {
+                            status: 404,
+                            statusText: 'Not found'
+                        };
+                        return new Response('404 - Not found', init);
+                    }
+
                     const init = {
                         status: 418,
                         statusText: 'Offline Mode'

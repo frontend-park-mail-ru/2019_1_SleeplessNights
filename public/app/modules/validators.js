@@ -1,7 +1,7 @@
 class Validators {
     constructor() {
         this.emailReg = RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i);
-        this.passwordReg = RegExp(/^(?=.*[A-Z])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/);
+        this.passwordReg = RegExp(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/);
         this.usernameReg = RegExp(/^[A-Za-z0-9_-]{4,16}$/);
 
         this.validators = {};
@@ -30,7 +30,7 @@ class Validators {
 
     checkPassword = (value) => {
         const res = this.passwordReg.test(value);
-        return res ? { res } : { res , error: 'Ненадёжный пароль. Пароль должен быть минимум 8 символов, только из латинских букв и одна заглавная' };
+        return res ? { res } : { res , error: `Ненадёжный пароль. Пароль должен быть минимум 8 символов, только из латинских букв, одна заглавная и одна цифра` };
     };
 
     checkNickname = (value) => {
