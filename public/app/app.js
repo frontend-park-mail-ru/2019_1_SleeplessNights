@@ -15,6 +15,7 @@ import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
+import './components/loader/loader.tmpl.js';                  /**/
 import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
@@ -44,6 +45,7 @@ import { Router } from './modules/router.js';                 /**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
 import { events } from './game/core/events.js';               /**/
+import { LoaderComponent } from './components/loader/loader.js';
 /************************************************************\/**/
 
 window.bus = bus;
@@ -51,6 +53,10 @@ window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised
 };
+
+const loader = new LoaderComponent();
+const app = document.getElementById('app');
+app.insertAdjacentHTML('beforeend', loader.template);
 
 idb.get('user', 1);
 bus.on('success:get-user-1', (user) => {
@@ -142,7 +148,11 @@ bus.on(events.FINISH_GAME, (data) => {
     data ? router.open('/menu') : router.open('/play');
 });
 
-const app = document.getElementById('app');
+bus.on('show-loader', () => loader.show())
+    .on('hide-loader', () => loader.hide());
+
+bus.on('check-indexedDB', GameService.checkDB);
+
 const router = new Router(app);
 
 router

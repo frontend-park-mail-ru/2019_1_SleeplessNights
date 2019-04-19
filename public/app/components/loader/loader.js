@@ -26,10 +26,12 @@ export class LoaderComponent {
     show() {
         this.innerElement.hidden = false;
         this.innerElement.style.opacity = 1;
+        this.innerElement.style.zIndex = 3;
     }
 
     hide() {
         this.innerElement.style.opacity = 0;
+        this.innerElement.style.zIndex = -1;
         setTimeout(() => {
             this.innerElement.hidden = true;
         }, 100);

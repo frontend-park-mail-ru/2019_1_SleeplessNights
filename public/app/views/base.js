@@ -36,7 +36,7 @@ export class BaseView {
             sideBar
         });
 
-        this._el.innerHTML = base.template;
+        this._el.insertAdjacentHTML('beforeend', base.template);
 
         if (btnBack) {
             const buttonHome = new ButtonHomeComponent();

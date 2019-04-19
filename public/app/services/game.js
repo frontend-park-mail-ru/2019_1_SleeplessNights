@@ -1,6 +1,29 @@
 import idb from '../modules/indexdb.js';
 
 export class GameService {
+    static checkDB() {
+        let waiterCount = 0;
+        const waitDB = (data) => {
+            if (data.length) {
+                bus.emit('success:check-indexedDB');
+                clearInterval(waiter);
+                for (let i = 0; i < waiterCount; i++) {
+                    bus.off(`success:get-user-nickname-${user.nickname}`, waitDB);
+                }
+            }
+        };
+
+        const sendQuery = () => {
+            waiterCount++;
+            idb.getAll('user', 'nickname', user.nickname, 1);
+            // idb.getAll('pack', null, null, 6);
+            bus.on(`success:get-user-nickname-${user.nickname}`, waitDB);
+        };
+
+        sendQuery();
+        const waiter = setInterval(sendQuery, 1000);
+    }
+
     static fillTestDB() {
         const packs = [
             {
