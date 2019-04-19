@@ -21,7 +21,7 @@ export class SinglePlayer extends GameCore {
         super.start();
         bus.emit(events.START_GAME);
         this.opponent = {
-            avatar_path: 'assets/img/bot.png',
+            avatar_path: '/assets/img/bot.png',
             nickname: 'Fool bot',
             lastMove: null
         };
@@ -32,7 +32,6 @@ export class SinglePlayer extends GameCore {
     gameLoop() {
         bus.emit('set-current-player', 'me');
         bus.emit('get-available-cells');
-        // bus.emit('selected-prize');
     }
 
     waitOpponent() {

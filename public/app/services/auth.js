@@ -10,6 +10,12 @@ export class AuthService {
         });
     }
 
+    static logout(data) {
+        return AjaxModule.delete({
+            url: '/api/session'
+        });
+    }
+
     static checkValidity(formControls) {
         return new Promise((resolve, reject) => {
             let wholeRes = true;
@@ -34,8 +40,10 @@ export class AuthService {
 
     static setAuthorised(data) {
         user.isAuthorised = true;
-        user.nickname = data.nickname;
-        user.avatar_path = data.avatar_path;
+        console.dir(data.get('nickname'));
+        console.dir(data.get('avatar_path'));
+        // user.nickname = data.nickname;
+        // user.avatar_path = data.avatar_path;
         Cookie.add('authorised', 1, 1);
     }
 

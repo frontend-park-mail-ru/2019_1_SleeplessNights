@@ -50,6 +50,11 @@ export class LoginView extends BaseView {
         return this._pageTitle;
     }
 
+    show() {
+        this._render();
+        super.show();
+    }
+
     _render() {
         const link = new LinkComponent({
             className: 'link_primary',
@@ -94,7 +99,7 @@ export class LoginView extends BaseView {
 
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.path[0]);
+            const formData = new FormData(event.target);
 
             const inputs = this._form.formControls.filter(fc => fc.type === 'email');
             this._form.reset();

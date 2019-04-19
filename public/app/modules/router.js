@@ -5,7 +5,7 @@ export class Router {
         this.root = root;
     }
 
-    register (path, View) {
+    register(path, View) {
         this.routes[ path ] = {
             View: View,
             view: null,
@@ -23,28 +23,15 @@ export class Router {
         return this;
     }
 
-    reopen(path) {
-        const views = Array.from(this.root.children);
-        const reOpenView = this.routes[ path ];
-        const index = views.find(v => v.dataset.view === reOpenView.View.name);
-
-        if (index) {
-            reOpenView.view = null;
-            reOpenView.el = null;
-            this.root.removeChild(index);
-        }
-
-        this.open(path);
-    }
-
-    open (path) {
+    open(path) {
         const route = this.routes[ path ];
         if (!route) {
-            this.open('/');
+            this.open('/not-found');
             return;
         }
 
-        if (window.location.pathname !== path) {
+        const currentPath = window.location.pathname.replace(/\/$/, '');
+        if (currentPath !== path) {
             window.history.pushState(null, '', path);
         }
 
@@ -72,7 +59,7 @@ export class Router {
         this.routes[ path ] = { View, view, el };
     }
 
-    start () {
+    start() {
         this.root.addEventListener('click', (event) => {
             let target = event.target;
             if ((target instanceof HTMLAnchorElement) || (target.parentElement instanceof HTMLAnchorElement)) {
@@ -87,20 +74,23 @@ export class Router {
                 }
 
                 const url = target.pathname;
-                url !== '/play' ? this.open(url) : this.reopen(url);
+                this.open(url);
             }
         });
 
         window.addEventListener('popstate', () => {
             const currentPath = window.location.pathname;
-            currentPath !== '/play' ? this.open(currentPath) : this.reopen(currentPath);
+            this.open(currentPath);
         });
 
         this.observeLocation();
     }
 
     observeLocation () {
-        const currentPath = window.location.pathname;
+        let currentPath = window.location.pathname;
+        if (currentPath !== '/') {
+            currentPath = currentPath.replace(/\/$/, '');
+        }
 
         if (this.inAccessRoutes.hasOwnProperty(currentPath)) {
             const route = this.inAccessRoutes[currentPath];

@@ -125,7 +125,7 @@ export class ProfileView extends BaseView {
 
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.path[0]);
+            const formData = new FormData(event.target);
 
             const inputs = this._form.formControls.filter(fc => fc.type === 'text');
             this._form.reset();
