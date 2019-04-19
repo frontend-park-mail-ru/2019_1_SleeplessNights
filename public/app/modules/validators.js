@@ -30,7 +30,7 @@ class Validators {
 
     checkPassword = (value) => {
         const res = this.passwordReg.test(value);
-        return res ? { res } : { res , error: `Ненадёжный пароль. Пароль должен быть минимум 8 символов, только из латинских букв, одна заглавная и одна цифра` };
+        return res ? { res } : { res , error: `Пароль должен состоять минимум из 8 латинских символов и содержать цифры, заглавные и строчные буквы` };
     };
 
     checkNickname = (value) => {

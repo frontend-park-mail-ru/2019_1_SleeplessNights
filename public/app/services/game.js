@@ -122,7 +122,7 @@ export class GameService {
 
         idb.add('user', [{
             nickname: 'guest',
-            avatar_path: 'assets/img/avatar_male.png'
+            avatar_path: '/assets/img/avatar_male.png'
         }]);
 
         idb.add('pack', packs);

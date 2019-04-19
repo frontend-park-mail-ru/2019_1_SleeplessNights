@@ -31,18 +31,19 @@ import { LeadersView } from './views/leaders.js';             /**/
 import { LoginView }   from './views/login.js';               /**/
 import { SignUpView }  from './views/signup.js';              /**/
 import { ProfileView } from './views/profile.js';             /**/
+import { NotFoundView } from './views/notFound.js';           /**/
 /************************* Services *************************\/**/
 import { RegisterService }   from './services/register.js';   /**/
 import { ProfileService }    from './services/profile.js';    /**/
 import { AuthService }       from './services/auth.js';       /**/
-import { ScoreboardService } from './services/scoreboard.js';  /**/
+import { ScoreboardService } from './services/scoreboard.js'; /**/
 import { GameService }       from './services/game.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
-import { events } from './game/core/events.js';                    /**/
+import { events } from './game/core/events.js';               /**/
 /************************************************************\/**/
 
 window.bus = bus;
@@ -51,14 +52,18 @@ window.user = {
     isAuthorised: AuthService.isAuthorised
 };
 
-const app = document.getElementById('app');
-const router = new Router(app);
+idb.get('user', 1);
+bus.on('success:get-user-1', (user) => {
+    if (!user) {
+        GameService.fillTestDB();
+    }
+});
 
 bus.on('signup', (data) => {
     RegisterService.register(data)
         .then(() => {
             AuthService.setAuthorised(data);
-            router.reopen('/');
+            router.open('/');
         })
         .catch(res =>{
             if (res.status === 418 || !navigator.onLine) {
@@ -79,7 +84,7 @@ bus.on('login', (data) => {
     AuthService.auth(data)
         .then(() => {
             AuthService.setAuthorised(data);
-            router.reopen('/');
+            router.open('/');
         })
         .catch(res => {
             if (res.status === 418 || !navigator.onLine) {
@@ -134,8 +139,11 @@ bus.on('get-leaders', (page) => {
 });
 
 bus.on(events.FINISH_GAME, (data) => {
-    data ? router.open('/menu') : router.reopen('/play');
+    data ? router.open('/menu') : router.open('/play');
 });
+
+const app = document.getElementById('app');
+const router = new Router(app);
 
 router
     .register('/', MenuView)
@@ -145,7 +153,8 @@ router
     .register('/login', LoginView)
     .register('/play', PlayView)
     .register('/profile', ProfileView)
-    .register('/signup', SignUpView);
+    .register('/signup', SignUpView)
+    .register('/not-found', NotFoundView);
 
 router
     .registerInAccess('/profile', false, '/login')
@@ -154,26 +163,19 @@ router
 
 router.start();
 
-idb.get('user', 1);
-bus.on('success:get-user-1', (user) => {
-    if (!user) {
-        GameService.fillTestDB();
-    }
-});
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then((registration) => {
-            if (registration.installing) {
-                const data = {
-                    type: 'CACHE_URLS',
-                    payload: [
-                        location.href,
-                        ...performance.getEntriesByType('resource').map((r) => r.name)
-                    ]
-                };
-                registration.installing.postMessage(data);
-            }
-        })
-        .catch((err) => console.log('SW registration FAIL:', err));
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('/sw.js', { scope: '/' })
+//         .then((registration) => {
+//             if (registration.installing) {
+//                 const data = {
+//                     type: 'CACHE_URLS',
+//                     payload: [
+//                         location.href,
+//                         ...performance.getEntriesByType('resource').map((r) => r.name)
+//                     ]
+//                 };
+//                 registration.installing.postMessage(data);
+//             }
+//         })
+//         .catch((err) => console.log('SW registration FAIL:', err));
+// }

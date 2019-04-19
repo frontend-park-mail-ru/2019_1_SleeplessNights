@@ -3,7 +3,11 @@ import idb from '../../modules/indexdb.js';
 
 export class GameCore {
     constructor() {
-        this.me = null;
+        this.me = {
+            avatar_path: '/assets/img/default-avatar.png',
+            nickname: 'Guest',
+            lastMove: null
+        };
         this.opponent = null;
         this.CELL_COUNT = 8;
         this.colors = [
@@ -40,8 +44,11 @@ export class GameCore {
     }
 
     getMe = (data) => {
-        this.me = data[0];
-        this.me.lastMove = null;
+        if (data.length) {
+            this.me.avatar_path = data[0].avatar_path;
+            this.me.avatar_path = data[0].avatar_path;
+        }
+
         bus.emit('loaded-users', { me: this.me, opponent: this.opponent });
     };
 
