@@ -9,6 +9,7 @@ export class AjaxModule {
         headers = [['Content-Type', 'application/json;charset=UTF-8']],
     } = {}) {
 
+        bus.emit('show-loader');
         if (url.includes('api')) {
             url = backendUrl + url;
         }
@@ -28,7 +29,8 @@ export class AjaxModule {
                         response.json().then(data => reject({'status': response.status, 'data': data}));
                     }
                 });
-            });
+            })
+            .finally(() => bus.emit('hide-loader'));
     }
 
     static post({
