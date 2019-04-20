@@ -6,7 +6,7 @@ import { shuffle } from '../../modules/utils.js';
 export class SelectAnswerScene {
     constructor(root) {
         this.root = root;
-        this.answers = [];
+        this.answers = new Map();
         this.correctAnswer = null;
         this.modal = null;
         this.currentPlayer = null;
@@ -27,17 +27,19 @@ export class SelectAnswerScene {
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
 
-        this.answers = [];
-        shuffle(question.answers);
-
         question.answers.forEach((answer, id) => {
-            const answerText = new AnswerComponent({
-                answerId: id,
-                text: answer
-            });
+            this.answers.set(id, new AnswerComponent({
+                    answerId: id,
+                    text: answer
+                })
+            );
+        });
 
-            this.answers.push(answerText);
-            answerSection.insertAdjacentHTML('beforeend', answerText.template)
+        const _answers = [...this.answers.values()];
+        shuffle(_answers);
+
+        _answers.forEach(answer => {
+            answerSection.insertAdjacentHTML('beforeend', answer.template)
         });
 
         this.modal = new ModalComponent({
@@ -69,11 +71,11 @@ export class SelectAnswerScene {
     selectAnswer = (id) => {
         let isTrue;
         if (id === this.correctAnswer) {
-            this.answers[id].setCorrect();
+            this.answers.get(id).setCorrect();
             isTrue = true;
         } else {
-            this.answers[id].setFailed();
-            this.answers[this.correctAnswer].setCorrect();
+            this.answers.get(id).setFailed();
+            this.answers.get(this.correctAnswer).setCorrect();
             isTrue = false;
         }
 
