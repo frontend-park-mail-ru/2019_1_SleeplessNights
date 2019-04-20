@@ -102,5 +102,6 @@ export class MenuView extends BaseView {
                 ${menu.template}
             `
         });
+        menu.logOutListening();
     }
 }

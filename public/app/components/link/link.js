@@ -26,7 +26,7 @@ export class LinkComponent {
         return this._template;
     }
 
-    _innerElem() {
+    get _innerElem() {
         return document.getElementById(this._id);
     }
 
