@@ -45,9 +45,9 @@ export class MenuComponent {
     }
 
     logOutListening = () => {
-        const logoutLink = this._items.find(it => it.name === 'logout').link;
+        const logoutLink = this._items.find(it => it.name === 'logout');
         if (logoutLink) {
-            logoutLink.on('click', (event) => {
+            logoutLink.link.on('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 bus.emit('logout');
