@@ -52,10 +52,15 @@ export class AboutView extends BaseView {
 
         const description = new CardComponent({
             customClasses: 'shadow-l card_width-100',
-            body: `<p>
-                        Классический «Lorem ipsum dolor sit amet…» проход отнести к ремиксов римского философа Цицерона 45 г. до н.э. текст De Finibus Bonorum et Malorum («О крайностями добра и зла»). Более конкретно, проход, как полагают, происходит из секций 1.10.32 - 33 из его текста, с наиболее заметным часть извлечена ниже:
-                        “Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
-                   </p> 
+            body: `<p>Quiz planet – это классическая игра-викторина элементами стратегии. Вам предстоит сразиться в умственном поединке с лучшими из лучших. Более 5000 текстовых и визуальных вопросов из различных областей.</p>
+                   <p>Боритесь за право быть на вершине рейтинга!</p>
+                   <ul>
+                       <li>Состязайтесь с друзьями из социальных сетей!</li>
+                       <li>Присылайте свои вопросы!</li>
+                       <li>Добавьте себе индивидуальности редактируя свой профилю</li>
+                       <li>Новые вопросы появляются каждую минуту!</li>
+                   </ul>
+                   <p>Окажитесь на вершине триумфа играя с друзьями и прокладывая свой путь к победе!</p>
                    <h3>Авторы:</h3>
                    ${authorsList.template}
             `

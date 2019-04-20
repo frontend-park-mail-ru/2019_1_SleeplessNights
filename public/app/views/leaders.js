@@ -23,7 +23,7 @@ export class LeadersView extends BaseView {
             body: board.template
         });
 
-        const header = new HeaderComponent({ title: 'Лучшие игрокы' });
+        const header = new HeaderComponent({ title: 'Лучшие игроки' });
 
         super.renderContainer({
             customClasses: '',
