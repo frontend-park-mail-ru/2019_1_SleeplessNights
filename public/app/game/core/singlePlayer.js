@@ -2,15 +2,15 @@ import { events} from './events.js';
 import { GameCore } from './core.js';
 import { BotPlayer } from './bot.js';
 import idb from '../../modules/indexdb.js';
+import { shuffle } from '../../modules/utils.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {
         super();
-        this.questions = [];
         this.availableCells = [];
         this.GAME_MATRIX = [];
         this.packs = [];
-        this.currentPlayer = null;
+        this.currentPlayer = 'me';
 
         bus.on('set-current-player', this.setCurrentPlayer);
         bus.on('set-answered-cell', this.setAnsweredCell);
@@ -31,7 +31,9 @@ export class SinglePlayer extends GameCore {
 
     gameLoop() {
         bus.emit('set-current-player', 'me');
-        bus.emit('get-available-cells');
+        setTimeout(() =>
+            bus.emit('get-available-cells'), 1000
+        );
     }
 
     waitOpponent() {
@@ -133,25 +135,32 @@ export class SinglePlayer extends GameCore {
 
         const packsCount = packs.length;
         let p = 0;
-        this.GAME_MATRIX.forEach(cell => {
+        const prizes = [];
+
+        this.GAME_MATRIX.forEach((cell, i) => {
             if (cell.type === 'question') {
                 Object.assign(cell, packs[p]);
                 p = (p + 1) % packsCount;
+            } else {
+                prizes.push(i);
             }
         });
+
+        shuffle(this.GAME_MATRIX, prizes);
 
         bus.emit('fill-cells', this.GAME_MATRIX);
         this.gameLoop();
     };
 
     onFillPacksList = (packs) => {
+        packs.shift();
         this.packs = packs;
         const questions = [];
 
         this.packs.forEach((pack, i) => {
             idb.getAll('question', 'packId', pack.id, 10);
             const getQuestions = (data) => {
-                questions.push(...data);
+                questions.push(data);
                 if (i === this.packs.length - 1) {
                     this.onQuestionsReady(questions);
                     bus.off(`success:get-question-packId-${pack.id}`, getQuestions);
@@ -163,21 +172,16 @@ export class SinglePlayer extends GameCore {
     };
 
     onQuestionsReady = (questions) => {
-        let qI = 0;
-        for (let i = 0; i < this.CELL_COUNT; i++) {
-            for (let j = 0; j < this.CELL_COUNT; j++) {
-                if ((i === 3 && j === 3) || (i === 3 && j === 4) ||
-                    (i === 4 && j === 3) || (i === 4 && j === 4)) {
-                    this.questions.push(null);
-                } else {
-                    this.questions.push(questions[qI++]);
-                }
-            }
-        }
+        this.packs.forEach((pack, pI) => {
+            const packInMatrix = this.GAME_MATRIX.filter(gm => gm.id === pack.id);
+            packInMatrix.forEach((cell, i) =>
+                cell['question'] = questions[pI][i]
+            );
+        });
     };
 
     onSelectedCell = (cellIndex) => {
-        const question = this.questions[cellIndex];
+        const question = this.GAME_MATRIX[cellIndex].question;
         if (question) {
             bus.emit('selected-question', question);
         } else {

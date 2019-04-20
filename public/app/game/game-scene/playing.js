@@ -75,21 +75,28 @@ export class PlayingScene extends GameScene {
     }
 
     updatePackList = (packs) => {
+        packs.unshift({
+            name: 'Приз',
+            color: '#0c5460'
+        });
+
         const _list = [];
         packs.forEach(pack => {
             const cell = new CellComponent({
-                customClasses: 'game-board__cell_pack d_inline-block',
+                customClasses: 'game-board__cell_pack',
                 bgColor: pack.color,
                 type: 'pack-description'
             });
 
             _list.push({
-                customClasses: '',
-                text: `${cell.template} <span class="pack-name d_inline-block">${pack.name}</span>`
+                customClasses: 'list__item_sticky',
+                text: `${cell.template} <span class="pack-name">${pack.name}</span>`
             });
         });
 
-        const list = new ListComponent({ list: _list });
+        const list = new ListComponent({
+            list: _list
+        });
         const card = new CardComponent({
             customClasses: 'card_pack shadow-l',
             body: list.template

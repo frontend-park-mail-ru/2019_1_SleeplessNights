@@ -82,5 +82,7 @@ export class BotPlayer {
 
     destroy() {
         bus.off('set-current-player', this.setCurrentPlayer);
+        bus.off('success:get-available-cells', this.botChoosingCell);
+        bus.off('success:get-available-cells', this.botChoosingCell);
     }
 }

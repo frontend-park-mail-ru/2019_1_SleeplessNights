@@ -1,5 +1,4 @@
 const KEY = 'sl-nights';
-// const pages = ['play', 'about', 'leaders', 'profile', 'login', 'signup'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
@@ -50,8 +49,9 @@ self.addEventListener('fetch',   (event) => {
                     const data = {message: `Content is not available in offline mode`};
                     const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
                     return new Response(blob, init);
+
                 } else {
-                    const baseUrl = url.toString().replace(url.pathname, '');
+                    const baseUrl = url.toString().replace(url.pathname, '/');
                     try {
                         const cache = await caches.open(KEY);
                         const keys = await cache.keys();
@@ -61,35 +61,6 @@ self.addEventListener('fetch',   (event) => {
                         console.dir(e);
                     }
                 }
-
-                // if (pages.includes(path)) {
-                //     const baseUrl = url.toString().replace(path, '');
-                //     try {
-                //         const cache = await caches.open(KEY);
-                //         const keys = await cache.keys();
-                //         const request = keys.find(key => key.url.toString() === baseUrl);
-                //         return await caches.match(request);
-                //     } catch (e) {
-                //         console.dir(e);
-                //     }
-                // } else {
-                //     if (!url.href.includes('api')) {
-                //         const init = {
-                //             status: 404,
-                //             statusText: 'Not found'
-                //         };
-                //         return new Response('404 - Not found', init);
-                //     }
-                //
-                //     const init = {
-                //         status: 418,
-                //         statusText: 'Offline Mode'
-                //     };
-                //
-                //     const data = {message: `Content is not available in offline mode`};
-                //     const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
-                //     return new Response(blob, init);
-                // }
             })
             .catch((err) => {
                 console.log(err.stack || err);

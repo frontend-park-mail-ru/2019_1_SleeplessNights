@@ -24,11 +24,9 @@ export class PlayView extends BaseView {
         });
 
         const container = document.getElementsByClassName('game')[0];
-        const game = new Game({
+        new Game({
             root: container,
             mode: modes.SINGLE_PLAYER
         });
-
-        // game.start();
     }
 }

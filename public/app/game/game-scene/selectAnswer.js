@@ -1,6 +1,7 @@
 import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
+import { shuffle } from '../../modules/utils.js';
 
 export class SelectAnswerScene {
     constructor(root) {
@@ -27,6 +28,8 @@ export class SelectAnswerScene {
         answerSection.className = 'answer-block';
 
         this.answers = [];
+        shuffle(question.answers);
+
         question.answers.forEach((answer, id) => {
             const answerText = new AnswerComponent({
                 answerId: id,
@@ -34,7 +37,7 @@ export class SelectAnswerScene {
             });
 
             this.answers.push(answerText);
-            answerSection.insertAdjacentHTML('beforeend', answerText.template);
+            answerSection.insertAdjacentHTML('beforeend', answerText.template)
         });
 
         this.modal = new ModalComponent({

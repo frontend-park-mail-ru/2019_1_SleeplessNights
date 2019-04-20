@@ -13,7 +13,7 @@ export class MenuComponent {
             className: '',
             text: ''
         }]
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
 
         items.forEach(item => {
@@ -24,9 +24,12 @@ export class MenuComponent {
                 text:      item.text
             });
 
-            this._items.push(link.template);
+            this._items.push({
+                name: item.dataHref,
+                link
+            });
         });
-        
+
         this._render();
     }
 
@@ -37,7 +40,18 @@ export class MenuComponent {
     _render() {
         this._template = Handlebars.templates.menu({
             customClasses: this._customClasses,
-            items:         this._items
+            items:         this._items.map(it => it.link.template)
         });
     }
+
+    logOutListening = () => {
+        const logoutLink = this._items.find(it => it.name === 'logout').link;
+        if (logoutLink) {
+            logoutLink.on('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                bus.emit('logout');
+            });
+        }
+    };
 }

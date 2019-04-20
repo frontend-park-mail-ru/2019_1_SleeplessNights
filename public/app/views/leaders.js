@@ -19,7 +19,7 @@ export class LeadersView extends BaseView {
     _render() {
         const board = new BoardComponent();
         const card = new CardComponent({
-            customClasses: 'card_centered_both card_empty shadow-l',
+            customClasses: 'card_centered_both card_profile shadow-l',
             body: board.template
         });
 
