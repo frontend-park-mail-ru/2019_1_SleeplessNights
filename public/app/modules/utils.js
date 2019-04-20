@@ -25,3 +25,22 @@ export const urlencodeFormData = (fd) => {
 
     return s;
 };
+
+// Fisher–Yates Shuffle -- https://bost.ocks.org/mike/shuffle/
+export const shuffle = (array, notShuffleIndexes = []) => {
+    let m = array.length, t, i;
+    // While there remain elements to shuffle…
+    while (m) {
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--);
+        // And swap it with the current element.
+        if (notShuffleIndexes.includes(m) || notShuffleIndexes.includes(i)) {
+            continue;
+        }
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+
+    return array;
+};

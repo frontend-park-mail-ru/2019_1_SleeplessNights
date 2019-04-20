@@ -42,8 +42,6 @@ export class LoginView extends BaseView {
                 }
             }
         ];
-
-        this._render();
     }
 
     get pageTitle() {

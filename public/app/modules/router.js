@@ -25,6 +25,7 @@ export class Router {
 
     open(path) {
         const route = this.routes[ path ];
+
         if (!route) {
             this.open('/not-found');
             return;
@@ -45,16 +46,14 @@ export class Router {
             view = new View(el);
         }
 
-        if (!view.active) {
-            Object.values(this.routes).forEach( ({view}) => {
-                if (view && view.active) {
-                    view.hide();
-                }
-            });
+        Object.values(this.routes).forEach( ({view}) => {
+            if (view && view.active) {
+                view.hide();
+            }
+        });
 
-            view.show();
-            document.title = view.pageTitle;
-        }
+        view.show();
+        document.title = view.pageTitle;
 
         this.routes[ path ] = { View, view, el };
     }

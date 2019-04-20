@@ -64,8 +64,6 @@ export class SignUpView extends BaseView {
                 }
             }
         ];
-
-        this._render();
     }
 
     get pageTitle(){

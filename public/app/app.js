@@ -56,7 +56,7 @@ window.user = {
 
 const loader = new LoaderComponent();
 const app = document.getElementById('app');
-app.insertAdjacentHTML('beforeend', loader.template);
+app.insertAdjacentHTML('afterend', loader.template);
 
 idb.get('user', 1);
 bus.on('success:get-user-1', (user) => {

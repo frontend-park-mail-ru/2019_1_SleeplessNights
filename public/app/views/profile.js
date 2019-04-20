@@ -73,7 +73,6 @@ export class ProfileView extends BaseView {
         this._scoreSectionHTML = document.createElement('section');
         this._scoreSectionHTML.id = 'profile-score';
         this._render();
-        this._getProfile();
     }
 
     get pageTitle(){
@@ -87,6 +86,11 @@ export class ProfileView extends BaseView {
     set _scoreSection(data) {
         const ss = document.getElementById(this._scoreSectionHTML.id);
         ss.innerHTML = data;
+    }
+
+    show() {
+        this._getProfile();
+        super.show();
     }
 
     _render() {
