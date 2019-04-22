@@ -146,7 +146,10 @@ bus.on('get-leaders', (page) => {
 
 bus.on('logout', () => {
     AuthService.logout()
-        .then(() => router.open('/'))
+        .then(() => {
+            AuthService.removeAuthorised();
+            router.open('/')
+        })
         .catch((err) => console.error(err));
 });
 
@@ -178,19 +181,19 @@ router
 
 router.start();
 
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('/sw.js', { scope: '/' })
-//         .then((registration) => {
-//             if (registration.installing) {
-//                 const data = {
-//                     type: 'CACHE_URLS',
-//                     payload: [
-//                         location.href,
-//                         ...performance.getEntriesByType('resource').map((r) => r.name)
-//                     ]
-//                 };
-//                 registration.installing.postMessage(data);
-//             }
-//         })
-//         .catch((err) => console.log('SW registration FAIL:', err));
-// }
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then((registration) => {
+            if (registration.installing) {
+                const data = {
+                    type: 'CACHE_URLS',
+                    payload: [
+                        location.href,
+                        ...performance.getEntriesByType('resource').map((r) => r.name)
+                    ]
+                };
+                registration.installing.postMessage(data);
+            }
+        })
+        .catch((err) => console.log('SW registration FAIL:', err));
+}

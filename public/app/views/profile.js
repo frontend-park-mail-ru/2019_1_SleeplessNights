@@ -12,6 +12,7 @@ export class ProfileView extends BaseView {
     _profile;
     _form;
     _avatar;
+    _formData;
 
     constructor(el) {
         super(el);
@@ -121,23 +122,24 @@ export class ProfileView extends BaseView {
     }
 
     _submit() {
-        bus.on('error:update-profile', (data) => {
-            Object.entries(data).forEach((item) => {
-                this._form.addError(item[0], item[1]);
-            });
+        bus.on('error:update-profile', (data) =>
+            Object.entries(data).forEach((item) =>
+                this._form.addError(item[0], item[1])
+            )
+        );
+
+        bus.on('success:check-validity-profile', () => {
+            bus.emit('update-profile', this._formData)
+                .on('success:update-profile', (path) => this._avatar.src = path);
         });
 
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.target);
+            this._formData = new FormData(event.target);
 
             const inputs = this._form.formControls.filter(fc => fc.type === 'text');
             this._form.reset();
-            bus.emit('check-validity-profile', inputs)
-                .on('success:check-validity-profile', () => {
-                    bus.emit('update-profile', formData)
-                        .on('success:update-profile', (path) => this._avatar.src = path);
-                });
+            bus.emit('check-validity-profile', inputs);
         });
     }
 

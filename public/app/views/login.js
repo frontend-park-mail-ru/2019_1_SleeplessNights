@@ -8,6 +8,7 @@ export class LoginView extends BaseView {
     _pageTitle;
     _formGroups;
     _form;
+    _formData;
 
     constructor(el) {
         super(el);
@@ -85,26 +86,28 @@ export class LoginView extends BaseView {
                 ${card2.template}
             `
         });
-        this._submit();
-    }
 
-    _submit() {
-        bus.on('error:login', (data) => {
-            Object.entries(data).forEach((item) => {
-                this._form.addError(item[0], item[1]);
-            });
-        });
+        this._onSubmit();
+    }
+    _onSubmit() {
+        bus.on('error:login', (data) =>
+            Object.entries(data).forEach((item) =>
+                this._form.addError(item[0], item[1])
+            )
+        );
+
+        bus.on('success:check-validity-login', () =>
+            bus.emit('login', this._formData)
+        );
 
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.target);
 
+            this._formData = new FormData(event.target);
             const inputs = this._form.formControls.filter(fc => fc.type === 'email');
+
             this._form.reset();
-            bus.emit('check-validity-login', inputs)
-                .on('success:check-validity-login', () =>
-                    bus.emit('login', formData)
-                );
+            bus.emit('check-validity-login', inputs);
         });
     }
 }

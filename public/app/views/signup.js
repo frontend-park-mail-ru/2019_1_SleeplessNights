@@ -8,6 +8,7 @@ export class SignUpView extends BaseView {
     _pageTitle;
     _formGroups;
     _form;
+    _formData;
 
     constructor(el) {
         super(el);
@@ -108,26 +109,28 @@ export class SignUpView extends BaseView {
             `
         });
 
-        this._submit();
+        this._onSubmit();
     }
 
-    _submit() {
-        bus.on('error:signup', (data) => {
-            Object.entries(data).forEach((item) => {
-                this._form.addError(item[0], item[1]);
-            });
-        });
+    _onSubmit() {
+        bus.on('error:signup', (data) =>
+            Object.entries(data).forEach((item) =>
+                this._form.addError(item[0], item[1])
+            )
+        );
+
+        bus.on('success:check-validity-signup', () =>
+            bus.emit('signup', this._formData)
+        );
 
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.target);
 
+            this._formData = new FormData(event.target);
             const inputs = this._form.formControls.filter(fc => fc.type !== 'submit');
+
             this._form.reset();
-            bus.emit('check-validity-signup', inputs)
-                .on('success:check-validity-signup', () =>
-                    bus.emit('signup', formData)
-                );
+            bus.emit('check-validity-signup', inputs);
         });
     }
 }
