@@ -1,6 +1,8 @@
+import { AjaxModule } from '../modules/ajax.js';
+
 export class ScoreboardService {
     static getLeaders(page) {
-        return ajax.get({
+        return AjaxModule.get({
             url: `/api/leader?page=${page}`
         });
     }

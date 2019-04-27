@@ -5,14 +5,16 @@ import { modes } from '../game/modes.js';
 export class PlayView extends BaseView {
     constructor(el) {
         super(el);
-        this.root = el;
         this._pageTitle = 'Играть';
-
-        this._render();
     }
 
     get pageTitle() {
         return this._pageTitle;
+    }
+
+    show() {
+        this._render();
+        super.show();
     }
 
     _render() {
@@ -22,11 +24,9 @@ export class PlayView extends BaseView {
         });
 
         const container = document.getElementsByClassName('game')[0];
-        const game = new Game({
+        new Game({
             root: container,
             mode: modes.SINGLE_PLAYER
         });
-
-        game.start();
     }
 }

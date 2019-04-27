@@ -92,15 +92,8 @@ app.get('/scoreboard', function (req, res) {
     });
 });
 
-const pages = ['play', 'about', 'leaders', 'profile', 'login', 'signup'];
-
-app.get('/:page', function (req, res) {
-    const page = req.params.page;
-    if (pages.indexOf(page) !== -1) {
-        res.sendFile(path.resolve(__dirname, '../public/index.html'));
-    } else {
-        res.status(404).send('404 - Not found');
-    }
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
 app.patch('/api/profile', upload.single('avatar'), (req, res) => {

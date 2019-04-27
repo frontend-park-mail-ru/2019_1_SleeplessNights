@@ -10,27 +10,42 @@ export class Game {
         root,
         mode = ''
     } = {}) {
-        let GameConstructor = null;
+        this.root = root;
+        this.GameConstructor = null;
+
         switch (mode) {
         case modes.SINGLE_PLAYER:
-            GameConstructor = SinglePlayer;
+            this.GameConstructor = SinglePlayer;
             break;
         case modes.MULTI_PLAYER:
-            GameConstructor = MultiPlayer;
+            this.GameConstructor = MultiPlayer;
             break;
         default:
             throw new Error(`Invalid game mode ${mode}`);
         }
 
-        this.gameScene = new PlayingScene(root);
-        this.gameCore = new GameConstructor();
+        this.gameScene = null;
+        this.gameCore = null;
         this.gameContoller = new GameController();
+
+        bus.emit('show-loader');
+        bus.emit('check-indexedDB');
+        bus.on('success:check-indexedDB', this.start);
     }
 
-    start() {
+    start = () => {
+        bus.off('success:check-indexedDB', this.start);
+        bus.emit('hide-loader');
+        if (!this.gameScene) {
+            this.gameScene = new PlayingScene(this.root);
+        }
+        if (!this.gameCore) {
+            this.gameCore = new this.GameConstructor();
+        }
+
         this.gameCore.start();
         bus.on(events.FINISH_GAME, this.destroy);
-    }
+    };
 
     destroy = () => {
         this.gameCore.destroy();

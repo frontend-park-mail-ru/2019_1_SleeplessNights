@@ -33,19 +33,26 @@ export class BoardComponent {
                         playingTime: item.play_time
                     });
                 });
-                const pageCount = res.pages_total;
+                const pageCount = res.pages_total > 5 ? 5 : res.pages_total;
                 const currentPage = res.page; // eslint-disable-line
 
-                const pager = new PaginationComponent({
-                    baseUrl:    'scoreboard',
-                    pagesNumber: pageCount
-                });
+                if (pageCount) {
+                    const pager = new PaginationComponent({
+                        baseUrl:    'scoreboard',
+                        pagesNumber: pageCount
+                    });
 
-                this._template = Handlebars.templates.board({
-                    players: this._players
-                }) + pager.template;
+                    this._template = Handlebars.templates.board({
+                        players: this._players
+                    }) + pager.template;
 
-                this._pager = pager;
+                    this._pager = pager;
+                } else {
+                    this._template = Handlebars.templates.board({
+                        players: this._players
+                    }) + '<p>База Данных сервера пока что пусто...</p>';
+                }
+
                 bus.emit('update-card', this.template);
                 this.runGetScoreboardByPage();
             })

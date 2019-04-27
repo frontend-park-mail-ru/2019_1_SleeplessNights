@@ -1,5 +1,4 @@
 const KEY = 'sl-nights';
-const pages = ['play', 'about', 'leaders', 'profile', 'login', 'signup'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
@@ -27,31 +26,21 @@ self.addEventListener('fetch',   (event) => {
                     return cachedResponse;
                 }
 
+                const url = new URL(event.request.url);
+
                 if (navigator.onLine) {
                     return fetch(request)
                         .then(res => {
                             const resClone = res.clone();
-                            caches.open(KEY).then((cache) => cache.put(request, resClone));
+                            if (!url.href.includes('api')) {
+                                caches.open(KEY).then((cache) => cache.put(request, resClone));
+                            }
+                            return res;
                         })
                         .catch(err => console.error(err));
                 }
 
-                const url = new URL(event.request.url);
-                const path = url.pathname.replace('/', '');
-
-                if (pages.includes(path)) {
-                    console.log('43');
-                    const baseUrl = url.toString().replace(path, '');
-                    try {
-                        const cache = await caches.open(KEY);
-                        const keys = await cache.keys();
-                        const request = keys.find(key => key.url.toString() === baseUrl);
-                        return await caches.match(request);
-                    } catch (e) {
-                        console.dir(e);
-                    }
-                } else {
-                    console.log('54');
+                if (url.href.includes('api')) {
                     const init = {
                         status: 418,
                         statusText: 'Offline Mode'
@@ -60,6 +49,17 @@ self.addEventListener('fetch',   (event) => {
                     const data = {message: `Content is not available in offline mode`};
                     const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
                     return new Response(blob, init);
+
+                } else {
+                    const baseUrl = url.toString().replace(url.pathname, '/');
+                    try {
+                        const cache = await caches.open(KEY);
+                        const keys = await cache.keys();
+                        const request = keys.find(key => key.url.toString() === baseUrl);
+                        return await caches.match(request);
+                    } catch (e) {
+                        console.dir(e);
+                    }
                 }
             })
             .catch((err) => {
