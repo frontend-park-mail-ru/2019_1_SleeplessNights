@@ -49,12 +49,12 @@ import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
 import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';
-import {ChatService} from "./services/chat.js";
+import { ChatService } from "./services/chat.js";
 /************************************************************\/**/
 
 window.bus = bus;
 window.user = {
-    nickname: 'guest',
+    nickname: 'Guest',
     isAuthorised: AuthService.isAuthorised
 };
 

@@ -23,7 +23,7 @@ export class BaseChatView {
     }
 
     onMessageCome = (message) => {
-        if (message.nickname !== user.nickname) {
+        if (message.nickname === 'Guest' || message.nickname !== user.nickname) {
             const msgContainer = new MsgContainerComponent({
                 type: 'receive',
                 datetime: '2009-11-13T20:00',

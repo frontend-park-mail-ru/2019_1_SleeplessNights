@@ -20,11 +20,9 @@ export class ChatService {
 
     getMessage() {
         bus.on('ws-message', (message) => {
-            console.log(message);
             const msg = JSON.parse(message.data);
-            if (msg.title === 'INFO') {
-                bus.emit('chat:get-message', JSON.parse(msg.payload));
-            }
+            console.log(msg);
+            bus.emit('chat:get-message', msg);
         });
     }
 }

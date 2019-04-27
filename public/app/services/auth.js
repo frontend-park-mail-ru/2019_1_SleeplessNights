@@ -42,8 +42,13 @@ export class AuthService {
         user.isAuthorised = true;
         // console.dir(data.get('nickname'));
         // console.dir(data.get('avatar_path'));
-        // user.nickname = data.nickname;
-        // user.avatar_path = data.avatar_path;
+        if (data.nickname) {
+            user.nickname = data.nickname;
+        }
+        if (data.avatar_path) {
+            user.avatar_path = data.avatar_path;
+        }
+
         Cookie.add('authorised', 1, 1);
     }
 
