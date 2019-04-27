@@ -27,9 +27,11 @@ export class MinimizedChat extends BaseChatView {
     close = (event) => {
         if (this.expanded) {
             this.expanded = false;
+            this.closeBtn.innerHTML = 'expand_less';
             this.panel.shorten();
         } else  {
             this.expanded = true;
+            this.closeBtn.innerHTML = 'expand_more';
             this.panel.expand();
         }
     }
