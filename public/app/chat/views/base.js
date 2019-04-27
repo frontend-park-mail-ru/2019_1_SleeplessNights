@@ -64,6 +64,11 @@ export class BaseChatView {
 
         this._root.insertAdjacentHTML('beforeend', `${this.panel.template}`);
         this.button.on('click', this.sendMessage);
+        this.input.on('keydown', (event) => {
+            if(event.keyCode === 13) {
+                this.sendMessage();
+            }
+        });
     };
 
     sendMessage = () => {
@@ -77,6 +82,7 @@ export class BaseChatView {
             });
 
             bus.emit('chat:update-container', msgContainer.template);
+            bus.emit('chat:send-message', this.input.value);
 
             setTimeout(() => {
                 msgContainer.show();
