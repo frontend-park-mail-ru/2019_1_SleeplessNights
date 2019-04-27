@@ -18,7 +18,9 @@ import './components/list/list.tmpl.js';                      /**/
 import './components/loader/loader.tmpl.js';                  /**/
 import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
+import './components/msgContainer/msgContainer.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
+import './components/panel/panel.tmpl.js';          /**/
 import './components/plug/plug.tmpl.js';                      /**/
 import './components/question/question.tmpl.js';              /**/
 import './components/scoreboard/board.tmpl.js';               /**/
@@ -32,6 +34,7 @@ import { LeadersView } from './views/leaders.js';             /**/
 import { LoginView }   from './views/login.js';               /**/
 import { SignUpView }  from './views/signup.js';              /**/
 import { ProfileView } from './views/profile.js';             /**/
+import { ChatView }    from './views/chat.js';
 import { NotFoundView } from './views/notFound.js';           /**/
 /************************* Services *************************\/**/
 import { RegisterService }   from './services/register.js';   /**/
@@ -46,6 +49,7 @@ import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
 import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';
+import {ChatService} from "./services/chat.js";
 /************************************************************\/**/
 
 window.bus = bus;
@@ -161,6 +165,12 @@ bus.on(events.FINISH_GAME, (data) => {
     data ? router.open('/menu') : router.open('/play');
 });
 
+
+bus.on('created-chat', () => {
+    const chatService = new ChatService();
+    bus.on('chat:send-message', chatService.sendMessage);
+});
+
 const router = new Router(app);
 
 router
@@ -172,6 +182,7 @@ router
     .register('/play', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
+    .register('/chat', ChatView)
     .register('/not-found', NotFoundView);
 
 router
@@ -181,19 +192,19 @@ router
 
 router.start();
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then((registration) => {
-            if (registration.installing) {
-                const data = {
-                    type: 'CACHE_URLS',
-                    payload: [
-                        location.href,
-                        ...performance.getEntriesByType('resource').map((r) => r.name)
-                    ]
-                };
-                registration.installing.postMessage(data);
-            }
-        })
-        .catch((err) => console.log('SW registration FAIL:', err));
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('/sw.js', { scope: '/' })
+//         .then((registration) => {
+//             if (registration.installing) {
+//                 const data = {
+//                     type: 'CACHE_URLS',
+//                     payload: [
+//                         location.href,
+//                         ...performance.getEntriesByType('resource').map((r) => r.name)
+//                     ]
+//                 };
+//                 registration.installing.postMessage(data);
+//             }
+//         })
+//         .catch((err) => console.log('SW registration FAIL:', err));
+// }

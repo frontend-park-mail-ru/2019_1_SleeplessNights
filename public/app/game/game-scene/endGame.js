@@ -61,7 +61,7 @@ export class EndGameScene {
         const answerChoosing = (event) => {
             const target = event.target;
             event.stopPropagation();
-            if ('index' in target.dataset) {
+            if ('chat.js' in target.dataset) {
                 anBlock.removeEventListener('click', answerChoosing);
                 bus.emit('selected-answer-end-game', +target.dataset.index);
             }
