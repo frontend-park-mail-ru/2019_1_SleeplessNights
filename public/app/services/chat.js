@@ -2,7 +2,7 @@ import { IWebSocket } from "../modules/websocket.js";
 
 export class ChatService {
     constructor() {
-        this.host = 'ws://localhost:8005/chat/connect';
+        this.host = 'ws://89.208.198.186:8005/chat/connect';
         this.ws = new IWebSocket(this.host);
         this.getMessage();
     }
