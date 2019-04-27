@@ -9,13 +9,13 @@ export class ChatService {
 
     sendMessage = (text) => {
         const message = {
-            title: 'INFO',
+            title: 'POST',
             payload: {
                 text: text
             }
         };
 
-        this.ws.sendMessage(message);
+        this.ws.sendMessage(JSON.stringify(message));
     };
 
     getMessage() {
