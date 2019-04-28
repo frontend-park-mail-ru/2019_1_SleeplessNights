@@ -1,5 +1,5 @@
-import { backendUrl }        from './constants.js';
 import { urlencodeFormData } from '../modules/utils.js';
+import config from '../modules/config.js';
 
 export class AjaxModule {
     static _fetch({
@@ -11,7 +11,7 @@ export class AjaxModule {
 
         bus.emit('show-loader');
         if (url.includes('api')) {
-            url = backendUrl + url;
+            url = config.backendUrl + url;
         }
 
         return fetch(url, {

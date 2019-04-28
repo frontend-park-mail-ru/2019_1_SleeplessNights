@@ -1,10 +1,13 @@
 import { IWebSocket } from "../modules/websocket.js";
+import config from '../modules/config.js';
 
 export class ChatService {
     constructor() {
-        this.host = 'ws://89.208.198.186:8005/chat/connect';
-        this.ws = new IWebSocket(this.host);
+        this.ws = new IWebSocket(config.chatUrl);
         this.getMessage();
+        setTimeout(() => {
+            this.getOldMessages();
+        }, 1000);
     }
 
     sendMessage = (text) => {
@@ -18,11 +21,20 @@ export class ChatService {
         this.ws.sendMessage(JSON.stringify(message));
     };
 
+    getOldMessages() {
+        const message = {
+            title: 'SCROLL',
+            payload: {
+                since: 100
+            }
+        };
+
+        this.ws.sendMessage(JSON.stringify(message));
+    }
+
     getMessage() {
         bus.on('ws-message', (message) => {
-            const msg = JSON.parse(message.data);
-            console.log(msg);
-            bus.emit('chat:get-message', msg);
+            bus.emit('chat:get-message', message);
         });
     }
 }

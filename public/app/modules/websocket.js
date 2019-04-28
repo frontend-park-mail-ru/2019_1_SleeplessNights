@@ -13,8 +13,7 @@ export class IWebSocket {
 
     startListening() {
         this.socket.onmessage = (msg) => {
-            // console.log(msg);
-            bus.emit('ws-message', msg);
+            bus.emit('ws-message', JSON.parse(msg.data));
         };
     }
 }
