@@ -1,34 +1,39 @@
-import { CardComponent }  from '../components/card/card.js';
-import { BaseView }       from './base.js';
-import { BoardComponent } from '../components/scoreboard/board.js';
+import { CardComponent }   from '../components/card/card.js';
+import { BoardComponent }  from '../components/scoreboard/board.js';
+import { HeaderComponent } from '../components/header/header.js';
+import { BaseView } from './base.js';
 
 export class LeadersView extends BaseView {
-    _pageTitle = 'Таблица лидеров';
+    _pageTitle;
 
     constructor(el) {
         super(el);
+        this._pageTitle = 'Таблица лидеров';
+        this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
-    render() {
+    _render() {
+        const board = new BoardComponent();
         const card = new CardComponent({
-            customClasses: 'card_centered_both card_empty shadow-l',
-            body: ''
+            customClasses: 'card_centered_both card_profile shadow-l',
+            body: board.template
         });
+
+        const header = new HeaderComponent({ title: 'Лучшие игроки' });
 
         super.renderContainer({
             customClasses: '',
-            header: {
-                title:    'Лучшие игрокы',
-                subtitle: '',
-                btnHome:  true
-            },
-            container: card.template
+            btnBack: true,
+            container: `
+                ${header.template}
+                ${card.template}
+            `,
         });
 
-        new BoardComponent(card.body);
+        bus.emit('fetch-leaders');
     }
 }

@@ -1,11 +1,11 @@
 import { noop, uniqueId } from '../../modules/utils.js';
 
 export class LinkComponent {
-    _template;
-    _id;
     _className;
-    _href;
     _dataHref;
+    _href;
+    _id;
+    _template;
     _text;
 
     constructor({
@@ -19,7 +19,18 @@ export class LinkComponent {
         this._href = href;
         this._dataHref = dataHref;
         this._text = text;
+        this._render();
+    }
 
+    get template() {
+        return this._template;
+    }
+
+    get _innerElem() {
+        return document.getElementById(this._id);
+    }
+
+    _render() {
         this._template = Handlebars.templates.link({
             id:        this._id,
             className: this._className,
@@ -29,19 +40,11 @@ export class LinkComponent {
         });
     }
 
-    _innerElem() {
-        return document.getElementById(this._id);
+    on(event, callback = noop) {
+        this._innerElem.addEventListener(event, callback);
     }
 
-    get template() {
-        return this._template;
-    }
-
-    on({ event = 'click', callback = noop, capture = false }) {
-        this._innerElem.addEventListener(event, callback, capture);
-    }
-
-    off({ event = 'click', callback = noop, capture = false }) {
-        this._innerElem.removeEventListener(event, callback, capture);
+    off(event, callback = noop) {
+        this._innerElem.removeEventListener(event, callback);
     }
 }

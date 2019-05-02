@@ -1,0 +1,28 @@
+.packs-section {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.card_pack {
+    width: 300px;
+}
+
+.card_pack .pack-name {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+}
+
+.list__item_sticky {
+    position: sticky;
+}
+
+.card_pack .card__body {
+    padding: 10px !important;
+}
+
+.game-board__cell_pack {
+    min-height: 40px !important;
+    min-width: 40px !important;
+}

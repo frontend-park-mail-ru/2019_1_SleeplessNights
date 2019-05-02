@@ -1,0 +1,7 @@
+.game-board__cell_failed {
+  background: red;
+  border-color: red !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}

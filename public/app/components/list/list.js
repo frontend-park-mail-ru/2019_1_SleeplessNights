@@ -12,14 +12,17 @@ export class ListComponent {
     } = {}){
         this._customClasses = customClasses;
         this._list = list;
-
-        this._template = Handlebars.templates.list({
-            customClasses: this._customClasses,
-            lists:         this._list
-        });
+        this._render();
     }
 
     get template() {
         return this._template;
+    }
+
+    _render() {
+        this._template = Handlebars.templates.list({
+            customClasses: this._customClasses,
+            lists:         this._list
+        });
     }
 }

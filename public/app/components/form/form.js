@@ -24,6 +24,7 @@ export class FormComponent {
         formGroups.forEach(item => {
             const formControl = item.content;
             const newControl = new FormControlComponent({
+                attributes:    formControl.attributes,
                 type:          formControl.type,
                 customClasses: formControl.customClasses,
                 placeholder:   formControl.placeholder,
@@ -37,10 +38,7 @@ export class FormComponent {
                 content:       newControl.template
             });
 
-            this._formControls.push({
-                name:    formControl.name,
-                element: newControl
-            });
+            this._formControls.push(newControl);
         });
 
         this.render();
@@ -54,20 +52,18 @@ export class FormComponent {
         return this._template;
     }
 
-    get id() {
-        return this._id;
+    get formControls() {
+        return this._formControls;
     }
 
-    get isValid() {
-        let res = true;
-        this._formControls.forEach(fc => res &= fc.element.isValid);
-        return res;
+    get id() {
+        return this._id;
     }
 
     setFormControlValue(name, text) {
         const fc = this._formControls.find(fc => fc.name === name);
         if (fc !== undefined && text !== '') {
-            fc.element.value = text;
+            fc.value = text;
         }
     }
 
@@ -84,21 +80,24 @@ export class FormComponent {
     addError(name, error) {
         const input = this._formControls.find(fc => fc.name === name);
         if (input !== undefined && error !== '') {
-            input.element.addError(error);
+            input.addError(error);
         }
 
-        if (name === 'error') {
+        if (name === 'error' && error) {
             const fdInvalid = this._innerElem.lastElementChild;
-            fdInvalid.innerText = error.join(',');
+            fdInvalid.innerText = (typeof error === 'object' ? error.join(',') : error);
         }
     }
 
-    on({ event = 'submit', callback = noop, capture = false }) {
-        this._innerElem.addEventListener(event, callback, capture);
-        this._formControls.forEach(fc => fc.element.startValidation());
+    reset() {
+        this._formControls.forEach(fc => fc.removeError());
     }
 
-    off({ event = 'submit', callback = noop, capture = false }) {
-        this._innerElem.removeEventListener(event, callback, capture);
+    on(event, callback = noop) {
+        this._innerElem.addEventListener(event, callback);
+    }
+
+    off(event, callback = noop) {
+        this._innerElem.removeEventListener(event, callback);
     }
 }

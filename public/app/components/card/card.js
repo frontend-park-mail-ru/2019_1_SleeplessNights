@@ -17,6 +17,19 @@ export class CardComponent {
         this._body = body;
         this._id = 'card' + uniqueId();
 
+        this._render();
+        this._updateContent();
+    }
+
+    get template() {
+        return this._template;
+    }
+
+    get _innerElement() {
+        return document.getElementById(this._id);
+    }
+
+    _render() {
         this._template = Handlebars.templates.card({
             customClasses: this._customClasses,
             title:         this._title,
@@ -25,11 +38,7 @@ export class CardComponent {
         });
     }
 
-    get template() {
-        return this._template;
-    }
-
-    get body() {
-        return document.getElementById(this._id);
+    _updateContent() {
+        bus.on('update-card', (content) => this._innerElement.innerHTML = content);
     }
 }

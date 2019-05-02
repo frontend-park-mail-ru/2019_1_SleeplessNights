@@ -1,0 +1,11 @@
+@import "../../gameBoard/vars.scss";
+@import "../../../../assets/scss/global.scss";
+
+.game-field__cell_prize {
+  width: $cell-size;
+  height: $cell-size;
+  min-width: $cell-size;
+  min-height: $cell-size;
+  background: color("secondary");
+  border: none;
+}

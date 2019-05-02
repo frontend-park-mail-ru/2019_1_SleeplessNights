@@ -1,60 +1,68 @@
-import { ScoreboardService }   from '../../services/scoreboard-service.js';
 import { PaginationComponent } from '../pagination/pagination.js';
 
 export class BoardComponent {
-    _el;
     _template;
     _players = [];
     _pager;
 
-    constructor(el) {
-        this._el = el;
+    constructor() {
         this._render();
+        bus.on('fetch-leaders', () => this._getLeaders(1));
     }
 
     get template() {
-        return this._el.outerHTML;
+        return this._template;
     }
 
     _render() {
-        this._el.innerHTML = Handlebars.templates.board({
+        this._template = Handlebars.templates.board({
             players: this._players
         });
-
-        this._getLeaders(1);
     }
 
     _getLeaders(page) {
-        ScoreboardService.getLeaders(page)
-            .then(res => {
+        bus
+            .emit('get-leaders', page)
+            .on('success:get-leaders', (res) => {
+                this._players = [];
                 res.data.forEach(item => {
-                   this._players.push({
-                       name: item.nickname,
-                       win: item.won,
-                       lost: item.lost,
-                       playingTime: item.play_time
-                   });
+                    this._players.push({
+                        name: item.nickname,
+                        win: item.won,
+                        lost: item.lost,
+                        playingTime: item.play_time
+                    });
                 });
-                const pageCount = res.pages_total;
+                const pageCount = res.pages_total > 5 ? 5 : res.pages_total;
                 const currentPage = res.page; // eslint-disable-line
 
-                const pager = new PaginationComponent({
-                    baseUrl:    'scoreboard',
-                    pagesNumber: pageCount
-                });
+                if (pageCount) {
+                    const pager = new PaginationComponent({
+                        baseUrl:    'scoreboard',
+                        pagesNumber: pageCount
+                    });
 
-                this._el.innerHTML = Handlebars.templates.board({
-                    players: this._players
-                }) + pager.template;
+                    this._template = Handlebars.templates.board({
+                        players: this._players
+                    }) + pager.template;
 
-                this._pager = pager;
+                    this._pager = pager;
+                } else {
+                    this._template = Handlebars.templates.board({
+                        players: this._players
+                    }) + '<p>База Данных сервера пока что пусто...</p>';
+                }
+
+                bus.emit('update-card', this.template);
+                this.runGetScoreboardByPage();
             })
-            .then(() => this.runGetScoreboardByPage())
-            .catch(error => console.error('Error:', error));
+            .on('error:get-leaders', (data) => {
+                bus.emit('update-card', data);
+            });
     }
 
     runGetScoreboardByPage() {
-        this._pager.on({event: 'click', callback: (event) => {
+        this._pager.on('click', (event) => {
             let target = event.target;
             if (!(target instanceof HTMLAnchorElement)) {
                 return;
@@ -62,6 +70,6 @@ export class BoardComponent {
 
             event.preventDefault();
             this._getLeaders(target.innerText);
-        }});
+        });
     }
 }
