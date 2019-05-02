@@ -89,6 +89,7 @@ export class LoginView extends BaseView {
 
         this._onSubmit();
     }
+
     _onSubmit() {
         bus.on('error:login', (data) =>
             Object.entries(data).forEach((item) =>
@@ -104,8 +105,7 @@ export class LoginView extends BaseView {
             event.preventDefault();
 
             this._formData = new FormData(event.target);
-            const inputs = this._form.formControls.filter(fc => fc.type === 'email');
-
+            const inputs = this._form.formControls.filter(fc => fc.type !== 'submit');
             this._form.reset();
             bus.emit('check-validity-login', inputs);
         });

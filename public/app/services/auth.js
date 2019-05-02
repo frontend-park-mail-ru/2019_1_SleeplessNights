@@ -22,12 +22,19 @@ export class AuthService {
             const errors = {};
 
             formControls.forEach(fc => {
-                const { res , error } = Validators.isValid(fc.name, fc.value);
-                if (!res) {
-                    errors[fc.name] = error;
-                }
+                if (fc.name === 'password') {
+                    if (!fc.value) {
+                        errors[fc.name] = 'Поле не может быть пустым';
+                        wholeRes &= false;
+                    }
+                } else {
+                    const { res , error } = Validators.isValid(fc.name, fc.value);
+                    if (!res) {
+                        errors[fc.name] = error;
+                    }
 
-                wholeRes &= res;
+                    wholeRes &= res;
+                }
             });
 
             wholeRes ? resolve() : reject(errors);
