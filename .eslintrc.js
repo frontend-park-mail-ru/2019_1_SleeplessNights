@@ -8,10 +8,7 @@ module.exports = {
     "globals": {
         "Handlebars": true,
         "bus": true,
-        "router": true,
-        "idb": true,
-        "user": true,
-        "ajax": true
+        "user": true
     },
     "parserOptions": {
         "ecmaVersion": 2018,

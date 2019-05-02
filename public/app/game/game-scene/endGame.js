@@ -60,6 +60,7 @@ export class EndGameScene {
         const anBlock = document.getElementsByClassName('answer-block')[0];
         const answerChoosing = (event) => {
             const target = event.target;
+            event.stopPropagation();
             if ('index' in target.dataset) {
                 anBlock.removeEventListener('click', answerChoosing);
                 bus.emit('selected-answer-end-game', +target.dataset.index);
@@ -70,8 +71,7 @@ export class EndGameScene {
     };
 
     selectAnswer = (id) => {
-        bus.emit(events.FINISH_GAME);
-        id ? router.open('/menu') : router.reopen('/play');
+        bus.emit(events.FINISH_GAME, id);
     };
 
     destroy() {

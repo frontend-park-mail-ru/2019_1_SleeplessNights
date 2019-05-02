@@ -28,6 +28,14 @@ export class MenuView extends BaseView {
                 },
             ],
             [
+                'logout', {
+                    href: 'logout',
+                    dataHref: 'logout',
+                    className: 'menu__btn',
+                    text: 'Log Out'
+                },
+            ],
+            [
                 'login', {
                     href: 'login',
                     dataHref: 'login',
@@ -60,23 +68,29 @@ export class MenuView extends BaseView {
                 },
             ]
         ]);
-
-        if (user.isAuthorised) {
-            this._items.delete('signup');
-            this._items.delete('login');
-        } else {
-            this._items.delete('profile');
-        }
-        this._render();
     }
 
     get pageTitle(){
         return this._pageTitle;
     }
 
+    show() {
+        this._render();
+        super.show();
+    }
+
     _render() {
+        const items = new Map(this._items);
+        if (user.isAuthorised) {
+            items.delete('signup');
+            items.delete('login');
+        } else {
+            items.delete('profile');
+            items.delete('logout');
+        }
+
         const menu = new MenuComponent({
-            items: Array.from(this._items.values())
+            items: Array.from(items.values())
         });
 
         const header = new HeaderComponent({ title: gameName });
@@ -88,5 +102,6 @@ export class MenuView extends BaseView {
                 ${menu.template}
             `
         });
+        menu.logOutListening();
     }
 }

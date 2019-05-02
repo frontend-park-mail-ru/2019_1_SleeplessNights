@@ -28,6 +28,7 @@
 @import url(../../app/components/list/list.css);
 @import url(../../app/components/list/__item/list__item.css);
 @import url(../../app/components/list/__item-row/list__item-row.css);
+@import url(../../app/components/loader/loader.css);
 @import url(../../app/components/menu/menu.css);
 @import url(../../app/components/menu/__btn/menu__btn.css);
 @import url(../../app/components/menu/__btn/_huge/menu__btn_huge.css);
@@ -409,4 +410,11 @@ html, body {
 
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
+}
+
+.not-found {
+  font-size: 150px;
+  background-color: #9e9e9e30;
+  font-family: 'BurnstownDam-Regular';
+  color: #b55e28;
 }

@@ -8,6 +8,7 @@ export class SignUpView extends BaseView {
     _pageTitle;
     _formGroups;
     _form;
+    _formData;
 
     constructor(el) {
         super(el);
@@ -16,7 +17,7 @@ export class SignUpView extends BaseView {
             {
                 customClasses: '',
                 content: {
-                    type: 'text',
+                    type: 'email',
                     customClasses: '',
                     placeholder: 'Почта',
                     name: 'email',
@@ -64,12 +65,15 @@ export class SignUpView extends BaseView {
                 }
             }
         ];
-
-        this._render();
     }
 
     get pageTitle(){
         return this._pageTitle;
+    }
+
+    show() {
+        this._render();
+        super.show();
     }
 
     _render() {
@@ -85,45 +89,48 @@ export class SignUpView extends BaseView {
         });
 
         const card = new CardComponent({
-            customClasses: '',
+            customClasses: 'shadow-l',
             title: 'Регистрация',
             body: this._form.template
         });
 
         const card2 = new CardComponent({
-            customClasses: 'card_centered_both',
+            customClasses: 'card_centered_both shadow-l',
             title: '',
             body: `Аккаунт уже есть? ${link.template}`
         });
-
-        const header = new HeaderComponent({ title: 'Описание игры' });
-
+        // const header = new HeaderComponent({ title: 'Регистрация' }); // ${header.template}
         super.renderContainer({
             customClasses: '',
             btnBack: true,
             container: `
-                ${header.template}
                 ${card.template}
                 ${card2.template}
             `
         });
 
-        this._submit();
+        this._onSubmit();
     }
 
-    _submit() {
+    _onSubmit() {
+        bus.on('error:signup', (data) =>
+            Object.entries(data).forEach((item) =>
+                this._form.addError(item[0], item[1])
+            )
+        );
+
+        bus.on('success:check-validity-signup', () =>
+            bus.emit('signup', this._formData)
+        );
+
         this._form.on('submit', (event) => {
             event.preventDefault();
-            const formData = new FormData(event.path[0]);
 
-            if (this._form.isValid) {
-                bus.emit('signup', formData)
-                    .on('error:signup', (data) => {
-                        Object.entries(data).forEach((item) => {
-                            this._form.addError(item[0], item[1]);
-                        });
-                    });
-            }
+            this._formData = new FormData(event.target);
+            const inputs = this._form.formControls.filter(fc => fc.type !== 'submit');
+
+            this._form.reset();
+            bus.emit('check-validity-signup', inputs);
         });
     }
 }
