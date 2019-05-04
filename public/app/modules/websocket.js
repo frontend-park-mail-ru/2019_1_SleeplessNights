@@ -1,6 +1,6 @@
 export class IWebSocket {
-    constructor() {
-        this.socket = new WebSocket('');
+    constructor(url) {
+        this.socket = new WebSocket(url);
         this.socket.onopen = () => {
             console.log('Websocket successfully connected');
             this.startListening();
@@ -13,7 +13,7 @@ export class IWebSocket {
 
     startListening() {
         this.socket.onmessage = (msg) => {
-            bus.emit('ws-message', msg);
+            bus.emit('ws-message', JSON.parse(msg.data));
         };
     }
 }
