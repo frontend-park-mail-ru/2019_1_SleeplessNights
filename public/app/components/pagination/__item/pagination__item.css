@@ -14,3 +14,14 @@
     border: .0625rem solid #E0E0E0;
     box-shadow: 0 0 20px rgba(156,156,156, 0.7);
 }
+
+.pagination__item_disabled {
+    opacity: 0.5;
+}
+
+.pagination__item_active {
+    color: #005ff9;
+    background-color: #ffffff;
+    border: .0625rem solid #E0E0E0;
+    box-shadow: 0 0 20px rgba(156,156,156, 0.7)
+}

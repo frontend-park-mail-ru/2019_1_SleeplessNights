@@ -34,13 +34,13 @@ export class BoardComponent {
                         playingTime: item.play_time
                     });
                 });
-                const pageCount = res.pages_total > 5 ? 5 : res.pages_total;
-                const currentPage = res.page; // eslint-disable-line
 
-                if (pageCount) {
+                const pageCount = res.pages_total;
+                if (pageCount && pageCount < 1) {
                     const pager = new PaginationComponent({
                         baseUrl:    'scoreboard',
-                        pagesNumber: pageCount
+                        pagesNumber: pageCount,
+                        currentPage: res.page
                     });
 
                     this._template = Handlebars.templates.board({
