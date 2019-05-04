@@ -49,7 +49,7 @@ import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';
 /************************************************************\/**/
 
-window.bus = bus;
+// window.bus = bus;
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised

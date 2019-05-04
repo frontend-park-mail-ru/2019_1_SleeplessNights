@@ -3,6 +3,7 @@ import { GameCore } from './core.js';
 import { BotPlayer } from './bot.js';
 import idb from '../../modules/indexdb.js';
 import { shuffle } from '../../modules/utils.js';
+import bus from '../../modules/bus.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {

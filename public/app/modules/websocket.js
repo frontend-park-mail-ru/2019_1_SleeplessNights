@@ -1,3 +1,5 @@
+import bus from './bus.js';
+
 export class IWebSocket {
     constructor(url) {
         this.socket = new WebSocket(url);

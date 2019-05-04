@@ -4,6 +4,7 @@ import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
 import { PlayingScene }   from './game-scene/playing.js';
 import { events } from './core/events.js';
+import bus from '../modules/bus.js';
 
 export class Game {
     constructor ({

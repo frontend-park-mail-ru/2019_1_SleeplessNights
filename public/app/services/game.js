@@ -1,5 +1,6 @@
 import idb from '../modules/indexdb.js';
 import { TestDataDB } from './testDataDB.js';
+import bus from '../modules/bus.js';
 
 export class GameService {
     static checkDB() {

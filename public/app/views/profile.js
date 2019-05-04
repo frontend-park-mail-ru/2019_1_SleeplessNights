@@ -4,6 +4,7 @@ import { FormComponent } from '../components/form/form.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { HeaderComponent } from '../components/header/header.js';
 import { BaseView } from './base.js';
+import bus from '../modules/bus.js';
 
 export class ProfileView extends BaseView {
     _pageTitle;

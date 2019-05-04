@@ -1,4 +1,5 @@
 import { uniqueId } from '../../modules/utils.js';
+import bus from '../../modules/bus.js';
 
 export class CardComponent {
     _template;

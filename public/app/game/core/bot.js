@@ -1,3 +1,5 @@
+import bus from '../../modules/bus.js';
+
 export class BotPlayer {
     constructor() {
         this.fieldSize = 8;

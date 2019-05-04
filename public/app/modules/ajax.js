@@ -1,5 +1,6 @@
 import { urlencodeFormData } from '../modules/utils.js';
-import config from '../modules/config.js';
+import config from './config.js';
+import bus from './bus.js';
 
 export class AjaxModule {
     static _fetch({

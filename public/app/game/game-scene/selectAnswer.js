@@ -2,6 +2,7 @@ import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
 import { shuffle } from '../../modules/utils.js';
+import bus from '../../modules/bus.js';
 
 export class SelectAnswerScene {
     constructor(root) {
