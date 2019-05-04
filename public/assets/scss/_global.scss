@@ -1,12 +1,14 @@
 :root {
-  --primary-color: #75b1a9;
-  --primary-color2: #d9b44a;
+  --primary-color: #f8f1b5;
+  --primary-color2: #426e86;
   --secondary-color: #011A27;
 }
 
 $skew-angle: 4deg;
-$title-text-size: 80px;
-$subtitle-text-size: 40px;
+$skew-shift: 110px;
+$title-text-size: 50px;
+$subtitle-text-size: 30px;
+$title-padding: 10px;
 
 $colors: (
         "primary": #005ff9,
