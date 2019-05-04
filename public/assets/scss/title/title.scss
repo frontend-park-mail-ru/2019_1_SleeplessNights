@@ -7,4 +7,7 @@
   text-transform: uppercase;
   font-size: $title-text-size;
   font-weight: bold;
+  text-decoration: none;
+  outline: none;
+  padding: $title-padding;
 }

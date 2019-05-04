@@ -6,7 +6,7 @@ $width: 200px;
   display: flex;
   font-size: $width;
   color: inherit;
-  @include align-self(flex-end);
+  @include align-self(right);
   margin-right: -($width / 2);
 }
 
@@ -14,6 +14,6 @@ $width: 200px;
   display: flex;
   font-size: $width;
   color: inherit;
-  @include align-self(flex-start);
+  @include align-self(left);
   margin-left: -($width / 2);
 }

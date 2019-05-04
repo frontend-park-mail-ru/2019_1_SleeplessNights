@@ -1,0 +1,21 @@
+@import "../../global.scss";
+
+.container_justify-content-left {
+  @include justify-content(left);
+}
+
+.container_justify-content-right {
+  @include justify-content(right);
+}
+
+.container_justify-content-space-between {
+  @include justify-content(space-between);
+}
+
+.container_justify-content-space-around {
+  @include justify-content(space-around);
+}
+
+.container_justify-content-space-center {
+  @include justify-content(center);
+}
