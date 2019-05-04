@@ -1,8 +1,17 @@
 .table {
+    width: 100%;
     border-collapse: collapse;
 }
 
-.table th, .table td {
-    border: 1px solid black;
-    padding: 8px;
+.table th {
+    padding: 5px 10px;
+    background-color: var(--second);
+    color: var(--primary-color2);
+    border-left: 1px solid var(--primary-color2);
+}
+
+.table td {
+    padding: 5px 10px;
+    border-bottom: 2px solid var(--second);
+    text-align: center;
 }

@@ -11,8 +11,6 @@
   font-family: 'Material Icons', sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: color("secondary");
-  font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -31,6 +29,10 @@
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 
-.material-icons:hover {
+.material-icons.md-button {
+  color: color("secondary");
+}
+
+.material-icons.md-button:hover {
   color: color("secondary-light");
 }

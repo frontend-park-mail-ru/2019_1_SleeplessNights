@@ -8,15 +8,6 @@ $colors: (
         "error": red
 );
 
-$question-pack-colors: (
-        1: #B3B156,
-        2: #ADE0FF,
-        3: #FFFD94,
-        4: #CC6264,
-        5: #00ffc5,
-        
-);
-
 @function color($color-key) {
   @return map-get($colors, $color-key)
 }
