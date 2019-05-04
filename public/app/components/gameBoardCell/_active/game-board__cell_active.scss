@@ -1,7 +1,17 @@
-@import "../../../../assets/scss/global.scss";
-@import "../../../../assets/scss/shadow.scss";
+@keyframes changeBoxShadow {
+  from {
+    box-shadow: 0 0 10px #0c5460;
+  }
+
+  to {
+    box-shadow: none;
+  }
+}
 
 .game-board__cell_active {
-  @include box-shadow(0 0 10px color("secondary"));
   cursor: pointer;
+  animation-duration: 400ms;
+  animation-name: changeBoxShadow;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }

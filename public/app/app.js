@@ -20,6 +20,7 @@ import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
 import './components/plug/plug.tmpl.js';                      /**/
+import './components/pack/pack.tmpl.js';                      /**/
 import './components/question/question.tmpl.js';              /**/
 import './components/scoreboard/board.tmpl.js';               /**/
 import './components/sidebar/sidebar.tmpl.js';                /**/
