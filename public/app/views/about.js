@@ -4,8 +4,6 @@ import { HeaderComponent }  from '../components/header/header.js';
 import { CardComponent } from '../components/card/card.js';
 import { ListComponent } from '../components/list/list.js';
 import { BaseView } from './base.js';
-import { Chat } from '../chat/index.js';
-import { modes } from '../chat/modes.js';
 
 export class AboutView extends BaseView {
     _pageTitle;
@@ -22,15 +20,6 @@ export class AboutView extends BaseView {
 
     get pageTitle(){
         return this._pageTitle;
-    }
-
-    addChat() {
-        new Chat({
-            root: this._el,
-            mode: modes.MINIMIZED
-        });
-
-        bus.emit('created-chat');
     }
 
     _makeAuthorList() {
@@ -91,7 +80,5 @@ export class AboutView extends BaseView {
             `,
             sideBar: true
         });
-
-        this.addChat();
     }
 }

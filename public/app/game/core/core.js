@@ -1,5 +1,6 @@
 import { events} from './events.js';
 import idb from '../../modules/indexdb.js';
+import bus from '../../modules/bus.js'
 
 export class GameCore {
     constructor() {
