@@ -1,0 +1,19 @@
+@import "../global.scss";
+
+$width: 200px;
+
+.centered-icon-left, .centered-icon-left:hover {
+  display: flex;
+  font-size: $width;
+  color: inherit;
+  @include align-self(flex-end);
+  margin-right: -($width / 2);
+}
+
+.centered-icon-right, .centered-icon-right:hover {
+  display: flex;
+  font-size: $width;
+  color: inherit;
+  @include align-self(flex-start);
+  margin-left: -($width / 2);
+}

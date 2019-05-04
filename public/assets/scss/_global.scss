@@ -1,3 +1,13 @@
+:root {
+  --primary-color: #75b1a9;
+  --primary-color2: #d9b44a;
+  --secondary-color: #011A27;
+}
+
+$skew-angle: 4deg;
+$title-text-size: 80px;
+$subtitle-text-size: 40px;
+
 $colors: (
         "primary": #005ff9,
         "primary-dark": #004ecc,
@@ -22,6 +32,7 @@ $grid-columns: (
 );
 
 $grid-rows: (
+        h10:  10%,
         h25:  25%,
         h50:  50%,
         h75:  75%,
@@ -77,6 +88,11 @@ $grid-rows: (
   align-items: $args;
 }
 
+@mixin align-self($args) {
+  -webkit-align-self: $args;
+  align-self: $args;
+}
+
 @mixin justify-content($args) {
   -webkit-justify-content: $args;
   justify-content: $args;
@@ -86,6 +102,14 @@ $grid-rows: (
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
+}
+
+@mixin transform($args) {
+  -moz-transform: $args;
+  -ms-transform: $args;
+  -o-transform: $args;
+  -webkit-transform: $args;
+  transform: $args;
 }
 
 %border-default {
