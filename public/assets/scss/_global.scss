@@ -1,3 +1,13 @@
+:root {
+  --primary-color: #75b1a9;
+  --primary-color2: #d9b44a;
+  --secondary-color: #011A27;
+}
+
+$skew-angle: 4deg;
+$title-text-size: 80px;
+$subtitle-text-size: 40px;
+
 $colors: (
         "primary": #005ff9,
         "primary-dark": #004ecc,
@@ -14,7 +24,6 @@ $question-pack-colors: (
         3: #FFFD94,
         4: #CC6264,
         5: #00ffc5,
-        
 );
 
 @function color($color-key) {
@@ -31,6 +40,7 @@ $grid-columns: (
 );
 
 $grid-rows: (
+        h10:  10%,
         h25:  25%,
         h50:  50%,
         h75:  75%,
@@ -86,6 +96,11 @@ $grid-rows: (
   align-items: $args;
 }
 
+@mixin align-self($args) {
+  -webkit-align-self: $args;
+  align-self: $args;
+}
+
 @mixin justify-content($args) {
   -webkit-justify-content: $args;
   justify-content: $args;
@@ -97,6 +112,14 @@ $grid-rows: (
   border-radius: $radius;
 }
 
+@mixin transform($args) {
+  -moz-transform: $args;
+  -ms-transform: $args;
+  -o-transform: $args;
+  -webkit-transform: $args;
+  transform: $args;
+}
+
 %border-default {
   border: 7px solid color("primary-dark");
   @include border-radius(10px);
@@ -106,3 +129,5 @@ $grid-rows: (
   @extend %border-default;
   border-width: 2px;
 }
+
+
