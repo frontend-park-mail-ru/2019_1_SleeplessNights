@@ -1,8 +1,8 @@
 @import url(../assets/css/main.css);
 
 :root {
-    --primary-color: #75b1a9;
-    --primary-color2: #d9b44a;
+    --primary-color2: #f8f1b5;
+    --primary-color: #426e86;
     --second: #011A27;
 }
 
@@ -383,5 +383,43 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
+
+
+/* Packs section */
+
+.packs-section_new {
+    position: absolute;
+    bottom: 10px;
+    width: 70px;
+    height: 60px;
+    background-color: white;
+    border-radius: 40px;
+    transition: all 1s;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.packs-section_new:hover {
+    width: 65%;
+    /*height: 80px;*/
+    /*border-radius: 10px;*/
+}
+
+.packs-section_new__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+
+
+
+
+
+
+
