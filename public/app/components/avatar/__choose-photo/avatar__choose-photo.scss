@@ -1,0 +1,9 @@
+@import "../../../../assets/scss/global.scss";
+
+.avatar__choose-photo {
+    position: absolute;
+    top: 110px;
+    right: 68px;
+    font-size: $subtitle-text-size;
+    @include opacity(.5)
+}

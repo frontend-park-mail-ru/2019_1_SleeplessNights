@@ -1,0 +1,17 @@
+@import "../../../assets/scss/global";
+
+.avatar{
+  width:$avatar-size;
+  height:$avatar-size;
+  @include border-radius($avatar-size/2);
+  margin-bottom:$whitespace-base-size;
+}
+
+.container_skewed .avatar {
+  @include transform(skewX($skew-angle));
+}
+
+.avatar_game-board{
+  position:absolute;
+  top:10 * $whitespace-base-size;
+}

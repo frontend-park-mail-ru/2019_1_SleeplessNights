@@ -1,45 +1,21 @@
 .packs-section {
-    position: absolute;
-    bottom: 10px;
-    width: 130px;
-    height: 60px;
-    background-color: white;
-    border-radius: 40px;
-    transition: all 1s;
-    cursor: pointer;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow:0 0 30px rgba(156,156,156,0.7);
-}
+  position: absolute;
+  bottom: 10px;
+  width: 130px;
+  height: 60px;
+  background-color: white;
+  border-radius: 40px;
+  transition: all 1s;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(156, 156, 156, 0.7); }
 
 .packs-section:hover {
-    width: 70%;
-    bottom: 0;
-    height: 70px;
-}
+  width: 70%;
+  bottom: 0;
+  height: 70px; }
 
-.packs-section__item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-}
-
-.packs-section__icon {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 130px;
-    height: 60px;
-    background-color: white;
-    border-radius: 40px;
-    opacity: 1;
-    transition: opacity 1s;
-}
-
-.packs-section__item__text {
-    margin-left: 0.5em;
-}
+/*# sourceMappingURL=pack.css.map */

@@ -1,0 +1,6 @@
+@import "../../../../assets/scss/global.scss";
+
+.avatar__upload-icon{
+  width:100%;
+  @include border-radius($avatar-size/2);
+}

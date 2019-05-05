@@ -1,11 +1,11 @@
 @import "../../global.scss";
 
 .container_justify-content-left {
-  @include justify-content(left);
+  @include justify-content(flex-start);
 }
 
 .container_justify-content-right {
-  @include justify-content(right);
+  @include justify-content(flex-end);
 }
 
 .container_justify-content-space-between {
