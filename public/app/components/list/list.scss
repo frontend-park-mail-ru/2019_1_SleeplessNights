@@ -1,0 +1,9 @@
+@import "../../../assets/scss/global";
+
+.list {
+    display: flex;
+    @include flex-direction(column);
+    padding: $whitespace-base-size;
+    list-style: none;
+    margin: 0;
+}

@@ -1,0 +1,7 @@
+@import "../../../../assets/scss/global.scss";
+
+.avatar_profile {
+    position: absolute;
+    top: $whitespace-base-size / 2;
+    right: $whitespace-base-size * 3.5;
+}

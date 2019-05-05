@@ -1,9 +1,10 @@
+@import "../../../../assets/scss/global";
+
 .menu__btn {
-    font-family: 'BurnstownDam-Regular';
     display: block;
-    padding: 0 40px;
-    border: .3rem solid #b55e28;
-    box-shadow: 0 0 0 .125rem #ffd544 ;
+    padding: 0 4 * $whitespace-base-size;
+    border: .3rem solid var(--secondary-color);
+    box-shadow: 0 0 0 .125rem #ffd544;
     border-radius: .3rem;
     background: #ffd544;
     color: #b55e28;

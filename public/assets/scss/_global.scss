@@ -4,11 +4,17 @@
   --secondary-color: #011A27;
 }
 
+$whitespace-base-size: 10px;
+
 $skew-angle: 4deg;
 $skew-shift: 110px;
 $title-text-size: 50px;
 $subtitle-text-size: 30px;
-$title-padding: 10px;
+$title-padding: $whitespace-base-size;
+$page-padding: $whitespace-base-size;
+$list-margin: .8 * $whitespace-base-size;
+$avatar-size: 140px;
+$modal-min-size: 200px;
 
 $colors: (
         "primary": #005ff9,
@@ -23,8 +29,6 @@ $colors: (
 @function color($color-key) {
   @return map-get($colors, $color-key)
 }
-
-$page-padding: 10px;
 
 $grid-columns: (
         w25:  25%,
@@ -100,18 +104,17 @@ $grid-rows: (
   justify-content: $args;
 }
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  border-radius: $radius;
-}
-
 @mixin transform($args) {
   -moz-transform: $args;
   -ms-transform: $args;
   -o-transform: $args;
   -webkit-transform: $args;
   transform: $args;
+}
+
+@mixin opacity($args) {
+  -moz-opacity: $args;
+  opacity: $args;
 }
 
 %border-default {

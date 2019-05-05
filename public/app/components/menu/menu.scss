@@ -1,0 +1,8 @@
+@import "../../../assets/scss/global";
+
+.menu {
+    width: 50%;
+    display: flex;
+    padding: $whitespace-base-size;
+    @include flex-direction(column)
+}

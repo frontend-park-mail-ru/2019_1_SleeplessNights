@@ -1,0 +1,11 @@
+@import "../../../../assets/scss/global";
+
+.list__item-row {
+    width: 100%;
+    display: flex;
+    @include flex-direction(row);
+}
+
+.list__item-row .list__item:not(:last-child) {
+    margin-right: $list-margin !important;
+}
