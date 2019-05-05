@@ -1,0 +1,21 @@
+@import "../../../../assets/scss/global";
+
+.pagination__item {
+    height: $button-height;
+    @extend %border-default;
+    padding: 0 $whitespace-base-size;
+    font-weight: $button-font-weight;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    margin-right: .5*$whitespace-base-size;
+}
+
+.pagination__item:nth-last-child(1) {
+    margin-right: 0 !important;
+}
+
+.pagination__item:hover {
+    color: var(--accent-color);
+}

@@ -1,10 +1,10 @@
 @import "../../../assets/scss/global.scss";
 
 .btn {
-    height: 32px;
+    height: $button-height;
     @extend %border-default;
     padding: 0 3*$whitespace-base-size !important;
-    font-weight: 600;
+    font-weight: $button-font-weight;
     background-color: var(--secondary-color);
     cursor: pointer;
     width: fit-content !important;
