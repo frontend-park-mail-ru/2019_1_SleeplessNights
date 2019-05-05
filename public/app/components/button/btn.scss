@@ -1,0 +1,17 @@
+@import "../../../assets/scss/global.scss";
+
+.btn {
+    height: 32px;
+    @extend %border-default;
+    padding: 0 3*$whitespace-base-size !important;
+    font-weight: 600;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    width: fit-content !important;
+    color: white;
+    overflow: hidden;
+}
+
+.btn:hover {
+    @include background-accent(var(--secondary-color));
+}

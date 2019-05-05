@@ -2,6 +2,9 @@
   --primary-color: #f8f1b5;
   --primary-color2: #426e86;
   --secondary-color: #011A27;
+  --success-color: #058e3f;
+  --danger-color: #931621;
+  --accent-color: #e6af2e;
 }
 
 $whitespace-base-size: 10px;
@@ -15,6 +18,7 @@ $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
 $avatar-size: 140px;
 $modal-min-size: 200px;
+$form-control-size: 40px;
 
 $media-breakpoints: (
         s:  576px,
@@ -132,12 +136,71 @@ $grid-rows: (
   mask: linear-gradient($args);
 }
 
+@mixin background-size($args) {
+  -moz-background-size: $args;
+  -o-background-size: $args;
+  -webkit-background-size: $args;
+  background-size: $args;
+}
+
+@mixin background-linear-gradient($args) {
+  background: -moz-linear-gradient($args);
+  background: -ms-linear-gradient($args);
+  background: -o-linear-gradient($args);
+  background: -webkit-linear-gradient($args);
+  background: linear-gradient($args);
+}
+
 %border-default {
-  border: 7px solid color("primary-dark");
-  @include border-radius(10px);
+  border: none;
+  @include border-radius(2px);
 }
 
 %border-light {
   @extend %border-default;
   border-width: 2px;
+}
+
+@mixin background-accent($color) {
+  @keyframes background {
+    to {
+      background-size: 100% 100%;
+    }
+  }
+
+  @include background-linear-gradient((90deg, var(--accent-color), var(--accent-color) 50%, #{$color} 51%));
+  @include background-size(200% 100%);
+  background-position: right top;
+  animation: background 300ms ease-out forwards;
+}
+
+%long-shadow-accent {
+  text-shadow: -2px 28px 0px var(--accent-color),
+               -2px * 13 / 14 27px 0px var(--accent-color),
+               -2px * 12 / 14 26px 0px var(--accent-color),
+               -2px * 11 / 14 25px 0px var(--accent-color),
+               -2px * 10 / 14 24px 0px var(--accent-color),
+               -2px * 9 / 14 23px 0px var(--accent-color),
+               -2px * 8 / 14 22px 0px var(--accent-color),
+               -2px * 7 / 14 21px 0px var(--accent-color),
+               -2px * 6 / 14 20px 0px var(--accent-color),
+               -2px * 5 / 14 19px 0px var(--accent-color),
+               -2px * 4 / 14 18px 0px var(--accent-color),
+               -2px * 3 / 14 17px 0px var(--accent-color),
+               -2px * 3 / 14 16px 0px var(--accent-color),
+               -2px * 1 / 14 15px 0px var(--accent-color),
+               -1px 14px 0px var(--accent-color),
+               -1px * 13 / 14 13px 0px var(--accent-color),
+               -1px * 12 / 14 12px 0px var(--accent-color),
+               -1px * 11 / 14 11px 0px var(--accent-color),
+               -1px * 10 / 14 10px 0px var(--accent-color),
+               -1px * 9 / 14 9px 0px var(--accent-color),
+               -1px * 8 / 14 8px 0px var(--accent-color),
+               -1px * 7 / 14 7px 0px var(--accent-color),
+               -1px * 6 / 14 6px 0px var(--accent-color),
+               -1px * 5 / 14 5px 0px var(--accent-color),
+               -1px * 4 / 14 4px 0px var(--accent-color),
+               -1px * 3 / 14 3px 0px var(--accent-color),
+               -1px * 3 / 14 2px 0px var(--accent-color),
+               -1px * 1 / 14 1px 0px var(--accent-color);
 }
