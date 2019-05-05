@@ -1,5 +1,5 @@
-@import "../../app/components/avatar/avatar";
-@import "../../app/components/avatar/_profile/avatar_profile";
+@import "../../app/components/avatar/avatar.scss";
+@import "../../app/components/avatar/_profile/avatar_profile.scss";
 @import "../../app/components/avatar/__choose-photo/avatar__choose-photo.scss";
 @import "../../app/components/avatar/__upload-icon/avatar__upload-icon.scss";
 
@@ -37,7 +37,7 @@
 @import "../../app/components/list/__item/list__item";
 @import "../../app/components/list/__item-row/list__item-row";
 
-@import "../../app/components/loader/loader";
+@import "../../app/components/loader/loader.scss";
 
 @import "../../app/components/menu/menu";
 @import "../../app/components/menu/__btn/menu__btn";
@@ -72,7 +72,7 @@
 @import "container/_theme/container_theme-primary2.scss";
 @import "container/_theme/container_theme_secondary.scss";
 @import "container/_overflow/container_overflow.scss";
-@import "container/_justify-content/container_justify-content";
+@import "container/_justify-content/container_justify-content.scss";
 
 @import "title/title.scss";
 @import "title/_subtitle/title_subtitle.scss";
@@ -87,6 +87,8 @@
 @import "../../app/components/gameBoardCell/_failed/game-board__cell_failed.scss";
 @import "../../app/components/gameBoardCell/_answered/game-board__cell_answered.scss";
 @import "../../app/components/buttonHome/button-home.scss";
+
+@import "adaptive-utils.scss";
 
 html, body {
         margin: 0;

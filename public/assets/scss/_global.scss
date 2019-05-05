@@ -16,6 +16,13 @@ $list-margin: .8 * $whitespace-base-size;
 $avatar-size: 140px;
 $modal-min-size: 200px;
 
+$media-breakpoints: (
+        s:  576px,
+        m:  768px,
+        l:  992px,
+        xl: 1200px
+);
+
 $colors: (
         "primary": #005ff9,
         "primary-dark": #004ecc,
@@ -115,6 +122,14 @@ $grid-rows: (
 @mixin opacity($args) {
   -moz-opacity: $args;
   opacity: $args;
+}
+
+@mixin mask-linear-gradient($args) {
+  mask: -moz-linear-gradient($args);
+  mask: -ms-linear-gradient($args);
+  mask: -o-linear-gradient($args);
+  mask: -webkit-linear-gradient($args);
+  mask: linear-gradient($args);
 }
 
 %border-default {

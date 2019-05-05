@@ -5,6 +5,7 @@
   height:$avatar-size;
   @include border-radius($avatar-size/2);
   margin-bottom:$whitespace-base-size;
+  background: inherit;
 }
 
 .container_skewed .avatar {
