@@ -2,8 +2,12 @@
 
 .avatar__choose-photo {
     position: absolute;
-    top: 110px;
-    right: 68px;
+    top: 75%;//блок кнопки выбора аватара занимает 15% самой аватарки
+    right: 0;
+    left: 0;
+    text-align: center;
     font-size: $subtitle-text-size;
-    @include opacity(.5)
+    color: var(--secondary-color);
+    background: inherit;
+    @include mask-linear-gradient((0deg, rgba(0,0,0,1), rgba(0,0,0,.3)))
 }

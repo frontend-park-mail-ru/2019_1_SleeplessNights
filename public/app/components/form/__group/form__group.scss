@@ -1,0 +1,13 @@
+@import "../../../../assets/scss/_global.scss";
+
+.form__group {
+    display: flex;
+    @include justify-content(center);
+    width: 100%;
+    @include flex-direction(column);
+    margin-bottom: 1.5 * $whitespace-base-size;
+}
+
+.form__group .form__control {
+    width: 100%;
+}

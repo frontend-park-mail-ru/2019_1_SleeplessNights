@@ -1,0 +1,22 @@
+@import "global";
+
+$flex-directions: (column, row);
+
+.flex {
+  @each $breakpoint, $width in $media-breakpoints {
+    @each $direction in $flex-directions {
+      &-#{$breakpoint}-and-less-#{$direction} {
+        @media (max-width: $breakpoint) {
+          @include flex-direction($direction);
+        }
+      }
+      &-#{$breakpoint}-#{$direction} {
+        @media (min-width: $breakpoint) {
+          @include flex-direction($direction);
+        }
+      }
+    }
+  }
+}
+
+
