@@ -17,7 +17,6 @@ import './components/icon/icon.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/loader/loader.tmpl.js';                  /**/
-import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
 import './components/plug/plug.tmpl.js';                      /**/

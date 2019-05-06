@@ -11,6 +11,11 @@ export class Config {
                 'backend': 'http://89.208.198.186:8080',
                 'chat': 'ws://89.208.198.186:8005/chat/connect',
                 'game': 'ws://localhost:8005/game/connect'
+            },
+            'prodHeroku': {
+                'backend': 'https://sleepless-nights--backend.herokuapp.com',
+                'chat': 'wss://sleepless-nights--backend.herokuapp.com/chat/connect',
+                'game': 'wss://sleepless-nights--backend.herokuapp.com/game/connect'
             }
         };
     }
@@ -28,4 +33,4 @@ export class Config {
     }
 }
 
-export default new Config('dev');
+export default new Config('prodHeroku');

@@ -55,7 +55,7 @@ $grid-rows: (
         h25:  25%,
         h50:  50%,
         h75:  75%,
-        h100: 100vh
+        h100: 100%
 );
 
 @mixin box-shadow($args) {

@@ -59,7 +59,7 @@ export class SignUpView extends BaseView {
                 customClasses: 'form__group_center',
                 content: {
                     type: 'submit',
-                    customClasses: 'btn btn_primary',
+                    customClasses: 'btn btn_primary2',
                     placeholder: '',
                     name: '',
                     value: 'Зарегистрироваться'

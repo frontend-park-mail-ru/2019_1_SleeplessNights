@@ -5,9 +5,6 @@ import { IconComponent }      from '../components/icon/icon.js';
 import { ContainerComponent } from '../components/_new/container/container.js';
 
 export class MenuView extends BaseView {
-    _pageTitle;
-    _items;
-
     constructor(el) {
         super(el);
         this._pageTitle = gameName;
@@ -202,7 +199,7 @@ export class MenuView extends BaseView {
 
     _render() {
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100',
+            customClasses: 'container_skewed container__row-h100 container__absolute',
             container: `
                 ${this._leftContainer.template}
                 ${this._rightContainer.template}
