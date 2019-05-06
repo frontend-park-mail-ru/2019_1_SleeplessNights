@@ -1,16 +1,21 @@
+@import "../../../../assets/scss/global";
+
 .pagination__item {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: .0625rem solid #E0E0E0;
-    border-radius: .25rem;
-    background: #005ff9;
+    height: $button-height;
+    @extend %border-default;
+    padding: 0 $whitespace-base-size;
+    font-weight: $button-font-weight;
+    background-color: var(--secondary-color);
+    cursor: pointer;
     color: white;
     text-align: center;
+    margin-right: .5*$whitespace-base-size;
+}
+
+.pagination__item:nth-last-child(1) {
+    margin-right: 0 !important;
 }
 
 .pagination__item:hover {
-    color: #005ff9;
-    background-color: #ffffff;
-    border: .0625rem solid #E0E0E0;
-    box-shadow: 0 0 20px rgba(156,156,156, 0.7);
+    color: var(--accent-color);
 }
