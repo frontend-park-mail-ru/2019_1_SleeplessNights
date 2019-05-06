@@ -3,6 +3,7 @@ import { LinkComponent } from '../components/link/link.js';
 import { CardComponent } from '../components/card/card.js';
 import { HeaderComponent } from '../components/header/header.js';
 import { BaseView } from './base.js';
+import bus from '../modules/bus.js';
 
 export class SignUpView extends BaseView {
     _pageTitle;

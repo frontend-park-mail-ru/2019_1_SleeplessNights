@@ -1,3 +1,5 @@
+import bus from '../../modules/bus.js';
+
 export class BotPlayer {
     constructor() {
         this.fieldSize = 8;
@@ -71,7 +73,7 @@ export class BotPlayer {
                     accumulator.index.push(index);
                 }
                 return accumulator;
-            }, {index: [], pathLen: this.fieldSize}).index;
+            }, {index: [], pathLen: this.fieldSize}).chat;
 
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 

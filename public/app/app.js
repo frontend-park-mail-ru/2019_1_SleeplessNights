@@ -50,7 +50,7 @@ import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';
 /************************************************************\/**/
 
-window.bus = bus;
+// window.bus = bus;
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised
@@ -69,11 +69,11 @@ bus.on('success:get-user-1', (user) => {
 
 bus.on('signup', (data) => {
     RegisterService.register(data)
-        .then(() => {
-            AuthService.setAuthorised(data);
+        .then((response) => {
+            AuthService.setAuthorised(response);
             router.open('/');
         })
-        .catch(res =>{
+        .catch(res => {
             if (res.status === 418 || !navigator.onLine) {
                 bus.emit('error:sign-up', {error: 'Your are offline buddy'});
             } else {
@@ -90,8 +90,8 @@ bus.on('check-validity-signup', (data) => {
 
 bus.on('login', (data) => {
     AuthService.auth(data)
-        .then(() => {
-            AuthService.setAuthorised(data);
+        .then((response) => {
+            AuthService.setAuthorised(response);
             router.open('/');
         })
         .catch(res => {

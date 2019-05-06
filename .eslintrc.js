@@ -7,7 +7,6 @@ module.exports = {
     "extends": "eslint:recommended",
     "globals": {
         "Handlebars": true,
-        "bus": true,
         "user": true
     },
     "parserOptions": {

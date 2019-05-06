@@ -46,7 +46,7 @@ self.addEventListener('fetch',   (event) => {
                         statusText: 'Offline Mode'
                     };
 
-                    const data = {message: `Content is not available in offline mode`};
+                    const data = {message: 'Content is not available in offline mode'};
                     const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
                     return new Response(blob, init);
 

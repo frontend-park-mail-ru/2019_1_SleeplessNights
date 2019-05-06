@@ -2,6 +2,7 @@ import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
 import { shuffle } from '../../modules/utils.js';
+import bus from '../../modules/bus.js';
 
 export class SelectAnswerScene {
     constructor(root) {
@@ -58,7 +59,7 @@ export class SelectAnswerScene {
             const anBlock = document.getElementsByClassName('answer-block')[0];
             const answerChoosing = (event) => {
                 const target = event.target;
-                if ('index' in target.dataset) {
+                if ('chat.js' in target.dataset) {
                     anBlock.removeEventListener('click', answerChoosing);
                     bus.emit('selected-answer', +target.dataset.index);
                 }
