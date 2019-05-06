@@ -7,7 +7,7 @@
   min-width: $cell-size;
   min-height: $cell-size;
   box-sizing: border-box;
-  transition: background-color ease-in-out 10ms;
+  transition: all ease-in-out 750ms;
   cursor: pointer;
   @extend %border-light;
 }
