@@ -6,7 +6,7 @@ export class ContainerComponent {
     constructor({
         customClasses = '',
         content = ''
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._content = content;
 

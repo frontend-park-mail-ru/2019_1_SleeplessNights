@@ -8,6 +8,10 @@
   @include justify-content(flex-end);
 }
 
+.container_justify-content-center {
+  @include justify-content(center);
+}
+
 .container_justify-content-space-between {
   @include justify-content(space-between);
 }

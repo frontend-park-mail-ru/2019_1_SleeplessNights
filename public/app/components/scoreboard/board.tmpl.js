@@ -19,7 +19,7 @@ templates['board'] = template({"1":function(container,depth0,helpers,partials,da
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<table class=\"table\">\n    <tr>\n        <th class=\"table__number\">№</th>\n        <th>Игрок</th>\n        <th>Победы</th>\n        <th>Поражения</th>\n        <th>Время в игре</th>\n    </tr>\n"
+  return "<table class=\"table table_primary\">\n    <tr>\n        <th class=\"table__number\">№</th>\n        <th>Игрок</th>\n        <th>Победы</th>\n        <th>Поражения</th>\n        <th>Время в игре</th>\n    </tr>\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.players : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</table>\n";
 },"useData":true});
