@@ -1,8 +1,11 @@
 @import "../../gameBoard/vars.scss";
-@import "../../../../assets/scss/global.scss";
 
-.game-board__cell_failed {
-    background: color("error");
-    border-color: color("error") !important;
-    @include border-radius(50% !important);
+.game-board__cell_failed_2 {
+    background: $cell-failed-color2;
+    border-color: $cell-failed-color2 !important;
+}
+
+.game-board__cell_failed_1 {
+    background: $cell-failed-color2;
+    border-color: $cell-failed-color2 !important;
 }
