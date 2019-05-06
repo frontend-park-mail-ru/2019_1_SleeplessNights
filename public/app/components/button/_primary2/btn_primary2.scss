@@ -6,5 +6,5 @@
 }
 
 .btn_primary2:hover {
-  @include background-accent(var(--primary-color2));
+  @include background-accent(var(--primary-color2), var(--accent-color));
 }

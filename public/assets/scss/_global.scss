@@ -161,19 +161,42 @@ $grid-rows: (
 %border-light {
   @extend %border-default;
   border-width: 2px;
+  border-color: var(--secondary-color);
 }
 
-@mixin background-accent($color) {
-  @keyframes background {
+@mixin animation($args) {
+  -moz-animation: $args;
+  -o-animation: $args;
+  -webkit-animation: $args;
+  animation: $args;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin background-accent($color, $accent-color) {
+  @include keyframes(background){
     to {
       background-size: 100% 100%;
     }
   }
 
-  @include background-linear-gradient((90deg, var(--accent-color), var(--accent-color) 50%, #{$color} 51%));
+  @include background-linear-gradient((90deg, #{$accent-color}, (#{$accent-color} 50%), (#{$color} calc(50% + 1px))));
   @include background-size(200% 100%);
   background-position: right top;
-  animation: background 300ms ease-out forwards;
+  @include animation((background 300ms ease-out forwards));
 }
 
 @mixin background-repeating-linear-gradient($args) {
