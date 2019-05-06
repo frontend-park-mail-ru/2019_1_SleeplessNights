@@ -39,21 +39,23 @@ export class LeadersView extends BaseView {
         return this._backBtn;
     }
 
-    _render() {
-        const board = new BoardComponent();
+    get _header() {
         const leaderIcon = new IconComponent({
             customClasses: ' md-inherit md-48',
             name: 'poll'
         });
 
-        const header = new HeaderComponent({
+        return new HeaderComponent({
             title: `${leaderIcon.template} Leader Board`
         });
+    }
 
+    _render() {
+        const board = new BoardComponent();
         const container = new ContainerComponent({
            customClasses: 'container__col-w90 container_theme-secondary1 container_align-items-center container_justify-content-center',
            content: `
-              ${header.template}
+              ${this._header.template}
               ${board.template}
            `
         });

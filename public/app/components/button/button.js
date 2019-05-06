@@ -12,7 +12,7 @@ export class ButtonComponent {
         className = 'btn-primary',
         text = 'Кнопка',
         id = 'btn' + uniqueId()
-    } = {}){
+    } = {}) {
         this._type = type;
         this._className = className;
         this._text = text;
