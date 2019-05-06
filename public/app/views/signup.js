@@ -67,7 +67,7 @@ export class SignUpView extends BaseView {
         ];
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 

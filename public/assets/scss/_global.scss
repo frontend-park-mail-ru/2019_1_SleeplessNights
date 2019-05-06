@@ -11,9 +11,9 @@ $whitespace-base-size: 10px;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
-$title-text-size: 50px;
-$subtitle-text-size: 30px;
-$title-padding: $whitespace-base-size;
+$title-text-size: 40px;
+$subtitle-text-size: 18px;
+$title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
 $avatar-size: 140px;
@@ -53,7 +53,7 @@ $grid-rows: (
         h25:  25%,
         h50:  50%,
         h75:  75%,
-        h100: 100%
+        h100: 100vh
 );
 
 @mixin box-shadow($args) {

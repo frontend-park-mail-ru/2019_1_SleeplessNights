@@ -13,6 +13,7 @@ import './components/formControl/formControl.tmpl.js';        /**/
 import './components/gameBoard/gameBoard.tmpl.js';            /**/
 import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
+import './components/icon/icon.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/loader/loader.tmpl.js';                  /**/

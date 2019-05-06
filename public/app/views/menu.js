@@ -1,7 +1,8 @@
 import { gameName } from '../modules/constants.js';
 import { BaseView } from './base.js';
-import { HeaderComponent } from '../components/header/header.js';
-import { MenuComponent }   from '../components/menu/menu.js';
+import { LinkComponent }      from '../components/link/link.js';
+import { IconComponent }      from '../components/icon/icon.js';
+import { ContainerComponent } from '../components/_new/container/container.js';
 
 export class MenuView extends BaseView {
     _pageTitle;
@@ -12,74 +13,149 @@ export class MenuView extends BaseView {
         this._pageTitle = gameName;
         this._items = new Map([
             [
-                'play', {
-                    href: 'play',
-                    dataHref: 'play',
-                    className: 'menu__btn',
-                    text: 'Play'
-                }
-            ],
-            [
                 'profile', {
                     href: 'profile',
                     dataHref: 'profile',
-                    className: 'menu__btn',
-                    text: 'My Profile'
+                    customClasses: 'title title_subtitle',
+                    text: 'My Profile',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'profile'
+                    }
                 },
             ],
             [
                 'logout', {
                     href: 'logout',
                     dataHref: 'logout',
-                    className: 'menu__btn',
-                    text: 'Log Out'
+                    customClasses: 'title title_subtitle',
+                    text: 'Log Out',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'exit_to_app'
+                    }
                 },
             ],
             [
                 'login', {
                     href: 'login',
                     dataHref: 'login',
-                    className: 'menu__btn',
-                    text: 'Log In'
+                    customClasses: 'title title_subtitle',
+                    text: 'Log In',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'exit_to_app'
+                    }
                 },
             ],
             [
                 'signup', {
                     href: 'signup',
                     dataHref: 'signup',
-                    className: 'menu__btn',
-                    text: 'Sign Up'
+                    customClasses: 'title title_subtitle',
+                    text: 'Sign Up',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'person_add'
+                    }
                 }
             ],
             [
                 'leaders', {
                     href: 'leaders',
                     dataHref: 'leaders',
-                    className: 'menu__btn',
-                    text: 'Leaderboard'
+                    customClasses: 'title title_subtitle',
+                    text: 'Leaderboard',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'poll'
+                    }
                 },
             ],
             [
                 'about', {
                     href: 'about',
                     dataHref: 'about',
-                    className: 'menu__btn',
-                    text: 'About'
+                    customClasses: 'title title_subtitle',
+                    text: 'About',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'info'
+                    }
                 },
             ]
         ]);
+
+        this._singleBtn = {
+            href: 'play',
+            dataHref: 'play',
+            customClasses: 'title',
+            text: 'Single Player',
+            icon: {
+                customClasses: 'md-inherit',
+                name: 'person'
+            }
+        };
+
+        this._multiBtn = {
+            href: 'play',
+            dataHref: 'play',
+            customClasses: 'title',
+            text: 'Multi Player',
+            icon: {
+                customClasses: 'md-inherit',
+                name: 'group'
+            }
+        };
     }
 
     get pageTitle(){
         return this._pageTitle;
     }
 
-    show() {
-        this._render();
-        super.show();
+    get _leftContainer() {
+        const singlePlayerBtn = new LinkComponent(this._singleBtn);
+        const singlePlayer = new ContainerComponent({
+            customClasses: 'container__row-h10 container_justify-content-center',
+            content: singlePlayerBtn.template
+        });
+
+        const playBtnLeft = new IconComponent({
+            customClasses: 'centered-icon-left',
+            name: 'play_circle_outline'
+        });
+
+        return new ContainerComponent({
+            customClasses: 'container__row-h100 container_theme-primary1',
+            content: `
+                ${singlePlayer.template}
+                ${playBtnLeft.template}
+            `
+        });
     }
 
-    _render() {
+    get _rightContainer() {
+        const multiPlayerBtn = new LinkComponent(this._multiBtn);
+        const multiPlayer = new ContainerComponent({
+            customClasses: 'container__row-h10 container_justify-content-center',
+            content: multiPlayerBtn.template
+        });
+
+        const playBtnRight = new IconComponent({
+            customClasses: 'centered-icon-right',
+            name: 'play_circle_outline'
+        });
+
+        return new ContainerComponent({
+            customClasses: 'container__row-h100 container_theme-primary2 container_overflow-hidden',
+            content: `
+                ${playBtnRight.template}
+                ${multiPlayer.template}               
+            `
+        });
+    }
+
+    get _navbar() {
         const items = new Map(this._items);
         if (user.isAuthorised) {
             items.delete('signup');
@@ -89,19 +165,50 @@ export class MenuView extends BaseView {
             items.delete('logout');
         }
 
-        const menu = new MenuComponent({
-            items: Array.from(items.values())
+        Array.from(items.values()).forEach(item => {
+            const link = new LinkComponent(item);
+            item.template = link.template;
         });
 
-        const header = new HeaderComponent({ title: gameName });
-
-        super.renderContainer({
-            customClasses: 'container_align-y_center',
-            container: `
-                ${header.template}
-                ${menu.template}
+        const navbarContainer1 = new ContainerComponent({
+            customClasses: 'container__row-h10 container_justify-content-left',
+            content: `
+                ${items.get('leaders').template}
+                ${items.get('about').template}
             `
         });
-        menu.logOutListening();
+
+        const navbarContainer2 = new ContainerComponent({
+            customClasses: 'container__row-h10 container_justify-content-right',
+            content: `
+                ${items.get('login').template}
+                ${items.get('signup').template}
+            `
+        });
+
+        return new ContainerComponent({
+            customClasses: 'container-new container__absolute-top container__absolute_skewed container_theme-secondary',
+            content: `
+                ${navbarContainer1.template}
+                ${navbarContainer2.template}               
+            `
+        });
+    }
+
+    show() {
+        this._render();
+        super.show();
+    }
+
+    _render() {
+        super.renderContainer({
+            customClasses: 'container_skewed container__row-h100',
+            container: `
+                ${this._leftContainer.template}
+                ${this._rightContainer.template}
+            `
+        });
+
+        this._el.insertAdjacentHTML('beforeend', this._navbar.template);
     }
 }

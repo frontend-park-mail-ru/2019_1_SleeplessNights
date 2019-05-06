@@ -7,8 +7,6 @@
       @include box-sizing(border-box);
       display: flex;
       @include flex-direction(row);
-      //justify-items: center;
-      //align-content: center;
       @include align-items(center);
       @include justify-content(center);
       height: $size;
