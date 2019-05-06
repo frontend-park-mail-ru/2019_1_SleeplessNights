@@ -29,8 +29,7 @@ export class FormComponent {
                 customClasses: formControl.customClasses,
                 placeholder:   formControl.placeholder,
                 name:          formControl.name,
-                value:         formControl.value,
-                form:          formControl.form
+                value:         formControl.value
             });
 
             this._formGroups.push({

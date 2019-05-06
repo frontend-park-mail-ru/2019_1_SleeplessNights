@@ -61,12 +61,12 @@ export class Router {
     start() {
         this.root.addEventListener('click', (event) => {
             let target = event.target;
-            event.preventDefault();
             if (target.parentElement instanceof HTMLAnchorElement) {
                 target = target.parentElement;
             }
 
             if (target.dataset.href) {
+                event.preventDefault();
                 if (target.dataset.href === 'scoreboard') {
                     return;
                 }
