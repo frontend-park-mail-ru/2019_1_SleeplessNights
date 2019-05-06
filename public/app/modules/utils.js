@@ -1,4 +1,4 @@
-import { backendUrl } from './constants.js';
+import config from '../modules/config.js';
 
 export const noop = () => null;
 
@@ -9,7 +9,7 @@ export const uniqueId = () =>  {
     return '_' + Math.random().toString(36).substr(2, 9);
 };
 
-export const makeAvatarPath = (path) => backendUrl + '/img/' + path;
+export const makeAvatarPath = (path) => config.backendUrl + '/img/' + path;
 
 export const urlencodeFormData = (fd) => {
     let s = '';

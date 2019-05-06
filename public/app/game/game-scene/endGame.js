@@ -2,6 +2,7 @@ import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
 import { events } from '../core/events.js';
+import bus from '../../modules/bus.js';
 
 export class EndGameScene {
     constructor(root) {
@@ -61,7 +62,7 @@ export class EndGameScene {
         const answerChoosing = (event) => {
             const target = event.target;
             event.stopPropagation();
-            if ('index' in target.dataset) {
+            if ('chat.js' in target.dataset) {
                 anBlock.removeEventListener('click', answerChoosing);
                 bus.emit('selected-answer-end-game', +target.dataset.index);
             }

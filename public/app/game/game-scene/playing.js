@@ -7,6 +7,7 @@ import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { SelectAnswerScene }  from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
 import { GameScene }    from './index.js';
+import bus from '../../modules/bus.js';
 
 export class PlayingScene extends GameScene {
     constructor(root) {

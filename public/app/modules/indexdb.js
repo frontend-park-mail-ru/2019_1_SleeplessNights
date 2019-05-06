@@ -1,3 +1,5 @@
+import bus from './bus.js';
+
 class IndexedDB {
     constructor () {
         this.DB_NAME = 'quiz-planet';

@@ -2,6 +2,7 @@ import { CardComponent }   from '../components/card/card.js';
 import { BoardComponent }  from '../components/scoreboard/board.js';
 import { HeaderComponent } from '../components/header/header.js';
 import { BaseView } from './base.js';
+import bus from '../modules/bus.js';
 
 export class LeadersView extends BaseView {
     _pageTitle;

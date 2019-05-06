@@ -1,4 +1,5 @@
 import { PaginationComponent } from '../pagination/pagination.js';
+import bus from '../../modules/bus.js';
 
 export class BoardComponent {
     _template;

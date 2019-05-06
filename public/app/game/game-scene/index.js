@@ -1,4 +1,5 @@
 import { events } from '../core/events.js';
+import bus from '../../modules/bus.js';
 
 export class GameScene {
     constructor(root) {
