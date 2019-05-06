@@ -176,33 +176,21 @@ $grid-rows: (
   animation: background 300ms ease-out forwards;
 }
 
-%long-shadow-accent {
-  text-shadow: -2px 28px 0px var(--accent-color),
-               -2px * 13 / 14 27px 0px var(--accent-color),
-               -2px * 12 / 14 26px 0px var(--accent-color),
-               -2px * 11 / 14 25px 0px var(--accent-color),
-               -2px * 10 / 14 24px 0px var(--accent-color),
-               -2px * 9 / 14 23px 0px var(--accent-color),
-               -2px * 8 / 14 22px 0px var(--accent-color),
-               -2px * 7 / 14 21px 0px var(--accent-color),
-               -2px * 6 / 14 20px 0px var(--accent-color),
-               -2px * 5 / 14 19px 0px var(--accent-color),
-               -2px * 4 / 14 18px 0px var(--accent-color),
-               -2px * 3 / 14 17px 0px var(--accent-color),
-               -2px * 3 / 14 16px 0px var(--accent-color),
-               -2px * 1 / 14 15px 0px var(--accent-color),
-               -1px 14px 0px var(--accent-color),
-               -1px * 13 / 14 13px 0px var(--accent-color),
-               -1px * 12 / 14 12px 0px var(--accent-color),
-               -1px * 11 / 14 11px 0px var(--accent-color),
-               -1px * 10 / 14 10px 0px var(--accent-color),
-               -1px * 9 / 14 9px 0px var(--accent-color),
-               -1px * 8 / 14 8px 0px var(--accent-color),
-               -1px * 7 / 14 7px 0px var(--accent-color),
-               -1px * 6 / 14 6px 0px var(--accent-color),
-               -1px * 5 / 14 5px 0px var(--accent-color),
-               -1px * 4 / 14 4px 0px var(--accent-color),
-               -1px * 3 / 14 3px 0px var(--accent-color),
-               -1px * 3 / 14 2px 0px var(--accent-color),
-               -1px * 1 / 14 1px 0px var(--accent-color);
+@mixin background-repeating-linear-gradient($args) {
+  background: -moz-repeating-linear-gradient($args);
+  background: -ms-repeating-linear-gradient($args);
+  background: -o-repeating-linear-gradient($args);
+  background: -webkit-repeating-linear-gradient($args);
+  background: repeating-linear-gradient($args);
 }
+
+%background-stripped {
+  $stripe-width: .8 * $whitespace-base-size;
+  @include background-repeating-linear-gradient((-45deg + $skew-angle,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,0) $stripe-width,
+          var(--secondary-color) $stripe-width + 1px,
+          var(--secondary-color) 2*$stripe-width + 1px,
+          rgba(0,0,0,0) 2*$stripe-width + 2px));
+}
+
