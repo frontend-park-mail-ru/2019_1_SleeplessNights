@@ -1,24 +1,32 @@
 import { noop, uniqueId } from '../../modules/utils.js';
+import { IconComponent }  from '../icon/icon.js';
 
 export class LinkComponent {
-    _className;
+    _customClasses;
     _dataHref;
     _href;
     _id;
+    _icon;
     _template;
     _text;
 
     constructor({
         href = '/',
         dataHref = 'menu',
-        className = '',
+        customClasses = '',
         text = 'Home',
-    } = {}){
-        this._id = 'link' + uniqueId();
-        this._className = className;
-        this._href = href;
+        icon = {
+            customClasses: '',
+            name: ''
+        }
+    } = {}) {
+        this._customClasses = customClasses;
         this._dataHref = dataHref;
+        this._id = 'link' + uniqueId();
+        this._icon = icon;
+        this._href = href;
         this._text = text;
+
         this._render();
     }
 
@@ -31,12 +39,14 @@ export class LinkComponent {
     }
 
     _render() {
+        const icon = new IconComponent(this._icon);
+
         this._template = Handlebars.templates.link({
             id:        this._id,
-            className: this._className,
+            customClasses: this._customClasses,
             href:      this._href,
             dataHref:  this._dataHref,
-            text:      this._text
+            text:      icon.template + this._text
         });
     }
 

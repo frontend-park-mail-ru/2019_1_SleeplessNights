@@ -1,8 +1,8 @@
-import { PlugComponent }    from '../components/plug/plug.js';
-import { SidebarComponent } from '../components/sidebar/sidebar.js';
 import { HeaderComponent }  from '../components/header/header.js';
-import { CardComponent } from '../components/card/card.js';
-import { ListComponent } from '../components/list/list.js';
+import { IconComponent }   from '../components/icon/icon.js';
+import { LinkComponent }   from '../components/link/link.js';
+import { ContainerComponent } from '../components/_new/container/container.js';
+import { AvatarComponent } from '../components/avatar/avatar.js';
 import { BaseView } from './base.js';
 
 export class AboutView extends BaseView {
@@ -13,7 +13,33 @@ export class AboutView extends BaseView {
     constructor(el) {
         super(el);
         this._pageTitle = 'Описание игры';
-        this._authors = ['Максим Уймин', 'Максим Пирмамедов', 'Алексей Ларютин', 'Джахонгир Тулфоров'];
+        this._authors = [
+            {
+                name: 'Ксения Казанцева',
+                position: 'Dear Mentor',
+                avatarUrl: '/assets/img/mentor.jpg'
+            },
+            {
+                name: 'Максим Пирмамедов',
+                position: 'Backend',
+                avatarUrl: '/assets/img/default-avatar.png'
+            },
+            {
+                name: 'Алексей Ларютин',
+                position: 'Backend',
+                avatarUrl: '/assets/img/default-avatar.png'
+            },
+            {
+                name: 'Максим Уймин',
+                position: 'Full-stack',
+                avatarUrl: '/assets/img/default-avatar.png'
+            },
+            {
+                name: 'Джахонгир Тулфоров',
+                position: 'Frontend',
+                avatarUrl: '/assets/img/jahongir.jpg'
+            }
+        ];
         this._screens = [];
         this._render();
     }
@@ -22,37 +48,68 @@ export class AboutView extends BaseView {
         return this._pageTitle;
     }
 
-    _makeAuthorList() {
-        return this._authors.map(author => {
-            return {
+    get backBtn() {
+        const link = new LinkComponent({
+            className: 'link_primary',
+            href: '',
+            dataHref: '/',
+            text: '',
+            icon: {
+                customClasses: 'md-48',
+                name: 'arrow_forward_ios'
+            }
+        });
+
+        this._backBtn = new ContainerComponent({
+            customClasses: 'container__col-w10 container_theme-primary2 container_align-items-start container_justify-content-center',
+            content: link.template
+        });
+
+        return this._backBtn;
+    }
+
+    get _header() {
+        const leaderIcon = new IconComponent({
+            customClasses: 'md-inherit md-48',
+            name: 'info'
+        });
+
+        return new HeaderComponent({
+            title: `${leaderIcon.template} About`
+        });
+    }
+
+    get _authorList() {
+        this._authors.forEach((author, i) => {
+            const avatar = new AvatarComponent({
                 customClasses: '',
-                text: author
-            };
+                avatarUrl: author.avatarUrl
+            });
+
+            const container = new ContainerComponent({
+                customClasses: (i === 0 ? 'container__col-w50': 'container__col-w50'),
+                content: `
+                    ${avatar.template}
+                    <h1>${author.name}</h1>
+                    <h3 >${author.position}</h3>
+                `
+            });
+
+            author.template = container.template;
+        });
+
+        return new ContainerComponent({
+            customClasses: 'container-new',
+            content: this._authors.map(a => a.template).join('')
         });
     }
 
     _render() {
-        [...Array(3).keys()].forEach(i => {
-            const plug = new PlugComponent({
-                text: `Скрин ${i + 1}`
-            });
-
-            this._screens.push(plug.template);
-        });
-
-        const sidebar = new SidebarComponent({
-            customClasses: 'shadow-l',
-            title: 'Скрины',
-            body: this._screens.join('')
-        });
-
-        const authorsList = new ListComponent({
-            list: this._makeAuthorList()
-        });
-
-        const description = new CardComponent({
-            customClasses: 'shadow-l card_width-100',
-            body: `<p>Quiz planet – это классическая игра-викторина элементами стратегии. Вам предстоит сразиться в умственном поединке с лучшими из лучших. Более 5000 текстовых и визуальных вопросов из различных областей.</p>
+        const innerContainer = new ContainerComponent({
+            customClasses: 'container__col-w75',
+            content: `
+                   ${this._header.template}
+                   <p>Quiz planet – это классическая игра-викторина элементами стратегии. Вам предстоит сразиться в умственном поединке с лучшими из лучших. Более 5000 текстовых и визуальных вопросов из различных областей.</p>
                    <p>Боритесь за право быть на вершине рейтинга!</p>
                    <ul>
                        <li>Состязайтесь с друзьями из социальных сетей!</li>
@@ -61,24 +118,24 @@ export class AboutView extends BaseView {
                        <li>Новые вопросы появляются каждую минуту!</li>
                    </ul>
                    <p>Окажитесь на вершине триумфа играя с друзьями и прокладывая свой путь к победе!</p>
-                   <h3>Авторы:</h3>
-                   ${authorsList.template}
+                   <h1>Наша команда:</h1>
+                   ${this._authorList.template}
             `
         });
 
-        const header = new HeaderComponent({
-            title:    'Описание игры'
+        const outerContainer = new ContainerComponent({
+            customClasses: 'container__col-w90 container_theme-secondary1 container_align-items-flex-end container_overflow-y-scroll',
+            content: innerContainer.template
         });
 
         super.renderContainer({
-            customClasses: 'container-row',
-            btnBack: true,
+            customClasses: 'container_skewed container__row-h100 container__absolute',
             container: `
-                ${header.template}
-                ${sidebar.template}
-                ${description.template}
+                ${outerContainer.template}
+                ${this.backBtn.template}
             `,
-            sideBar: true
         });
+
+        this._backBtn.href = '/';
     }
 }

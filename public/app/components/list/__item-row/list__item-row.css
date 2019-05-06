@@ -1,9 +1,0 @@
-.list__item-row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-
-.list__item-row .list__item:not(:last-child) {
-    margin-right: 8px !important;
-}

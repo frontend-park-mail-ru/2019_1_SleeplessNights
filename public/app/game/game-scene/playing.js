@@ -1,9 +1,8 @@
 import { AvatarComponent } from '../../components/avatar/avatar.js';
-import { ListComponent } from '../../components/list/list.js';
 import { CellComponent } from '../../components/gameBoardCell/cell.js';
-import { CardComponent } from '../../components/card/card.js';
 import { ContainerComponent } from '../../components/_new/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
+import { PackSectionComponent } from '../../components/pack/pack.js';
 import { SelectAnswerScene }  from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
 import { GameScene }    from './index.js';
@@ -19,9 +18,8 @@ export class PlayingScene extends GameScene {
 
         this.selectAnswerScene = new SelectAnswerScene(root);
         this.endGameScene = new EndGameScene(root);
-
         this._packsSection = document.createElement('section');
-        this._packsSection.className = 'packs-section';
+        this._packsSection.id = 'pack-section';
 
         bus.on('fill-pack-list', this.updatePackList);
         bus.on('fill-cells', this.fillCells);
@@ -38,20 +36,20 @@ export class PlayingScene extends GameScene {
     }
 
     set packsSection(data) {
-        const ps = document.getElementsByClassName('packs-section')[0];
-        ps.innerHTML = data;
+        const ps = document.getElementById('pack-section');
+        ps.outerHTML = data;
     }
 
     render() {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
-            customClasses: 'container__col-w25',
-            content: `${this.avatarMe.template} ${this.packsSection}`
+            customClasses: 'container__col-w25 container_align-items-center',
+            content: `${this.avatarMe.template}`
         });
 
         this.avatarOponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
-            customClasses: 'container__col-w25',
+            customClasses: 'container__col-w25 container_align-items-center',
             content: this.avatarOponent.template
         });
 
@@ -62,7 +60,7 @@ export class PlayingScene extends GameScene {
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
 
         const centreContainer = new ContainerComponent({
-            customClasses: 'container__col-w50',
+            customClasses: 'container__col-w50 container_align-items-center',
             content: this.gameBoard.template
         });
 
@@ -70,40 +68,19 @@ export class PlayingScene extends GameScene {
                 ${leftContainer.template}
                 ${centreContainer.template}
                 ${rightContainer.template}
+                ${this.packsSection}
             `);
 
         this.root.style.background = 'linear-gradient(180deg, #ffffff 50%, #f3f3f3 50%)';
     }
 
     updatePackList = (packs) => {
-        packs.unshift({
-            name: 'Приз',
-            color: '#0c5460'
-        });
+        const packSection = new PackSectionComponent(packs);
+        this.packsSection = packSection.template;
 
-        const _list = [];
-        packs.forEach(pack => {
-            const cell = new CellComponent({
-                customClasses: 'game-board__cell_pack',
-                bgColor: pack.color,
-                type: 'pack-description'
-            });
-
-            _list.push({
-                customClasses: 'list__item_sticky',
-                text: `${cell.template} <span class="pack-name">${pack.name}</span>`
-            });
-        });
-
-        const list = new ListComponent({
-            list: _list
-        });
-        const card = new CardComponent({
-            customClasses: 'card_pack shadow-l',
-            body: list.template
-        });
-
-        this.packsSection = card.template;
+        const icon = document.getElementsByClassName('packs-section__icon')[0];
+        packSection.on('mouseover', () => icon.style.opacity = 0);
+        packSection.on('mouseleave', () => icon.style.opacity = 1);
     };
 
     fillCells = (data) => {

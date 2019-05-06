@@ -1,3 +1,35 @@
+:root {
+  --primary-color: #f8f1b5;
+  --primary-color2: #426e86;
+  --secondary-color: #011A27;
+  --success-color: #058e3f;
+  --danger-color: #931621;
+  --accent-color: #e6af2e;
+}
+
+$whitespace-base-size: 10px;
+
+$skew-angle: 4deg;
+$skew-shift: 110px;
+$title-text-size: 40px;
+$subtitle-text-size: 18px;
+$title-padding: $whitespace-base-size $whitespace-base-size / 2;
+$page-padding: $whitespace-base-size;
+$list-margin: .8 * $whitespace-base-size;
+$avatar-size: 140px;
+$modal-min-size: 200px;
+$form-control-size: 40px;
+$button-height: 32px;
+$button-font-weight: 600;
+$modal-close-btn-width: 5 * $whitespace-base-size;
+
+$media-breakpoints: (
+        s:  576px,
+        m:  768px,
+        l:  992px,
+        xl: 1200px
+);
+
 $colors: (
         "primary": #005ff9,
         "primary-dark": #004ecc,
@@ -8,29 +40,25 @@ $colors: (
         "error": red
 );
 
-$question-pack-colors: (
-        1: #B3B156,
-        2: #ADE0FF,
-        3: #FFFD94,
-        4: #CC6264,
-        5: #00ffc5,
-        
-);
-
 @function color($color-key) {
   @return map-get($colors, $color-key)
 }
 
-$page-padding: 10px;
-
 $grid-columns: (
+        w10 : 10%,
+        w15:  15%,
+        w20:  20%,
         w25:  25%,
         w50:  50%,
+        w70:  70%,
         w75:  75%,
+        w85:  85%,
+        w90:  90%,
         w100: 100%
 );
 
 $grid-rows: (
+        h10:  10%,
         h25:  25%,
         h50:  50%,
         h75:  75%,
@@ -86,23 +114,112 @@ $grid-rows: (
   align-items: $args;
 }
 
+@mixin align-self($args) {
+  -webkit-align-self: $args;
+  align-self: $args;
+}
+
 @mixin justify-content($args) {
   -webkit-justify-content: $args;
   justify-content: $args;
 }
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  border-radius: $radius;
+@mixin transform($args) {
+  -moz-transform: $args;
+  -ms-transform: $args;
+  -o-transform: $args;
+  -webkit-transform: $args;
+  transform: $args;
+}
+
+@mixin opacity($args) {
+  -moz-opacity: $args;
+  opacity: $args;
+}
+
+@mixin mask-linear-gradient($args) {
+  mask: -moz-linear-gradient($args);
+  mask: -ms-linear-gradient($args);
+  mask: -o-linear-gradient($args);
+  mask: -webkit-linear-gradient($args);
+  mask: linear-gradient($args);
+}
+
+@mixin background-size($args) {
+  -moz-background-size: $args;
+  -o-background-size: $args;
+  -webkit-background-size: $args;
+  background-size: $args;
+}
+
+@mixin background-linear-gradient($args) {
+  background: -moz-linear-gradient($args);
+  background: -ms-linear-gradient($args);
+  background: -o-linear-gradient($args);
+  background: -webkit-linear-gradient($args);
+  background: linear-gradient($args);
 }
 
 %border-default {
-  border: 7px solid color("primary-dark");
-  @include border-radius(10px);
+  border: none;
+  @include border-radius(2px);
 }
 
 %border-light {
   @extend %border-default;
   border-width: 2px;
+  border-color: var(--secondary-color);
+}
+
+@mixin animation($args) {
+  -moz-animation: $args;
+  -o-animation: $args;
+  -webkit-animation: $args;
+  animation: $args;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin background-accent($color, $accent-color) {
+  @include keyframes(background){
+    to {
+      background-size: 100% 100%;
+    }
+  }
+
+  @include background-linear-gradient((90deg, #{$accent-color}, (#{$accent-color} 50%), (#{$color} calc(50% + 1px))));
+  @include background-size(200% 100%);
+  background-position: right top;
+  @include animation((background 300ms ease-out forwards));
+}
+
+@mixin background-repeating-linear-gradient($args) {
+  background: -moz-repeating-linear-gradient($args);
+  background: -ms-repeating-linear-gradient($args);
+  background: -o-repeating-linear-gradient($args);
+  background: -webkit-repeating-linear-gradient($args);
+  background: repeating-linear-gradient($args);
+}
+
+%background-stripped {
+  $stripe-width: .8 * $whitespace-base-size;
+  @include background-repeating-linear-gradient((-45deg + $skew-angle,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,0) $stripe-width,
+          var(--secondary-color) $stripe-width + 1px,
+          var(--secondary-color) 2*$stripe-width + 1px,
+          rgba(0,0,0,0) 2*$stripe-width + 2px));
 }

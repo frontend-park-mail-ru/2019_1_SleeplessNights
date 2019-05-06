@@ -1,0 +1,12 @@
+@import "../global.scss";
+
+.title {
+  display: flex;
+  color: inherit;
+  text-transform: uppercase;
+  font-size: $title-text-size;
+  font-weight: bold;
+  text-decoration: none;
+  outline: none;
+  margin: $title-padding;
+}

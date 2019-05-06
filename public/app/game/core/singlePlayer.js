@@ -154,7 +154,6 @@ export class SinglePlayer extends GameCore {
     };
 
     onFillPacksList = (packs) => {
-        packs.shift();
         this.packs = packs;
         const questions = [];
 

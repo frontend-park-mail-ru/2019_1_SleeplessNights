@@ -7,7 +7,8 @@
     "build": "webpack -w",
     "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass --watch public/assets/scss --recursive -o public/assets/css --output-style compressed"
+    "scss": "node-sass --watch public/assets/scss --recursive -o public/assets/css --output-style compressed",
+    "main-scss": "node-sass public/assets/scss/main.scss -o public/assets/css --output-style compressed"
   },
   "repository": {
     "type": "git",

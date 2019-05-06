@@ -1,0 +1,10 @@
+@import "../../global.scss";
+
+.title_subtitle {
+  font-size: $subtitle-text-size;
+  font-weight: normal;
+}
+
+.title_subtitle:hover {
+  border-bottom: 2px solid var(--secondary-color);
+}

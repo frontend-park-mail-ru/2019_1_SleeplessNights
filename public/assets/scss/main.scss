@@ -1,9 +1,11 @@
-@import "../../app/components/avatar/avatar.css";
-@import "../../app/components/avatar/__choose-photo/avatar__choose-photo.css";
-@import "../../app/components/avatar/__upload-icon/avatar__upload-icon.css";
+@import "../../app/components/avatar/avatar.scss";
+@import "../../app/components/avatar/_profile/avatar_profile.scss";
+@import "../../app/components/avatar/__choose-photo/avatar__choose-photo.scss";
+@import "../../app/components/avatar/__upload-icon/avatar__upload-icon.scss";
 
-@import "../../app/components/button/btn.css";
-@import "../../app/components/button/_primary/btn_primary.css";
+@import "../../app/components/button/btn.scss";
+@import "../../app/components/button/_primary/btn_primary.scss";
+@import "../../app/components/button/_primary2/btn_primary2.scss";
 
 @import "../../app/components/card/card.css";
 @import "../../app/components/card/__body/card__body.css";
@@ -20,58 +22,83 @@
 @import "../../app/components/customFileInput/__input/custom-file__input.css";
 @import "../../app/components/customFileInput/__label/custom-file__label.css";
 
-@import "../../app/components/form/__group/form__group.css";
-@import "../../app/components/form/__group/_center/form__group_center.css";
-@import "../../app/components/form/_width/form_width.css";
-@import "../../app/components/formControl/form__control.css";
+@import "../../app/components/form/__group/form__group.scss";
+@import "../../app/components/form/__group/_center/form__group_center.scss";
+@import "../../app/components/formControl/form__control.scss";
 
-@import "../../app/components/header/header.css";
-@import "../../app/components/header/__title/header__title.css";
-@import "../../app/components/header/__subtitle/header__subtitle.css";
+@import "../../app/components/header/header.scss";
+@import "../../app/components/link/link.scss";
+@import "../../app/components/link/_primary/link_primary.scss";
+@import "../../app/components/list/list.scss";
+@import "../../app/components/list/__item/list__item.scss";
+@import "../../app/components/list/__item-row/list__item-row.scss";
 
-@import "../../app/components/link/link.css";
-@import "../../app/components/link/_primary/link_primary.css";
+@import "../../app/components/loader/loader.scss";
 
-@import "../../app/components/list/list.css";
-@import "../../app/components/list/__item/list__item.css";
-@import "../../app/components/list/__item-row/list__item-row.css";
+@import "../../app/components/pagination/pagination.scss";
+@import "../../app/components/pagination/__item/pagination__item.scss";
+@import "../../app/components/pack/__item/packs-section__item.scss";
+@import "../../app/components/pack/__icon/packs-section__icon.scss";
+@import "../../app/components/pack/__text/packs-section__text.scss";
+@import "../../app/components/pack/pack.scss";
 
-@import "../../app/components/menu/menu.css";
-@import "../../app/components/menu/__btn/menu__btn.css";
-@import "../../app/components/menu/__btn/_huge/menu__btn_huge.css";
-@import "../../app/components/menu/_horizontal/menu_horizontal.css";
-
-@import "../../app/components/pagination/pagination.css";
-@import "../../app/components/pagination/__item/pagination__item.css";
-@import "../../app/components/plug/plug.css";
-@import "../../app/components/scoreboard/table.css";
-
-@import "../../app/components/sidebar/sidebar.css";
-@import "../../app/components/sidebar/__header/sidebar__header.css";
-@import "../../app/components/sidebar/__title/sidebar__title.css";
+@import "../../app/components/scoreboard/table.scss";
+@import "../../app/components/scoreboard/_primary/table_primary.scss";
+@import "../../app/components/scoreboard/_primary2/table_primary2.scss";
+@import "../../app/components/scoreboard/__number/table__number.scss";
+@import "../../app/components/scoreboard/__avatar-block/table__avatar-block.scss";
 
 @import "../../app/components/timer/timer.css";
+@import "../../app/components/modal/modal.scss";
+@import "../../app/components/answer/answer.css";
+@import "../../app/components/question/question.css";
 
-@import "icons.scss";
+@import "../../app/components/icon/icons";
 @import "shadow.scss";
 @import "container/container.scss";
 @import "container/__col/container__col.scss";
+@import "container/__inline-flex/container__inline-flex.scss";
 @import "container/__row/container__row.scss";
 @import "container/__square/container__square.scss";
 @import "container/__absolute/container__absolute.scss";
+@import "container/__absolute/container__absolute-top.scss";
+@import "container/__absolute/_skewed/container__absolute_skewed.scss";
+@import "container/_skewed/container_skewed.scss";
+@import "container/_theme/container_theme-primary1.scss";
+@import "container/_theme/container_theme-primary2.scss";
+@import "container/_theme/container_theme_secondary1.scss";
+@import "container/_theme/container_theme_secondary2.scss";
+@import "container/_overflow/container_overflow.scss";
+@import "container/_justify-content/container_justify-content.scss";
+@import "container/_align-items/container_align-items.scss";
+
+@import "title/title.scss";
+@import "title/_subtitle/title_subtitle.scss";
+@import "centered-icon/centered-icon.scss";
 
 @import "../../app/components/gameBoard/game-board.scss";
 @import "../../app/components/gameBoardCell/game-board__cell.scss";
-@import "../../app/components/gameBoardCell/game-board__cell.scss";
+@import "../../app/components/gameBoardCell/_min-size/game-board__cell_min-size.scss";
 @import "../../app/components/gameBoardCell/_prize/game-board__cell_prize.scss";
 @import "../../app/components/gameBoardCell/_active/game-board__cell_active.scss";
 @import "../../app/components/gameBoardCell/_failed/game-board__cell_failed.scss";
 @import "../../app/components/gameBoardCell/_answered/game-board__cell_answered.scss";
 @import "../../app/components/buttonHome/button-home.scss";
 
+@import "adaptive-utils.scss";
+
 html, body {
         margin: 0;
+        padding: 0;
         height: 100%;
+        overflow: hidden;
+        font-family: Roboto, sans-serif;
+        background: var(--primary-color);
+}
+
+h1, h3, p {
+        padding: 4px 0;
+        margin: 0;
 }
 
 ::-webkit-scrollbar {

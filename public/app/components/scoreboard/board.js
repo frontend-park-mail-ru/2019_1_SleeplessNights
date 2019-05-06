@@ -26,21 +26,23 @@ export class BoardComponent {
             .emit('get-leaders', page)
             .on('success:get-leaders', (res) => {
                 this._players = [];
-                res.data.forEach(item => {
+                res.data.forEach((item, i) => {
                     this._players.push({
+                        number: i + 1,
                         name: item.nickname,
+                        avatarUrl: item.avatar_path,
                         win: item.won,
                         lost: item.lost,
                         playingTime: item.play_time
                     });
                 });
-                const pageCount = res.pages_total > 5 ? 5 : res.pages_total;
-                const currentPage = res.page; // eslint-disable-line
 
-                if (pageCount) {
+                const pageCount = res.pages_total;
+                if (pageCount && pageCount < 1) {
                     const pager = new PaginationComponent({
                         baseUrl:    'scoreboard',
-                        pagesNumber: pageCount
+                        pagesNumber: pageCount,
+                        currentPage: res.page
                     });
 
                     this._template = Handlebars.templates.board({

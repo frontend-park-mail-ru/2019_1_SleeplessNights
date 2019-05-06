@@ -61,18 +61,17 @@ export class Router {
     start() {
         this.root.addEventListener('click', (event) => {
             let target = event.target;
-            if ((target instanceof HTMLAnchorElement) || (target.parentElement instanceof HTMLAnchorElement)) {
+            event.preventDefault();
+            if (target.parentElement instanceof HTMLAnchorElement) {
+                target = target.parentElement;
+            }
 
-                if (target.parentElement instanceof HTMLAnchorElement) {
-                    target = target.parentElement;
-                }
-
-                event.preventDefault();
+            if (target.dataset.href) {
                 if (target.dataset.href === 'scoreboard') {
                     return;
                 }
 
-                const url = target.pathname;
+                const url = target.pathname || target.dataset.href;
                 this.open(url);
             }
         });

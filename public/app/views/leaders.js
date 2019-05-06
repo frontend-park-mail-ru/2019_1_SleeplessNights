@@ -1,6 +1,8 @@
-import { CardComponent }   from '../components/card/card.js';
 import { BoardComponent }  from '../components/scoreboard/board.js';
 import { HeaderComponent } from '../components/header/header.js';
+import { IconComponent }   from '../components/icon/icon.js';
+import { LinkComponent }   from '../components/link/link.js';
+import { ContainerComponent } from '../components/_new/container/container.js';
 import { BaseView } from './base.js';
 import bus from '../modules/bus.js';
 
@@ -17,24 +19,56 @@ export class LeadersView extends BaseView {
         return this._pageTitle;
     }
 
-    _render() {
-        const board = new BoardComponent();
-        const card = new CardComponent({
-            customClasses: 'card_centered_both card_profile shadow-l',
-            body: board.template
+    get backBtn() {
+        const link = new LinkComponent({
+            className: 'link_primary',
+            href: '',
+            dataHref: '/',
+            text: '',
+            icon: {
+                customClasses: 'md-48',
+                name: 'arrow_forward_ios'
+            }
         });
 
-        const header = new HeaderComponent({ title: 'Лучшие игроки' });
+        this._backBtn = new ContainerComponent({
+            customClasses: 'container__col-w10 container_theme-primary2 container_align-items-start container_justify-content-center',
+            content: link.template
+        });
+
+        return this._backBtn;
+    }
+
+    get _header() {
+        const leaderIcon = new IconComponent({
+            customClasses: ' md-inherit md-48',
+            name: 'poll'
+        });
+
+        return new HeaderComponent({
+            title: `${leaderIcon.template} Leader Board`
+        });
+    }
+
+    _render() {
+        const board = new BoardComponent();
+        const container = new ContainerComponent({
+           customClasses: 'container__col-w90 container_theme-secondary1 container_align-items-center container_justify-content-center',
+           content: `
+              ${this._header.template}
+              ${board.template}
+           `
+        });
 
         super.renderContainer({
-            customClasses: '',
-            btnBack: true,
+            customClasses: 'container_skewed container__row-h100 container__absolute',
             container: `
-                ${header.template}
-                ${card.template}
+                ${container.template}
+                ${this.backBtn.template}
             `,
         });
 
+        this._backBtn.href = '/';
         bus.emit('fetch-leaders');
     }
 }

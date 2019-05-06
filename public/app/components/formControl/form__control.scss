@@ -1,0 +1,18 @@
+@import "../../../assets/scss/global.scss";
+
+.form__control {
+    height: $form-control-size;
+    padding: .5*$whitespace-base-size 0 .5*$whitespace-base-size $whitespace-base-size;
+    border: 1px solid #EBEBEB;
+    @include border-radius(2px);
+    @include box-sizing(border-box);
+}
+
+.input_invalid {
+    border: 1px solid var(--danger-color);
+}
+
+.fd_invalid {
+    color: var(--danger-color);
+    font-size: small;
+}

@@ -13,16 +13,15 @@ import './components/formControl/formControl.tmpl.js';        /**/
 import './components/gameBoard/gameBoard.tmpl.js';            /**/
 import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
+import './components/icon/icon.tmpl.js';                  /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/loader/loader.tmpl.js';                  /**/
-import './components/menu/menu.tmpl.js';                      /**/
 import './components/modal/modal.tmpl.js';                    /**/
 import './components/pagination/pagination.tmpl.js';          /**/
-import './components/plug/plug.tmpl.js';                      /**/
+import './components/pack/pack.tmpl.js';                      /**/
 import './components/question/question.tmpl.js';              /**/
 import './components/scoreboard/board.tmpl.js';               /**/
-import './components/sidebar/sidebar.tmpl.js';                /**/
 import './components/timer/timer.tmpl.js';                    /**/
 /*************************** Views **************************\/**/
 import { MenuView }    from './views/menu.js';                /**/
@@ -181,19 +180,19 @@ router
 
 router.start();
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then((registration) => {
-            if (registration.installing) {
-                const data = {
-                    type: 'CACHE_URLS',
-                    payload: [
-                        location.href,
-                        ...performance.getEntriesByType('resource').map((r) => r.name)
-                    ]
-                };
-                registration.installing.postMessage(data);
-            }
-        })
-        .catch((err) => console.log('SW registration FAIL:', err));
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('/sw.js', { scope: '/' })
+//         .then((registration) => {
+//             if (registration.installing) {
+//                 const data = {
+//                     type: 'CACHE_URLS',
+//                     payload: [
+//                         location.href,
+//                         ...performance.getEntriesByType('resource').map((r) => r.name)
+//                     ]
+//                 };
+//                 registration.installing.postMessage(data);
+//             }
+//         })
+//         .catch((err) => console.log('SW registration FAIL:', err));
+// }

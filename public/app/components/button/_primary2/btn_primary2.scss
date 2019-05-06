@@ -1,0 +1,10 @@
+@import "../../../../assets/scss/global";
+
+.btn_primary2 {
+  background: var(--primary-color2);
+  color: var(--primary-color);
+}
+
+.btn_primary2:hover {
+  @include background-accent(var(--primary-color2), var(--accent-color));
+}

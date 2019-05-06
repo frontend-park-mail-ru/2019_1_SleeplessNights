@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Название игры</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container-new container_inverted">
+            <div class="container_inverted__layout container_inverted__layout_text">
+                <h1 class="container_inverted__layout__label">
+                    <i class="material-icons md-inherit">person</i>Single Player
+                </h1>
+            </div>
+            <div class="container_inverted__layout container_inverted__layout-left">
+            </div>
+            <div class="container_inverted__layout container_inverted__layout-left container_inverted__layout-left_bg">
+            </div>
+
+            <div class="container_inverted__layout container_inverted__layout__play">
+                <i class="material-icons md-inherit">play_circle_outline</i>
+            </div>
+
+            <div class="container_inverted__layout container_inverted__layout_text">
+                <h1 class="container_inverted__layout__label">
+                    <i class="material-icons md-inherit">group</i> Multi Player
+                </h1>
+            </div>
+            <div class="container_inverted__layout container_inverted__layout-right">
+            </div>
+            <div class="container_inverted__layout container_inverted__layout-right container_inverted__layout-right_bg">
+            </div>
+
+            <div class="menu-inverted menu-inverted_left">
+                <div class="menu-inverted__item">
+                    <a href="leaderboard.html" data-href="">
+                        <i class="material-icons md-inherit md-24">poll</i>
+                        Leaderboard
+                    </a>
+                </div>
+                <div class="menu-inverted__item">
+                    <a href="about.html" data-href="">
+                        <i class="material-icons md-24 md-inherit">info</i>
+                        About
+                    </a>
+                </div>
+            </div>
+            <div class="menu-inverted menu-inverted_right">
+                <div class="menu-inverted__item">
+                    <a href="login.html" data-href="">
+                        <i class="material-icons md-24 md-inherit">exit_to_app</i>
+                        Log In
+                    </a>
+                </div>
+                <div class="menu-inverted__item">
+                    <a href="signup.html" data-href="">
+                        <i class="material-icons md-24 md-inherit">person_add</i>
+                         Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const leftDiv = document.getElementsByClassName('container_inverted__layout-left')[0];
+        const leftDivBg = document.getElementsByClassName('container_inverted__layout-left_bg')[0];
+        const rightDiv = document.getElementsByClassName('container_inverted__layout-right')[0];
+        const rightDivBg = document.getElementsByClassName('container_inverted__layout-right_bg')[0];
+
+        leftDiv.addEventListener('mouseover', () => {
+            leftDiv.style.width = '56%';
+            leftDivBg.style.width = '56%';
+            rightDiv.style.width = '44%';
+            rightDivBg.style.width = '44%';
+        });
+
+        rightDiv.addEventListener('mouseover', () => {
+            rightDiv.style.width = '56%';
+            rightDivBg.style.width = '56%';
+            leftDiv.style.width = '44%';
+            leftDivBg.style.width = '44%';
+        });
+    </script>
+</body>
+</html>
