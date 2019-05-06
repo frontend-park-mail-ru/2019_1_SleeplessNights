@@ -43,13 +43,13 @@ export class PlayingScene extends GameScene {
     render() {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
-            customClasses: 'container__col-w25',
+            customClasses: 'container__col-w25 container_align-items-center',
             content: `${this.avatarMe.template}`
         });
 
         this.avatarOponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
-            customClasses: 'container__col-w25',
+            customClasses: 'container__col-w25 container_align-items-center',
             content: this.avatarOponent.template
         });
 
@@ -60,7 +60,7 @@ export class PlayingScene extends GameScene {
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
 
         const centreContainer = new ContainerComponent({
-            customClasses: 'container__col-w50',
+            customClasses: 'container__col-w50 container_align-items-center',
             content: this.gameBoard.template
         });
 

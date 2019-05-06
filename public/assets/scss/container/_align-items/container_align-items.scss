@@ -8,6 +8,10 @@
   @include align-items(end);
 }
 
+.container_align-items-flex-end {
+  @include align-items(flex-end);
+}
+
 .container_align-items-center {
   @include align-items(center);
 }

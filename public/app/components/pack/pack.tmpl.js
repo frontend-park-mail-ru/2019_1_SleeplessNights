@@ -13,7 +13,7 @@ templates['pack'] = template({"1":function(container,depth0,helpers,partials,dat
 
   return "<div class=\"packs-section\" id=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\n    <div class=\"packs-section__icon\">\n        <i class=\"material-icons md-inherit md-48\">widgets</i>\n        Packs\n    </div>\n"
+    + "\">\n    <div class=\"packs-section__icon\">\n        <i class=\"material-icons md-48\">widgets</i>\n        Packs\n    </div>\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.packs : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</div>\n";
 },"useData":true});

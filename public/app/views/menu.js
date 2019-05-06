@@ -123,7 +123,7 @@ export class MenuView extends BaseView {
         });
 
         return new ContainerComponent({
-            customClasses: 'container__row-h100 container_theme-primary1',
+            customClasses: 'container__row-h100 container_theme-primary1 container_align-items-center',
             content: `
                 ${singlePlayer.template}
                 ${playBtnLeft.template}
@@ -144,7 +144,7 @@ export class MenuView extends BaseView {
         });
 
         return new ContainerComponent({
-            customClasses: 'container__row-h100 container_theme-primary2 container_overflow-hidden',
+            customClasses: 'container__row-h100 container_theme-primary2 container_align-items-center container_overflow-hidden',
             content: `
                 ${playBtnRight.template}
                 ${multiPlayer.template}               

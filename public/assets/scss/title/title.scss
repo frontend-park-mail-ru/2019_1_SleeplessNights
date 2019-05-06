@@ -3,7 +3,6 @@
 .title {
   display: flex;
   color: inherit;
-  @include align-items(center);
   text-transform: uppercase;
   font-size: $title-text-size;
   font-weight: bold;
