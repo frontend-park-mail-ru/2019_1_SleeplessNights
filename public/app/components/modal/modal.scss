@@ -37,13 +37,24 @@
     min-height: $modal-min-size;
     min-width: $modal-min-size;
     padding: 2 * $whitespace-base-size 3 * $whitespace-base-size;
-    @include background-accent(var(--primary-color), var(--primary-color2));
+    background-color: var(--primary-color);
+    //@include background-accent(var(--primary-color), var(--primary-color2));
     color: var(--secondary-color);
     z-index: 4;
 }
 
 .modal__close {
     position: absolute;
-    top: $whitespace-base-size;
-    right: $whitespace-base-size;
+    top: 0;
+    right: 0;
+    background-color: var(--primary-color2);
+    color: var(--primary-color);
+    font-size: $title-text-size;
+    height: 100%;
+    outline: none;
+    cursor: pointer;
+    width: $modal-close-btn-width;
+    margin-right: -($modal-close-btn-width);
+    border: none;
+    @include border-radius(none);
 }
