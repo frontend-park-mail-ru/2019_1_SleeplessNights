@@ -6,13 +6,13 @@ $flex-directions: (column, row);
   @each $breakpoint, $width in $media-breakpoints {
     @each $direction in $flex-directions {
       &-#{$breakpoint}-and-less-#{$direction} {
-        @media (max-width: $breakpoint) {
-          @include flex-direction($direction);
+        @media (max-width: #{$width}) {
+          @include flex-direction((#{$direction} !important));
         }
       }
       &-#{$breakpoint}-#{$direction} {
-        @media (min-width: $breakpoint) {
-          @include flex-direction($direction);
+        @media (min-width: #{$width}) {
+          @include flex-direction((#{$direction} !important));
         }
       }
     }

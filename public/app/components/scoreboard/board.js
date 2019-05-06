@@ -26,16 +26,18 @@ export class BoardComponent {
             .emit('get-leaders', page)
             .on('success:get-leaders', (res) => {
                 this._players = [];
-                res.data.forEach(item => {
+                res.data.forEach((item, i) => {
                     this._players.push({
+                        number: i + 1,
                         name: item.nickname,
+                        avatarUrl: item.avatar_path,
                         win: item.won,
                         lost: item.lost,
                         playingTime: item.play_time
                     });
                 });
-                const pageCount = res.pages_total > 5 ? 5 : res.pages_total;
-                const currentPage = res.page; // eslint-disable-line
+                const pageCount = res.pages_total;
+                const currentPage = res.page;
 
                 if (pageCount) {
                     const pager = new PaginationComponent({

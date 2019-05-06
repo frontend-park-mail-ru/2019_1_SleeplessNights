@@ -14,10 +14,10 @@ export class MenuView extends BaseView {
                     href: 'profile',
                     dataHref: 'profile',
                     customClasses: 'title title_subtitle',
-                    text: 'My Profile',
+                    text: 'Profile',
                     icon: {
                         customClasses: 'md-24 md-inherit',
-                        name: 'profile'
+                        name: 'account_circle'
                     }
                 },
             ],
@@ -29,7 +29,7 @@ export class MenuView extends BaseView {
                     text: 'Log Out',
                     icon: {
                         customClasses: 'md-24 md-inherit',
-                        name: 'exit_to_app'
+                        name: 'arrow_forward'
                     }
                 },
             ],
@@ -178,8 +178,8 @@ export class MenuView extends BaseView {
         const navbarContainer2 = new ContainerComponent({
             customClasses: 'container__row-h10 container_justify-content-right',
             content: `
-                ${items.get('login').template}
-                ${items.get('signup').template}
+                ${items.has('login') ? items.get('login').template : items.get('profile').template}
+                ${items.has('signup') ? items.get('signup').template : items.get('logout').template}
             `
         });
 

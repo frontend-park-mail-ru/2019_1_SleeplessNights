@@ -1,5 +1,6 @@
 <table class="table">
     <tr>
+        <th class="table__number">№</th>
         <th>Игрок</th>
         <th>Победы</th>
         <th>Поражения</th>
@@ -7,7 +8,15 @@
     </tr>
     {{#each players}}
         <tr>
-            <td>{{name}}</td>
+            <td>{{number}}</td>
+            <td>
+                <div class="container__align-items-center">
+                    <div class="table_new__avatar-block">
+                        <img class="table_new__avatar" src="{{avatarUrl}}" alt="avt">
+                    </div>
+                    {{name}}
+                </div>
+            </td>
             <td>{{win}}</td>
             <td>{{lost}}</td>
             <td>{{playingTime}}</td>
