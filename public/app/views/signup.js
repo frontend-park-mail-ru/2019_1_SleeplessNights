@@ -153,7 +153,6 @@ export class SignUpView extends BaseView {
     }
 
     _onSubmit() {
-        console.log('on-submit');
         bus.on('error:signup', (data) =>
             Object.entries(data).forEach((item) =>
                 this._form.addError(item[0], item[1])

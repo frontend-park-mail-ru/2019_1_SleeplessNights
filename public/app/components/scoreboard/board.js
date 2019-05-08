@@ -30,7 +30,7 @@ export class BoardComponent {
                     this._players.push({
                         number: i + 1,
                         name: item.nickname,
-                        avatarUrl: item.avatar_path,
+                        avatarPath: item.avatarPath,
                         win: item.won,
                         lost: item.lost,
                         playingTime: item.play_time

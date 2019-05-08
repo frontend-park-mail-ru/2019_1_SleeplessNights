@@ -2,7 +2,7 @@ import { CustomFileInputComponent } from '../customFileInput/customFileInput.js'
 import { uniqueId } from '../../modules/utils.js';
 
 export class AvatarComponent {
-    _avatarUrl;
+    _avatarPath;
     _customClasses;
     _id;
     _isEditable;
@@ -10,12 +10,12 @@ export class AvatarComponent {
 
     constructor({
         customClasses = '',
-        avatarUrl = '/assets/img/default-avatar.png',
+        avatarPath = '/assets/img/default-avatar.png',
         form = ''
     } = {}){
         this._customClasses = customClasses;
         this._isEditable = customClasses.includes('isEditable');
-        this._avatarUrl = avatarUrl;
+        this._avatarPath = avatarPath;
         this._id = 'avatar' + uniqueId();
         this._render(form);
     }
@@ -51,7 +51,7 @@ export class AvatarComponent {
         }
 
         this._template = Handlebars.templates.avatar({
-            avatarUrl:      this._avatarUrl,
+            avatarPath:      this._avatarPath,
             customClasses:  this._customClasses,
             customImgInput: customFileInput ? customFileInput.template: '',
             id:             this._id,

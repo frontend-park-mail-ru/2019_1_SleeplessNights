@@ -26,7 +26,7 @@ export class PlayView extends BaseView {
         const container = document.getElementsByClassName('game')[0];
         new Game({
             root: container,
-            mode: modes.SINGLE_PLAYER
+            mode: modes.MULTI_PLAYER
         });
     }
 }

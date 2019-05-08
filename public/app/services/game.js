@@ -1,8 +1,45 @@
-import idb from '../modules/indexdb.js';
 import { TestDataDB } from './testDataDB.js';
+import { IWebSocket } from '../modules/websocket.js';
+import { inMessages, outMessages } from '../game/constants.js';
+import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';
+import idb from '../modules/indexdb.js';
+import config from '../modules/config.js';
 
 export class GameService {
+    constructor() {
+        this.ws = new IWebSocket(config.gameUrl);
+        this.receiveMessages();
+    }
+
+    sendMessage = ({ title, payload }) => {
+        const message = {
+            title: title,
+            payload: payload
+        };
+
+        this.ws.sendMessage(JSON.stringify(message));
+    };
+
+    receiveMessages() {
+        bus.on('ws-message', (message) => {
+            console.log(message);
+            switch (message.title) {
+                case inMessages.startGame: {
+                    bus.emit('success:start-game-multiplayer');
+                } break;
+                case inMessages.opponentProfile: {
+                    const profile = message.payload;
+                    profile.avatarPath = makeAvatarPath(profile.avatarPath);
+                    bus.emit('set-opponent-profile', profile);
+                } break;
+                default: {
+                    console.log(message.title, message.payload || '')
+                }
+            }
+        });
+    }
+
     static checkDB() {
         let waiterCount = 0;
         const waitDB = (data) => {

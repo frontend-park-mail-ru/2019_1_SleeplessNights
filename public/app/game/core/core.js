@@ -1,16 +1,16 @@
-import { events} from './events.js';
+import { events } from './events.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
 
 export class GameCore {
     constructor() {
         this.me = {
-            avatar_path: '/assets/img/default-avatar.png',
-            nickname: 'Guest',
+            avatarPath: '/assets/img/default-avatar.png',
+            nickname: window.user.nickname,
             lastMove: null
         };
         this.opponent = null;
-        this.CELL_COUNT = 8;
+        this.cellCount = 8;
         this.colors = [
             {
                 color: '#B3B156'
@@ -40,17 +40,25 @@ export class GameCore {
         bus.on('selected-cell', this.onSelectedCell);
         bus.on('success:get-pack-id-', this.onGetPacks);
         bus.on(`success:get-user-nickname-${user.nickname}`, this.getMe);
+        bus.on('set-opponent-profile', this.onSetOpponentProfile);
 
         idb.getAll('user', 'nickname', user.nickname, 1);
     }
 
     getMe = (data) => {
         if (data.length) {
-            this.me.avatar_path = data[0].avatar_path;
-            this.me.avatar_path = data[0].avatar_path;
+            this.me.avatarPath = data[0].avatarPath;
         }
 
         bus.emit('loaded-users', { me: this.me, opponent: this.opponent });
+    };
+
+    onSetOpponentProfile = (data) => {
+        this.opponent = {
+            avatarPath: data.avatarPath,
+            nickname: data.nickname,
+            lastMove: null
+        };
     };
 
     onGameStarted() {

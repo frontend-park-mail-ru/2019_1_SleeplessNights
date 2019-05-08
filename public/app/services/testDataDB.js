@@ -2,7 +2,7 @@ export class TestDataDB {
     static get guest() {
         return [{
             nickname: 'guest',
-            avatar_path: '/assets/img/avatar_male.png'
+            avatarPath: '/assets/img/avatar_male.png'
         }];
     }
 

@@ -1,31 +1,31 @@
 import { events} from './events.js';
 import { GameCore } from './core.js';
 import { BotPlayer } from './bot.js';
-import idb from '../../modules/indexdb.js';
 import { shuffle } from '../../modules/utils.js';
+import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {
         super();
         this.availableCells = [];
-        this.GAME_MATRIX = [];
+        this.gameMatrix = [];
         this.packs = [];
         this.currentPlayer = 'me';
 
-        bus.on('set-current-player', this.setCurrentPlayer);
-        bus.on('set-answered-cell', this.setAnsweredCell);
+        bus.on('set-current-player',  this.setCurrentPlayer);
+        bus.on('set-answered-cell',   this.setAnsweredCell);
         bus.on('get-available-cells', this.getAvailableCells);
     }
 
     start() {
         super.start();
         bus.emit(events.START_GAME);
-        this.opponent = {
-            avatar_path: '/assets/img/bot.png',
+        bus.emit('set-opponent-profile', {
+            avatarPath: '/assets/img/bot.png',
             nickname: 'Fool bot',
             lastMove: null
-        };
+        });
 
         this.bot = new BotPlayer();
     }
@@ -44,7 +44,7 @@ export class SinglePlayer extends GameCore {
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     setAnsweredCell = ({ id, answer }) => {
-        this.GAME_MATRIX[id].answered = true;
+        this.gameMatrix[id].answered = true;
         const cond = this.currentPlayer === 'me';
         if (answer) {
             this[cond ? 'me': 'opponent'].lastMove = id;
@@ -66,12 +66,12 @@ export class SinglePlayer extends GameCore {
 
         if (lastMove !== null) {
             let temp = [];
-            let i = lastMove - this.CELL_COUNT;
+            let i = lastMove - this.cellCount;
 
-            for (let j = 0; j < 3; i += this.CELL_COUNT, j++) {
-                const currentRow = Math.floor(i / this.CELL_COUNT);
+            for (let j = 0; j < 3; i += this.cellCount, j++) {
+                const currentRow = Math.floor(i / this.cellCount);
                 [i - 1, i + 1].forEach(el =>
-                    (Math.floor(el / this.CELL_COUNT ) === currentRow) ? temp.push(el): null
+                    (Math.floor(el / this.cellCount ) === currentRow) ? temp.push(el): null
                 );
 
                 temp.push(i);
@@ -81,15 +81,15 @@ export class SinglePlayer extends GameCore {
                 el >= 0 &&
                 el !== lastMove &&
                 el <= 63 &&
-                !this.GAME_MATRIX[el].answered
+                !this.gameMatrix[el].answered
             );
         } else {
-            this.availableCells = this.GAME_MATRIX
+            this.availableCells = this.gameMatrix
                 .reduce((accum, cell, i) => {
                     const cond = (
                         this.currentPlayer === 'me'
-                            ? i >= this.CELL_COUNT * (this.CELL_COUNT - 1)
-                            : i < this.CELL_COUNT
+                            ? i >= this.cellCount * (this.cellCount - 1)
+                            : i < this.cellCount
                     );
 
                     if (cond && !cell.answered) {
@@ -118,16 +118,16 @@ export class SinglePlayer extends GameCore {
 
         bus.emit('fill-pack-list', packs);
 
-        for (let i = 0; i < this.CELL_COUNT; i++) {
-            for (let j = 0; j < this.CELL_COUNT; j++) {
+        for (let i = 0; i < this.cellCount; i++) {
+            for (let j = 0; j < this.cellCount; j++) {
                 if ((i === 3 && j === 3) || (i === 3 && j === 4) ||
                     (i === 4 && j === 3) || (i === 4 && j === 4)) {
-                    this.GAME_MATRIX.push({
+                    this.gameMatrix.push({
                         type: 'prize',
                         color: '#0c5460'
                     });
                 } else {
-                    this.GAME_MATRIX.push({
+                    this.gameMatrix.push({
                         type: 'question'
                     });
                 }
@@ -138,7 +138,7 @@ export class SinglePlayer extends GameCore {
         let p = 0;
         const prizes = [];
 
-        this.GAME_MATRIX.forEach((cell, i) => {
+        this.gameMatrix.forEach((cell, i) => {
             if (cell.type === 'question') {
                 Object.assign(cell, packs[p]);
                 p = (p + 1) % packsCount;
@@ -147,9 +147,9 @@ export class SinglePlayer extends GameCore {
             }
         });
 
-        shuffle(this.GAME_MATRIX, prizes);
+        shuffle(this.gameMatrix, prizes);
 
-        bus.emit('fill-cells', this.GAME_MATRIX);
+        bus.emit('fill-cells', this.gameMatrix);
         this.gameLoop();
     };
 
@@ -173,7 +173,7 @@ export class SinglePlayer extends GameCore {
 
     onQuestionsReady = (questions) => {
         this.packs.forEach((pack, pI) => {
-            const packInMatrix = this.GAME_MATRIX.filter(gm => gm.id === pack.id);
+            const packInMatrix = this.gameMatrix.filter(gm => gm.id === pack.id);
             packInMatrix.forEach((cell, i) =>
                 cell['question'] = questions[pI][i]
             );
@@ -181,7 +181,7 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
-        const question = this.GAME_MATRIX[cellIndex].question;
+        const question = this.gameMatrix[cellIndex].question;
         if (question) {
             bus.emit('selected-question', question);
         } else {

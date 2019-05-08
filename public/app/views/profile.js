@@ -69,7 +69,7 @@ export class ProfileView extends BaseView {
             won: 0,
             lost: 0,
             play_time: 0,
-            avatar_path: 'static/img/my_avatar.jpeg'
+            avatarPath: 'static/img/my_avatar.jpeg'
         };
 
         this._scoreSectionHTML = document.createElement('section');
@@ -153,7 +153,7 @@ export class ProfileView extends BaseView {
                 won: profile.won,
                 lost: profile.lost,
                 play_time: profile.play_time,
-                avatar_path: profile.avatar_path
+                avatarPath: profile.avatarPath
             };
 
             if (this._form !== undefined) {
@@ -167,7 +167,7 @@ export class ProfileView extends BaseView {
             const list = new ListComponent({ list: this._list });
 
             this._scoreSection = list.template;
-            this._avatar.src = profile.avatar_path;
+            this._avatar.src = profile.avatarPath;
         });
     }
 }

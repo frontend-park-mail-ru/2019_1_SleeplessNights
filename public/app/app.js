@@ -47,7 +47,6 @@ import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';
 /************************************************************\/**/
 
-// window.bus = bus;
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised
@@ -61,7 +60,10 @@ idb.get('user', 1);
 bus.on('success:get-user-1', (user) => {
     if (!user) {
         GameService.fillTestDB();
+        return;
     }
+
+    window.user.nickname = user.nickname;
 });
 
 bus.on('signup', (data) => {
@@ -109,7 +111,7 @@ bus.on('check-validity-login', (data) => {
 bus.on('get-profile', () => {
     ProfileService.getProfile()
         .then(profile => {
-            profile.avatar_path = makeAvatarPath(profile.avatar_path);
+            profile.avatarPath = makeAvatarPath(profile.avatarPath);
             bus.emit('success:get-profile', profile);
         })
         .catch(error => {
@@ -160,8 +162,12 @@ bus.on(events.FINISH_GAME, (data) => {
     data ? router.open('/menu') : router.open('/play');
 });
 
-const router = new Router(app);
+bus.on('start-game-multiplayer', () => {
+    const gameService = new GameService();
+    bus.on('game:send-message', gameService.sendMessage);
+});
 
+const router = new Router(app);
 router
     .register('/', MenuView)
     .register('/about', AboutView)
@@ -179,6 +185,9 @@ router
     .registerInAccess('/signup', true, '/profile');
 
 router.start();
+
+// const gameService = new GameService();
+
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })

@@ -142,7 +142,6 @@ export class LoginView extends BaseView {
         );
 
         this._form.on('submit', (event) => {
-            console.log('on-submit');
             event.preventDefault();
 
             this._formData = new FormData(event.target);

@@ -17,34 +17,34 @@ export class AboutView extends BaseView {
             {
                 name: 'Ксения Казанцева',
                 position: 'Dear Mentor',
-                avatarUrl: '/assets/img/mentor.jpg'
+                avatarPath: '/assets/img/mentor.jpg'
             },
             {
                 name: 'Максим Пирмамедов',
                 position: 'Backend',
-                avatarUrl: '/assets/img/default-avatar.png'
+                avatarPath: '/assets/img/default-avatar.png'
             },
             {
                 name: 'Алексей Ларютин',
                 position: 'Backend',
-                avatarUrl: '/assets/img/default-avatar.png'
+                avatarPath: '/assets/img/default-avatar.png'
             },
             {
                 name: 'Максим Уймин',
                 position: 'Full-stack',
-                avatarUrl: '/assets/img/default-avatar.png'
+                avatarPath: '/assets/img/default-avatar.png'
             },
             {
                 name: 'Джахонгир Тулфоров',
                 position: 'Frontend',
-                avatarUrl: '/assets/img/jahongir.jpg'
+                avatarPath: '/assets/img/jahongir.jpg'
             }
         ];
         this._screens = [];
         this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
@@ -83,7 +83,7 @@ export class AboutView extends BaseView {
         this._authors.forEach((author, i) => {
             const avatar = new AvatarComponent({
                 customClasses: '',
-                avatarUrl: author.avatarUrl
+                avatarPath: author.avatarPath
             });
 
             const container = new ContainerComponent({

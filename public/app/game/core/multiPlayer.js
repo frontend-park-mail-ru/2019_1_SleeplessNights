@@ -1,20 +1,33 @@
 import { GameCore } from './core.js';
-import { IWebSocket } from '../../modules/websocket.js';
+import bus from '../../modules/bus.js';
+import { events } from './events.js';
 
 export class MultiPlayer extends GameCore {
     constructor() {
         super();
-        this.ws = new IWebSocket();
+        bus.emit('start-game-multiplayer');
     }
 
     start() {
         super.start();
-        this.ws.sendMessage('start-game', null);
+        bus.emit(events.START_GAME);
     }
 
     onGameStarted = () => {
+        bus.on('success:start-game-multiplayer', () =>
+            bus.emit('game:send-message', ({ title: 'READY', payload: '' }))
+        );
     };
 
     onGameFinished = () => {
-    }
+        this.destroy();
+    };
+
+    onGetPacks = (data) => {
+        console.log(data);
+    };
+
+    onFillPacksList = (packs) => {
+        console.log(packs);
+    };
 }
