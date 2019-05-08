@@ -13,8 +13,8 @@ export class GameScene {
     }
 
     updatePlayers = ({me, opponent}) => {
-        this.avatarMe.src = me.avatar_path;
-        this.avatarOponent.src = opponent.avatar_path;
+        this.avatarMe.src = me.avatarPath;
+        // this.avatarOponent.src = opponent.avatarPath;
     };
 
     askForExit = (event) => {

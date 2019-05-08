@@ -15,6 +15,8 @@ export const inMessages = {
     wannaPlayAgain    : 'WANNA_PLAY_AGAIN',    // Даём клиенту выбор продолжить играть или нет
     opponentLeaves    : 'OPPONENT_QUITS',      // Оповещаем клиента о желании соперника продолжить
     opponentContinues : 'OPPONENT_CONTINUES',  // Оповещаем клиента о желании выйти из игры
+    themesRequest     : 'THEMES_RESPONSE',
+    questionThemesRequest: 'QUESTION_THEMES_RESPONSE',
 };
 
 // ИСХОДЯЩИЕ

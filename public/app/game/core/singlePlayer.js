@@ -9,7 +9,6 @@ export class SinglePlayer extends GameCore {
     constructor() {
         super();
         this.availableCells = [];
-        this.gameMatrix = [];
         this.packs = [];
         this.currentPlayer = 'me';
 

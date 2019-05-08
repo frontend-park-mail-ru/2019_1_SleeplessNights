@@ -9,6 +9,7 @@ export class GameCore {
             nickname: window.user.nickname,
             lastMove: null
         };
+        this.gameMatrix = [];
         this.opponent = null;
         this.cellCount = 8;
         this.colors = [

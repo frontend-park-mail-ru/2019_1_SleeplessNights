@@ -70,15 +70,17 @@ export class SelectAnswerScene {
     };
 
     selectAnswer = (id) => {
-        let isTrue;
-        if (id === this.correctAnswer) {
-            this.answers.get(id).setCorrect();
-            isTrue = true;
-        } else {
-            this.answers.get(id).setFailed();
-            this.answers.get(this.correctAnswer).setCorrect();
-            isTrue = false;
-        }
+
+
+        // let isTrue;
+        // if (id === this.correctAnswer) {
+        //     this.answers.get(id).setCorrect();
+        //     isTrue = true;
+        // } else {
+        //     this.answers.get(id).setFailed();
+        //     this.answers.get(this.correctAnswer).setCorrect();
+        //     isTrue = false;
+        // }
 
         setTimeout(() => {
             this.modal.hide();

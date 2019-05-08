@@ -1,6 +1,6 @@
 import { TestDataDB } from './testDataDB.js';
 import { IWebSocket } from '../modules/websocket.js';
-import { inMessages, outMessages } from '../game/constants.js';
+import { inMessages } from '../game/constants.js';
 import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';
 import idb from '../modules/indexdb.js';
@@ -8,7 +8,7 @@ import config from '../modules/config.js';
 
 export class GameService {
     constructor() {
-        this.ws = new IWebSocket(config.gameUrl);
+        this.ws = new IWebSocket(config.gameUrl, 'game');
         this.receiveMessages();
     }
 
@@ -22,23 +22,50 @@ export class GameService {
     };
 
     receiveMessages() {
-        bus.on('ws-message', (message) => {
+        bus.on('game:ws-message', (message) => {
             console.log(message);
             switch (message.title) {
-                case inMessages.startGame: {
+                case "INFO": {
                     bus.emit('success:start-game-multiplayer');
                 } break;
+
                 case inMessages.opponentProfile: {
                     const profile = message.payload;
                     profile.avatarPath = makeAvatarPath(profile.avatarPath);
                     bus.emit('set-opponent-profile', profile);
                 } break;
+
+                case inMessages.themesRequest: {
+                    bus.emit('success:get-pack-id-', message.payload);
+                } break;
+
+                case inMessages.questionThemesRequest: {
+                    bus.emit('success:get-cells', message.payload);
+                } break;
+
+                case inMessages.availableCells: {
+                    const arr = message.payload;
+                    arr.forEach((a, i) =>
+                        arr[i] = a.y * 8 + a.x
+                    );
+
+                    bus.emit('success:get-available-cells', arr);
+                } break;
+
+                case inMessages.yourQuestion: {
+                    const question = message.payload;
+                    // question.question = JSON.parse(question.question);
+                    console.log(question.question);
+                    bus.emit('selected-question', question.question);
+                } break;
+
                 default: {
                     console.log(message.title, message.payload || '')
                 }
             }
         });
     }
+
 
     static checkDB() {
         let waiterCount = 0;
