@@ -1,4 +1,5 @@
 import { events } from './events.js';
+import { gameConsts } from '../constants.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
 
@@ -11,37 +12,18 @@ export class GameCore {
         };
         this.gameMatrix = [];
         this.opponent = null;
-        this.cellCount = 8;
-        this.colors = [
-            {
-                color: '#B3B156'
-            },
-            {
-                color: '#FFFD94'
-            },
-            {
-                color: '#ADE0FF'
-            },
-            {
-                color: '#FFB454'
-            },
-            {
-                color:'#00FFC5',
-            },
-            {
-                color: '#CC6264',
-            }
-        ];
+        this.cellCount = gameConsts.CELL_COUNT;
+        this.colors = gameConsts.COLORS.map(c => { return {color: c} });
     }
 
     start() {
-        bus.on(events.START_GAME, this.onGameStarted);
+        bus.on(events.START_GAME,  this.onGameStarted);
         bus.on(events.FINISH_GAME, this.onGameFinished);
-        bus.on('fill-pack-list', this.onFillPacksList);
-        bus.on('selected-cell', this.onSelectedCell);
-        bus.on('success:get-pack-id-', this.onGetPacks);
-        bus.on(`success:get-user-nickname-${user.nickname}`, this.getMe);
-        bus.on('set-opponent-profile', this.onSetOpponentProfile);
+        bus.on(events.SELECTED_CELL,        this.onSelectedCell);
+        bus.on(`success:${events.GET_PACK}-`, this.onGetPacks);
+        bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
+        bus.on(events.SELECTED_ANSWER,      this.onSelectedAnswer);
+        bus.on(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
 
         idb.getAll('user', 'nickname', user.nickname, 1);
     }
@@ -66,10 +48,6 @@ export class GameCore {
         throw new Error('This method must be overridden');
     }
 
-    onGameFinished() {
-        throw new Error('This method must be overridden');
-    }
-
     onGetPacks = () => {
         throw new Error('This method must be overridden');
     };
@@ -82,12 +60,20 @@ export class GameCore {
         throw new Error('This method must be overridden');
     };
 
+    onSelectedAnswer = () => {
+        throw new Error('This method must be overridden');
+    };
+
+    onGameFinished() {
+        throw new Error('This method must be overridden');
+    }
+
     destroy() {
-        bus.off(events.START_GAME, this.onGameStarted);
+        bus.off(events.START_GAME,  this.onGameStarted);
         bus.off(events.FINISH_GAME, this.onGameFinished);
-        bus.off('fill-pack-list', this.onFillPacksList);
-        bus.off('selected-cell', this.onSelectedCell);
-        bus.off('success:get-pack-id-', this.onGetPacks);
-        bus.off(`success:get-user-nickname-${user.nickname}`, this.getMe);
+        bus.off(events.SELECTED_CELL,   this.onSelectedCell);
+        bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
+        bus.off(`success:${events.GET_PACK}-`, this.onGetPacks);
+        bus.off(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
     }
 }

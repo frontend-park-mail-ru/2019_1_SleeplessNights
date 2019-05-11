@@ -1,11 +1,12 @@
 import { AvatarComponent } from '../../components/avatar/avatar.js';
-import { CellComponent } from '../../components/gameBoardCell/cell.js';
+import { CellComponent }   from '../../components/gameBoardCell/cell.js';
 import { ContainerComponent } from '../../components/_new/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { PackSectionComponent } from '../../components/pack/pack.js';
-import { SelectAnswerScene }  from './selectAnswer.js';
+import { SelectAnswerScene }    from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
-import { GameScene }    from './index.js';
+import { GameScene } from './index.js';
+import { events }    from '../core/events.js';
 import bus from '../../modules/bus.js';
 
 export class PlayingScene extends GameScene {
@@ -21,12 +22,12 @@ export class PlayingScene extends GameScene {
         this._packsSection = document.createElement('section');
         this._packsSection.id = 'pack-section';
 
-        bus.on('fill-pack-list', this.updatePackList);
-        bus.on('fill-cells', this.fillCells);
-        bus.on('selected-cell', this.onSelectedCell);
-        bus.on('answered-cell', this.onAnsweredCell);
-        bus.on('success:get-available-cells', this.onGetAvailableCells);
-        bus.on('set-current-player', this.onChangePlayer);
+        bus.on(events.FILL_PACK_LIST,     this.updatePackList);
+        bus.on(events.FILL_CELLS,         this.fillCells);
+        bus.on(events.SELECTED_CELL,      this.onSelectedCell);
+        bus.on(events.SET_ANSWERED_CELL,  this.onAnsweredCell);
+        bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
 
         this.render();
     }
@@ -114,9 +115,9 @@ export class PlayingScene extends GameScene {
         if ('type' in target.dataset && target.dataset.state === 'active') {
             const type = target.dataset.type;
             if (type === 'question') {
-                bus.emit('selected-cell', +target.dataset.id);
+                bus.emit(events.SELECTED_CELL, +target.dataset.id);
             } else if (type === 'prize') {
-                bus.emit('selected-prize');
+                bus.emit(events.SELECTED_PRIZE);
             }
         }
     };
@@ -128,7 +129,7 @@ export class PlayingScene extends GameScene {
         } else {
             cell.setFailed();
         }
-        bus.emit('set-answered-cell', { id: this.selectedCell, answer });
+        bus.emit(events.SET_ANSWERED_CELL, { id: this.selectedCell, answer });
     };
 
     onGetAvailableCells = (availableCells) => {
@@ -147,11 +148,11 @@ export class PlayingScene extends GameScene {
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
 
-        bus.off('fill-pack-list', this.updatePackList);
-        bus.off('fill-cells', this.fillCells);
-        bus.off('selected-cell', this.onSelectedCell);
-        bus.off('answered-cell', this.onAnsweredCell);
-        bus.off('success:get-available-cells', this.onGetAvailableCells);
-        bus.off('set-current-player', this.onChangePlayer);
+        bus.off(events.FILL_PACK_LIST,     this.updatePackList);
+        bus.off(events.FILL_CELLS,         this.fillCells);
+        bus.off(events.SELECTED_CELL,      this.onSelectedCell);
+        bus.off(events.SET_ANSWERED_CELL,  this.onAnsweredCell);
+        bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
     }
 }

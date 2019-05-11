@@ -1,6 +1,7 @@
 import { GameCore } from './core.js';
-import bus from '../../modules/bus.js';
 import { events } from './events.js';
+import { gameConsts, outMessages } from '../constants.js';
+import bus from '../../modules/bus.js';
 
 export class MultiPlayer extends GameCore {
     constructor() {
@@ -12,14 +13,6 @@ export class MultiPlayer extends GameCore {
     start() {
         super.start();
         bus.emit(events.START_GAME);
-    }
-
-    gameLoop() {
-        bus.emit('set-current-player', 'me');
-    }
-
-    waitOpponent() {
-        bus.emit('set-current-player', 'bot');
     }
 
     setAnsweredCell = ({ id, answer }) => {
@@ -40,7 +33,7 @@ export class MultiPlayer extends GameCore {
 
     onGameStarted = () => {
         bus.on('success:start-game-multiplayer', () => {
-            bus.emit('game:send-message', ({ title: 'READY', payload: '' }));
+            bus.emit('game:send-message', ({ title: outMessages.READY, payload: '' }));
             // bus.emit('game:send-message', ({ title: 'THEMES_REQUEST', payload: '' }));
             // bus.emit('game:send-message', ({ title: 'QUESTION_THEMES_REQUEST', payload: '' }));
         });
@@ -51,7 +44,7 @@ export class MultiPlayer extends GameCore {
     onSelectedCell = (cellIndex) => {
         const y = cellIndex % this.cellCount;
         const x = cellIndex - (y * this.cellCount);
-        bus.emit('game:send-message', ({ title: 'GO_TO', payload: {x, y} }));
+        bus.emit('game:send-message', ({ title: outMessages.GO_TO, payload: {x, y} }));
     };
 
     onGameFinished = () => {
@@ -60,22 +53,25 @@ export class MultiPlayer extends GameCore {
 
     onGetPacks = (data) => {
         this.packs = data;
-        this.packs.forEach((pack, i) => {
-            pack.name = pack.theme;
+        this.packs.forEach((pack, i) =>
             Object.assign(pack, this.colors[i])
-        });
+        );
 
-        bus.emit('fill-pack-list', this.packs);
+        bus.emit(events.FILL_PACK_LIST, this.packs);
     };
     
     onGetCells = (data) => {
-        for (let i = 0; i < this.cellCount; i++) {
-            for (let j = 0; j < this.cellCount; j++) {
-                if ((i === 3 && j === 3) || (i === 3 && j === 4) ||
-                    (i === 4 && j === 3) || (i === 4 && j === 4)) {
+        for (let i = 0; i < gameConsts.cellCount; i++) {
+            for (let j = 0; j < gameConsts.cellCount; j++) {
+                if (
+                    (i === gameConsts.PRIZE_INDEXES[0].x && j === gameConsts.PRIZE_INDEXES[0].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[1].x && j === gameConsts.PRIZE_INDEXES[1].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[2].x && j === gameConsts.PRIZE_INDEXES[2].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[3].x && j === gameConsts.PRIZE_INDEXES[3].y)
+                ) {
                     this.gameMatrix.push({
                         type: 'prize',
-                        color: '#0c5460'
+                        color: gameConsts.PRIZE_COLOR
                     });
                 } else {
                     this.gameMatrix.push({
@@ -85,7 +81,6 @@ export class MultiPlayer extends GameCore {
             }
         }
 
-        const packsCount = this.packs.length;
         let c = 0;
         const prizes = [];
 
@@ -99,11 +94,6 @@ export class MultiPlayer extends GameCore {
             }
         });
 
-        bus.emit('fill-cells', this.gameMatrix);
-        this.gameLoop();
-    };
-
-    onFillPacksList = (data) => {
-        const questions = [];
+        bus.emit(events.FILL_CELLS, this.gameMatrix);
     };
 }

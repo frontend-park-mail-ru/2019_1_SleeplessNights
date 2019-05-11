@@ -15,10 +15,10 @@ export class EndGameScene {
         this.modal = null;
         this.currentPlayer = null;
 
-        bus.on('selected-prize', this.showModalEndGame);
-        bus.on('no-available-cells', this.showModalEndGame);
+        bus.on(events.SELECTED_PRIZE, this.showModalEndGame);
+        bus.on(events.NO_AVAILABLE_CELLS, this.showModalEndGame);
         bus.on('selected-answer-end-game', this.selectAnswer);
-        bus.on('set-current-player', this.setCurrentPlayer);
+        bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
@@ -49,10 +49,7 @@ export class EndGameScene {
         this.modal = new ModalComponent({
             customClasses: 'modal_w-400',
             isCloseable: true,
-            body: `
-                    ${questionText.template}
-                    ${answerSection.outerHTML}
-                `
+            body: `${questionText.template} ${answerSection.outerHTML}`
         });
 
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
@@ -76,9 +73,9 @@ export class EndGameScene {
     };
 
     destroy() {
-        bus.off('selected-prize', this.showModalEndGame);
-        bus.off('no-available-cells', this.showModalEndGame);
+        bus.off(events.SELECTED_PRIZE, this.showModalEndGame);
+        bus.off(events.NO_AVAILABLE_CELLS, this.showModalEndGame);
         bus.off('selected-answer-end-game', this.selectAnswer);
-        bus.off('set-current-player', this.setCurrentPlayer);
+        bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
     }
 }

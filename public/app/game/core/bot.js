@@ -1,3 +1,4 @@
+import { events }  from './events.js';
 import bus from '../../modules/bus.js';
 
 export class BotPlayer {
@@ -9,7 +10,7 @@ export class BotPlayer {
         };
         this.winChance = 75; // %
 
-        bus.on('set-current-player', this.setCurrentPlayer);
+        bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
     }
 
     setCurrentPlayer = (pl) => {
@@ -17,8 +18,8 @@ export class BotPlayer {
     };
 
     startActing() {
-        bus.on('success:get-available-cells', this.botChoosingCell);
-        bus.emit('get-available-cells');
+        bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        bus.emit(events.GET_AVAILABLE_CELLS);
     }
 
     get randomTime() {
@@ -43,9 +44,9 @@ export class BotPlayer {
         }
 
         setTimeout(() => {
-            bus.emit('selected-answer', answer); // Возвращаем выбранный ответ
-            bus.off('success:get-available-cells', this.botChoosingCell);
-            bus.off('selected-question', this.botChoosingQuestion);
+            bus.emit(events.SELECTED_ANSWER, answer); // Возвращаем выбранный ответ
+            bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+            bus.off(events.SELECTED_QUESTION, this.botChoosingQuestion);
         }, this.randomTime * 1000);
     };
 
@@ -77,14 +78,13 @@ export class BotPlayer {
 
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 
-            bus.on('selected-question', this.botChoosingQuestion);
-            bus.emit('selected-cell', availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
+            bus.on(events.SELECTED_QUESTION, this.botChoosingQuestion);
+            bus.emit(events.SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
 
     destroy() {
-        bus.off('set-current-player', this.setCurrentPlayer);
-        bus.off('success:get-available-cells', this.botChoosingCell);
-        bus.off('success:get-available-cells', this.botChoosingCell);
+        bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
+        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
     }
 }

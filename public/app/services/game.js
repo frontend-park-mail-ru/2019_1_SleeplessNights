@@ -8,7 +8,8 @@ import config from '../modules/config.js';
 
 export class GameService {
     constructor() {
-        this.ws = new IWebSocket(config.gameUrl, 'game');
+        this.type = 'game';
+        this.ws = new IWebSocket(config.gameUrl, this.type);
         this.receiveMessages();
     }
 
@@ -22,41 +23,54 @@ export class GameService {
     };
 
     receiveMessages() {
-        bus.on('game:ws-message', (message) => {
-            console.log(message);
+        bus.on(`${this.type}:ws-message`, (message) => {
             switch (message.title) {
-                case "INFO": {
+                case inMessages.CONNECTED: {
                     bus.emit('success:start-game-multiplayer');
                 } break;
 
-                case inMessages.opponentProfile: {
+                case inMessages.OPPONENT_PROFILE: {
                     const profile = message.payload;
                     profile.avatarPath = makeAvatarPath(profile.avatarPath);
                     bus.emit('set-opponent-profile', profile);
                 } break;
 
-                case inMessages.themesRequest: {
+                case inMessages.THEMES: {
                     bus.emit('success:get-pack-id-', message.payload);
                 } break;
 
-                case inMessages.questionThemesRequest: {
+                case inMessages.QUESTION_THEMES: {
                     bus.emit('success:get-cells', message.payload);
                 } break;
 
-                case inMessages.availableCells: {
+                case inMessages.AVAILABLE_CELLS: {
                     const arr = message.payload;
-                    arr.forEach((a, i) =>
-                        arr[i] = a.y * 8 + a.x
-                    );
-
+                    arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
                     bus.emit('success:get-available-cells', arr);
                 } break;
 
-                case inMessages.yourQuestion: {
-                    const question = message.payload;
-                    // question.question = JSON.parse(question.question);
-                    console.log(question.question);
-                    bus.emit('selected-question', question.question);
+                case inMessages.OPPONENT_QUESTION:
+                case inMessages.YOUR_QUESTION: {
+                    bus.emit('selected-question', message.payload);
+                } break;
+
+                case inMessages.YOUR_ANSWER:
+                case inMessages.OPPONENT_ANSWER: {
+                    let answer = message.payload;
+                    answer = {
+                        given: answer.given_answer,
+                        correct: answer.correct_answer
+                    };
+
+                    bus.emit('set-answer-correctness', answer);
+                } break;
+
+                case inMessages.YOUR_TURN: {
+                    bus.emit('set-current-player', 'me');
+                } break;
+
+                case inMessages.OPPONENT_TURN: {
+                    bus.emit('set-current-player', 'opponent');
                 } break;
 
                 default: {
@@ -65,7 +79,6 @@ export class GameService {
             }
         });
     }
-
 
     static checkDB() {
         let waiterCount = 0;

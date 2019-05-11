@@ -2,19 +2,19 @@ import { AnswerComponent } from '../../components/answer/answer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
 import { shuffle } from '../../modules/utils.js';
+import { events }  from '../core/events.js';
 import bus from '../../modules/bus.js';
 
 export class SelectAnswerScene {
     constructor(root) {
         this.root = root;
         this.answers = new Map();
-        this.correctAnswer = null;
         this.modal = null;
         this.currentPlayer = null;
 
-        bus.on('selected-question', this.onSelectedQuestion);
-        bus.on('selected-answer', this.selectAnswer);
-        bus.on('set-current-player', this.setCurrentPlayer);
+        bus.on(events.SELECTED_QUESTION,      this.onSelectedQuestion);
+        bus.on(events.SET_CURRENT_PLAYER,     this.setCurrentPlayer);
+        bus.on(events.SET_ANSWER_CORRECTNESS, this.setAnswer);
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
@@ -23,8 +23,7 @@ export class SelectAnswerScene {
         const questionText = new QuestionComponent({
             text: question.text
         });
-
-        this.correctAnswer = question.correct;
+        
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
 
@@ -46,10 +45,7 @@ export class SelectAnswerScene {
         this.modal = new ModalComponent({
             customClasses: 'modal_w-400',
             isCloseable: false,
-            body: `
-                    ${questionText.template}
-                    ${answerSection.outerHTML}
-                `
+            body: `${questionText.template} ${answerSection.outerHTML}`
         });
 
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
@@ -69,18 +65,16 @@ export class SelectAnswerScene {
         }
     };
 
-    selectAnswer = (id) => {
-
-
-        // let isTrue;
-        // if (id === this.correctAnswer) {
-        //     this.answers.get(id).setCorrect();
-        //     isTrue = true;
-        // } else {
-        //     this.answers.get(id).setFailed();
-        //     this.answers.get(this.correctAnswer).setCorrect();
-        //     isTrue = false;
-        // }
+    setAnswer = ({ given, correct }) => {
+        let isTrue;
+        if (given === correct) {
+            this.answers.get(id).setCorrect();
+            isTrue = true;
+        } else {
+            this.answers.get(id).setFailed();
+            this.answers.get(correct).setCorrect();
+            isTrue = false;
+        }
 
         setTimeout(() => {
             this.modal.hide();
@@ -89,8 +83,8 @@ export class SelectAnswerScene {
     };
 
     destroy() {
-        bus.off('selected-question', this.onSelectedQuestion);
-        bus.off('selected-answer', this.selectAnswer);
-        bus.off('set-current-player', this.setCurrentPlayer);
+        bus.off(events.SELECTED_QUESTION,      this.onSelectedQuestion);
+        bus.off(events.SET_CURRENT_PLAYER,     this.setCurrentPlayer);
+        bus.off(events.SET_ANSWER_CORRECTNESS, this.setAnswer);
     }
 }

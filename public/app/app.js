@@ -13,7 +13,7 @@ import './components/formControl/formControl.tmpl.js';        /**/
 import './components/gameBoard/gameBoard.tmpl.js';            /**/
 import './components/gameBoardCell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
-import './components/icon/icon.tmpl.js';                  /**/
+import './components/icon/icon.tmpl.js';                      /**/
 import './components/link/link.tmpl.js';                      /**/
 import './components/list/list.tmpl.js';                      /**/
 import './components/loader/loader.tmpl.js';                  /**/
@@ -41,10 +41,10 @@ import { GameService }       from './services/game.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
+import { events } from './game/core/events.js';               /**/
+import { LoaderComponent } from './components/loader/loader.js';/**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
-import { events } from './game/core/events.js';               /**/
-import { LoaderComponent } from './components/loader/loader.js';
 /************************************************************\/**/
 
 window.user = {
@@ -123,7 +123,7 @@ bus.on('get-profile', () => {
 
 bus.on('update-profile', (data) => {
     ProfileService.updateProfile(data)
-        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatar_path)))
+        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatarPath)))
         .catch(res => bus.emit('error:update-profile', res.data));
 });
 

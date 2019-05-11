@@ -1,7 +1,7 @@
-import { events} from './events.js';
-import { GameCore } from './core.js';
+import { events}     from './events.js';
+import { GameCore }  from './core.js';
 import { BotPlayer } from './bot.js';
-import { shuffle } from '../../modules/utils.js';
+import { shuffle }   from '../../modules/utils.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js';
 
@@ -11,16 +11,18 @@ export class SinglePlayer extends GameCore {
         this.availableCells = [];
         this.packs = [];
         this.currentPlayer = 'me';
+        this.currentQuestion = null;
 
-        bus.on('set-current-player',  this.setCurrentPlayer);
-        bus.on('set-answered-cell',   this.setAnsweredCell);
-        bus.on('get-available-cells', this.getAvailableCells);
+        bus.on(events.FILL_PACK_LIST,      this.onFillPacksList);
+        bus.on(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
+        bus.on(events.SET_ANSWERED_CELL,   this.setAnsweredCell);
+        bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
     }
 
     start() {
         super.start();
         bus.emit(events.START_GAME);
-        bus.emit('set-opponent-profile', {
+        bus.emit(events.SET_OPPONENT_PROFILE, {
             avatarPath: '/assets/img/bot.png',
             nickname: 'Fool bot',
             lastMove: null
@@ -30,14 +32,14 @@ export class SinglePlayer extends GameCore {
     }
 
     gameLoop() {
-        bus.emit('set-current-player', 'me');
+        bus.emit(events.SET_CURRENT_PLAYER, 'me');
         setTimeout(() =>
-            bus.emit('get-available-cells'), 1000
+            bus.emit(events.GET_AVAILABLE_CELLS), 1000
         );
     }
 
     waitOpponent() {
-        bus.emit('set-current-player', 'bot');
+        bus.emit(events.SET_CURRENT_PLAYER, 'bot');
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
@@ -51,7 +53,7 @@ export class SinglePlayer extends GameCore {
             // is any other available cell or not
             this.availableCells.shift();
             if (!this.availableCells.length) {
-                bus.emit('no-available-cells', true);
+                bus.emit(events.NO_AVAILABLE_CELLS, true);
                 return;
             }
         }
@@ -98,15 +100,11 @@ export class SinglePlayer extends GameCore {
                 }, []);
         }
 
-        bus.emit('success:get-available-cells', this.availableCells);
+        bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, this.availableCells);
     };
 
     onGameStarted = () => {
         idb.getAll('pack', null, null, 6);
-    };
-
-    onGameFinished = () => {
-        this.destroy();
     };
 
     onGetPacks = (data) => {
@@ -115,7 +113,7 @@ export class SinglePlayer extends GameCore {
             Object.assign(pack, this.colors[i])
         );
 
-        bus.emit('fill-pack-list', packs);
+        bus.emit(events.FILL_PACK_LIST, packs);
 
         for (let i = 0; i < this.cellCount; i++) {
             for (let j = 0; j < this.cellCount; j++) {
@@ -148,7 +146,7 @@ export class SinglePlayer extends GameCore {
 
         shuffle(this.gameMatrix, prizes);
 
-        bus.emit('fill-cells', this.gameMatrix);
+        bus.emit(events.FILL_CELLS, this.gameMatrix);
         this.gameLoop();
     };
 
@@ -162,11 +160,11 @@ export class SinglePlayer extends GameCore {
                 questions.push(data);
                 if (i === this.packs.length - 1) {
                     this.onQuestionsReady(questions);
-                    bus.off(`success:get-question-packId-${pack.id}`, getQuestions);
+                    bus.off(`success:${events.GET_QUESTIONS_PACK}-${pack.id}`, getQuestions);
                 }
             };
 
-            bus.on(`success:get-question-packId-${pack.id}`, getQuestions);
+            bus.on(`success:${events.GET_QUESTIONS_PACK}-${pack.id}`, getQuestions);
         });
     };
 
@@ -180,20 +178,34 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
-        const question = this.gameMatrix[cellIndex].question;
-        if (question) {
-            bus.emit('selected-question', question);
+        this.currentQuestion = this.gameMatrix[cellIndex].question;
+        if (this.currentQuestion) {
+            bus.emit(events.SELECTED_QUESTION, this.currentQuestion);
         } else {
-            bus.emit('selected-prize');
+            bus.emit(events.SELECTED_PRIZE);
         }
+    };
+
+    onSelectedAnswer = (id) => {
+        const answer = {
+            given: id,
+            correct: this.currentQuestion.correct
+        };
+
+        bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
+    };
+
+    onGameFinished = () => {
+        this.destroy();
     };
 
     destroy() {
         super.destroy();
         this.bot.destroy();
 
-        bus.off('set-current-player', this.setCurrentPlayer);
-        bus.off('set-answered-cell', this.setAnsweredCell);
-        bus.off('get-available-cells', this.getAvailableCells);
+        bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
+        bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
+        bus.off(events.SET_ANSWERED_CELL,   this.setAnsweredCell);
+        bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
     }
 }
