@@ -74,6 +74,7 @@ class IndexedDB {
 
             const user = this.db.createObjectStore('user', { keyPath: 'id', autoIncrement: true });
             user.createIndex('nickname', 'nickname', { unique: false });
+            user.createIndex('email', 'email', { unique: true });
             user.createIndex('avatar_path', 'avatar_path', { unique: false });
 
             const pack = this.db.createObjectStore('pack', { keyPath: 'id', autoIncrement: true });

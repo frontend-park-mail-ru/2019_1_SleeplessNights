@@ -2,6 +2,7 @@ export class TestDataDB {
     static get guest() {
         return [{
             nickname: 'guest',
+            email: 'guest@mail.ru',
             avatarPath: '/assets/img/avatar_male.png'
         }];
     }

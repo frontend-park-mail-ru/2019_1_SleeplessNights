@@ -1,6 +1,7 @@
 import { TestDataDB } from './testDataDB.js';
 import { IWebSocket } from '../modules/websocket.js';
 import { inMessages } from '../game/constants.js';
+import { events }     from '../game/core/events.js';
 import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';
 import idb from '../modules/indexdb.js';
@@ -32,26 +33,26 @@ export class GameService {
                 case inMessages.OPPONENT_PROFILE: {
                     const profile = message.payload;
                     profile.avatarPath = makeAvatarPath(profile.avatarPath);
-                    bus.emit('set-opponent-profile', profile);
+                    bus.emit(events.SET_OPPONENT_PROFILE, profile);
                 } break;
 
                 case inMessages.THEMES: {
-                    bus.emit('success:get-pack-id-', message.payload);
+                    bus.emit(`success:${events.GET_PACK}-`, message.payload);
                 } break;
 
                 case inMessages.QUESTION_THEMES: {
-                    bus.emit('success:get-cells', message.payload);
+                    bus.emit(`success:${events.GET_CELLS}`, message.payload);
                 } break;
 
                 case inMessages.AVAILABLE_CELLS: {
                     const arr = message.payload;
                     arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
-                    bus.emit('success:get-available-cells', arr);
+                    bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr);
                 } break;
 
                 case inMessages.OPPONENT_QUESTION:
                 case inMessages.YOUR_QUESTION: {
-                    bus.emit('selected-question', message.payload);
+                    bus.emit(events.SELECTED_QUESTION, JSON.parse(message.payload));
                 } break;
 
                 case inMessages.YOUR_ANSWER:
@@ -62,15 +63,21 @@ export class GameService {
                         correct: answer.correct_answer
                     };
 
-                    bus.emit('set-answer-correctness', answer);
+                    bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
                 } break;
 
                 case inMessages.YOUR_TURN: {
-                    bus.emit('set-current-player', 'me');
+                    bus.emit(events.SET_CURRENT_PLAYER, 'me');
                 } break;
 
                 case inMessages.OPPONENT_TURN: {
-                    bus.emit('set-current-player', 'opponent');
+                    bus.emit(events.SET_CURRENT_PLAYER, 'opponent');
+                } break;
+
+                case inMessages.SELECTED_CELL: {
+                    let cell = message.payload;
+                    cell = cell.y * 8 + cell.x;
+                    bus.emit(events.SELECTED_CELL, cell);
                 } break;
 
                 default: {
@@ -95,7 +102,6 @@ export class GameService {
         const sendQuery = () => {
             waiterCount++;
             idb.getAll('user', 'nickname', user.nickname, 1);
-            // idb.getAll('pack', null, null, 6);
             bus.on(`success:get-user-nickname-${user.nickname}`, waitDB);
         };
 

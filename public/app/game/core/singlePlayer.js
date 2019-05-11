@@ -1,7 +1,8 @@
-import { events}     from './events.js';
 import { GameCore }  from './core.js';
 import { BotPlayer } from './bot.js';
-import { shuffle }   from '../../modules/utils.js';
+import { events}     from './events.js';
+import { gameConsts } from '../constants.js';
+import { shuffle }    from '../../modules/utils.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js';
 
@@ -79,9 +80,9 @@ export class SinglePlayer extends GameCore {
             }
 
             this.availableCells = temp.filter(el =>
-                el >= 0 &&
+                el >= gameConsts.FIRST_INDEX &&
                 el !== lastMove &&
-                el <= 63 &&
+                el <= gameConsts.LAST_INDEX &&
                 !this.gameMatrix[el].answered
             );
         } else {
@@ -107,45 +108,9 @@ export class SinglePlayer extends GameCore {
         idb.getAll('pack', null, null, 6);
     };
 
-    onGetPacks = (data) => {
-        const packs = data;
-        packs.forEach((pack, i) =>
-            Object.assign(pack, this.colors[i])
-        );
-
-        bus.emit(events.FILL_PACK_LIST, packs);
-
-        for (let i = 0; i < this.cellCount; i++) {
-            for (let j = 0; j < this.cellCount; j++) {
-                if ((i === 3 && j === 3) || (i === 3 && j === 4) ||
-                    (i === 4 && j === 3) || (i === 4 && j === 4)) {
-                    this.gameMatrix.push({
-                        type: 'prize',
-                        color: '#0c5460'
-                    });
-                } else {
-                    this.gameMatrix.push({
-                        type: 'question'
-                    });
-                }
-            }
-        }
-
-        const packsCount = packs.length;
-        let p = 0;
-        const prizes = [];
-
-        this.gameMatrix.forEach((cell, i) => {
-            if (cell.type === 'question') {
-                Object.assign(cell, packs[p]);
-                p = (p + 1) % packsCount;
-            } else {
-                prizes.push(i);
-            }
-        });
-
-        shuffle(this.gameMatrix, prizes);
-
+    onGetCells = (data) => {
+        super.onGetCells(data);
+        shuffle(this.gameMatrix, this.prizes);
         bus.emit(events.FILL_CELLS, this.gameMatrix);
         this.gameLoop();
     };

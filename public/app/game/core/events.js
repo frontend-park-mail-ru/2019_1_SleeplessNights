@@ -7,13 +7,16 @@ export const events = {
     SELECTED_PRIZE         : 'selected-prize',
     SET_OPPONENT_PROFILE   : 'set-opponent-profile',
     GET_PACK               : 'get-pack-id',
+    GET_CELLS              : 'get-cells',
     GET_QUESTIONS_PACK     : 'get-question-packId',
     GET_USER               : 'get-user-nickname',
     FILL_PACK_LIST         : 'fill-pack-list',
     SET_CURRENT_PLAYER     : 'set-current-player',
     SET_ANSWERED_CELL      : 'set-answered-cell',
+    ANSWERED_CELL          : 'answered-cell',
     SET_ANSWER_CORRECTNESS : 'set-answer-correctness',
     GET_AVAILABLE_CELLS    : 'get-available-cells',
     NO_AVAILABLE_CELLS     : 'no-available-cells',
-    FILL_CELLS             : 'fill-cells'
+    FILL_CELLS             : 'fill-cells',
+    LOADED_PLAYER          : 'loaded-player'
 };

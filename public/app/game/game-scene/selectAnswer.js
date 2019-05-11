@@ -68,17 +68,17 @@ export class SelectAnswerScene {
     setAnswer = ({ given, correct }) => {
         let isTrue;
         if (given === correct) {
-            this.answers.get(id).setCorrect();
+            this.answers.get(given).setCorrect();
             isTrue = true;
         } else {
-            this.answers.get(id).setFailed();
+            this.answers.get(given).setFailed();
             this.answers.get(correct).setCorrect();
             isTrue = false;
         }
 
         setTimeout(() => {
             this.modal.hide();
-            bus.emit('answered-cell', isTrue);
+            bus.emit(events.ANSWERED_CELL, isTrue);
         }, 1300);
     };
 

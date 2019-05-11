@@ -25,7 +25,7 @@ export class PlayingScene extends GameScene {
         bus.on(events.FILL_PACK_LIST,     this.updatePackList);
         bus.on(events.FILL_CELLS,         this.fillCells);
         bus.on(events.SELECTED_CELL,      this.onSelectedCell);
-        bus.on(events.SET_ANSWERED_CELL,  this.onAnsweredCell);
+        bus.on(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
         bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
 
@@ -48,10 +48,10 @@ export class PlayingScene extends GameScene {
             content: `${this.avatarMe.template}`
         });
 
-        this.avatarOponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
+        this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
             customClasses: 'container__col-w25 container_align-items-center',
-            content: this.avatarOponent.template
+            content: this.avatarOpponent.template
         });
 
         for (let i = 0; i < this.CELL_COUNT ** 2; i++) {
@@ -86,6 +86,7 @@ export class PlayingScene extends GameScene {
 
     fillCells = (data) => {
         const count = data.length;
+        if (!count) return;
         let i = 0;
 
         const timer = setInterval(() => {
@@ -129,6 +130,7 @@ export class PlayingScene extends GameScene {
         } else {
             cell.setFailed();
         }
+
         bus.emit(events.SET_ANSWERED_CELL, { id: this.selectedCell, answer });
     };
 
@@ -151,7 +153,7 @@ export class PlayingScene extends GameScene {
         bus.off(events.FILL_PACK_LIST,     this.updatePackList);
         bus.off(events.FILL_CELLS,         this.fillCells);
         bus.off(events.SELECTED_CELL,      this.onSelectedCell);
-        bus.off(events.SET_ANSWERED_CELL,  this.onAnsweredCell);
+        bus.off(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
     }

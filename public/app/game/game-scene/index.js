@@ -5,16 +5,15 @@ export class GameScene {
     constructor(root) {
         this.root = root;
         this.avatarMe = null;
-        this.avatarOponent = null;
+        this.avatarOpponent = null;
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
 
-        bus.on('loaded-users', this.updatePlayers);
+        bus.on(events.LOADED_PLAYER, this.updatePlayer);
         this.backButton.addEventListener('click', this.askForExit);
     }
 
-    updatePlayers = ({me, opponent}) => {
-        this.avatarMe.src = me.avatarPath;
-        this.avatarOponent.src = opponent.avatarPath;
+    updatePlayer = ({ player, avatarPath }) => {
+        this[player === 'me' ? 'avatarMe' : 'avatarOpponent'].src = avatarPath;
     };
 
     askForExit = (event) => {

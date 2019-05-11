@@ -3,6 +3,7 @@ import { AjaxModule } from '../modules/ajax.js';
 import { makeAvatarPath } from '../modules/utils.js';
 import Validators from '../modules/validators.js';
 import idb from '../modules/indexdb.js';
+import bus from '../modules/bus.js';
 
 export class AuthService {
     static auth(data) {
@@ -51,10 +52,16 @@ export class AuthService {
         user.isAuthorised = true;
         user.nickname = data.nickname;
 
-        idb.add('user', [{
-            nickname: data.nickname,
-            avatarPath: makeAvatarPath(data.avatarPath)
-        }]);
+        idb.getAll('user', 'email', data.email);
+        bus.on(`success:get-user-email-${data.email}`, (user) => {
+            if (!user.length) {
+                idb.add('user', [{
+                    nickname: data.nickname,
+                    email: data.email,
+                    avatarPath: makeAvatarPath(data.avatarPath)
+                }]);
+            }
+        });
 
         Cookie.add('authorised', 1, 1);
     }

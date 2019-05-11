@@ -1,9 +1,9 @@
-import { modes } from './modes.js';
 import { SinglePlayer } from './core/singlePlayer.js';
 import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
 import { PlayingScene }   from './game-scene/playing.js';
 import { events } from './core/events.js';
+import { modes } from './modes.js';
 import bus from '../modules/bus.js';
 
 export class Game {
