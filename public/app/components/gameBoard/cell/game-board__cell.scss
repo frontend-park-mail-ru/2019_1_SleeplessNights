@@ -1,5 +1,5 @@
-@import "../gameBoard/vars.scss";
-@import "../../../assets/scss/global.scss";
+@import "../vars";
+@import "../../../../assets/scss/global";
 
 .game-board__cell {
   width: $cell-size;

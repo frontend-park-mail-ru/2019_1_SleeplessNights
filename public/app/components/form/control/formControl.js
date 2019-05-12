@@ -1,4 +1,4 @@
-import { noop, uniqueId } from '../../modules/utils.js';
+import { noop, uniqueId } from '../../../modules/utils.js';
 
 export class FormControlComponent {
     _attributes;

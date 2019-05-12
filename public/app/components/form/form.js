@@ -1,5 +1,5 @@
 import { noop, uniqueId }       from '../../modules/utils.js';
-import { FormControlComponent } from '../formControl/formControl.js';
+import { FormControlComponent } from './control/formControl.js';
 
 export class FormComponent {
     _template;

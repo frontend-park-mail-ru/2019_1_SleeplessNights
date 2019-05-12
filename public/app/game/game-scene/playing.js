@@ -1,5 +1,5 @@
 import { AvatarComponent } from '../../components/avatar/avatar.js';
-import { CellComponent }   from '../../components/gameBoardCell/cell.js';
+import { CellComponent }   from '../../components/gameBoard/cell/cell.js';
 import { ContainerComponent } from '../../components/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { PackSectionComponent } from '../../components/pack/pack.js';

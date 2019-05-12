@@ -20,7 +20,7 @@
 
 @import "../../app/components/form/__group/form__group.scss";
 @import "../../app/components/form/__group/_center/form__group_center.scss";
-@import "../../app/components/formControl/form__control.scss";
+@import "../../app/components/form/control/form__control.scss";
 
 @import "../../app/components/header/header.scss";
 @import "../../app/components/link/link.scss";
@@ -72,12 +72,12 @@
 @import "../../app/components/icon/centered-icon/centered-icon.scss";
 
 @import "../../app/components/gameBoard/game-board.scss";
-@import "../../app/components/gameBoardCell/game-board__cell.scss";
-@import "../../app/components/gameBoardCell/_min-size/game-board__cell_min-size.scss";
-@import "../../app/components/gameBoardCell/_prize/game-board__cell_prize.scss";
-@import "../../app/components/gameBoardCell/_active/game-board__cell_active.scss";
-@import "../../app/components/gameBoardCell/_failed/game-board__cell_failed.scss";
-@import "../../app/components/gameBoardCell/_answered/game-board__cell_answered.scss";
+@import "../../app/components/gameBoard/cell/game-board__cell.scss";
+@import "../../app/components/gameBoard/cell/_min-size/game-board__cell_min-size.scss";
+@import "../../app/components/gameBoard/cell/_prize/game-board__cell_prize.scss";
+@import "../../app/components/gameBoard/cell/_active/game-board__cell_active.scss";
+@import "../../app/components/gameBoard/cell/_failed/game-board__cell_failed.scss";
+@import "../../app/components/gameBoard/cell/_answered/game-board__cell_answered.scss";
 @import "../../app/components/buttonHome/button-home.scss";
 
 @import "adaptive-utils.scss";
@@ -89,7 +89,7 @@ html, body {
         height: 100%;
         overflow: hidden;
         font-family: Roboto, sans-serif;
-        background: var(--primary-color);
+        background: linear-gradient(90deg, var(--primary-color) 50%, var(--primary-color2) 50%);
 }
 
 h1, h3, p {

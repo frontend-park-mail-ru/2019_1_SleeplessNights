@@ -1,4 +1,4 @@
-import { uniqueId } from '../../modules/utils.js';
+import { uniqueId } from '../../../modules/utils.js';
 
 export class CellComponent {
     _bgColor;

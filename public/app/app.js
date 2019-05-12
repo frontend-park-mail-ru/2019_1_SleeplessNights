@@ -9,9 +9,9 @@ import './components/container/container.tmpl.js';            /**/
 import './components/container/container.tmpl.js';       /**/
 import './components/customFileInput/customFileInput.tmpl.js';/**/
 import './components/form/form.tmpl.js';                      /**/
-import './components/formControl/formControl.tmpl.js';        /**/
+import './components/form/control/formControl.tmpl.js';        /**/
 import './components/gameBoard/gameBoard.tmpl.js';            /**/
-import './components/gameBoardCell/cell.tmpl.js';             /**/
+import './components/gameBoard/cell/cell.tmpl.js';             /**/
 import './components/header/header.tmpl.js';                  /**/
 import './components/icon/icon.tmpl.js';                      /**/
 import './components/link/link.tmpl.js';                      /**/
