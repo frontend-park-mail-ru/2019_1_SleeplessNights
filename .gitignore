@@ -2,5 +2,4 @@
 node_modules
 uploads
 scss/.sass-cache
-public/assets/js/bundle.js
-public/assets/css/main.css
+public/assets/dist
