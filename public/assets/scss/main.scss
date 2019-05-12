@@ -14,13 +14,9 @@
 @import "../../app/components/card/_centered/card_centered_both.css";
 @import "../../app/components/card/_empty/card_empty.css";
 
-@import "../../app/components/container/container.css";
-@import "../../app/components/container/__content/container__content.css";
-@import "../../app/components/container/_align-y/container_align-y_center.css";
-
-@import "../../app/components/customFileInput/custom-file.css";
-@import "../../app/components/customFileInput/__input/custom-file__input.css";
-@import "../../app/components/customFileInput/__label/custom-file__label.css";
+@import "../../app/components/customFileInput/custom-file";
+@import "../../app/components/customFileInput/__input/custom-file__input";
+@import "../../app/components/customFileInput/__label/custom-file__label";
 
 @import "../../app/components/form/__group/form__group.scss";
 @import "../../app/components/form/__group/_center/form__group_center.scss";
@@ -54,27 +50,26 @@
 @import "../../app/components/question/question.css";
 
 @import "../../app/components/icon/icons";
-@import "shadow.scss";
-@import "container/container.scss";
-@import "container/__col/container__col.scss";
-@import "container/__inline-flex/container__inline-flex.scss";
-@import "container/__row/container__row.scss";
-@import "container/__square/container__square.scss";
-@import "container/__absolute/container__absolute.scss";
-@import "container/__absolute/container__absolute-top.scss";
-@import "container/__absolute/_skewed/container__absolute_skewed.scss";
-@import "container/_skewed/container_skewed.scss";
-@import "container/_theme/container_theme-primary1.scss";
-@import "container/_theme/container_theme-primary2.scss";
-@import "container/_theme/container_theme_secondary1.scss";
-@import "container/_theme/container_theme_secondary2.scss";
-@import "container/_overflow/container_overflow.scss";
-@import "container/_justify-content/container_justify-content.scss";
-@import "container/_align-items/container_align-items.scss";
+@import "../../app/components/container/container";
+@import "../../app/components/container/__col/container__col.scss";
+@import "../../app/components/container/__inline-flex/container__inline-flex.scss";
+@import "../../app/components/container/__row/container__row.scss";
+@import "../../app/components/container/__square/container__square.scss";
+@import "../../app/components/container/__absolute/container__absolute.scss";
+@import "../../app/components/container/__absolute/container__absolute-top.scss";
+@import "../../app/components/container/__absolute/_skewed/container__absolute_skewed.scss";
+@import "../../app/components/container/_skewed/container_skewed.scss";
+@import "../../app/components/container/_theme/container_theme-primary1.scss";
+@import "../../app/components/container/_theme/container_theme-primary2.scss";
+@import "../../app/components/container/_theme/container_theme_secondary1.scss";
+@import "../../app/components/container/_theme/container_theme_secondary2.scss";
+@import "../../app/components/container/_overflow/container_overflow.scss";
+@import "../../app/components/container/_justify-content/container_justify-content.scss";
+@import "../../app/components/container/_align-items/container_align-items.scss";
 
 @import "title/title.scss";
 @import "title/_subtitle/title_subtitle.scss";
-@import "centered-icon/centered-icon.scss";
+@import "../../app/components/icon/centered-icon/centered-icon.scss";
 
 @import "../../app/components/gameBoard/game-board.scss";
 @import "../../app/components/gameBoardCell/game-board__cell.scss";
@@ -86,6 +81,7 @@
 @import "../../app/components/buttonHome/button-home.scss";
 
 @import "adaptive-utils.scss";
+@import "shadow.scss";
 
 html, body {
         margin: 0;

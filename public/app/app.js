@@ -6,7 +6,7 @@ import './components/button/button.tmpl.js';                  /**/
 import './components/buttonHome/buttonHome.tmpl.js';          /**/
 import './components/card/card.tmpl.js';                      /**/
 import './components/container/container.tmpl.js';            /**/
-import './components/_new/container/container.tmpl.js';       /**/
+import './components/container/container.tmpl.js';       /**/
 import './components/customFileInput/customFileInput.tmpl.js';/**/
 import './components/form/form.tmpl.js';                      /**/
 import './components/formControl/formControl.tmpl.js';        /**/
@@ -45,6 +45,7 @@ import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';/**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
+import '../assets/scss/main.scss';
 /************************************************************\/**/
 
 window.user = {
@@ -158,7 +159,8 @@ bus.on('show-loader', () => loader.show())
     .on('hide-loader', () => loader.hide());
 
 bus.on('check-indexedDB', GameService.checkDB);
-bus.on(events.FINISH_GAME, (data) => {
+bus.on(events.PLAY_AGAIN_OR_NOT, (data) => {
+    bus.emit(events.FINISH_GAME);
     data ? router.open('/menu') : router.open('/play');
 });
 

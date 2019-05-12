@@ -1,18 +1,18 @@
 import { AvatarComponent } from '../../components/avatar/avatar.js';
 import { CellComponent }   from '../../components/gameBoardCell/cell.js';
-import { ContainerComponent } from '../../components/_new/container/container.js';
+import { ContainerComponent } from '../../components/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { PackSectionComponent } from '../../components/pack/pack.js';
 import { SelectAnswerScene }    from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
-import { GameScene } from './index.js';
-import { events }    from '../core/events.js';
+import { GameScene }    from './index.js';
+import { events }       from '../core/events.js';
+import { gameConsts }   from '../constants.js';
 import bus from '../../modules/bus.js';
 
 export class PlayingScene extends GameScene {
     constructor(root) {
         super(root);
-        this.CELL_COUNT = 8;
         this.cells = [];
         this.availableCells = [];
         this.gameBoard = null;
@@ -45,16 +45,16 @@ export class PlayingScene extends GameScene {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'container__col-w25 container_align-items-center',
-            content: `${this.avatarMe.template}`
+            content:        this.avatarMe.template
         });
 
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
             customClasses: 'container__col-w25 container_align-items-center',
-            content: this.avatarOpponent.template
+            content:       this.avatarOpponent.template
         });
 
-        for (let i = 0; i < this.CELL_COUNT ** 2; i++) {
+        for (let i = 0; i < gameConsts.CELL_COUNT ** 2; i++) {
             const newCell = new CellComponent();
             this.cells.push(newCell);
         }
@@ -62,7 +62,7 @@ export class PlayingScene extends GameScene {
 
         const centreContainer = new ContainerComponent({
             customClasses: 'container__col-w50 container_align-items-center',
-            content: this.gameBoard.template
+            content:        this.gameBoard.template
         });
 
         this.root.insertAdjacentHTML('beforeend', `
@@ -80,7 +80,7 @@ export class PlayingScene extends GameScene {
         this.packsSection = packSection.template;
 
         const icon = document.getElementsByClassName('packs-section__icon')[0];
-        packSection.on('mouseover', () => icon.style.opacity = 0);
+        packSection.on('mouseover',  () => icon.style.opacity = 0);
         packSection.on('mouseleave', () => icon.style.opacity = 1);
     };
 
@@ -92,12 +92,10 @@ export class PlayingScene extends GameScene {
         const timer = setInterval(() => {
             const d = data[i];
             const cell = this.cells[i].innerElem;
+
             cell.dataset.type = d.type;
             cell.style.backgroundColor = d.color;
-
-            if (d.type === 'question') {
-                cell.dataset.id = i;
-            }
+            cell.dataset.id = i;
 
             if (++i >= count) clearInterval(timer);
         }, 10);
@@ -114,12 +112,7 @@ export class PlayingScene extends GameScene {
     chooseQuestion = (event) => {
         const target = event.target;
         if ('type' in target.dataset && target.dataset.state === 'active') {
-            const type = target.dataset.type;
-            if (type === 'question') {
-                bus.emit(events.SELECTED_CELL, +target.dataset.id);
-            } else if (type === 'prize') {
-                bus.emit(events.SELECTED_PRIZE);
-            }
+            bus.emit(events.SELECTED_CELL, +target.dataset.id);
         }
     };
 

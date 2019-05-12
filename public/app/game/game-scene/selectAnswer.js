@@ -57,7 +57,7 @@ export class SelectAnswerScene {
                 const target = event.target;
                 if ('index' in target.dataset) {
                     anBlock.removeEventListener('click', answerChoosing);
-                    bus.emit('selected-answer', +target.dataset.index);
+                    bus.emit(events.SELECTED_ANSWER, +target.dataset.index);
                 }
             };
 

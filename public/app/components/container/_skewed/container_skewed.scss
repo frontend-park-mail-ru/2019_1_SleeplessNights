@@ -1,5 +1,3 @@
-@import "../../global.scss";
-
 .container_skewed {
   @include transform((skewX(-($skew-angle)) translateX(-$skew-shift)));
   padding: 0;

@@ -2,7 +2,7 @@ import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
 import { HeaderComponent } from '../components/header/header.js';
 import { IconComponent }   from '../components/icon/icon.js';
-import { ContainerComponent } from '../components/_new/container/container.js';
+import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
 import bus from '../modules/bus.js';
 

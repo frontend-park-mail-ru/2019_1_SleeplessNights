@@ -32,10 +32,6 @@ export class MultiPlayer extends GameCore {
         bus.emit('game:send-message', ({ title: outMessages.GO_TO, payload: {x, y} }));
     };
 
-    onGameFinished = () => {
-        this.destroy();
-    };
-
     onGetCells(data) {
         super.onGetCells(data);
         bus.emit(events.FILL_CELLS, this.gameMatrix);
@@ -50,8 +46,11 @@ export class MultiPlayer extends GameCore {
         }));
     };
 
+    onGameFinished = () => {
+        this.destroy();
+    };
+
     destroy() {
         super.destroy();
-
     }
 }

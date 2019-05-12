@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
@@ -8,7 +9,7 @@ module.exports = {
         filename: 'bundle.js'
     },
     optimization: {
-        minimize: false
+        minimize: true
     },
     module: {
         rules: [
@@ -23,6 +24,10 @@ module.exports = {
                         plugins: ['@babel/plugin-proposal-class-properties'],
                     }
                 }
+            },
+            {
+                test: /\.scss$/,
+                loader: [ "sass-loader", "css-loader", MiniCssExtractPlugin.loader]
             }
         ]
     },

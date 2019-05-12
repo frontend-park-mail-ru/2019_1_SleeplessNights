@@ -2,7 +2,7 @@ import { gameName } from '../modules/constants.js';
 import { BaseView } from './base.js';
 import { LinkComponent }      from '../components/link/link.js';
 import { IconComponent }      from '../components/icon/icon.js';
-import { ContainerComponent } from '../components/_new/container/container.js';
+import { ContainerComponent } from '../components/container/container.js';
 
 export class MenuView extends BaseView {
     constructor(el) {

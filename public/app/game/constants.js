@@ -53,6 +53,6 @@ export const gameConsts = {
         y: 4
     }
 ],
-    THEME_COLORS  : ['#B3B156','#FFFD94','#ADE0FF','#FFB454','#00FFC5', '#CC6264'],
+    THEME_COLORS  : ['#B3B156','#80A352','#ADE0FF','#FFB454','#63bCC7', '#CC6264'],
     PRIZE_COLOR   : '#0c5460'
 };

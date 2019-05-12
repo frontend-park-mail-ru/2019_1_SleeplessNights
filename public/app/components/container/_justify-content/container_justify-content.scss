@@ -1,5 +1,3 @@
-@import "../../global.scss";
-
 .container_justify-content-left {
   @include justify-content(flex-start);
 }

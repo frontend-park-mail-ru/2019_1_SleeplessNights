@@ -1,5 +1,4 @@
 import { ContainerComponent } from '../components/container/container.js';
-import { ButtonHomeComponent} from '../components/buttonHome/buttonHome.js';
 
 export class BaseView {
     constructor(el = document.body) {
@@ -26,21 +25,13 @@ export class BaseView {
 
     renderContainer({
         customClasses,
-        btnBack = false,
-        container = '',
-        sideBar
+        container = ''
     } = {}) {
         const base = new ContainerComponent({
             customClasses,
-            content: container,
-            sideBar
+            content: container
         });
 
         this._el.innerHTML = base.template;
-
-        if (btnBack) {
-            const buttonHome = new ButtonHomeComponent();
-            this._el.insertAdjacentHTML('beforeend', buttonHome.template);
-        }
     }
 }

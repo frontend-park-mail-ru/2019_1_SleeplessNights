@@ -1,5 +1,3 @@
-@import "../../global";
-
 .container__col {
   @each $key, $size in $grid-columns {
     &-#{$key} {

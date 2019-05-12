@@ -54,7 +54,7 @@ export class SinglePlayer extends GameCore {
             // is any other available cell or not
             this.availableCells.shift();
             if (!this.availableCells.length) {
-                bus.emit(events.NO_AVAILABLE_CELLS, true);
+                bus.emit(events.END_GAME, true);
                 return;
             }
         }
@@ -147,7 +147,7 @@ export class SinglePlayer extends GameCore {
         if (this.currentQuestion) {
             bus.emit(events.SELECTED_QUESTION, this.currentQuestion);
         } else {
-            bus.emit(events.SELECTED_PRIZE);
+            bus.emit(events.END_GAME, true);
         }
     };
 

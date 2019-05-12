@@ -47,7 +47,9 @@ export class GameService {
                 case inMessages.AVAILABLE_CELLS: {
                     const arr = message.payload;
                     arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
-                    bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr);
+                    setTimeout(() =>
+                        bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
+                    );
                 } break;
 
                 case inMessages.OPPONENT_QUESTION:
@@ -78,6 +80,14 @@ export class GameService {
                     let cell = message.payload;
                     cell = cell.y * 8 + cell.x;
                     bus.emit(events.SELECTED_CELL, cell);
+                } break;
+
+                case inMessages.WIN: {
+                    bus.emit(events.END_GAME, false);
+                } break;
+
+                case inMessages.LOSS: {
+                    bus.emit(events.END_GAME, true);
                 } break;
 
                 default: {

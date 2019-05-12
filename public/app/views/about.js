@@ -1,7 +1,7 @@
 import { HeaderComponent }  from '../components/header/header.js';
 import { IconComponent }   from '../components/icon/icon.js';
 import { LinkComponent }   from '../components/link/link.js';
-import { ContainerComponent } from '../components/_new/container/container.js';
+import { ContainerComponent } from '../components/container/container.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { BaseView } from './base.js';
 
