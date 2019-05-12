@@ -9,7 +9,7 @@ export class GameScene {
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
 
         bus.on(events.LOADED_PLAYER, this.updatePlayer);
-        this.backButton.addEventListener('click', this.askForExit);
+        // this.backButton.addEventListener('click', this.askForExit);
     }
 
     updatePlayer = ({ player, avatarPath }) => {
@@ -29,7 +29,7 @@ export class GameScene {
     };
 
     destroy() {
-        bus.off('loaded-users', this.updatePlayers);
+        bus.off(events.LOADED_PLAYER, this.updatePlayer);
         this.backButton.removeEventListener('click', this.askForExit);
     }
 }
