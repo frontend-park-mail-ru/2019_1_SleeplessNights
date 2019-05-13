@@ -1,5 +1,5 @@
 import { events } from './events.js';
-import { gameConsts } from '../constants.js';
+import { gameConsts } from '../../modules/constants.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
 

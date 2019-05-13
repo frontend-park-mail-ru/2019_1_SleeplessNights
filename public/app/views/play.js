@@ -1,6 +1,5 @@
 import { BaseView } from './base.js';
 import { Game }  from '../game/game.js';
-import { modes } from '../game/modes.js';
 
 export class PlayView extends BaseView {
     constructor(el) {
@@ -26,7 +25,7 @@ export class PlayView extends BaseView {
         const container = document.getElementsByClassName('game')[0];
         new Game({
             root: container,
-            mode: modes.MULTI_PLAYER
+            mode: window.location.pathname.replace(/\//g, '')
         });
     }
 }

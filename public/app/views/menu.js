@@ -211,14 +211,9 @@ export class MenuView extends BaseView {
     }
 
     startListening() {
-        this.rightBtnCotainer.href = '/play?mode=multi';
-        this.leftBtnCotainer.href = '/play?mode=single';
-        this.rightContainer.on('mouseover', () => {
-            this.leftContainer.width = '43%';
-        });
-
-        this.leftContainer.on('mouseover', () => {
-            this.leftContainer.width = '57%';
-        });
+        this.rightBtnCotainer.href = '/multiplayer';
+        this.leftBtnCotainer.href = '/singlepalyer';
+        this.rightContainer.on('mouseover', () => this.leftContainer.width = '43%');
+        this.leftContainer.on('mouseover', () => this.leftContainer.width = '57%');
     }
 }

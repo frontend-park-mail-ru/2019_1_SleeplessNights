@@ -1,6 +1,6 @@
 import { TestDataDB } from './testDataDB.js';
 import { IWebSocket } from '../modules/websocket.js';
-import { inMessages } from '../game/constants.js';
+import { inMessages } from '../modules/constants.js';
 import { events }     from '../game/core/events.js';
 import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';

@@ -7,7 +7,7 @@ import { SelectAnswerScene }    from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
 import { GameScene }    from './index.js';
 import { events }       from '../core/events.js';
-import { gameConsts }   from '../constants.js';
+import { gameConsts }   from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class PlayingScene extends GameScene {

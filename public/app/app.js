@@ -175,8 +175,8 @@ router
     .register('/menu', MenuView)
     .register('/leaders', LeadersView)
     .register('/login', LoginView)
-    .register('/play?mode=single', PlayView)
-    .register('/play?mode=multi', PlayView)
+    .register('/singleplayer', PlayView)
+    .register('/multiplayer', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
     .register('/not-found', NotFoundView);

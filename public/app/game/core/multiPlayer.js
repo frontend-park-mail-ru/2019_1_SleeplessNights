@@ -1,6 +1,6 @@
 import { GameCore } from './core.js';
 import { events } from './events.js';
-import { outMessages } from '../constants.js';
+import { outMessages } from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class MultiPlayer extends GameCore {
