@@ -64,7 +64,7 @@ export class LoginView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'container__col-w10 container_theme-primary1 container_align-items-flex-end container_justify-content-center',
+            customClasses: 'container_theme-primary1 align-items-center justify-content-center w5',
             content: link.template
         });
 
@@ -100,7 +100,7 @@ export class LoginView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'container__col-w50 container_justify-content-center',
+            customClasses: 'w50 container_column',
             content: `
                 ${this._header.template}
                 ${this._form.template} 
@@ -108,17 +108,17 @@ export class LoginView extends BaseView {
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'container__col-w70 container_theme-primary2 container_align-items-center',
+            customClasses: 'w75 container_theme-primary2 justify-content-center align-items-center',
             content: innerContainer.template
         });
 
         const signupContainer = new ContainerComponent({
-            customClasses: 'container__col-w20 container_theme-secondary1 container_justify-content-center',
+            customClasses: 'w20 container_theme-secondary1 justify-content-center align-items-center',
             content: `Нет аккаунта? ${link.template}`
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
+            customClasses: 'container_skewed container__absolute h100',
             container: `
                 ${this.backBtn.template}
                 ${outerContainer.template}

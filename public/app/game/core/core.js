@@ -2,6 +2,7 @@ import { events } from './events.js';
 import { gameConsts } from '../../modules/constants.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
+import {outMessages} from "../../modules/constants";
 
 export class GameCore {
     constructor() {
@@ -23,6 +24,7 @@ export class GameCore {
         bus.on(events.FINISH_GAME,   this.onGameFinished);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
+        bus.on(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.on(events.GET_CELLS,       this.onGetCells);
         bus.on(`success:${events.GET_PACK}-`, this.onGetPacks);
@@ -100,6 +102,11 @@ export class GameCore {
         });
     }
 
+    onPlayAgain = () => {
+        throw new Error('This method must be overridden');
+    };
+
+
     onFillPacksList = () => {
         throw new Error('This method must be overridden');
     };
@@ -112,13 +119,14 @@ export class GameCore {
         throw new Error('This method must be overridden');
     };
 
-    onGameFinished() {
+    onGameFinished = () => {
         throw new Error('This method must be overridden');
-    }
+    };
 
     destroy() {
         bus.off(events.FINISH_GAME, this.onGameFinished);
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
+        bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.off(events.GET_CELLS,       this.onGetCells);

@@ -32,7 +32,7 @@ export class LeadersView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'container__col-w10 container_theme-primary2 container_align-items-start container_justify-content-center',
+            customClasses: 'w5 container_theme-primary2 align-items-center justify-content-center',
             content: link.template
         });
 
@@ -53,7 +53,7 @@ export class LeadersView extends BaseView {
     _render() {
         const board = new BoardComponent();
         const container = new ContainerComponent({
-           customClasses: 'container__col-w90 container_theme-secondary1 container_align-items-center container_justify-content-center',
+           customClasses: 'container_column w95 container_theme-secondary1 align-items-center justify-content-center',
            content: `
               ${this._header.template}
               ${board.template}
@@ -61,7 +61,7 @@ export class LeadersView extends BaseView {
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
+            customClasses: 'container_skewed h100 container__absolute',
             container: `
                 ${container.template}
                 ${this.backBtn.template}

@@ -86,7 +86,7 @@ export class SignUpView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'container__col-w10 container_theme-primary1 container_align-items-flex-end container_justify-content-center',
+            customClasses: 'w5 container_theme-primary1 align-items-center justify-content-center',
             content: link.template
         });
 
@@ -122,25 +122,22 @@ export class SignUpView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'container__col-w50 container_justify-content-center',
-            content: `
-                ${this._header.template}
-                ${this._form.template} 
-            `
+            customClasses: 'w50 justify-content-center container_column',
+            content: ` ${this._header.template} ${this._form.template} `
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'container__col-w70 container_theme-primary1 container_align-items-center',
+            customClasses: 'w75 container_theme-primary1 align-items-center justify-content-center',
             content: innerContainer.template
         });
 
         const loginContainer = new ContainerComponent({
-            customClasses: 'container__col-w20 container_theme-primary2 container_justify-content-center container_align-items-center',
+            customClasses: 'w20 container_theme-primary2 justify-content-center align-items-center',
             content: `Есть аккаунт? ${link.template}`
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
+            customClasses: 'container_skewed h100 container__absolute',
             container: `
                 ${this.backBtn.template}
                 ${loginContainer.template}

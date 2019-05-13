@@ -164,6 +164,11 @@ export class SinglePlayer extends GameCore {
         bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
     };
 
+    onPlayAgain = (data) => {
+        bus.emit(events.FINISH_GAME);
+        data ? bus.emit(events.GO_TO_PAGE, '/') : bus.emit(events.GO_TO_PAGE, '/singleplayer');
+    };
+
     onGameFinished = () => {
         this.destroy();
     };

@@ -60,7 +60,6 @@ export class MultiPlayer extends GameCore {
 
     destroy() {
         super.destroy();
-        bus.off(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
         bus.off(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 }

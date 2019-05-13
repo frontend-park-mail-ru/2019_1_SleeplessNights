@@ -61,7 +61,7 @@ export class AboutView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'container__col-w10 container_theme-primary2 container_align-items-start container_justify-content-center',
+            customClasses: 'w5 container_theme-primary2 align-items-center justify-content-center',
             content: link.template
         });
 
@@ -87,26 +87,37 @@ export class AboutView extends BaseView {
             });
 
             const container = new ContainerComponent({
-                customClasses: (i === 0 ? 'container__col-w50': 'container__col-w50'),
+                customClasses: (i === 0 ? 'w100 justify-content-center': 'w49 container__inline-flex'),
                 content: `
                     ${avatar.template}
-                    <h1>${author.name}</h1>
-                    <h3 >${author.position}</h3>
+                    <div class="container container_column justify-content-center pl-10px">
+                        <h1>${author.name}</h1>
+                        <h3 >${author.position}</h3>
+                    </div>
                 `
             });
 
             author.template = container.template;
         });
 
+        return this._authors.map(a => a.template).join('');
+    }
+
+    get _copyright() {
+        const copyrightIcon = new IconComponent({
+            customClasses: 'md-inherit',
+            name: 'copyright'
+        });
+
         return new ContainerComponent({
-            customClasses: 'container-new',
-            content: this._authors.map(a => a.template).join('')
+            customClasses: 'copyright justify-content-center',
+            content: `${copyrightIcon.template} All rights reserved 2019`
         });
     }
 
     _render() {
         const innerContainer = new ContainerComponent({
-            customClasses: 'container__col-w75',
+            customClasses: 'w75 container_column',
             content: `
                    ${this._header.template}
                    <p>Quiz planet – это классическая игра-викторина элементами стратегии. Вам предстоит сразиться в умственном поединке с лучшими из лучших. Более 5000 текстовых и визуальных вопросов из различных областей.</p>
@@ -119,17 +130,20 @@ export class AboutView extends BaseView {
                    </ul>
                    <p>Окажитесь на вершине триумфа играя с друзьями и прокладывая свой путь к победе!</p>
                    <h1>Наша команда:</h1>
-                   ${this._authorList.template}
+                   <div>
+                        ${this._authorList}
+                   </div>
+                   ${this._copyright.template}
             `
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'container__col-w90 container_theme-secondary1 container_align-items-flex-end container_overflow-y-scroll',
+            customClasses: 'w95 container_theme-secondary1 justify-content-center overflow-y-scroll',
             content: innerContainer.template
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
+            customClasses: 'container_skewed h100 container__absolute',
             container: `
                 ${outerContainer.template}
                 ${this.backBtn.template}

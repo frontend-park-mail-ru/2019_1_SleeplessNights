@@ -13,13 +13,8 @@ export class EndGameScene {
             'В главное меню'
         ];
         this.modal = null;
-        this.currentPlayer = null;
-
-        bus.on(events.END_GAME,           this.showModalEndGame);
-        bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
+        bus.on(events.END_GAME, this.showModalEndGame);
     }
-
-    setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     showModalEndGame = (win) => {
         if (this.modal) return;
@@ -68,7 +63,6 @@ export class EndGameScene {
     };
 
     destroy() {
-        bus.off(events.END_GAME,           this.showModalEndGame);
-        bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
+        bus.off(events.END_GAME, this.showModalEndGame);
     }
 }
