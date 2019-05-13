@@ -30,6 +30,6 @@ export class GameScene {
 
     destroy() {
         bus.off(events.LOADED_PLAYER, this.updatePlayer);
-        this.backButton.removeEventListener('click', this.askForExit);
+        // this.backButton.removeEventListener('click', this.askForExit);
     }
 }

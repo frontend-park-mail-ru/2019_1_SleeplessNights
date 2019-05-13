@@ -11,8 +11,16 @@ export class GameService {
     constructor() {
         this.type = 'game';
         this.ws = new IWebSocket(config.gameUrl, this.type);
-        this.receiveMessages();
+
+        bus.on(events.WS_DISCONNECT, this.closeConnection);
+        bus.on(`${this.type}:ws-message`, this.receiveMessages);
     }
+
+    closeConnection = () => {
+        this.ws.close();
+        bus.off(events.WS_DISCONNECT, this.closeConnection);
+        bus.off(`${this.type}:ws-message`, this.receiveMessages);
+    };
 
     sendMessage = ({ title, payload }) => {
         const message = {
@@ -23,79 +31,79 @@ export class GameService {
         this.ws.sendMessage(JSON.stringify(message));
     };
 
-    receiveMessages() {
-        bus.on(`${this.type}:ws-message`, (message) => {
-            switch (message.title) {
-                case inMessages.CONNECTED: {
-                    bus.emit('success:start-game-multiplayer');
-                } break;
+    receiveMessages = (message) => {
+        switch (message.title) {
+            case inMessages.CONNECTED: {
+                bus.emit(`success:${events.WS_CONNECT}`);
+            } break;
 
-                case inMessages.OPPONENT_PROFILE: {
-                    const profile = message.payload;
-                    profile.avatarPath = makeAvatarPath(profile.avatarPath);
-                    bus.emit(events.SET_OPPONENT_PROFILE, profile);
-                } break;
+            case inMessages.OPPONENT_PROFILE: {
+                const profile = message.payload;
+                profile.avatarPath = makeAvatarPath(profile.avatarPath);
+                bus.emit(events.SET_OPPONENT_PROFILE, profile);
+            } break;
 
-                case inMessages.THEMES: {
-                    bus.emit(`success:${events.GET_PACK}-`, message.payload);
-                } break;
+            case inMessages.THEMES: {
+                bus.emit(`success:${events.GET_PACK}-`, message.payload);
+            } break;
 
-                case inMessages.QUESTION_THEMES: {
-                    bus.emit(`success:${events.GET_CELLS}`, message.payload);
-                } break;
+            case inMessages.QUESTION_THEMES: {
+                bus.emit(`success:${events.GET_CELLS}`, message.payload);
+            } break;
 
-                case inMessages.AVAILABLE_CELLS: {
-                    const arr = message.payload;
-                    arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
-                    setTimeout(() =>
-                        bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
-                    );
-                } break;
+            case inMessages.AVAILABLE_CELLS: {
+                const arr = message.payload;
+                arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
+                setTimeout(() =>
+                    bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
+                );
+            } break;
 
-                case inMessages.OPPONENT_QUESTION:
-                case inMessages.YOUR_QUESTION: {
-                    bus.emit(events.SELECTED_QUESTION, JSON.parse(message.payload));
-                } break;
+            case inMessages.OPPONENT_QUESTION:
+            case inMessages.YOUR_QUESTION: {
+                bus.emit(events.SELECTED_QUESTION, JSON.parse(message.payload));
+            } break;
 
-                case inMessages.YOUR_ANSWER:
-                case inMessages.OPPONENT_ANSWER: {
-                    let answer = message.payload;
-                    answer = {
-                        given: answer.given_answer,
-                        correct: answer.correct_answer
-                    };
+            case inMessages.YOUR_ANSWER:
+            case inMessages.OPPONENT_ANSWER: {
+                let answer = message.payload;
+                answer = {
+                    given: answer.given_answer,
+                    correct: answer.correct_answer
+                };
 
-                    bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
-                } break;
+                bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
+            } break;
 
-                case inMessages.YOUR_TURN: {
-                    bus.emit(events.SET_CURRENT_PLAYER, 'me');
-                } break;
+            case inMessages.YOUR_TURN: {
+                bus.emit(events.SET_CURRENT_PLAYER, 'me');
+            } break;
 
-                case inMessages.OPPONENT_TURN: {
-                    bus.emit(events.SET_CURRENT_PLAYER, 'opponent');
-                } break;
+            case inMessages.OPPONENT_TURN: {
+                bus.emit(events.SET_CURRENT_PLAYER, 'opponent');
+            } break;
 
-                case inMessages.SELECTED_CELL: {
-                    let cell = message.payload;
-                    cell = cell.y * 8 + cell.x;
-                    bus.emit(events.SELECTED_CELL, cell);
-                } break;
+            case inMessages.SELECTED_CELL: {
+                let cell = message.payload;
+                cell = cell.y * 8 + cell.x;
+                bus.emit(events.SELECTED_CELL, cell);
+            } break;
 
-                case inMessages.WIN: {
-                    bus.emit(events.END_GAME, false);
-                } break;
+            case inMessages.WIN: {
+                bus.emit(events.WS_DISCONNECT);
+                setTimeout(() => bus.emit(events.END_GAME, true), 1400);
+            } break;
 
-                case inMessages.LOSS: {
-                    bus.emit(events.END_GAME, true);
-                } break;
+            case inMessages.LOSS: {
+                bus.emit(events.WS_DISCONNECT);
+                setTimeout(() => bus.emit(events.END_GAME, false), 1400);
+            } break;
 
-                default: {
-                    console.log(message.title, message.payload || '')
-                }
+            default: {
+                console.log(message.title, message.payload || '')
             }
-        });
-    }
+        }
+    };
 
     static checkDB() {
         let waiterCount = 0;

@@ -26,6 +26,7 @@ export class SelectAnswerScene {
         
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
+        answerSection.id = 'answer-block';
 
         question.answers.forEach((answer, id) => {
             this.answers.set(id, new AnswerComponent({
@@ -43,7 +44,7 @@ export class SelectAnswerScene {
         });
 
         this.modal = new ModalComponent({
-            customClasses: 'modal_w-400',
+            customClasses: 'w50-vw',
             isCloseable: false,
             body: `${questionText.template} ${answerSection.outerHTML}`
         });
@@ -52,7 +53,7 @@ export class SelectAnswerScene {
         this.modal.show();
 
         if (this.currentPlayer === 'me') {
-            const anBlock = document.getElementsByClassName('answer-block')[0];
+            const anBlock = document.getElementById('answer-block');
             const answerChoosing = (event) => {
                 const target = event.target;
                 if ('index' in target.dataset) {

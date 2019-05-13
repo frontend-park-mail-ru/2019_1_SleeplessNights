@@ -21,10 +21,10 @@ export class EndGameScene {
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
-    showModalEndGame = (lost) => {
+    showModalEndGame = (win) => {
         if (this.modal) return;
         const text = `
-            ${ this.currentPlayer === 'me' && !lost ? 'Поздравляем вы победили !!!'
+            ${win ? 'Поздравляем вы победили !!!'
             : 'Вы проиграли.'
             }`;
         const questionText = new QuestionComponent({
@@ -34,6 +34,7 @@ export class EndGameScene {
 
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
+        answerSection.id = 'answer-block-end-game';
 
         this.buttons.forEach((answer, id) => {
             const button = new AnswerComponent({
@@ -45,7 +46,7 @@ export class EndGameScene {
         });
 
         this.modal = new ModalComponent({
-            customClasses: 'modal_w-400',
+            customClasses: 'w50-vw',
             isCloseable: true,
             body: `${questionText.template} ${answerSection.outerHTML}`
         });
@@ -53,7 +54,7 @@ export class EndGameScene {
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
         this.modal.show();
 
-        const anBlock = document.getElementsByClassName('answer-block')[0];
+        const anBlock = document.getElementById('answer-block-end-game');
         const answerChoosing = (event) => {
             const target = event.target;
             event.stopPropagation();

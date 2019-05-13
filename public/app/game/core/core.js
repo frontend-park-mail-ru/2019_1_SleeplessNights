@@ -124,8 +124,10 @@ export class GameCore {
     destroy() {
         bus.off(events.START_GAME,  this.onGameStarted);
         bus.off(events.FINISH_GAME, this.onGameFinished);
+        bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
+        bus.off(events.GET_CELLS,       this.onGetCells);
         bus.off(`success:${events.GET_PACK}-`, this.onGetPacks);
         bus.off(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
     }

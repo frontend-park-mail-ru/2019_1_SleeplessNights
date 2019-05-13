@@ -158,14 +158,14 @@ bus.on('show-loader', () => loader.show())
     .on('hide-loader', () => loader.hide());
 
 bus.on('check-indexedDB', GameService.checkDB);
-bus.on(events.PLAY_AGAIN_OR_NOT, (data) => {
-    bus.emit(events.FINISH_GAME);
-    data ? router.open('/menu') : router.open('/play');
-});
+bus.on(events.GO_TO_PAGE, (page) => router.open(page));
 
-bus.on('start-game-multiplayer', () => {
+bus.on(events.WS_CONNECT, () => {
     const gameService = new GameService();
     bus.on('game:send-message', gameService.sendMessage);
+    bus.on(events.WS_DISCONNECT, () => {
+        bus.off('game:send-message', gameService.sendMessage);
+    });
 });
 
 const router = new Router(app);

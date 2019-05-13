@@ -1,6 +1,8 @@
 export const events = {
     START_GAME             : 'start-game',
     FINISH_GAME            : 'finish-game',
+    WS_CONNECT             : 'ws-connect',
+    WS_DISCONNECT          : 'ws-dis-connect',
     END_GAME               : 'end-game',
     SELECTED_CELL          : 'selected-cell',
     SELECTED_ANSWER        : 'selected-answer',
@@ -18,5 +20,6 @@ export const events = {
     GET_AVAILABLE_CELLS    : 'get-available-cells',
     FILL_CELLS             : 'fill-cells',
     LOADED_PLAYER          : 'loaded-player',
-    PLAY_AGAIN_OR_NOT      : 'play-again-or-not'
+    PLAY_AGAIN_OR_NOT      : 'play-again-or-not',
+    GO_TO_PAGE             : 'go-to-page',
 };

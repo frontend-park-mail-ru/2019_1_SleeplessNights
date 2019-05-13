@@ -6,30 +6,37 @@ import bus from '../../modules/bus.js';
 export class MultiPlayer extends GameCore {
     constructor() {
         super();
-        bus.emit('start-game-multiplayer');
+        this.onGetCells = this.onGetCells.bind(this);
+        bus.on(events.SET_ANSWERED_CELL, this.setAnsweredCell);
+        bus.on(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
+        bus.on(`success:${events.WS_CONNECT}`, this.notifyReady);
+        bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
     }
 
     start() {
         super.start();
         bus.emit(events.START_GAME);
-        bus.on(events.SET_ANSWERED_CELL, this.setAnsweredCell);
+        bus.emit(events.WS_CONNECT);
     }
 
     setAnsweredCell = ({ id, answer }) => {
     };
 
-    onGameStarted = () => {
-        bus.on('success:start-game-multiplayer', () =>
-            bus.emit('game:send-message', ({ title: outMessages.READY, payload: '' }))
-        );
+    notifyReady = () => {
+        bus.emit('game:send-message',
+            {
+                title: outMessages.READY,
+                payload: ''
+            });
+    };
 
-        bus.on('success:get-cells', this.onGetCells);
+    onGameStarted = () => {
     };
 
     onSelectedCell = (cellIndex) => {
         const y = Math.floor(cellIndex / this.cellCount);
         const x = cellIndex - (y * this.cellCount);
-        bus.emit('game:send-message', ({ title: outMessages.GO_TO, payload: {x, y} }));
+        bus.emit('game:send-message', { title: outMessages.GO_TO, payload: {x, y} });
     };
 
     onGetCells(data) {
@@ -38,12 +45,23 @@ export class MultiPlayer extends GameCore {
     }
 
     onSelectedAnswer = (id) => {
-        bus.emit('game:send-message', ({
+        bus.emit('game:send-message', {
             title: outMessages.ANSWER,
             payload: {
                 answer_id: id
             }
-        }));
+        });
+    };
+
+    onPlayAgain = (data) => {
+        const message = data ? outMessages.QUIT : outMessages.CONTINUE;
+        bus.emit('game:send-message', {
+            title: message,
+            payload: ''
+        });
+
+        bus.emit(events.FINISH_GAME);
+        data ? bus.emit(events.GO_TO_PAGE, '/') : bus.emit(events.GO_TO_PAGE, '/multiplayer');
     };
 
     onGameFinished = () => {
@@ -52,5 +70,9 @@ export class MultiPlayer extends GameCore {
 
     destroy() {
         super.destroy();
+        bus.off(events.SET_ANSWERED_CELL, this.setAnsweredCell);
+        bus.off(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
+        bus.off(`success:${events.WS_CONNECT}`, this.notifyReady);
+        bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
     }
 }

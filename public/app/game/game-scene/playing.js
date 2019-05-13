@@ -44,13 +44,13 @@ export class PlayingScene extends GameScene {
     render() {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
-            customClasses: 'container__col-w25 container_align-items-center',
+            customClasses: 'w25 align-items-center justify-content-center',
             content:        this.avatarMe.template
         });
 
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
-            customClasses: 'container__col-w25 container_align-items-center',
+            customClasses: 'w25 align-items-center justify-content-center',
             content:       this.avatarOpponent.template
         });
 
@@ -61,7 +61,7 @@ export class PlayingScene extends GameScene {
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
 
         const centreContainer = new ContainerComponent({
-            customClasses: 'container__col-w50 container_align-items-center',
+            customClasses: 'w50 align-items-center justify-content-center',
             content:        this.gameBoard.template
         });
 
@@ -91,6 +91,7 @@ export class PlayingScene extends GameScene {
 
         const timer = setInterval(() => {
             const d = data[i];
+            if (!this.cells[i]) return;
             const cell = this.cells[i].innerElem;
 
             cell.dataset.type = d.type;

@@ -39,6 +39,7 @@ export class Router {
         let { View, view, el } = route;
         if (!el) {
             el = document.createElement('section');
+            el.style.height = '100vh';
             this.root.appendChild(el);
         }
 

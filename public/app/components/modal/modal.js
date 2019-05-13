@@ -13,7 +13,7 @@ export class ModalComponent {
         header = '',
         isCloseable = true,
         body = ''
-    } = {}){
+    } = {}) {
         this._body = body;
         this._customClasses = customClasses;
         this._id = `modal_${uniqueId()}`;

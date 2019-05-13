@@ -18,7 +18,7 @@ export class PlayView extends BaseView {
 
     _render() {
         super.renderContainer({
-            customClasses: 'container-new game',
+            customClasses: 'game h100',
             btnBack: true
         });
 
