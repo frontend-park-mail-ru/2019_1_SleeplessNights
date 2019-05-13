@@ -1,15 +1,15 @@
-.container_align-items-start {
+.align-items-start {
   @include align-items(start);
 }
 
-.container_align-items-end {
+.align-items-end {
   @include align-items(end);
 }
 
-.container_align-items-flex-end {
+.align-items-flex-end {
   @include align-items(flex-end);
 }
 
-.container_align-items-center {
+.align-items-center {
   @include align-items(center);
 }

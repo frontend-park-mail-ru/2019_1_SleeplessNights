@@ -51,21 +51,22 @@
 
 @import "icons";
 @import "../../app/components/container/container";
-@import "../../app/components/container/__col/container__col.scss";
+@import "width/width";
+@import "width/animation";
 @import "../../app/components/container/__inline-flex/container__inline-flex.scss";
-@import "../../app/components/container/__row/container__row.scss";
+@import "height/height";
 @import "../../app/components/container/__square/container__square.scss";
 @import "../../app/components/container/__absolute/container__absolute.scss";
-@import "../../app/components/container/__absolute/container__absolute-top.scss";
 @import "../../app/components/container/__absolute/_skewed/container__absolute_skewed.scss";
 @import "../../app/components/container/_skewed/container_skewed.scss";
+@import "../../app/components/container/_cursor/container_cursor";
 @import "../../app/components/container/_theme/container_theme-primary1.scss";
 @import "../../app/components/container/_theme/container_theme-primary2.scss";
 @import "../../app/components/container/_theme/container_theme_secondary1.scss";
 @import "../../app/components/container/_theme/container_theme_secondary2.scss";
-@import "../../app/components/container/_overflow/container_overflow.scss";
-@import "../../app/components/container/_justify-content/container_justify-content.scss";
-@import "../../app/components/container/_align-items/container_align-items.scss";
+@import "overflow/overflow";
+@import "justify-content/justify-content";
+@import "align-items/align-items";
 
 @import "title/title.scss";
 @import "title/_subtitle/title_subtitle.scss";
@@ -89,7 +90,7 @@ html, body {
         height: 100%;
         overflow: hidden;
         font-family: Roboto, sans-serif;
-        background: linear-gradient(90deg, var(--primary-color) 50%, var(--primary-color2) 50%);
+        background: linear-gradient(90deg, var(--primary-color) 5%, var(--primary-color2) 95%);
 }
 
 h1, h3, p {

@@ -1,23 +1,23 @@
-.container_justify-content-left {
+.justify-content-left {
   @include justify-content(flex-start);
 }
 
-.container_justify-content-right {
+.justify-content-right {
   @include justify-content(flex-end);
 }
 
-.container_justify-content-center {
+.justify-content-center {
   @include justify-content(center);
 }
 
-.container_justify-content-space-between {
+.justify-content-space-between {
   @include justify-content(space-between);
 }
 
-.container_justify-content-space-around {
+.justify-content-space-around {
   @include justify-content(space-around);
 }
 
-.container_justify-content-space-center {
+.justify-content-space-center {
   @include justify-content(center);
 }

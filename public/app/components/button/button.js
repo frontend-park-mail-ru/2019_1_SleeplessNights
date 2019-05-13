@@ -33,12 +33,4 @@ export class ButtonComponent {
     get template() {
         return this._template;
     }
-
-    on(event, callback = noop) {
-        this._innerElem.addEventListener(event, callback);
-    }
-
-    off(event, callback = noop) {
-        this._innerElem.removeEventListener(event, callback);
-    }
 }

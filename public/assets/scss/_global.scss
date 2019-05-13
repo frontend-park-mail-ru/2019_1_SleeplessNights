@@ -57,6 +57,19 @@ $grid-columns: (
         w100: 100%
 );
 
+$grid-columns-vw: (
+        w10 : 10vw,
+        w20:  20vw,
+        w30:  30vw,
+        w40:  40vw,
+        w50:  50vw,
+        w60:  60vw,
+        w70:  70vw,
+        w80:  80vw,
+        w90:  90vw,
+        w100: 100vw
+);
+
 $grid-rows: (
         h10:  10%,
         h25:  25%,
@@ -222,4 +235,12 @@ $grid-rows: (
           var(--secondary-color) $stripe-width + 1px,
           var(--secondary-color) 2*$stripe-width + 1px,
           rgba(0,0,0,0) 2*$stripe-width + 2px));
+}
+
+.pr-10px {
+  padding-right: 10px;
+}
+
+.pl-10px {
+  padding-left: 10px;
 }

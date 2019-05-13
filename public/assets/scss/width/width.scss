@@ -1,0 +1,11 @@
+@each $key, $size in $grid-columns {
+  &.#{$key} {
+    width: $size;
+  }
+}
+
+@each $key, $size in $grid-columns-vw {
+  &.#{$key}-vw {
+    width: $size;
+  }
+}

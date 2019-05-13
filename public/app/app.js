@@ -6,12 +6,11 @@ import './components/button/button.tmpl.js';                  /**/
 import './components/buttonHome/buttonHome.tmpl.js';          /**/
 import './components/card/card.tmpl.js';                      /**/
 import './components/container/container.tmpl.js';            /**/
-import './components/container/container.tmpl.js';       /**/
 import './components/customFileInput/customFileInput.tmpl.js';/**/
 import './components/form/form.tmpl.js';                      /**/
-import './components/form/control/formControl.tmpl.js';        /**/
+import './components/form/control/formControl.tmpl.js';       /**/
 import './components/gameBoard/gameBoard.tmpl.js';            /**/
-import './components/gameBoard/cell/cell.tmpl.js';             /**/
+import './components/gameBoard/cell/cell.tmpl.js';            /**/
 import './components/header/header.tmpl.js';                  /**/
 import './components/icon/icon.tmpl.js';                      /**/
 import './components/link/link.tmpl.js';                      /**/
@@ -45,7 +44,7 @@ import { events } from './game/core/events.js';               /**/
 import { LoaderComponent } from './components/loader/loader.js';/**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
-import '../assets/scss/main.scss';
+import '../assets/scss/main.scss';                            /**/
 /************************************************************\/**/
 
 window.user = {
@@ -176,7 +175,8 @@ router
     .register('/menu', MenuView)
     .register('/leaders', LeadersView)
     .register('/login', LoginView)
-    .register('/play', PlayView)
+    .register('/play?mode=single', PlayView)
+    .register('/play?mode=multi', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
     .register('/not-found', NotFoundView);
@@ -187,9 +187,6 @@ router
     .registerInAccess('/signup', true, '/profile');
 
 router.start();
-
-// const gameService = new GameService();
-
 
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('/sw.js', { scope: '/' })
