@@ -212,7 +212,7 @@ export class MenuView extends BaseView {
 
     startListening() {
         this.rightBtnCotainer.href = '/multiplayer';
-        this.leftBtnCotainer.href = '/singlepalyer';
+        this.leftBtnCotainer.href = '/singleplayer';
         this.rightContainer.on('mouseover', () => this.leftContainer.width = '43%');
         this.leftContainer.on('mouseover', () => this.leftContainer.width = '57%');
     }

@@ -47,7 +47,7 @@ export class EndGameScene {
 
         this.modal = new ModalComponent({
             customClasses: 'w50-vw',
-            isCloseable: true,
+            isCloseable: false,
             body: `${questionText.template} ${answerSection.outerHTML}`
         });
 

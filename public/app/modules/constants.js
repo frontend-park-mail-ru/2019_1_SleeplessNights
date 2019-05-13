@@ -36,23 +36,23 @@ export const gameConsts = {
     FIRST_INDEX   : 0,
     LAST_INDEX    : 63,
     PRIZE_INDEXES : [
-    {
-        x: 3,
-        y: 3
-    },
-    {
-        x: 3,
-        y: 4
-    },
-    {
-        x: 4,
-        y: 3
-    },
-    {
-        x: 4,
-        y: 4
-    }
-],
+        {
+            x: 3,
+            y: 3
+        },
+        {
+            x: 3,
+            y: 4
+        },
+        {
+            x: 4,
+            y: 3
+        },
+        {
+            x: 4,
+            y: 4
+        }
+    ],
     THEME_COLORS  : ['#B3B156','#80A352','#ADE0FF','#FFB454','#63bCC7', '#CC6264'],
     PRIZE_COLOR   : '#0c5460'
 };

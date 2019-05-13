@@ -20,21 +20,16 @@ export class GameCore {
 
     start() {
         this.onGetCells = this.onGetCells.bind(this);
-
-        bus.on(events.START_GAME,  this.onGameStarted);
-        bus.on(events.FINISH_GAME, this.onGameFinished);
-        bus.on(events.SELECTED_CELL,        this.onSelectedCell);
+        bus.on(events.FINISH_GAME,   this.onGameFinished);
+        bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.on(events.GET_CELLS,       this.onGetCells);
         bus.on(`success:${events.GET_PACK}-`, this.onGetPacks);
         bus.on(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
+        bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
 
         idb.getAll('user', 'nickname', user.nickname, 1);
-    }
-
-    onGameStarted() {
-        throw new Error('This method must be overridden');
     }
 
     getMe = (data) => {
@@ -122,7 +117,6 @@ export class GameCore {
     }
 
     destroy() {
-        bus.off(events.START_GAME,  this.onGameStarted);
         bus.off(events.FINISH_GAME, this.onGameFinished);
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
@@ -130,5 +124,6 @@ export class GameCore {
         bus.off(events.GET_CELLS,       this.onGetCells);
         bus.off(`success:${events.GET_PACK}-`, this.onGetPacks);
         bus.off(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
+        bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
     }
 }

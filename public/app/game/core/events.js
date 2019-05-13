@@ -1,5 +1,4 @@
 export const events = {
-    START_GAME             : 'start-game',
     FINISH_GAME            : 'finish-game',
     WS_CONNECT             : 'ws-connect',
     WS_DISCONNECT          : 'ws-dis-connect',
@@ -14,12 +13,11 @@ export const events = {
     GET_USER               : 'get-user-nickname',
     FILL_PACK_LIST         : 'fill-pack-list',
     SET_CURRENT_PLAYER     : 'set-current-player',
-    SET_ANSWERED_CELL      : 'set-answered-cell',
     ANSWERED_CELL          : 'answered-cell',
     SET_ANSWER_CORRECTNESS : 'set-answer-correctness',
     GET_AVAILABLE_CELLS    : 'get-available-cells',
     FILL_CELLS             : 'fill-cells',
     LOADED_PLAYER          : 'loaded-player',
     PLAY_AGAIN_OR_NOT      : 'play-again-or-not',
-    GO_TO_PAGE             : 'go-to-page',
+    GO_TO_PAGE             : 'go-to-page'
 };

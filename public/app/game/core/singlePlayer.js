@@ -10,19 +10,19 @@ export class SinglePlayer extends GameCore {
     constructor() {
         super();
         this.availableCells = [];
+        this.selectedCell = null;
         this.packs = [];
         this.currentPlayer = 'me';
         this.currentQuestion = null;
 
         bus.on(events.FILL_PACK_LIST,      this.onFillPacksList);
         bus.on(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
-        bus.on(events.SET_ANSWERED_CELL,   this.setAnsweredCell);
+        bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
     }
 
     start() {
         super.start();
-        bus.emit(events.START_GAME);
         bus.emit(events.SET_OPPONENT_PROFILE, {
             avatarPath: '/assets/img/bot.png',
             nickname: 'Fool bot',
@@ -30,6 +30,7 @@ export class SinglePlayer extends GameCore {
         });
 
         this.bot = new BotPlayer();
+        idb.getAll('pack', null, null, 6);
     }
 
     gameLoop() {
@@ -45,16 +46,16 @@ export class SinglePlayer extends GameCore {
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
-    setAnsweredCell = ({ id, answer }) => {
-        this.gameMatrix[id].answered = true;
+    setAnsweredCell = (answer) => {
+        this.gameMatrix[this.selectedCell].answered = true;
         const cond = this.currentPlayer === 'me';
         if (answer) {
-            this[cond ? 'me': 'opponent'].lastMove = id;
+            this[cond ? 'me': 'opponent'].lastMove = this.selectedCell;
         } else {
             // is any other available cell or not
             this.availableCells.shift();
             if (!this.availableCells.length) {
-                bus.emit(events.END_GAME, true);
+                bus.emit(events.END_GAME, cond);
                 return;
             }
         }
@@ -104,16 +105,26 @@ export class SinglePlayer extends GameCore {
         bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, this.availableCells);
     };
 
-    onGameStarted = () => {
-        idb.getAll('pack', null, null, 6);
-    };
+    onGetCells(data) {
+        const questions = data.reduce((ac, d) => {
+                ac.push(...d);
+                return ac;
+            }, [])
+            .map(d => d.packId);
+        shuffle(questions);
+        super.onGetCells(questions);
 
-    onGetCells = (data) => {
-        super.onGetCells(data);
-        shuffle(this.gameMatrix, this.prizes);
+        this.packs.forEach((pack, pI) => {
+            this.gameMatrix
+                .filter(gm => gm.id === pack.id)
+                .forEach((cell, i) =>
+                    cell['question'] = data[pI][i]
+                );
+        });
+
         bus.emit(events.FILL_CELLS, this.gameMatrix);
         this.gameLoop();
-    };
+    }
 
     onFillPacksList = (packs) => {
         this.packs = packs;
@@ -124,7 +135,8 @@ export class SinglePlayer extends GameCore {
             const getQuestions = (data) => {
                 questions.push(data);
                 if (i === this.packs.length - 1) {
-                    this.onQuestionsReady(questions);
+                    // this.onQuestionsReady(questions);
+                    bus.emit(`success:${events.GET_CELLS}`, questions);
                     bus.off(`success:${events.GET_QUESTIONS_PACK}-${pack.id}`, getQuestions);
                 }
             };
@@ -133,21 +145,13 @@ export class SinglePlayer extends GameCore {
         });
     };
 
-    onQuestionsReady = (questions) => {
-        this.packs.forEach((pack, pI) => {
-            const packInMatrix = this.gameMatrix.filter(gm => gm.id === pack.id);
-            packInMatrix.forEach((cell, i) =>
-                cell['question'] = questions[pI][i]
-            );
-        });
-    };
-
     onSelectedCell = (cellIndex) => {
+        this.selectedCell = cellIndex;
         this.currentQuestion = this.gameMatrix[cellIndex].question;
         if (this.currentQuestion) {
             bus.emit(events.SELECTED_QUESTION, this.currentQuestion);
         } else {
-            bus.emit(events.END_GAME, true);
+            bus.emit(events.END_GAME, this.currentPlayer === 'me');
         }
     };
 
@@ -170,7 +174,6 @@ export class SinglePlayer extends GameCore {
 
         bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
         bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
-        bus.off(events.SET_ANSWERED_CELL,   this.setAnsweredCell);
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
     }
 }

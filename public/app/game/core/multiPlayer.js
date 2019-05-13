@@ -6,31 +6,21 @@ import bus from '../../modules/bus.js';
 export class MultiPlayer extends GameCore {
     constructor() {
         super();
-        this.onGetCells = this.onGetCells.bind(this);
-        bus.on(events.SET_ANSWERED_CELL, this.setAnsweredCell);
         bus.on(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
-        bus.on(`success:${events.WS_CONNECT}`, this.notifyReady);
-        bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
+        bus.on(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 
     start() {
         super.start();
-        bus.emit(events.START_GAME);
         bus.emit(events.WS_CONNECT);
     }
 
-    setAnsweredCell = ({ id, answer }) => {
-    };
-
-    notifyReady = () => {
+    notifyReadiness = () => {
         bus.emit('game:send-message',
             {
                 title: outMessages.READY,
                 payload: ''
             });
-    };
-
-    onGameStarted = () => {
     };
 
     onSelectedCell = (cellIndex) => {
@@ -70,9 +60,7 @@ export class MultiPlayer extends GameCore {
 
     destroy() {
         super.destroy();
-        bus.off(events.SET_ANSWERED_CELL, this.setAnsweredCell);
         bus.off(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
-        bus.off(`success:${events.WS_CONNECT}`, this.notifyReady);
-        bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
+        bus.off(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 }

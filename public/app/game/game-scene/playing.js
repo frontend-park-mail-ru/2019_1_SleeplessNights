@@ -103,11 +103,7 @@ export class PlayingScene extends GameScene {
     };
 
     onChangePlayer = (pl) => {
-        if (pl === 'me') {
-            this.gameBoard.on('click', this.chooseQuestion);
-        } else {
-            this.gameBoard.off('click', this.chooseQuestion);
-        }
+        this.gameBoard[pl === 'me' ? 'on': 'off']('click', this.chooseQuestion);
     };
 
     chooseQuestion = (event) => {
@@ -124,8 +120,6 @@ export class PlayingScene extends GameScene {
         } else {
             cell.setFailed();
         }
-
-        bus.emit(events.SET_ANSWERED_CELL, { id: this.selectedCell, answer });
     };
 
     onGetAvailableCells = (availableCells) => {
