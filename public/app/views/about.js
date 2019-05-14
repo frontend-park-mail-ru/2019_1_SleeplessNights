@@ -61,7 +61,7 @@ export class AboutView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'w5 container_theme-primary2 align-items-center justify-content-center',
+            customClasses: 'w3 container_theme-primary2 align-items-center',
             content: link.template
         });
 
@@ -138,7 +138,7 @@ export class AboutView extends BaseView {
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'w95 container_theme-secondary1 justify-content-center overflow-y-scroll',
+            customClasses: 'w97 container_theme-secondary1 justify-content-center overflow-y-scroll',
             content: innerContainer.template
         });
 

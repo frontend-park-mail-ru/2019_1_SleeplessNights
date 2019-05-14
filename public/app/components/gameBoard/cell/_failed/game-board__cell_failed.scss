@@ -1,11 +1,9 @@
 @import "../../vars";
 
 .game-board__cell_failed_2 {
-    background: $cell-failed-color2;
-    border-color: $cell-failed-color2 !important;
+    @include game-board-cell-answered($cell-failed-color2);
 }
 
 .game-board__cell_failed_1 {
-    background: $cell-failed-color2;
-    border-color: $cell-failed-color2 !important;
+    @include game-board-cell-answered($cell-failed-color1);
 }

@@ -37,7 +37,8 @@ $colors: (
         "secondary-light": #44a9ae,
         "background": #ffffff,
         "success": green,
-        "error": red
+        "error": red,
+        "prize": #0c5460
 );
 
 @function color($color-key) {
@@ -45,7 +46,8 @@ $colors: (
 }
 
 $grid-columns: (
-        w5 :  5%,
+        w3 :  3%,
+        w6 :  6%,
         w10:  10%,
         w15:  15%,
         w20:  20%,
@@ -53,10 +55,12 @@ $grid-columns: (
         w50:  50%,
         w49:  49.5%,
         w70:  70%,
+        w74:  74%,
         w75:  75%,
         w85:  85%,
         w90:  90%,
-        w95:  95%,
+        w94:  94%,
+        w97:  97%,
         w100: 100%
 );
 
@@ -146,6 +150,7 @@ $grid-rows: (
   -o-transform: $args;
   -webkit-transform: $args;
   transform: $args;
+  transform-origin: top;
 }
 
 @mixin opacity($args) {
@@ -183,8 +188,7 @@ $grid-rows: (
 
 %border-light {
   @extend %border-default;
-  border-width: 2px;
-  border-color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
 }
 
 @mixin animation($args) {

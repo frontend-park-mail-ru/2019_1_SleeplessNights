@@ -2,7 +2,6 @@ import { events } from './events.js';
 import { gameConsts } from '../../modules/constants.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
-import {outMessages} from "../../modules/constants";
 
 export class GameCore {
     constructor() {

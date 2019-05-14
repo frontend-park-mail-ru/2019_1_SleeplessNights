@@ -200,10 +200,7 @@ export class MenuView extends BaseView {
     _render() {
         super.renderContainer({
             customClasses: 'container_skewed container__absolute-top h100',
-            container: `
-                ${this._leftContainer.template}
-                ${this._rightContainer.template}
-            `
+            container: ` ${this._leftContainer.template} ${this._rightContainer.template} `
         });
 
         this._el.insertAdjacentHTML('beforeend', this._navbar.template);

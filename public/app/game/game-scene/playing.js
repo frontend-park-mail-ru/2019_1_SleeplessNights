@@ -72,7 +72,7 @@ export class PlayingScene extends GameScene {
                 ${this.packsSection}
             `);
 
-        this.root.style.background = 'linear-gradient(180deg, #ffffff 50%, #f3f3f3 50%)';
+        this.root.style.background = 'linear-gradient(94deg, var(--primary-color2) 25%, var(--primary-color) 25%, var(--primary-color) 75%, var(--primary-color2) 75%)';
     }
 
     updatePackList = (packs) => {

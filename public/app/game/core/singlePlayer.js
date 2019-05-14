@@ -179,6 +179,7 @@ export class SinglePlayer extends GameCore {
 
         bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
         bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
+        bus.off(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
     }
 }

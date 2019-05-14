@@ -91,7 +91,7 @@ html, body {
         height: 100%;
         overflow: hidden;
         font-family: Roboto, sans-serif;
-        background: linear-gradient(90deg, var(--primary-color) 5%, var(--primary-color2) 95%);
+        background-color: var(--primary-color2);
 }
 
 h1, h3, p {

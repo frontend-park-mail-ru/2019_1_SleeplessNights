@@ -64,7 +64,7 @@ export class LoginView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'container_theme-primary1 align-items-center justify-content-center w5',
+            customClasses: 'container_theme-primary1 align-items-center justify-content-right w6',
             content: link.template
         });
 
@@ -108,7 +108,7 @@ export class LoginView extends BaseView {
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'w75 container_theme-primary2 justify-content-center align-items-center',
+            customClasses: 'w74 container_theme-primary2 justify-content-center align-items-center',
             content: innerContainer.template
         });
 

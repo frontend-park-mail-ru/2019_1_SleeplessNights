@@ -86,7 +86,7 @@ export class SignUpView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'w5 container_theme-primary1 align-items-center justify-content-center',
+            customClasses: 'container_theme-primary1 align-items-center justify-content-right w6',
             content: link.template
         });
 
@@ -127,7 +127,7 @@ export class SignUpView extends BaseView {
         });
 
         const outerContainer = new ContainerComponent({
-            customClasses: 'w75 container_theme-primary1 align-items-center justify-content-center',
+            customClasses: 'w74 container_theme-primary1 align-items-center justify-content-center',
             content: innerContainer.template
         });
 

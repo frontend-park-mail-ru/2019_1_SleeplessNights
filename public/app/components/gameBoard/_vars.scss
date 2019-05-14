@@ -1,7 +1,14 @@
 $cells-per-row: 8;
+$cells-border-radius: 8px;
 $cell-size: 12%;
 $cell-min-size: 40px;
-$cell-failed-color1: #d42013;
+$cell-failed-color1: #d4503f;
 $cell-failed-color2: #d42013;
 $cell-answered-color1: #21d229;
 $cell-answered-color2: #399a3d;
+
+@mixin game-board-cell-answered($color) {
+  background: $color;
+  border-color: $color !important;
+  border: none;
+}

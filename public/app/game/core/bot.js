@@ -86,5 +86,6 @@ export class BotPlayer {
     destroy() {
         bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        bus.off(events.SELECTED_QUESTION, this.botChoosingQuestion);
     }
 }
