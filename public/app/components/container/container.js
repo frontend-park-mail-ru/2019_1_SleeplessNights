@@ -1,5 +1,4 @@
-import { uniqueId } from '../../modules/utils.js';
-import {noop} from "../../modules/utils";
+import { uniqueId, noop } from '../../modules/utils.js';
 
 export class ContainerComponent {
     _customClasses;

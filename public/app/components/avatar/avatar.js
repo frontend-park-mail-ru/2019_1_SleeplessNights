@@ -12,7 +12,7 @@ export class AvatarComponent {
         customClasses = '',
         avatarPath = '/assets/img/default-avatar.png',
         form = ''
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._isEditable = customClasses.includes('isEditable');
         this._avatarPath = avatarPath;
@@ -30,6 +30,14 @@ export class AvatarComponent {
 
     set src(path) {
         this.innerElement.src = path;
+    }
+
+    addClass(data) {
+        this.innerElement.classList.add(data);
+    }
+
+    removeClass(data) {
+        this.innerElement.classList.remove(data);
     }
 
     _render(form) {

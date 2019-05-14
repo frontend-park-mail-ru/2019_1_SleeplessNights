@@ -6,8 +6,7 @@ import bus from '../../modules/bus.js'
 export class GameCore {
     constructor() {
         this.me = {
-            avatarPath: '/assets/img/default-avatar.png',
-            nickname: window.user.nickname,
+            nickname: user.nickname,
             lastMove: null
         };
         this.gameMatrix = [];
@@ -27,36 +26,16 @@ export class GameCore {
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.on(events.GET_CELLS,       this.onGetCells);
         bus.on(`success:${events.GET_PACK}-`, this.onGetPacks);
-        bus.on(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
         bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
 
         idb.getAll('user', 'nickname', user.nickname, 1);
     }
 
-    getMe = (data) => {
-        if (data.length) {
-            this.me.avatarPath = data[0].avatarPath;
-        }
-
-        bus.emit(events.LOADED_PLAYER, 
-            { 
-                player: 'me', 
-                avatarPath: this.me.avatarPath
-            });
-    };
-
     onSetOpponentProfile = (data) => {
         this.opponent = {
-            avatarPath: data.avatarPath,
             nickname: data.nickname,
             lastMove: null
         };
-
-        bus.emit(events.LOADED_PLAYER, 
-            { 
-                player: 'opponent', 
-                avatarPath: this.opponent.avatarPath 
-            });
     };
 
     onGetPacks = (data) => {
@@ -130,7 +109,6 @@ export class GameCore {
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.off(events.GET_CELLS,       this.onGetCells);
         bus.off(`success:${events.GET_PACK}-`, this.onGetPacks);
-        bus.off(`success:${events.GET_USER}-${user.nickname}`, this.getMe);
         bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
     }
 }

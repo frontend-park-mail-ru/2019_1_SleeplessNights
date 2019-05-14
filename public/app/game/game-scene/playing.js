@@ -45,13 +45,19 @@ export class PlayingScene extends GameScene {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center',
-            content:        this.avatarMe.template
+            content: `
+                ${this.avatarMe.template}
+                <h3>${user.nickname}</h3>
+            `
         });
 
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center',
-            content:       this.avatarOpponent.template
+            content: `
+                    ${this.avatarOpponent.template}
+                    <h3 id="opponentName">Opponent</h3>        
+            `
         });
 
         for (let i = 0; i < gameConsts.CELL_COUNT ** 2; i++) {
@@ -73,6 +79,7 @@ export class PlayingScene extends GameScene {
             `);
 
         this.root.style.background = 'linear-gradient(94deg, var(--primary-color2) 25%, var(--primary-color) 25%, var(--primary-color) 75%, var(--primary-color2) 75%)';
+        // this.root.style.color = 'var(--primary-color)';
     }
 
     updatePackList = (packs) => {
@@ -103,7 +110,11 @@ export class PlayingScene extends GameScene {
     };
 
     onChangePlayer = (pl) => {
-        this.gameBoard[pl === 'me' ? 'on': 'off']('click', this.chooseQuestion);
+        const cond = pl === 'me';
+
+        this[cond ? 'avatarMe': 'avatarOpponent'].addClass('avatar_border-weighty');
+        this[cond ? 'avatarOpponent': 'avatarMe'].removeClass('avatar_border-weighty');
+        this.gameBoard[cond ? 'on': 'off']('click', this.chooseQuestion);
     };
 
     chooseQuestion = (event) => {

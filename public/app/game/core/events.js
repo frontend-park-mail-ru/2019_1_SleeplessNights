@@ -17,7 +17,6 @@ export const events = {
     SET_ANSWER_CORRECTNESS : 'set-answer-correctness',
     GET_AVAILABLE_CELLS    : 'get-available-cells',
     FILL_CELLS             : 'fill-cells',
-    LOADED_PLAYER          : 'loaded-player',
     PLAY_AGAIN_OR_NOT      : 'play-again-or-not',
     GO_TO_PAGE             : 'go-to-page'
 };
