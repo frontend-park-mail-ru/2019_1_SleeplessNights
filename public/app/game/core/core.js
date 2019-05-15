@@ -75,6 +75,7 @@ export class GameCore {
                 c++;
                 Object.assign(cell, this.packs[pack]);
             } else {
+                Object.assign(cell, { iconPath: '#' });
                 this.prizes.push(i);
             }
         });

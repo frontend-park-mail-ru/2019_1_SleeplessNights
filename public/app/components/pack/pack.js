@@ -1,4 +1,5 @@
 import { uniqueId, noop } from '../../modules/utils.js';
+import { CellComponent } from '../gameBoard/cell/cell.js';
 import template from './pack.handlebars';
 import './__item/packs-section__item.scss';
 import './__icon/packs-section__icon.scss';
@@ -30,6 +31,16 @@ export class PackSectionComponent {
     }
 
     _render() {
+        this._packs.forEach((p) => {
+            const cell = new CellComponent({
+                customClasses: 'game-board__cell_min-size',
+                bgColor: p.color,
+                iconPath: p.iconPath
+            });
+
+            p.icon = cell.template
+        });
+
         this._template = template({
             customClasses: this._customClasses,
             id: this._id,

@@ -11,16 +11,19 @@ export class CellComponent {
     _bgColor;
     _customClasses;
     _id;
+    _iconPath;
     _template;
     _type;
 
     constructor({
         customClasses = '',
         bgColor = '#fff',
+        iconPath = '/assets/img/packs/default.svg',
         type = 'question'
     } = {}) {
         this._bgColor = bgColor;
         this._customClasses = customClasses;
+        this._iconPath = iconPath;
         this._id = `ceil_${uniqueId()}`;
         this._type = type;
         this._render();
@@ -34,11 +37,20 @@ export class CellComponent {
         return document.getElementById(this._id);
     }
 
+    get icon() {
+        return document.getElementById(this._id).firstElementChild;
+    }
+
+    set icon(src) {
+        this.icon.src = src;
+    }
+
     _render() {
         this._template = template({
-            bgColor:       this._bgColor,
+            bgColor: this._bgColor,
             customClasses: this._customClasses,
-            id:   this._id,
+            id: this._id,
+            iconPath: this._iconPath,
             type: this._type
         });
     }
@@ -52,6 +64,7 @@ export class CellComponent {
         this.addClass('game-board__cell_answered_1');
         this.innerElem.dataset.type += '_answered';
         this.innerElem.dataset.state = 'answered';
+        this.icon.style.opacity = 0;
 
         setTimeout(() => {
             this.removeClass('game-board__cell_answered_1');
@@ -64,6 +77,7 @@ export class CellComponent {
         this.addClass('game-board__cell_failed_1');
         this.innerElem.dataset.type += '_failed';
         this.innerElem.dataset.state = 'failed';
+        this.icon.style.opacity = 0;
 
         setTimeout(() => {
             this.removeClass('game-board__cell_failed_1');

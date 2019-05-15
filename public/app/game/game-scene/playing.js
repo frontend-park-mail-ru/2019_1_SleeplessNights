@@ -114,6 +114,7 @@ export class PlayingScene extends GameScene {
 
             cell.dataset.type = d.type;
             cell.style.backgroundColor = d.color;
+            this.cells[i].icon = d.iconPath;
             cell.dataset.id = i;
 
             if (++i >= count) clearInterval(timer);

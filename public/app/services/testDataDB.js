@@ -10,22 +10,28 @@ export class TestDataDB {
     static get packs() {
         return [
             {
-                'name': 'История'
+                'name': 'История',
+                'iconPath': '/assets/img/packs/history.svg'
             },
             {
-                'name': 'Математика'
+                'name': 'Математика',
+                'iconPath': '/assets/img/packs/math.svg'
             },
             {
-                'name': 'География'
+                'name': 'География',
+                'iconPath': '/assets/img/packs/geography.svg'
             },
             {
-                'name': 'Спорт'
+                'name': 'Спорт',
+                'iconPath': '/assets/img/packs/sport.svg'
             },
             {
-                'name': 'Английский язык'
+                'name': 'Английский язык',
+                'iconPath': '/assets/img/packs/english.svg'
             },
             {
-                'name': 'Информатика'
+                'name': 'Информатика',
+                'iconPath': '/assets/img/packs/informatics.svg'
             }
         ];
     }

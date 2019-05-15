@@ -75,10 +75,11 @@ class IndexedDB {
             const user = this.db.createObjectStore('user', { keyPath: 'id', autoIncrement: true });
             user.createIndex('nickname', 'nickname', { unique: false });
             user.createIndex('email', 'email', { unique: true });
-            user.createIndex('avatar_path', 'avatar_path', { unique: false });
+            user.createIndex('avatarPath', 'avatarPath', { unique: false });
 
             const pack = this.db.createObjectStore('pack', { keyPath: 'id', autoIncrement: true });
             pack.createIndex('name', 'name', { unique: false });
+            pack.createIndex('iconPath', 'iconPath', { unique: false });
 
             const question = this.db.createObjectStore('question', { keyPath: 'id', autoIncrement: true });
             question.createIndex('answers', 'answers', { unique: false });

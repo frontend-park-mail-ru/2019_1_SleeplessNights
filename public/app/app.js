@@ -33,8 +33,8 @@ const loader = new LoaderComponent();
 const app = document.getElementById('app');
 app.insertAdjacentHTML('afterend', loader.template);
 
-idb.get('user', 2);
-bus.on('success:get-user-2', (user) => {
+idb.get('user', 1);
+bus.on('success:get-user-1', (user) => {
     if (!user) {
         GameService.fillTestDB();
         return;
