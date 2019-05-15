@@ -18,5 +18,6 @@ export const events = {
     GET_AVAILABLE_CELLS    : 'get-available-cells',
     FILL_CELLS             : 'fill-cells',
     PLAY_AGAIN_OR_NOT      : 'play-again-or-not',
-    GO_TO_PAGE             : 'go-to-page'
+    GO_TO_PAGE             : 'go-to-page',
+    STOP_TIMEOUT           : 'stop-timeout'
 };

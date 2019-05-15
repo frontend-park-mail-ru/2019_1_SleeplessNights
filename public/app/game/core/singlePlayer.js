@@ -146,6 +146,12 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
+        console.log(cellIndex);
+        if (cellIndex === -1) {
+            this.currentPlayer === 'me' ? this.waitOpponent(): this.gameLoop();
+            return;
+        }
+
         this.selectedCell = cellIndex;
         this.currentQuestion = this.gameMatrix[cellIndex].question;
         if (this.currentQuestion) {

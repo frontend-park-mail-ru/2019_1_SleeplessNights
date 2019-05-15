@@ -32,6 +32,7 @@ export const outMessages = {
 };
 
 export const gameConsts = {
+    TIMER_SECOND  : 5,
     CELL_COUNT    : 8,
     FIRST_INDEX   : 0,
     LAST_INDEX    : 63,
@@ -55,6 +56,14 @@ export const gameConsts = {
     ],
     THEME_COLORS  : ['#B3B156','#80A352','#ADE0FF','#FFB454','#63bCC7', '#CC6264'],
     PRIZE_COLOR   : '#0c5460'
+};
+
+export const botConsts = {
+    waitingTime: {
+        min: 1, // second
+        max: 3 // second
+    },
+    winChance: 75 // %
 };
 
 export const gameName = 'Quiz Planet';

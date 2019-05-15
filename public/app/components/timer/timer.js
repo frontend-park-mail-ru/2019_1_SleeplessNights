@@ -34,7 +34,7 @@ export class TimerComponent {
     start(time) {
         const timerTo = new Date( new Date().getTime() + time * 1000);
 
-        const timer = setInterval(() => {
+        this.timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = Math.ceil((timerTo - now) / 1000);
 
@@ -44,10 +44,14 @@ export class TimerComponent {
             // if (minutes < 10) minutes = '0' + minutes;
             if (seconds < 10) seconds = '0' + seconds;
             if (seconds <= 5) this._innerElem.classList.add('timer_red');
-            if (distance <= 0) clearInterval(timer);
+            if (distance <= 0) clearInterval(this.timer);
 
             // this._innerElem.innerHTML = `${minutes}:${seconds}`;
             this._innerElem.innerHTML = seconds;
         }, 1000);
+    }
+
+    stop() {
+        clearInterval(this.timer);
     }
 }

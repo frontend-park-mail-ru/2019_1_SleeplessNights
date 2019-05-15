@@ -1,4 +1,5 @@
 import { AvatarComponent } from '../../components/avatar/avatar.js';
+import { TimerComponent }  from '../../components/timer/timer.js';
 import { CellComponent }   from '../../components/gameBoard/cell/cell.js';
 import { ContainerComponent } from '../../components/container/container.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
@@ -9,7 +10,6 @@ import { GameScene }    from './index.js';
 import { events }       from '../core/events.js';
 import { gameConsts }   from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
-import {TimerComponent} from "../../components/timer/timer";
 
 export class PlayingScene extends GameScene {
     constructor(root) {
@@ -28,6 +28,7 @@ export class PlayingScene extends GameScene {
         bus.on(events.SELECTED_CELL,      this.onSelectedCell);
         bus.on(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.on(events.STOP_TIMEOUT,       this.stopTimeout);
         bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
 
         this.render();
@@ -50,7 +51,7 @@ export class PlayingScene extends GameScene {
             content: `
                 ${this.timerMe.template}
                 ${this.avatarMe.template}
-                <h3 class="container_theme-primary2">${user.nickname}</h3>
+                <h3 class='container_theme-primary2'>${user.nickname}</h3>
             `
         });
 
@@ -61,7 +62,7 @@ export class PlayingScene extends GameScene {
             content: `
                 ${this.timerOpponent.template}
                 ${this.avatarOpponent.template}
-                <h3 id="opponentName" class="container_theme-primary2">Opponent</h3>        
+                <h3 id='opponentName' class='container_theme-primary2'>Opponent</h3>        
             `
         });
 
@@ -118,16 +119,28 @@ export class PlayingScene extends GameScene {
 
     onChangePlayer = (pl) => {
         const cond = pl === 'me';
+        this.currentPlayer = pl;
 
         this[cond ? 'avatarMe': 'avatarOpponent'].addClass('avatar_border-weighty');
         this[cond ? 'avatarOpponent': 'avatarMe'].removeClass('avatar_border-weighty');
         this.gameBoard[cond ? 'on': 'off']('click', this.chooseQuestion);
+
+        this[cond ? 'timerMe':  'timerOpponent'].start(gameConsts.TIMER_SECOND);
+        this.timer = setTimeout(() => {
+            bus.emit(events.SELECTED_CELL, -1);
+        }, gameConsts.TIMER_SECOND * 1000);
+    };
+
+    stopTimeout = () => {
+        clearTimeout(this.timer);
+        this[this.currentPlayer === 'me' ? 'timerMe':  'timerOpponent'].stop();
     };
 
     chooseQuestion = (event) => {
         const target = event.target;
         if ('type' in target.dataset && target.dataset.state === 'active') {
             bus.emit(events.SELECTED_CELL, +target.dataset.id);
+            bus.emit(events.STOP_TIMEOUT);
         }
     };
 
@@ -146,7 +159,10 @@ export class PlayingScene extends GameScene {
     };
 
     onSelectedCell = (id) => {
-        this.selectedCell = id;
+        if (id !== -1) {
+            this.selectedCell = id;
+        }
+
         this.availableCells.forEach(i => this.cells[i].setDeActive());
         this.availableCells = [];
     };
@@ -161,6 +177,7 @@ export class PlayingScene extends GameScene {
         bus.off(events.SELECTED_CELL,      this.onSelectedCell);
         bus.off(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.off(events.STOP_TIMEOUT,       this.stopTimeout);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
     }
 }

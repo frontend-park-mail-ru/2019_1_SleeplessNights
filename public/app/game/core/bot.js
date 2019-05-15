@@ -1,26 +1,27 @@
 import { events }  from './events.js';
+import { gameConsts, botConsts } from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class BotPlayer {
     constructor() {
-        this.fieldSize = 8;
-        this.waitingTime = {
-            min: 1, // second
-            max: 3 // second
-        };
-        this.winChance = 75; // %
-
+        this.waitingTime = botConsts.waitingTime;
+        this.winChance = botConsts.winChance;
         bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
     }
 
     setCurrentPlayer = (pl) => {
-        if (pl === 'bot') this.startActing();
+        pl === 'bot' ? this.startActing() : this.stopActing() ;
     };
 
     startActing() {
         bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
         bus.emit(events.GET_AVAILABLE_CELLS);
     }
+
+    stopActing() {
+        clearTimeout(this.timer);
+        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+    };
 
     get randomTime() {
         return Math.floor(Math.random() * (
@@ -51,15 +52,15 @@ export class BotPlayer {
     };
 
     botChoosingCell = (availableCells) => {
-        setTimeout(() => {
-            const mid = this.fieldSize / 2;
+        this.timer = setTimeout(() => {
+            const mid = gameConsts.CELL_COUNT / 2;
             const aim = {x: 0, y: 0};
             // Найдём номера тех ячеек, путь из которой к центру поля будет минимальным
             const bestCells = availableCells.reduce((accumulator, currentValue, index) => {
                 // Приз занимает 4 центральных клетки
                 // Выберем ближ     айшую клетку в формате координат
-                const currentX = currentValue % this.fieldSize;
-                const currentY = Math.floor(currentValue / this.fieldSize);
+                const currentX = currentValue % gameConsts.CELL_COUNT;
+                const currentY = Math.floor(currentValue / gameConsts.CELL_COUNT);
                 aim.x = currentX <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
                 aim.y = currentY <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
                 // Найдём разницу по обеим координатам относительно текущей позиции
@@ -74,11 +75,12 @@ export class BotPlayer {
                     accumulator.index.push(index);
                 }
                 return accumulator;
-            }, {index: [], pathLen: this.fieldSize}).index;
+            }, {index: [], pathLen: gameConsts.CELL_COUNT}).index;
 
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 
-            bus.on(events.SELECTED_QUESTION, this.botChoosingQuestion);
+            bus.on(events.SELECTED_QUESTION,  this.botChoosingQuestion);
+            bus.emit(events.STOP_TIMEOUT);
             bus.emit(events.SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
