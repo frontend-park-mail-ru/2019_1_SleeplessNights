@@ -1,8 +1,10 @@
 import { AnswerComponent } from '../../components/answer/answer.js';
+import { TimerComponent }  from '../../components/timer/timer.js';
 import { ModalComponent }  from '../../components/modal/modal.js';
 import { QuestionComponent } from '../../components/question/question.js';
 import { shuffle } from '../../modules/utils.js';
 import { events }  from '../core/events.js';
+import { gameConsts } from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class SelectAnswerScene {
@@ -15,11 +17,13 @@ export class SelectAnswerScene {
         bus.on(events.SELECTED_QUESTION,      this.onSelectedQuestion);
         bus.on(events.SET_CURRENT_PLAYER,     this.setCurrentPlayer);
         bus.on(events.SET_ANSWER_CORRECTNESS, this.setAnswer);
+        bus.on(events.STOP_TIMEOUT_ANSWER,    this.stopTimeout)
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     onSelectedQuestion = (question) => {
+        this.timerComp = new TimerComponent();
         const questionText = new QuestionComponent({
             text: question.text
         });
@@ -47,11 +51,16 @@ export class SelectAnswerScene {
         this.modal = new ModalComponent({
             customClasses: 'w60-vw container_skewed justify-content-center align-items-center container_theme-primary1',
             isCloseable: false,
-            body: `${questionText.template} ${answerSection.outerHTML}`
+            body: `
+                ${questionText.template} 
+                ${answerSection.outerHTML}
+                ${this.timerComp.template}
+            `
         });
 
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
         this.modal.show();
+        this.startTimeout();
 
         if (this.currentPlayer === 'me') {
             const anBlock = document.getElementById('answer-block');
@@ -60,11 +69,24 @@ export class SelectAnswerScene {
                 if ('index' in target.dataset) {
                     anBlock.removeEventListener('click', answerChoosing);
                     bus.emit(events.SELECTED_ANSWER, +target.dataset.index);
+                    bus.emit(events.STOP_TIMEOUT_ANSWER);
                 }
             };
 
             anBlock.addEventListener('click', answerChoosing);
         }
+    };
+
+    startTimeout() {
+        this.timerComp.start(gameConsts.TIMER_ANSWER);
+        this.timer = setTimeout(() => {
+            bus.emit(events.ENDED_TIME_TO_ANSWER);
+        }, gameConsts.TIMER_ANSWER * 1000);
+    }
+
+    stopTimeout = () => {
+        clearTimeout(this.timer);
+        this.timerComp.stop();
     };
 
     setAnswer = ({ given, correct }) => {
@@ -73,13 +95,16 @@ export class SelectAnswerScene {
             this.answers.get(given).setCorrect();
             isTrue = true;
         } else {
-            this.answers.get(given).setFailed();
+            if (given !== -1){
+                this.answers.get(given).setFailed();
+            }
             this.answers.get(correct).setCorrect();
             isTrue = false;
         }
 
         setTimeout(() => {
-            this.modal.hide();
+            if (this.modal)
+                this.modal.hide();
             bus.emit(events.ANSWERED_CELL, isTrue);
         }, 1300);
     };
@@ -88,5 +113,6 @@ export class SelectAnswerScene {
         bus.off(events.SELECTED_QUESTION,      this.onSelectedQuestion);
         bus.off(events.SET_CURRENT_PLAYER,     this.setCurrentPlayer);
         bus.off(events.SET_ANSWER_CORRECTNESS, this.setAnswer);
+        bus.off(events.STOP_TIMEOUT_ANSWER,    this.stopTimeout)
     }
 }

@@ -19,5 +19,8 @@ export const events = {
     FILL_CELLS             : 'fill-cells',
     PLAY_AGAIN_OR_NOT      : 'play-again-or-not',
     GO_TO_PAGE             : 'go-to-page',
-    STOP_TIMEOUT           : 'stop-timeout'
+    STOP_TIMEOUT_ANSWER    : 'stop-timeout-answer',
+    STOP_TIMEOUT_QUESTION  : 'stop-timeout-question',
+    ENDED_TIME_TO_ANSWER   : 'ended-time-to-answer',
+    ENDED_TIME_TO_QUESTION : 'ended-time-to-question'
 };

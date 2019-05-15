@@ -19,6 +19,8 @@ export class SinglePlayer extends GameCore {
         bus.on(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
         bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
+        bus.on(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        bus.on(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
     }
 
     start() {
@@ -55,11 +57,20 @@ export class SinglePlayer extends GameCore {
             // is any other available cell or not
             this.availableCells.shift();
             if (!this.availableCells.length) {
-                bus.emit(events.END_GAME, cond);
+                bus.emit(events.END_GAME, !cond);
                 return;
             }
         }
-        cond ? this.waitOpponent(): this.gameLoop();
+
+        this.changePlayerTurn();
+    };
+
+    changePlayerTurn = () => {
+        this.currentPlayer === 'me' ? this.waitOpponent(): this.gameLoop();
+    };
+
+    onEndAnswerTimer = () => {
+        this.currentPlayer === 'me' ? bus.emit(events.SELECTED_ANSWER, -1) : null;
     };
 
     getAvailableCells = () => {
@@ -146,11 +157,7 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
-        console.log(cellIndex);
-        if (cellIndex === -1) {
-            this.currentPlayer === 'me' ? this.waitOpponent(): this.gameLoop();
-            return;
-        }
+        if (cellIndex === -1) return;
 
         this.selectedCell = cellIndex;
         this.currentQuestion = this.gameMatrix[cellIndex].question;
@@ -187,5 +194,7 @@ export class SinglePlayer extends GameCore {
         bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
         bus.off(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
+        bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        bus.off(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
     }
 }

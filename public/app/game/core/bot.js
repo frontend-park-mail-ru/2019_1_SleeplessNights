@@ -9,8 +9,14 @@ export class BotPlayer {
         bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
     }
 
+    get randomTime() {
+        return Math.floor(Math.random() * (
+            this.waitingTime.max - this.waitingTime.min + 1)
+        ) + this.waitingTime.max;
+    }
+
     setCurrentPlayer = (pl) => {
-        pl === 'bot' ? this.startActing() : this.stopActing() ;
+        pl === 'bot' ? this.startActing() : null ;
     };
 
     startActing() {
@@ -18,22 +24,26 @@ export class BotPlayer {
         bus.emit(events.GET_AVAILABLE_CELLS);
     }
 
-    stopActing() {
-        clearTimeout(this.timer);
+    stopQuestionTimeout = () => {
+        clearTimeout(this.questionTimer);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        bus.off(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
     };
 
-    get randomTime() {
-        return Math.floor(Math.random() * (
-            this.waitingTime.max - this.waitingTime.min + 1)
-        ) + this.waitingTime.max;
-    }
+    stopAnswerTimeout = () => {
+        clearTimeout(this.answerTimer);
+        bus.emit(events.SELECTED_ANSWER, -1);
+        bus.off(events.SELECTED_QUESTION,    this.botChoosingQuestion);
+        bus.off(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
+        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+    };
 
     getRandomArrayIndex(arrayLength) {
         return Math.floor(Math.random() * arrayLength);
     }
 
     botChoosingQuestion = (question) => {
+        bus.on(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
         const answers = question.answers;
         const r = Math.random() * 100; //Получаем случайное число процентов
         let answer;
@@ -44,15 +54,19 @@ export class BotPlayer {
             answer = this.getRandomArrayIndex(answers.length); // Выбираем случайный ответ из неправильных
         }
 
-        setTimeout(() => {
+        this.answerTimer = setTimeout(() => {
+            bus.off(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
+            bus.emit(events.STOP_TIMEOUT_ANSWER);
             bus.emit(events.SELECTED_ANSWER, answer); // Возвращаем выбранный ответ
+
             bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
             bus.off(events.SELECTED_QUESTION, this.botChoosingQuestion);
         }, this.randomTime * 1000);
     };
 
     botChoosingCell = (availableCells) => {
-        this.timer = setTimeout(() => {
+        bus.on(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
+        this.questionTimer = setTimeout(() => {
             const mid = gameConsts.CELL_COUNT / 2;
             const aim = {x: 0, y: 0};
             // Найдём номера тех ячеек, путь из которой к центру поля будет минимальным
@@ -80,7 +94,7 @@ export class BotPlayer {
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 
             bus.on(events.SELECTED_QUESTION,  this.botChoosingQuestion);
-            bus.emit(events.STOP_TIMEOUT);
+            bus.emit(events.STOP_TIMEOUT_QUESTION);
             bus.emit(events.SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };

@@ -32,11 +32,12 @@ export const outMessages = {
 };
 
 export const gameConsts = {
-    TIMER_SECOND  : 5,
-    CELL_COUNT    : 8,
-    FIRST_INDEX   : 0,
-    LAST_INDEX    : 63,
-    PRIZE_INDEXES : [
+    TIMER_QUESTION : 5, // second
+    TIMER_ANSWER   : 5, // second
+    CELL_COUNT     : 8,
+    FIRST_INDEX    : 0,
+    LAST_INDEX     : 63,
+    PRIZE_INDEXES  : [
         {
             x: 3,
             y: 3

@@ -7,7 +7,7 @@
     left: 0;
     text-align: center;
     font-size: $subtitle-text-size;
-    color: var(--secondary-color);
+    color: var(--secondary-color1);
     background: inherit;
     @include mask-linear-gradient((0deg, rgba(0,0,0,1), rgba(0,0,0,.3)))
 }

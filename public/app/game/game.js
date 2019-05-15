@@ -12,9 +12,10 @@ export class Game {
         mode = ''
     } = {}) {
         this.root = root;
+        this.mode = mode;
         this.GameConstructor = null;
 
-        switch (mode) {
+        switch (this.mode) {
         case modes.SINGLE_PLAYER:
             this.GameConstructor = SinglePlayer;
             break;
@@ -31,14 +32,14 @@ export class Game {
 
         bus.emit('show-loader');
         bus.emit('check-indexedDB');
-        bus.on('success:check-indexedDB', this.start);
+        bus.on('success:check-indexedDB', this.start            );
     }
 
     start = () => {
         bus.off('success:check-indexedDB', this.start);
         bus.emit('hide-loader');
         if (!this.gameScene) {
-            this.gameScene = new PlayingScene(this.root);
+            this.gameScene = new PlayingScene(this.root, this.mode);
         }
         if (!this.gameCore) {
             this.gameCore = new this.GameConstructor();

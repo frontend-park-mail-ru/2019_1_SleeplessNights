@@ -1,7 +1,7 @@
 :root {
-  --primary-color: #f8f1b5;
+  --primary-color1: #f8f1b5;
   --primary-color2: #426e86;
-  --secondary-color: #011A27;
+  --secondary-color1: #011A27;
   --secondary-color2: #fff;
   --success-color: #058e3f;
   --danger-color: #931621;
@@ -195,7 +195,7 @@ $grid-rows: (
 
 %border-light {
   @extend %border-default;
-  border: 2px solid var(--secondary-color);
+  border: 2px solid var(--secondary-color1);
 }
 
 @mixin animation($args) {
@@ -246,8 +246,8 @@ $grid-rows: (
   @include background-repeating-linear-gradient((-45deg + $skew-angle,
           rgba(0,0,0,0) 0,
           rgba(0,0,0,0) $stripe-width,
-          var(--secondary-color) $stripe-width + 1px,
-          var(--secondary-color) 2*$stripe-width + 1px,
+          var(--secondary-color1) $stripe-width + 1px,
+          var(--secondary-color1) 2*$stripe-width + 1px,
           rgba(0,0,0,0) 2*$stripe-width + 2px));
 }
 
