@@ -1,4 +1,6 @@
 import { uniqueId, noop } from '../../modules/utils.js';
+import template from './gameBoard.handlebars';
+import './game-board.scss';
 
 export class GameBoardComponent {
     _cells;
@@ -21,7 +23,7 @@ export class GameBoardComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.gameBoard({
+        this._template = template({
             cells: this._cells,
             id:    this._id
         });

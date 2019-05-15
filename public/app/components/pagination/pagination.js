@@ -1,5 +1,8 @@
 import { LinkComponent }  from '../link/link.js';
 import { noop, uniqueId } from '../../modules/utils.js';
+import template from './pagination.handlebars';
+import './pagination.scss';
+import './__item/pagination__item.scss';
 
 export class PaginationComponent {
     _baseUrl;
@@ -68,7 +71,7 @@ export class PaginationComponent {
             this._pages.push(link.template);
         });
 
-        this._template = Handlebars.templates.pagination({
+        this._template = template({
             pages: this._pages,
             id:    this._id
         });

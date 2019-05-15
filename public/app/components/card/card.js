@@ -1,5 +1,12 @@
 import { uniqueId } from '../../modules/utils.js';
 import bus from '../../modules/bus.js';
+import template from './card.handlebars';
+import  './card.css';
+import  './__body/card__body.css';
+import  './__header/card__header.css';
+import  './__title/card__title.css';
+import  './_centered/card_centered_both.css';
+import  './_empty/card_empty.css';
 
 export class CardComponent {
     _template;
@@ -31,7 +38,7 @@ export class CardComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.card({
+        this._template = template({
             customClasses: this._customClasses,
             title:         this._title,
             body:          this._body,

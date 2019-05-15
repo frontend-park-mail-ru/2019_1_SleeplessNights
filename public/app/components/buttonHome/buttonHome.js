@@ -1,3 +1,6 @@
+import template from './buttonHome.handlebars';
+import './button-home.scss';
+
 export class ButtonHomeComponent {
     _className;
     _dataHref;
@@ -20,7 +23,7 @@ export class ButtonHomeComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.buttonHome({
+        this._template = template({
             href:      this._href,
             dataHref:  this._dataHref,
             className: this._className

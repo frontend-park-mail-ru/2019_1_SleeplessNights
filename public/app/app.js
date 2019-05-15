@@ -1,27 +1,4 @@
 'use strict';
-/************************ Templates *************************\/**/
-import './components/answer/answer.tmpl.js';                  /**/
-import './components/avatar/avatar.tmpl.js';                  /**/
-import './components/button/button.tmpl.js';                  /**/
-import './components/buttonHome/buttonHome.tmpl.js';          /**/
-import './components/card/card.tmpl.js';                      /**/
-import './components/container/container.tmpl.js';            /**/
-import './components/customFileInput/customFileInput.tmpl.js';/**/
-import './components/form/form.tmpl.js';                      /**/
-import './components/form/control/formControl.tmpl.js';       /**/
-import './components/gameBoard/gameBoard.tmpl.js';            /**/
-import './components/gameBoard/cell/cell.tmpl.js';            /**/
-import './components/header/header.tmpl.js';                  /**/
-import './components/icon/icon.tmpl.js';                      /**/
-import './components/link/link.tmpl.js';                      /**/
-import './components/list/list.tmpl.js';                      /**/
-import './components/loader/loader.tmpl.js';                  /**/
-import './components/modal/modal.tmpl.js';                    /**/
-import './components/pagination/pagination.tmpl.js';          /**/
-import './components/pack/pack.tmpl.js';                      /**/
-import './components/question/question.tmpl.js';              /**/
-import './components/scoreboard/board.tmpl.js';               /**/
-import './components/timer/timer.tmpl.js';                    /**/
 /*************************** Views **************************\/**/
 import { MenuView }    from './views/menu.js';                /**/
 import { PlayView }    from './views/play.js';                /**/

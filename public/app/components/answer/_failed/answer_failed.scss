@@ -1,4 +1,5 @@
 @import "../../gameBoard/vars";
+@import "../../../../assets/scss/global";
 
 .answer_failed {
   @include answered($cell-failed-color2);

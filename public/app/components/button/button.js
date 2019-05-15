@@ -1,4 +1,8 @@
-import { noop, uniqueId } from '../../modules/utils.js';
+import { uniqueId } from '../../modules/utils.js';
+import template from './button.handlebars';
+import './btn.scss';
+import './_primary/btn_primary.scss';
+import './_primary2/btn_primary2.scss';
 
 export class ButtonComponent {
     _template;
@@ -18,7 +22,7 @@ export class ButtonComponent {
         this._text = text;
         this._id = id;
 
-        this._template = Handlebars.templates.button({
+        this._template = template({
             id:        this._id,
             type:      this._type,
             className: this._className,

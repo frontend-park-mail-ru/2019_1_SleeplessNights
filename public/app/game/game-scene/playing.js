@@ -9,6 +9,7 @@ import { GameScene }    from './index.js';
 import { events }       from '../core/events.js';
 import { gameConsts }   from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
+import {TimerComponent} from "../../components/timer/timer";
 
 export class PlayingScene extends GameScene {
     constructor(root) {
@@ -42,19 +43,23 @@ export class PlayingScene extends GameScene {
     }
 
     render() {
+        this.timerMe = new TimerComponent();
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
+                ${this.timerMe.template}
                 ${this.avatarMe.template}
                 <h3 class="container_theme-primary2">${user.nickname}</h3>
             `
         });
 
+        this.timerOpponent = new TimerComponent();
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
+                ${this.timerOpponent.template}
                 ${this.avatarOpponent.template}
                 <h3 id="opponentName" class="container_theme-primary2">Opponent</h3>        
             `
@@ -79,7 +84,6 @@ export class PlayingScene extends GameScene {
             `);
 
         this.root.style.background = 'linear-gradient(94deg, var(--primary-color2) 24.9%, #fff 25%, #fff 74.9%, var(--primary-color2) 75%)';
-        // this.root.style.color = 'var(--primary-color)';
     }
 
     updatePackList = (packs) => {

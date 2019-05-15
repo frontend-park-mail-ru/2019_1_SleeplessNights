@@ -1,4 +1,9 @@
 import { uniqueId } from '../../modules/utils.js';
+import template from './answer.handlebars';
+import './answer.scss';
+import './_failed/answer_failed.scss';
+import './_success/answer_success.scss';
+import './answer-block/answer-block.scss';
 
 export class AnswerComponent {
     _answerId;
@@ -28,7 +33,7 @@ export class AnswerComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.answer({
+        this._template = template({
             answerId:      this._answerId,
             customClasses: this._customClasses,
             id:   this._id,

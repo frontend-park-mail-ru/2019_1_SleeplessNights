@@ -1,4 +1,9 @@
 import { uniqueId, noop } from '../../modules/utils.js';
+import template from './pack.handlebars';
+import './__item/packs-section__item.scss';
+import './__icon/packs-section__icon.scss';
+import './__text/packs-section__text.scss';
+import './pack.scss';
 
 export class PackSectionComponent {
     _customClasses;
@@ -25,7 +30,7 @@ export class PackSectionComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.pack({
+        this._template = template({
             customClasses: this._customClasses,
             id: this._id,
             packs: this._packs

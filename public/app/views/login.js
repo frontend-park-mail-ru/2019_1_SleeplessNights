@@ -118,7 +118,7 @@ export class LoginView extends BaseView {
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__absolute h100',
+            customClasses: 'container_skewed container__absolute h100 w100',
             container: `
                 ${this.backBtn.template}
                 ${outerContainer.template}

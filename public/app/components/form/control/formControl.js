@@ -1,4 +1,6 @@
 import { noop, uniqueId } from '../../../modules/utils.js';
+import template from './formControl.handlebars';
+import './form__control.scss';
 
 export class FormControlComponent {
     _attributes;
@@ -66,7 +68,7 @@ export class FormControlComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.formControl({
+        this._template = template({
             attributes:    this._attributes,
             id:            this._id,
             type:          this._type,

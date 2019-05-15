@@ -61,7 +61,7 @@ export class LeadersView extends BaseView {
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed h100 container__absolute',
+            customClasses: 'container_skewed h100 container__absolute w100',
             container: `
                 ${container.template}
                 ${this.backBtn.template}

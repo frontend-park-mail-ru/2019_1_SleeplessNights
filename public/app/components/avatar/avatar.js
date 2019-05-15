@@ -1,5 +1,11 @@
 import { CustomFileInputComponent } from '../customFileInput/customFileInput.js';
 import { uniqueId } from '../../modules/utils.js';
+import template from './avatar.handlebars';
+import './avatar.scss';
+import './_profile/avatar_profile.scss';
+import './_border-weighty/avatar_border-weighty.scss';
+import './__choose-photo/avatar__choose-photo.scss';
+import './__upload-icon/avatar__upload-icon.scss';
 
 export class AvatarComponent {
     _avatarPath;
@@ -58,8 +64,8 @@ export class AvatarComponent {
             });
         }
 
-        this._template = Handlebars.templates.avatar({
-            avatarPath:      this._avatarPath,
+        this._template = template({
+            avatarPath:     this._avatarPath,
             customClasses:  this._customClasses,
             customImgInput: customFileInput ? customFileInput.template: '',
             id:             this._id,

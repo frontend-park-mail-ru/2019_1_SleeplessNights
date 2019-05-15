@@ -1,3 +1,8 @@
+import template from './list.handlebars';
+import './list.scss';
+import './__item/list__item.scss';
+import './__item-row/list__item-row.scss';
+
 export class ListComponent {
     _template;
     _customClasses;
@@ -9,7 +14,7 @@ export class ListComponent {
     constructor({
         customClasses = '',
         list
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._list = list;
         this._render();
@@ -20,7 +25,7 @@ export class ListComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.list({
+        this._template = template({
             customClasses: this._customClasses,
             lists:         this._list
         });

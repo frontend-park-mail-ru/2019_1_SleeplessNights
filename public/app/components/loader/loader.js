@@ -1,4 +1,6 @@
 import { uniqueId } from '../../modules/utils.js';
+import template from './loader.handlebars';
+import './loader.scss';
 
 export class LoaderComponent {
     _id;
@@ -18,7 +20,7 @@ export class LoaderComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.loader({
+        this._template = template({
             id: this._id
         });
     }

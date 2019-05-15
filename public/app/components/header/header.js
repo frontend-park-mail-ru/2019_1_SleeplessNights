@@ -1,3 +1,6 @@
+import template from './header.handlebars';
+import './header.scss';
+
 export class HeaderComponent {
     _template;
     _title;
@@ -13,7 +16,7 @@ export class HeaderComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.header({
+        this._template = template({
             title:    this._title,
             subtitle: this._subtitle
         });

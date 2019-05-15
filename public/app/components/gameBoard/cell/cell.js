@@ -1,4 +1,11 @@
 import { uniqueId } from '../../../modules/utils.js';
+import template from './cell.handlebars';
+import './game-board__cell.scss';
+import './_min-size/game-board__cell_min-size.scss';
+import './_prize/game-board__cell_prize.scss';
+import './_active/game-board__cell_active.scss';
+import './_failed/game-board__cell_failed.scss';
+import './_answered/game-board__cell_answered.scss';
 
 export class CellComponent {
     _bgColor;
@@ -28,7 +35,7 @@ export class CellComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.cell({
+        this._template = template({
             bgColor:       this._bgColor,
             customClasses: this._customClasses,
             id:   this._id,
