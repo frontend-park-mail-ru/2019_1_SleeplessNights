@@ -126,7 +126,7 @@ bus.on('logout', () => {
     AuthService.logout()
         .then(() => {
             AuthService.removeAuthorised();
-            router.open('/')
+            router.open('/');
         })
         .catch((err) => console.error(err));
 });
