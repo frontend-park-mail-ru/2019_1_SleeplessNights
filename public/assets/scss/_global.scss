@@ -2,6 +2,7 @@
   --primary-color: #f8f1b5;
   --primary-color2: #426e86;
   --secondary-color: #011A27;
+  --secondary-color2: #fff;
   --success-color: #058e3f;
   --danger-color: #931621;
   --accent-color: #e6af2e;
@@ -17,7 +18,7 @@ $subtitle-text-size: 18px;
 $title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
-$avatar-size: 140px;
+$avatar-size: 160px;
 $modal-min-size: 200px;
 $form-control-size: 40px;
 $button-height: 32px;
@@ -85,6 +86,11 @@ $grid-rows: (
         h75:  75%,
         h100: 100%
 );
+
+@mixin answered($bgColor) {
+  background: $bgColor !important;
+  color: var(--secondary-color2) !important;
+}
 
 @mixin box-shadow($args) {
   -moz-box-shadow: $args;

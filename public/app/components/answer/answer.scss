@@ -1,0 +1,15 @@
+.answer {
+    padding: 5px;
+    font-size: 18px;
+    width: 48.5%;
+    height: 100px;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
+}
+
+.answer:hover {
+    transform: translate(0.4rem, 0.4rem);
+}

@@ -2,7 +2,8 @@
 
 .avatar__upload-icon{
   width:100%;
-  @include border-radius($avatar-size/2 + 10);
+  box-sizing: border-box;
+  @include border-radius($avatar-size/2);
   border: none;
   transition: all 750ms ease-in-out;
 }

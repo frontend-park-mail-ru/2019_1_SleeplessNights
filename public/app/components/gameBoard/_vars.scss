@@ -10,5 +10,5 @@ $cell-answered-color2: #399a3d;
 @mixin game-board-cell-answered($color) {
   background: $color;
   border-color: $color !important;
-  border: none;
+  border-radius: 0;
 }

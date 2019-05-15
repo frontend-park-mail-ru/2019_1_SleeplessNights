@@ -3,7 +3,7 @@
 .avatar {
   width:$avatar-size;
   height:$avatar-size;
-  @include border-radius($avatar-size/2 + 10);
+  @include border-radius($avatar-size/2);
   margin-bottom:$whitespace-base-size;
   background: inherit;
 }
@@ -13,6 +13,6 @@
 }
 
 .avatar_game-board {
-  position:absolute;
-  top:10 * $whitespace-base-size;
+  //position:absolute;
+  //top:10 * $whitespace-base-size;
 }

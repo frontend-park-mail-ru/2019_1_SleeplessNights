@@ -32,7 +32,7 @@ export class LeadersView extends BaseView {
         });
 
         this._backBtn = new ContainerComponent({
-            customClasses: 'w5 container_theme-primary2 align-items-center justify-content-center',
+            customClasses: 'w3 container_theme-primary2 align-items-center justify-content-center',
             content: link.template
         });
 
@@ -41,7 +41,7 @@ export class LeadersView extends BaseView {
 
     get _header() {
         const leaderIcon = new IconComponent({
-            customClasses: ' md-inherit md-48',
+            customClasses: 'md-inherit md-48',
             name: 'poll'
         });
 
@@ -53,7 +53,7 @@ export class LeadersView extends BaseView {
     _render() {
         const board = new BoardComponent();
         const container = new ContainerComponent({
-           customClasses: 'container_column w95 container_theme-secondary1 align-items-center justify-content-center',
+           customClasses: 'container_column w97 container_theme-secondary1 align-items-center justify-content-center',
            content: `
               ${this._header.template}
               ${board.template}

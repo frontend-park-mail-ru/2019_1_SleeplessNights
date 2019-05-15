@@ -33,6 +33,7 @@ export class EndGameScene {
 
         this.buttons.forEach((answer, id) => {
             const button = new AnswerComponent({
+                customClasses: 'container_theme-primary2',
                 answerId: id,
                 text: answer
             });
@@ -41,7 +42,7 @@ export class EndGameScene {
         });
 
         this.modal = new ModalComponent({
-            customClasses: 'w50-vw',
+            customClasses: 'w60-vw container_skewed justify-content-center align-items-center container_theme-primary1',
             isCloseable: false,
             body: `${questionText.template} ${answerSection.outerHTML}`
         });

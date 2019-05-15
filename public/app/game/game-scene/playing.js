@@ -44,19 +44,19 @@ export class PlayingScene extends GameScene {
     render() {
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
-            customClasses: 'w25 align-items-center justify-content-center',
+            customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
                 ${this.avatarMe.template}
-                <h3>${user.nickname}</h3>
+                <h3 class="container_theme-primary2">${user.nickname}</h3>
             `
         });
 
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const rightContainer = new ContainerComponent({
-            customClasses: 'w25 align-items-center justify-content-center',
+            customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
-                    ${this.avatarOpponent.template}
-                    <h3 id="opponentName">Opponent</h3>        
+                ${this.avatarOpponent.template}
+                <h3 id="opponentName" class="container_theme-primary2">Opponent</h3>        
             `
         });
 
@@ -78,12 +78,15 @@ export class PlayingScene extends GameScene {
                 ${this.packsSection}
             `);
 
-        this.root.style.background = 'linear-gradient(94deg, var(--primary-color2) 25%, var(--primary-color) 25%, var(--primary-color) 75%, var(--primary-color2) 75%)';
+        this.root.style.background = 'linear-gradient(94deg, var(--primary-color2) 24.9%, #fff 25%, #fff 74.9%, var(--primary-color2) 75%)';
         // this.root.style.color = 'var(--primary-color)';
     }
 
     updatePackList = (packs) => {
-        const packSection = new PackSectionComponent(packs);
+        const packSection = new PackSectionComponent({
+            customClasses: 'container_theme-secondary3',
+            packs
+        });
         this.packsSection = packSection.template;
 
         const icon = document.getElementsByClassName('packs-section__icon')[0];

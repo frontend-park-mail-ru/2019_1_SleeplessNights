@@ -47,15 +47,18 @@
 
 @import "../../app/components/timer/timer.css";
 @import "../../app/components/modal/modal.scss";
-@import "../../app/components/answer/answer.css";
-@import "../../app/components/question/question.css";
+@import "../../app/components/modal/__content/modal__content";
+@import "../../app/components/modal/__close/modal__close";
+@import "../../app/components/modal/__body/modal__body";
+@import "../../app/components/answer/answer";
+@import "../../app/components/answer/_failed/answer_failed";
+@import "../../app/components/answer/_success/answer_success";
+@import "../../app/components/answer/answer-block/answer-block";
+@import "../../app/components/question/question";
+@import "../../app/components/question/_big/question_big";
 
-@import "icons";
 @import "../../app/components/container/container";
-@import "width/width";
-@import "width/animation";
 @import "../../app/components/container/__inline-flex/container__inline-flex.scss";
-@import "height/height";
 @import "../../app/components/container/__square/container__square.scss";
 @import "../../app/components/container/_column/container_column";
 @import "../../app/components/container/__absolute/container__absolute.scss";
@@ -66,12 +69,8 @@
 @import "../../app/components/container/_theme/container_theme-primary2.scss";
 @import "../../app/components/container/_theme/container_theme_secondary1.scss";
 @import "../../app/components/container/_theme/container_theme_secondary2.scss";
-@import "overflow/overflow";
-@import "justify-content/justify-content";
-@import "align-items/align-items";
-
-@import "title/title.scss";
-@import "title/_subtitle/title_subtitle.scss";
+@import "../../app/components/container/_theme/container_theme_secondary3.scss";
+@import "../../app/components/container/_theme/container_theme_secondary4.scss";
 @import "../../app/components/icon/centered-icon/centered-icon.scss";
 
 @import "../../app/components/gameBoard/game-board.scss";
@@ -83,6 +82,15 @@
 @import "../../app/components/gameBoard/cell/_answered/game-board__cell_answered.scss";
 @import "../../app/components/buttonHome/button-home.scss";
 
+@import "icons";
+@import "overflow/overflow";
+@import "justify-content/justify-content";
+@import "align-items/align-items";
+@import "width/width";
+@import "width/animation";
+@import "height/height";
+@import "title/title.scss";
+@import "title/_subtitle/title_subtitle.scss";
 @import "adaptive-utils.scss";
 @import "shadow.scss";
 

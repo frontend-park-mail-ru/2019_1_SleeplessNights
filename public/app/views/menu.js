@@ -199,7 +199,7 @@ export class MenuView extends BaseView {
 
     _render() {
         super.renderContainer({
-            customClasses: 'container_skewed container__absolute-top h100',
+            customClasses: 'container_skewed container__absolute-top h100 w100',
             container: ` ${this._leftContainer.template} ${this._rightContainer.template} `
         });
 

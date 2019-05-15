@@ -1,0 +1,8 @@
+.modal__content {
+  position: relative;
+  min-height: $modal-min-size;
+  min-width: $modal-min-size;
+  padding: 2 * $whitespace-base-size 3 * $whitespace-base-size;
+  color: var(--secondary-color);
+  z-index: 4;
+}

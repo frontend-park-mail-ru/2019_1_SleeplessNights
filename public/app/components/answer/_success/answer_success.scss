@@ -1,0 +1,5 @@
+@import "../../gameBoard/vars";
+
+.answer_success {
+  @include answered($cell-answered-color2);
+}
