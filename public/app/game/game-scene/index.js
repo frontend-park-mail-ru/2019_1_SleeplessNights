@@ -98,7 +98,7 @@ export class GameScene {
     startTimeout = () => {
         this.currentTimer.start(gameConsts.TIMER_QUESTION);
     };
-    
+
     stopTimeout = () => {
         this.currentTimer.stop();
     };
