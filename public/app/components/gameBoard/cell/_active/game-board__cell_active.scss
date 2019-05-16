@@ -9,8 +9,13 @@
 
 .game-board__cell_active {
   cursor: pointer;
+  transition: transfrom 250ms;
   animation-duration: 400ms;
   animation-name: changeBoxShadow;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+
+.game-board__cell_active:hover {
+  transform: translate(1.5px, 1.5px);
 }

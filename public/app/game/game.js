@@ -2,6 +2,7 @@ import { SinglePlayer } from './core/singlePlayer.js';
 import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
 import { PlayingScene }   from './game-scene/playing.js';
+import { PackSelectScene } from './game-scene/packSelect.js';
 import { events } from './core/events.js';
 import { modes } from './modes.js';
 import bus from '../modules/bus.js';
@@ -39,7 +40,7 @@ export class Game {
         bus.off('success:check-indexedDB', this.start);
         bus.emit('hide-loader');
         if (!this.gameScene) {
-            this.gameScene = new PlayingScene(this.root, this.mode);
+            this.gameScene = new PackSelectScene(this.root, this.mode);
         }
         if (!this.gameCore) {
             this.gameCore = new this.GameConstructor();

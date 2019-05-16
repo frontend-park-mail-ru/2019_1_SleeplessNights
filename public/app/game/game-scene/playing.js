@@ -148,7 +148,11 @@ export class PlayingScene extends GameScene {
     };
 
     chooseQuestion = (event) => {
-        const target = event.target;
+        let target = event.target;
+        if (target instanceof HTMLImageElement) {
+            target = target.parentNode;
+        }
+
         if ('type' in target.dataset && target.dataset.state === 'active') {
             bus.emit(events.SELECTED_CELL, +target.dataset.id);
             bus.emit(events.STOP_TIMEOUT_QUESTION);
@@ -157,11 +161,7 @@ export class PlayingScene extends GameScene {
 
     onAnsweredCell = (answer) => {
         const cell = this.cells[this.selectedCell];
-        if (answer) {
-            cell.setAnswered();
-        } else {
-            cell.setFailed();
-        }
+        answer ? cell.setAnswered() : cell.setFailed();
     };
 
     onGetAvailableCells = (availableCells) => {

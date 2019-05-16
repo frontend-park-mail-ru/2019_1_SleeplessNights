@@ -2,10 +2,8 @@
 
 .game-board {
   width: 100%;
-  height: 100%;
   display: flex;
   @include flex-direction(row);
   @include justify-content(space-between);
-  @include align-items(space-between);
   @include flex-wrap(wrap);
 }

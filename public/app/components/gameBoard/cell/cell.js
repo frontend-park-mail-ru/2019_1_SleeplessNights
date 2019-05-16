@@ -2,6 +2,8 @@ import { uniqueId } from '../../../modules/utils.js';
 import template from './cell.handlebars';
 import './game-board__cell.scss';
 import './_min-size/game-board__cell_min-size.scss';
+import './_pack/pack__cell.scss';
+import './_pack/__img/pack_cell__img.scss';
 import './_prize/game-board__cell_prize.scss';
 import './_active/game-board__cell_active.scss';
 import './_failed/game-board__cell_failed.scss';
@@ -13,19 +15,22 @@ export class CellComponent {
     _id;
     _iconPath;
     _template;
+    _text;
     _type;
 
     constructor({
         customClasses = '',
         bgColor = '#fff',
         iconPath = '/assets/img/packs/default.svg',
-        type = 'question'
+        type = 'question',
+        text = ''
     } = {}) {
         this._bgColor = bgColor;
         this._customClasses = customClasses;
         this._iconPath = iconPath;
         this._id = `ceil_${uniqueId()}`;
         this._type = type;
+        this._text = text;
         this._render();
     }
 
@@ -51,7 +56,8 @@ export class CellComponent {
             customClasses: this._customClasses,
             id: this._id,
             iconPath: this._iconPath,
-            type: this._type
+            type: this._type,
+            text: this._text
         });
     }
 
