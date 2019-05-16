@@ -6,6 +6,7 @@ import { PackSelectScene } from './game-scene/packSelect.js';
 import { events } from './core/events.js';
 import { modes } from './modes.js';
 import bus from '../modules/bus.js';
+import {GameScene} from "./game-scene/index.js";
 
 export class Game {
     constructor ({
@@ -40,7 +41,7 @@ export class Game {
         bus.off('success:check-indexedDB', this.start);
         bus.emit('hide-loader');
         if (!this.gameScene) {
-            this.gameScene = new PackSelectScene(this.root, this.mode);
+            this.gameScene = new GameScene(this.root, this.mode);
         }
         if (!this.gameCore) {
             this.gameCore = new this.GameConstructor();

@@ -35,6 +35,10 @@ export class ContainerComponent {
         this._innerElem.dataset.href = data;
     }
 
+    set content(data) {
+        this._innerElem.innerHTML = data;
+    }
+
     set width(data) {
         this._innerElem.style.width = data;
     }

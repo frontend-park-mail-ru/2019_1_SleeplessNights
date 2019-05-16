@@ -44,7 +44,7 @@ export class GameService {
             } break;
 
             case inMessages.THEMES: {
-                bus.emit(`success:${events.GET_PACK}-`, message.payload);
+                bus.emit(`success:${events.GET_PACK}-10`, message.payload);
             } break;
 
             case inMessages.QUESTION_THEMES: {
@@ -119,7 +119,7 @@ export class GameService {
 
         const sendQuery = () => {
             waiterCount++;
-            idb.getAll('user', 'nickname', user.nickname, 1);
+            idb.getAll('user', 'nickname', user.nickname);
             bus.on(`success:get-user-nickname-${user.nickname}`, waitDB);
         };
 
@@ -131,7 +131,7 @@ export class GameService {
         idb.add('user', TestDataDB.guest);
         idb.add('pack', TestDataDB.packs);
 
-        idb.getAll('pack', null, null, 6);
+        idb.getAll('pack', null, null, 10);
         const questions = TestDataDB.questions;
         const fillQuestions = (data) => {
             data.forEach((pack, i) => {
@@ -146,11 +146,11 @@ export class GameService {
 
                 idb.add('question', _questions);
                 if (i === data.length - 1) {
-                    bus.off('success:get-pack-id-', fillQuestions);
+                    bus.off('success:get-pack-id-10', fillQuestions);
                 }
             });
         };
 
-        bus.on('success:get-pack-id-', fillQuestions);
+        bus.on('success:get-pack-id-10', fillQuestions);
     }
 }

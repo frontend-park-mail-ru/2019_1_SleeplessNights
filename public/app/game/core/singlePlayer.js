@@ -32,7 +32,8 @@ export class SinglePlayer extends GameCore {
         });
 
         this.bot = new BotPlayer();
-        idb.getAll('pack', null, null, 6);
+        bus.emit(events.SET_CURRENT_PLAYER, 'me');
+        idb.getAll('pack', null, null, 10);
     }
 
     gameLoop() {
@@ -138,6 +139,7 @@ export class SinglePlayer extends GameCore {
     }
 
     onFillPacksList = (packs) => {
+        console.log(packs);
         this.packs = packs;
         const questions = [];
 
@@ -146,13 +148,12 @@ export class SinglePlayer extends GameCore {
             const getQuestions = (data) => {
                 questions.push(data);
                 if (i === this.packs.length - 1) {
-                    // this.onQuestionsReady(questions);
                     bus.emit(`success:${events.GET_CELLS}`, questions);
-                    bus.off(`success:${events.GET_QUESTIONS_PACK}-${pack.id}`, getQuestions);
+                    bus.off(`success:${events.GET_QUESTIONS_PACK}-${pack.id}-10`, getQuestions);
                 }
             };
 
-            bus.on(`success:${events.GET_QUESTIONS_PACK}-${pack.id}`, getQuestions);
+            bus.on(`success:${events.GET_QUESTIONS_PACK}-${pack.id}-10`, getQuestions);
         });
     };
 

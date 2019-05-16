@@ -15,22 +15,19 @@ export class CellComponent {
     _id;
     _iconPath;
     _template;
-    _text;
     _type;
 
     constructor({
         customClasses = '',
         bgColor = '#fff',
-        iconPath = '/assets/img/packs/default.svg',
-        type = 'question',
-        text = ''
+        iconPath = '#',
+        type = 'question'
     } = {}) {
         this._bgColor = bgColor;
         this._customClasses = customClasses;
         this._iconPath = iconPath;
         this._id = `ceil_${uniqueId()}`;
         this._type = type;
-        this._text = text;
         this._render();
     }
 
@@ -50,14 +47,25 @@ export class CellComponent {
         this.icon.src = src;
     }
 
+    set bgColor(data) {
+        this.innerElem.style.backgroundColor = data;
+    }
+
+    set text(data) {
+        this.innerElem.insertAdjacentHTML('beforeend', data);
+    }
+
+    setDataset(name, value) {
+        this.innerElem.dataset[name] = value;
+    }
+
     _render() {
         this._template = template({
             bgColor: this._bgColor,
             customClasses: this._customClasses,
             id: this._id,
             iconPath: this._iconPath,
-            type: this._type,
-            text: this._text
+            type: this._type
         });
     }
 
@@ -86,6 +94,7 @@ export class CellComponent {
         this.icon.style.opacity = 0;
 
         setTimeout(() => {
+            this.innerElem.innerText = '';
             this.removeClass('game-board__cell_failed_1');
             this.addClass('game-board__cell_failed_2');
         }, 1000);

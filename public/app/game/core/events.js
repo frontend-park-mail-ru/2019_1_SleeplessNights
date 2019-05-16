@@ -4,6 +4,7 @@ export const events = {
     WS_DISCONNECT          : 'ws-dis-connect',
     END_GAME               : 'end-game',
     SELECTED_CELL          : 'selected-cell',
+    SELECTED_PACK          : 'selected-pack',
     SELECTED_ANSWER        : 'selected-answer',
     SELECTED_QUESTION      : 'selected-question',
     SET_OPPONENT_PROFILE   : 'set-opponent-profile',
@@ -12,6 +13,8 @@ export const events = {
     GET_QUESTIONS_PACK     : 'get-question-packId',
     GET_USER               : 'get-user-nickname',
     FILL_PACK_LIST         : 'fill-pack-list',
+    FILL_PACK_BOARD        : 'fill-pack-board',
+    FILL_GAME_BOARD        : 'fill-game-board',
     SET_CURRENT_PLAYER     : 'set-current-player',
     ANSWERED_CELL          : 'answered-cell',
     SET_ANSWER_CORRECTNESS : 'set-answer-correctness',
@@ -21,6 +24,8 @@ export const events = {
     GO_TO_PAGE             : 'go-to-page',
     STOP_TIMEOUT_ANSWER    : 'stop-timeout-answer',
     STOP_TIMEOUT_QUESTION  : 'stop-timeout-question',
+    START_TIMEOUT_QUESTION : 'start-timeout-question',
     ENDED_TIME_TO_ANSWER   : 'ended-time-to-answer',
-    ENDED_TIME_TO_QUESTION : 'ended-time-to-question'
+    ENDED_TIME_TO_QUESTION : 'ended-time-to-question',
+    ENDED_PACK_SELECTION   : 'ended-pack-selection',
 };

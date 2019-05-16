@@ -1,25 +1,19 @@
-import { AvatarComponent } from '../../components/avatar/avatar.js';
-import { TimerComponent }  from '../../components/timer/timer.js';
-import { CellComponent }   from '../../components/gameBoard/cell/cell.js';
-import { ContainerComponent } from '../../components/container/container.js';
+import { CellComponent }      from '../../components/gameBoard/cell/cell.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { PackSectionComponent } from '../../components/pack/pack.js';
 import { SelectAnswerScene }    from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
-import { GameScene }    from './index.js';
 import { events }       from '../core/events.js';
 import { gameConsts }   from '../../modules/constants.js';
-import { modes } from '../modes.js';
 import bus from '../../modules/bus.js';
 
-export class PlayingScene extends GameScene {
-    constructor(root, mode) {
-        super(root);
+export class PlayingScene {
+    constructor(root, container) {
+        this.root = root;
+        this.container = container;
         this.cells = [];
         this.availableCells = [];
         this.gameBoard = null;
-        this.mode = mode === modes.SINGLE_PLAYER ? '1' : '2';
-        this.bgColor = `var(--primary-color${this.mode})`;
 
         this.selectAnswerScene = new SelectAnswerScene(root);
         this.endGameScene = new EndGameScene(root);
@@ -31,7 +25,8 @@ export class PlayingScene extends GameScene {
         bus.on(events.SELECTED_CELL,      this.onSelectedCell);
         bus.on(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
-        bus.on(events.STOP_TIMEOUT_QUESTION, this.stopTimeout);
+        bus.on(events.START_TIMEOUT_QUESTION, this.startTimeout);
+        bus.on(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
 
         this.render();
@@ -47,47 +42,14 @@ export class PlayingScene extends GameScene {
     }
 
     render() {
-        this.timerMe = new TimerComponent();
-        this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const leftContainer = new ContainerComponent({
-            customClasses: 'w25 align-items-center justify-content-center container_column',
-            content: `
-                ${this.timerMe.template}
-                ${this.avatarMe.template}
-                <h3 class='container_theme-primary${this.mode}'>${user.nickname}</h3>
-            `
-        });
-
-        this.timerOpponent = new TimerComponent();
-        this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const rightContainer = new ContainerComponent({
-            customClasses: 'w25 align-items-center justify-content-center container_column',
-            content: `
-                ${this.timerOpponent.template}
-                ${this.avatarOpponent.template}
-                <h3 id='opponentName' class='container_theme-primary${this.mode}'>Opponent</h3>        
-            `
-        });
-
         for (let i = 0; i < gameConsts.CELL_COUNT ** 2; i++) {
             const newCell = new CellComponent();
             this.cells.push(newCell);
         }
+
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
-
-        const centreContainer = new ContainerComponent({
-            customClasses: 'w50 align-items-center justify-content-center',
-            content:        this.gameBoard.template
-        });
-
-        this.root.insertAdjacentHTML('beforeend', `
-                ${leftContainer.template}
-                ${centreContainer.template}
-                ${rightContainer.template}
-                ${this.packsSection}
-            `);
-        
-        this.root.style.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
+        this.container.content = this.gameBoard.template;
+        this.root.insertAdjacentHTML('beforeend', this.packsSection);
     }
 
     updatePackList = (packs) => {
@@ -109,13 +71,12 @@ export class PlayingScene extends GameScene {
 
         const timer = setInterval(() => {
             const d = data[i];
-            if (!this.cells[i]) return;
-            const cell = this.cells[i].innerElem;
-
-            cell.dataset.type = d.type;
-            cell.style.backgroundColor = d.color;
-            this.cells[i].icon = d.iconPath;
-            cell.dataset.id = i;
+            const cell = this.cells[i];
+            if (!cell) return;
+            cell.setDataset('type', d.type);
+            cell.bgColor = d.color;
+            cell.icon = d.iconPath;
+            cell.setDataset('id', i);
 
             if (++i >= count) clearInterval(timer);
         }, 10);
@@ -123,28 +84,19 @@ export class PlayingScene extends GameScene {
 
     onChangePlayer = (pl) => {
         const cond = pl === 'me';
-        this.currentPlayer = pl;
-
-        this[cond ? 'avatarMe': 'avatarOpponent'].addClass('avatar_border-weighty');
-        this[cond ? 'avatarOpponent': 'avatarMe'].removeClass('avatar_border-weighty');
         this.gameBoard[cond ? 'on': 'off']('click', this.chooseQuestion);
-
-        this.startTimeout();
+        bus.emit(events.START_TIMEOUT_QUESTION);
     };
 
-    startTimeout() {
-        const cond = this.currentPlayer === 'me';
-        this[cond ? 'timerMe':  'timerOpponent'].start(gameConsts.TIMER_QUESTION);
-
+    startTimeout = () => {
         this.timer = setTimeout(() => {
             bus.emit(events.SELECTED_CELL, -1);
             bus.emit(events.ENDED_TIME_TO_QUESTION);
         }, gameConsts.TIMER_QUESTION * 1000);
-    }
+    };
 
     stopTimeout = () => {
         clearTimeout(this.timer);
-        this[this.currentPlayer === 'me' ? 'timerMe':  'timerOpponent'].stop();
     };
 
     chooseQuestion = (event) => {
@@ -176,7 +128,6 @@ export class PlayingScene extends GameScene {
     };
 
     destroy() {
-        super.destroy();
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
 
@@ -185,7 +136,8 @@ export class PlayingScene extends GameScene {
         bus.off(events.SELECTED_CELL,      this.onSelectedCell);
         bus.off(events.ANSWERED_CELL,      this.onAnsweredCell);
         bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
-        bus.off(events.STOP_TIMEOUT_QUESTION, this.stopTimeout);
+        bus.off(events.START_TIMEOUT_QUESTION, this.startTimeout);
+        bus.off(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
     }
 }

@@ -42,6 +42,13 @@ export class BotPlayer {
         return Math.floor(Math.random() * arrayLength);
     }
 
+    botChoosingPack = (packs) => {
+       const id = this.getRandomArrayIndex(packs.length);
+        // setTimeout(() => {
+        //
+        // });
+    };
+
     botChoosingQuestion = (question) => {
         bus.on(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
         const answers = question.answers;

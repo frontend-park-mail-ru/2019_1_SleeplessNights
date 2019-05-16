@@ -12,6 +12,7 @@ export class GameCore {
         this.gameMatrix = [];
         this.packs = [];
         this.prizes = [];
+        this.selectedPacks = 0;
         this.opponent = null;
         this.cellCount = gameConsts.CELL_COUNT;
         this.colors = gameConsts.THEME_COLORS.map(c => { return {color: c} });
@@ -21,14 +22,15 @@ export class GameCore {
         this.onGetCells = this.onGetCells.bind(this);
         bus.on(events.FINISH_GAME,   this.onGameFinished);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
+        bus.on(events.SELECTED_PACK, this.onSelectedPack);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.on(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.on(events.GET_CELLS,       this.onGetCells);
-        bus.on(`success:${events.GET_PACK}-`, this.onGetPacks);
+        bus.on(`success:${events.GET_PACK}-10`, this.onGetPacks);
         bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
 
-        idb.getAll('user', 'nickname', user.nickname, 1);
+        idb.getAll('user', 'nickname', user.nickname);
     }
 
     onSetOpponentProfile = (data) => {
@@ -38,13 +40,29 @@ export class GameCore {
         };
     };
 
+    onSelectedPack = (id) => {
+        this.packs[id].state = 'deactive';
+        if (++this.selectedPacks === 4) {
+            bus.emit(events.ENDED_PACK_SELECTION);
+            setTimeout(() => {
+                bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
+            }, 1100);
+        }
+        // bus.emit(events.SET_CURRENT_PLAYER, 'ot');
+    };
+
     onGetPacks = (data) => {
         this.packs = data;
-        this.packs.forEach((pack, i) =>
-            Object.assign(pack, this.colors[i])
-        );
+        this.packs.forEach((pack, i) => {
+            Object.assign(pack, this.colors[i]);
+            Object.assign(pack, { type: 'pack', state: 'active' });
+        });
 
-        bus.emit(events.FILL_PACK_LIST, this.packs);
+        this.packs.splice(5, 0, {name: "", iconPath: "#", id: -1, color: gameConsts.PRIZE_COLOR});
+        this.packs.splice(5, 0, {name: "", iconPath: "#", id: -1, color: gameConsts.PRIZE_COLOR});
+
+        bus.emit(events.FILL_PACK_BOARD, this.packs);
+
     };
 
     onGetCells(data) {
