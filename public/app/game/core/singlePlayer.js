@@ -11,6 +11,7 @@ export class SinglePlayer extends GameCore {
         super();
         this.availableCells = [];
         this.selectedCell = null;
+        this.packsSelection = true;
         this.packs = [];
         this.currentPlayer = 'me';
         this.currentQuestion = null;
@@ -20,7 +21,10 @@ export class SinglePlayer extends GameCore {
         bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
         bus.on(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        bus.on(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        bus.on(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
         bus.on(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
+        bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 
     start() {
@@ -38,16 +42,32 @@ export class SinglePlayer extends GameCore {
 
     gameLoop() {
         bus.emit(events.SET_CURRENT_PLAYER, 'me');
-        setTimeout(() =>
-            bus.emit(events.GET_AVAILABLE_CELLS), 1000
-        );
+        if (!this.packsSelection) {
+            setTimeout(() =>
+                bus.emit(events.GET_AVAILABLE_CELLS, 'me'), 1000
+            );
+        }
     }
 
     waitOpponent() {
         bus.emit(events.SET_CURRENT_PLAYER, 'bot');
+        if (this.selectedPacks < 4) {
+            bus.emit(events.BOT_CHOOSING_PACK,
+                this.packs
+                    .filter(p => p.type === 'pack' && p.state !== 'deactive')
+                    .map(p => p.index)
+            );
+        }
     }
 
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
+
+    onEndPackSelection = () => {
+        this.packsSelection = false;
+        bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+    };
 
     setAnsweredCell = (answer) => {
         this.gameMatrix[this.selectedCell].answered = true;
@@ -139,7 +159,6 @@ export class SinglePlayer extends GameCore {
     }
 
     onFillPacksList = (packs) => {
-        console.log(packs);
         this.packs = packs;
         const questions = [];
 
@@ -197,5 +216,6 @@ export class SinglePlayer extends GameCore {
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
         bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
         bus.off(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 }

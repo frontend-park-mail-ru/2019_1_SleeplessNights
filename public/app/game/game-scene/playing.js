@@ -85,7 +85,7 @@ export class PlayingScene {
     onChangePlayer = (pl) => {
         const cond = pl === 'me';
         this.gameBoard[cond ? 'on': 'off']('click', this.chooseQuestion);
-        bus.emit(events.START_TIMEOUT_QUESTION);
+        bus.emit(events.START_TIMEOUT_QUESTION, gameConsts.TIMER_QUESTION);
     };
 
     startTimeout = () => {

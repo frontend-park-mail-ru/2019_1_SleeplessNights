@@ -41,6 +41,7 @@ export class GameCore {
     };
 
     onSelectedPack = (id) => {
+        if (id === -1) return;
         this.packs[id].state = 'deactive';
         if (++this.selectedPacks === 4) {
             bus.emit(events.ENDED_PACK_SELECTION);
@@ -48,7 +49,6 @@ export class GameCore {
                 bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
             }, 1100);
         }
-        // bus.emit(events.SET_CURRENT_PLAYER, 'ot');
     };
 
     onGetPacks = (data) => {
@@ -62,7 +62,6 @@ export class GameCore {
         this.packs.splice(5, 0, {name: "", iconPath: "#", id: -1, color: gameConsts.PRIZE_COLOR});
 
         bus.emit(events.FILL_PACK_BOARD, this.packs);
-
     };
 
     onGetCells(data) {
@@ -125,9 +124,10 @@ export class GameCore {
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
+        bus.off(events.SELECTED_PACK,   this.onSelectedPack);
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
         bus.off(events.GET_CELLS,       this.onGetCells);
-        bus.off(`success:${events.GET_PACK}-`, this.onGetPacks);
+        bus.off(`success:${events.GET_PACK}-10`, this.onGetPacks);
         bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
     }
 }

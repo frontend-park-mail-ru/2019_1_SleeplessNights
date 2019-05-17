@@ -16,13 +16,15 @@ export class GameScene {
         this.currentScene = null;
         this.mode = mode === modes.SINGLE_PLAYER ? '1' : '2';
         this.bgColor = `var(--primary-color${this.mode})`;
-        
+
+        bus.on(events.START_TIMEOUT_PACK, this.startTimeout);
+        bus.on(events.STOP_TIMEOUT_PACK,  this.stopTimeout);
         bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
         bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
-        bus.on(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.on(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.on(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
+        bus.on(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
         
         this.render();
         // this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
@@ -95,8 +97,8 @@ export class GameScene {
         }, 1000);
     };
     
-    startTimeout = () => {
-        this.currentTimer.start(gameConsts.TIMER_QUESTION);
+    startTimeout = (time) => {
+        this.currentTimer.start(time);
     };
 
     stopTimeout = () => {
@@ -118,12 +120,14 @@ export class GameScene {
     destroy() {
         this.currentScene.destroy();
 
+        bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
+        bus.off(events.STOP_TIMEOUT_PACK,  this.stopTimeout);
         bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
-        bus.off(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
+        bus.off(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
 
         // this.backButton.removeEventListener('click', this.askForExit);
     }

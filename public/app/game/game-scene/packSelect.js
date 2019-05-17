@@ -1,6 +1,7 @@
 import { CellComponent }      from '../../components/gameBoard/cell/cell.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard';
 import { events } from '../core/events.js';
+import { gameConsts } from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class PackSelectScene  {
@@ -8,10 +9,12 @@ export class PackSelectScene  {
         this.container = container;
         this.cells = [];
 
-        bus.on(events.SELECTED_PACK, this.onSelectedPack);
-        bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
-        bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.on(events.SELECTED_PACK,   this.onSelectedPack);
         bus.on(events.FILL_PACK_BOARD, this.fillPackBoard);
+        bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+        bus.on(events.SET_CURRENT_PLAYER,   this.onChangePlayer);
+        bus.on(events.START_TIMEOUT_PACK, this.startTimeout);
+        bus.on(events.STOP_TIMEOUT_PACK,  this.stopTimeout);
 
         this.render();
     }
@@ -35,6 +38,7 @@ export class PackSelectScene  {
 
         const timer = setInterval(() => {
             const d = data[i];
+            d.index = i;
             const cell = this.cells[i];
             if (!cell) return;
 
@@ -54,6 +58,7 @@ export class PackSelectScene  {
     onChangePlayer = (pl) => {
         const cond = pl === 'me';
         this.packBoard[cond ? 'on': 'off']('click', this.choosePack);
+        bus.emit(events.START_TIMEOUT_PACK, gameConsts.TIMER_PACK);
     };
 
     choosePack = (event) => {
@@ -64,30 +69,45 @@ export class PackSelectScene  {
 
         if ('type' in target.dataset && target.dataset.state === 'active') {
             bus.emit(events.SELECTED_PACK, +target.dataset.id);
+            bus.emit(events.STOP_TIMEOUT_PACK);
         }
     };
 
     onSelectedPack = (id) => {
-        this.cells[id].setFailed();
+        if (id !== -1) {
+            this.cells[id].setFailed();
+        }
     };
 
     onEndPackSelection = () => {
+        this.destroy();
         let i = this.cells.length - 1;
         const timer = setInterval(() => {
             this.cells[i].bgColor = '#fff';
             if (--i < 0) {
-                this.destroy();
                 clearInterval(timer);
             }
         }, 20);
     };
 
+    startTimeout = () => {
+        this.timer = setTimeout(() => {
+            bus.emit(events.SELECTED_PACK, -1);
+            bus.emit(events.ENDED_TIME_TO_PACK);
+        }, gameConsts.TIMER_PACK * 1000);
+    };
+
+    stopTimeout = () => {
+        clearTimeout(this.timer);
+    };
+
     destroy() {
-        this.cells = null;
-        this.packBoard = null;
-        bus.off(events.SELECTED_PACK, this.onSelectedPack);
-        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
-        bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        console.log('destroy packSelect');
+        bus.off(events.SELECTED_PACK,   this.onSelectedPack);
         bus.off(events.FILL_PACK_BOARD, this.fillPackBoard);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+        bus.off(events.SET_CURRENT_PLAYER,   this.onChangePlayer);
+        bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
+        bus.off(events.STOP_TIMEOUT_PACK,  this.stopTimeout);
     }
 }

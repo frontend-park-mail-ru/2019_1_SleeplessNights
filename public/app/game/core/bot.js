@@ -6,7 +6,11 @@ export class BotPlayer {
     constructor() {
         this.waitingTime = botConsts.waitingTime;
         this.winChance = botConsts.winChance;
+        this.packsSelection = true;
+
         bus.on(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
+        bus.on(events.BOT_CHOOSING_PACK,  this.botChoosingPack);
+        bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 
     get randomTime() {
@@ -15,14 +19,31 @@ export class BotPlayer {
         ) + this.waitingTime.max;
     }
 
+    getRandomArrayIndex(arrayLength) {
+        return Math.floor(Math.random() * arrayLength);
+    }
+
     setCurrentPlayer = (pl) => {
         pl === 'bot' ? this.startActing() : null ;
     };
 
     startActing() {
-        bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
-        bus.emit(events.GET_AVAILABLE_CELLS);
+        if (!this.packsSelection) {
+            bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+            bus.emit(events.GET_AVAILABLE_CELLS, 'bot');
+        }
     }
+
+    onEndPackSelection = () => {
+        this.packsSelection = false;
+        bus.off(events.BOT_CHOOSING_PACK,    this.botChoosingPack);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+    };
+
+    stopPackTimeout = () => {
+        clearTimeout(this.packTimer);
+        bus.off(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
+    };
 
     stopQuestionTimeout = () => {
         clearTimeout(this.questionTimer);
@@ -38,15 +59,14 @@ export class BotPlayer {
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
     };
 
-    getRandomArrayIndex(arrayLength) {
-        return Math.floor(Math.random() * arrayLength);
-    }
-
     botChoosingPack = (packs) => {
-       const id = this.getRandomArrayIndex(packs.length);
-        // setTimeout(() => {
-        //
-        // });
+        bus.on(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
+        this.packTimer = setTimeout(() => {
+            bus.off(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
+            const id = packs[this.getRandomArrayIndex(packs.length)];
+            bus.emit(events.SELECTED_PACK, id);
+            bus.emit(events.STOP_TIMEOUT_PACK);
+        }, this.randomTime * 1000);
     };
 
     botChoosingQuestion = (question) => {
@@ -101,14 +121,17 @@ export class BotPlayer {
             const cellIndex = bestCells[this.getRandomArrayIndex(bestCells.length)];//Выбираем случайную клетку из наилучших вариантов
 
             bus.on(events.SELECTED_QUESTION,  this.botChoosingQuestion);
-            bus.emit(events.STOP_TIMEOUT_QUESTION);
+            bus.off(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
+            bus.emit(events.STOP_TIMEOUT_QUESTION, 'bot');
             bus.emit(events.SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
 
     destroy() {
+        bus.off(events.BOT_CHOOSING_PACK,  this.botChoosingPack);
         bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
+        bus.off(events.SELECTED_QUESTION,  this.botChoosingQuestion);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
-        bus.off(events.SELECTED_QUESTION, this.botChoosingQuestion);
     }
 }
