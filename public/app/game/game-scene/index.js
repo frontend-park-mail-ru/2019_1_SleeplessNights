@@ -35,8 +35,6 @@ export class GameScene {
 
     render() {
         this.backButton = new ButtonHomeComponent({
-            href: '/',
-            dataHref: '/',
             mode: 'minified',
             position: 'left',
             className: 'container_theme-primary2'

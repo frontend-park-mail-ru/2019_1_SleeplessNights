@@ -5,26 +5,21 @@ import './button-home.scss';
 
 export class ButtonHomeComponent {
     _className;
-    _dataHref;
-    _href;
     _icon;
     _template;
     _position;
     _mode;
 
     constructor({
-        href = '/',
-        dataHref = 'menu',
         mode = '',
         position = 'left',
         className = ''
     } = {}) {
-        this._href = href;
-        this._dataHref = dataHref;
         this._className = className;
         this._position = position;
         this._mode = mode;
         this._icon = position === 'right' ? 'arrow_forward_ios' : 'arrow_back_ios';
+
         this._render();
     }
 
@@ -35,7 +30,7 @@ export class ButtonHomeComponent {
     _render() {
         const link = new LinkComponent({
             className: 'link_primary',
-            href: '',
+            href: '/',
             dataHref: '/',
             text: '',
             icon: {
@@ -45,16 +40,23 @@ export class ButtonHomeComponent {
         });
 
         if (this._mode === 'minified') {
+
             this._template = template({
-                dataHref:  this._dataHref,
+                dataHref:  '/',
                 className: `${this._className} container container_skewed align-items-center justify-content-right`,
                 icon: link.template
             });
+
         } else {
-            this._template = new ContainerComponent({
-                customClasses: `w3 align-items-center justify-content-center ${this._className}`,
+            let customClasses = `${this._className} align-items-center `;
+            customClasses += this._position === 'right' ? 'w3 justify-content-center' : 'justify-content-right w6';
+
+            const container = new ContainerComponent({
+                customClasses,
                 content: link.template
             });
+
+            this._template = container.template;
         }
     }
 }
