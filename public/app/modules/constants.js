@@ -32,7 +32,7 @@ export const outMessages = {
 };
 
 export const gameConsts = {
-    TIMER_PACK     : 5, // second
+    TIMER_PACK     : 180, // second
     TIMER_QUESTION : 10, // second
     TIMER_ANSWER   : 10, // second
     CELL_COUNT     : 8,

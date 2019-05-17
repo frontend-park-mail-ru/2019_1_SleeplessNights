@@ -3,10 +3,10 @@ import { AvatarComponent }    from '../../components/avatar/avatar.js';
 import { ContainerComponent } from '../../components/container/container.js';
 import { PackSelectScene }    from './packSelect.js';
 import { PlayingScene } from './playing.js';
-import { gameConsts }   from '../../modules/constants.js';
 import { modes }  from '../modes.js';
 import { events } from '../core/events.js';
 import bus from '../../modules/bus.js';
+import {ButtonHomeComponent} from "../../components/buttonHome/buttonHome";
 
 export class GameScene {
     constructor(root, mode) {
@@ -36,11 +36,20 @@ export class GameScene {
     }
 
     render() {
+        this.backButton = new ButtonHomeComponent({
+            href: '/',
+            dataHref: '/',
+            mode: 'minified',
+            position: 'left',
+            className: 'container_theme-primary2'
+        });
+
         this.timerMe = new TimerComponent();
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
         const leftContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
+                ${this.backButton.template}
                 ${this.timerMe.template}
                 ${this.avatarMe.template}
                 <h3 class='container_theme-primary${this.mode}'>${user.nickname}</h3>
@@ -59,7 +68,7 @@ export class GameScene {
         });
 
         this.centreContainer = new ContainerComponent({
-            customClasses: 'w50 align-items-center justify-content-center'
+            customClasses: 'container_column w50 align-items-center justify-content-center'
         });
 
         this.root.insertAdjacentHTML('beforeend', `
