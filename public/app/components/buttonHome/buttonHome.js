@@ -1,7 +1,7 @@
+import { ContainerComponent } from '../container/container.js';
+import { LinkComponent } from '../link/link.js';
 import template from './buttonHome.handlebars';
 import './button-home.scss';
-import {LinkComponent} from "../link/link.js";
-import {ContainerComponent} from "../container/container.js";
 
 export class ButtonHomeComponent {
     _className;
@@ -39,7 +39,7 @@ export class ButtonHomeComponent {
             dataHref: '/',
             text: '',
             icon: {
-                customClasses: 'md-48',
+                customClasses: this._mode === 'minified' ? 'md-36' : 'md-48',
                 name: this._icon
             }
         });
@@ -47,12 +47,12 @@ export class ButtonHomeComponent {
         if (this._mode === 'minified') {
             this._template = template({
                 dataHref:  this._dataHref,
-                className: this._className,
+                className: `${this._className} container container_skewed align-items-center justify-content-right`,
                 icon: link.template
             });
         } else {
             this._template = new ContainerComponent({
-                customClasses: `w3 container_theme-primary2 align-items-center justify-content-center ${this._className}`,
+                customClasses: `w3 align-items-center justify-content-center ${this._className}`,
                 content: link.template
             });
         }

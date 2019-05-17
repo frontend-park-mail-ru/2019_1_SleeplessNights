@@ -96,7 +96,10 @@ export class PlayingScene {
     };
 
     stopTimeout = () => {
-        clearTimeout(this.timer);
+        if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
     };
 
     chooseQuestion = (event) => {
@@ -130,7 +133,7 @@ export class PlayingScene {
     destroy() {
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
-
+        this.stopTimeout();
         bus.off(events.FILL_PACK_LIST,     this.updatePackList);
         bus.off(events.FILL_CELLS,         this.fillCells);
         bus.off(events.SELECTED_CELL,      this.onSelectedCell);

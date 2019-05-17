@@ -1,8 +1,6 @@
 import { SinglePlayer } from './core/singlePlayer.js';
 import { MultiPlayer }  from './core/multiPlayer.js';
 import { GameController } from './controller.js';
-import { PlayingScene }   from './game-scene/playing.js';
-import { PackSelectScene } from './game-scene/packSelect.js';
 import { events } from './core/events.js';
 import { modes } from './modes.js';
 import bus from '../modules/bus.js';
@@ -34,7 +32,7 @@ export class Game {
 
         bus.emit('show-loader');
         bus.emit('check-indexedDB');
-        bus.on('success:check-indexedDB', this.start            );
+        bus.on('success:check-indexedDB', this.start);
     }
 
     start = () => {

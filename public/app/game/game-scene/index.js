@@ -1,12 +1,12 @@
 import { TimerComponent }     from '../../components/timer/timer.js';
 import { AvatarComponent }    from '../../components/avatar/avatar.js';
 import { ContainerComponent } from '../../components/container/container.js';
+import { ButtonHomeComponent } from '../../components/buttonHome/buttonHome.js';
 import { PackSelectScene }    from './packSelect.js';
 import { PlayingScene } from './playing.js';
 import { modes }  from '../modes.js';
 import { events } from '../core/events.js';
 import bus from '../../modules/bus.js';
-import {ButtonHomeComponent} from "../../components/buttonHome/buttonHome";
 
 export class GameScene {
     constructor(root, mode) {
@@ -27,8 +27,6 @@ export class GameScene {
         bus.on(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
         
         this.render();
-        // this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
-        // this.backButton.addEventListener('click', this.askForExit);
     }
     
     get currentTimer() {
@@ -79,6 +77,9 @@ export class GameScene {
 
         this.root.style.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
         this.currentScene = new PackSelectScene(this.root, this.centreContainer);
+
+        this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
+        this.backButton.addEventListener('click', this.askForExit);
     }
 
     onSetMyProfile = (data) => {
@@ -127,6 +128,7 @@ export class GameScene {
     };
 
     destroy() {
+        console.log('destroy GameScene');
         this.currentScene.destroy();
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
@@ -137,7 +139,6 @@ export class GameScene {
         bus.off(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.off(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
-
-        // this.backButton.removeEventListener('click', this.askForExit);
+        this.backButton.removeEventListener('click', this.askForExit);
     }
 }

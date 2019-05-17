@@ -202,13 +202,15 @@ export class SinglePlayer extends GameCore {
         data ? bus.emit(events.GO_TO_PAGE, '/') : bus.emit(events.GO_TO_PAGE, '/singleplayer');
     };
 
-    onGameFinished = () => {
-        this.destroy();
-    };
-
     destroy() {
         super.destroy();
         this.bot.destroy();
+
+        if (this.packsSelection) {
+            bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+            bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+            bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+        }
 
         bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
         bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);

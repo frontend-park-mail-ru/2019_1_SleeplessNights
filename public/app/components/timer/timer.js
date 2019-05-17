@@ -1,4 +1,6 @@
 import { uniqueId } from '../../modules/utils.js';
+import { events } from '../../game/core/events.js';
+import bus from '../../modules/bus.js';
 import template from './timer.handlebars';
 import './timer.scss';
 
@@ -14,6 +16,7 @@ export class TimerComponent {
         this._id = 'timer' + uniqueId();
 
         this._render();
+        bus.on(events.FINISH_GAME, () => this.timer ? this.stop() : null);
     }
 
     get template() {
@@ -51,6 +54,7 @@ export class TimerComponent {
 
     stop() {
         clearInterval(this.timer);
+        this.timer = null;
         this._innerElem.classList.remove('timer_red');
         this._innerElem.innerHTML = '00';
     }

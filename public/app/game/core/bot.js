@@ -41,22 +41,31 @@ export class BotPlayer {
     };
 
     stopPackTimeout = () => {
-        clearTimeout(this.packTimer);
-        bus.off(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
+        if (this.packTimer) {
+            clearTimeout(this.packTimer);
+            this.packTimer = null;
+            bus.off(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
+        }
     };
 
     stopQuestionTimeout = () => {
-        clearTimeout(this.questionTimer);
-        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
-        bus.off(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
+        if (this.questionTimer) {
+            clearTimeout(this.questionTimer);
+            this.questionTimer = null;
+            bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+            bus.off(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
+        }
     };
 
     stopAnswerTimeout = () => {
-        clearTimeout(this.answerTimer);
-        bus.emit(events.SELECTED_ANSWER, -1);
-        bus.off(events.SELECTED_QUESTION,    this.botChoosingQuestion);
-        bus.off(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
-        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        if (this.answerTimer) {
+            clearTimeout(this.answerTimer);
+            this.answerTimer = null;
+            bus.emit(events.SELECTED_ANSWER, -1);
+            bus.off(events.SELECTED_QUESTION,    this.botChoosingQuestion);
+            bus.off(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
+            bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        }
     };
 
     botChoosingPack = (packs) => {
@@ -128,10 +137,16 @@ export class BotPlayer {
     };
 
     destroy() {
+        this.stopPackTimeout();
+        this.stopQuestionTimeout();
+        this.stopAnswerTimeout();
+
         bus.off(events.BOT_CHOOSING_PACK,  this.botChoosingPack);
         bus.off(events.SET_CURRENT_PLAYER, this.setCurrentPlayer);
-        bus.off(events.SELECTED_QUESTION,  this.botChoosingQuestion);
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
-        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        if (!this.packsSelection) {
+            bus.off(events.SELECTED_QUESTION,  this.botChoosingQuestion);
+            bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
+        }
     }
 }

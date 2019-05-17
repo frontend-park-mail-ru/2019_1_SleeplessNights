@@ -101,11 +101,14 @@ export class PackSelectScene  {
     };
 
     stopTimeout = () => {
-        clearTimeout(this.timer);
+        if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
     };
 
     destroy() {
-        console.log('destroy packSelect');
+        this.stopTimeout();
         bus.off(events.SELECTED_PACK,   this.onSelectedPack);
         bus.off(events.FILL_PACK_BOARD, this.fillPackBoard);
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);

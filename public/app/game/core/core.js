@@ -20,7 +20,6 @@ export class GameCore {
 
     start() {
         this.onGetCells = this.onGetCells.bind(this);
-        bus.on(events.FINISH_GAME,   this.onGameFinished);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SELECTED_PACK, this.onSelectedPack);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
@@ -115,12 +114,7 @@ export class GameCore {
         throw new Error('This method must be overridden');
     };
 
-    onGameFinished = () => {
-        throw new Error('This method must be overridden');
-    };
-
     destroy() {
-        bus.off(events.FINISH_GAME, this.onGameFinished);
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
