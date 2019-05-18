@@ -160,6 +160,7 @@ export class ProfileView extends BaseView {
 
         this._scoreSection = list.template;
         this._onSubmit();
+        bus.emit('avatar-loading');
     }
 
     _onSubmit() {

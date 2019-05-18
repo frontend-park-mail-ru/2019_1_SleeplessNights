@@ -1,0 +1,8 @@
+@import "../../../../assets/scss/global";
+
+.avatar__edit-photo {
+  display: flex;
+  flex-wrap: wrap;
+  width:$avatar-size;
+  height:$avatar-size;
+}
