@@ -107,14 +107,14 @@ export class MenuView extends BaseView {
     }
 
     hide() {
-        this.hideAnimate();
+        this.hideAnimation();
         setTimeout(() => super.hide(), animationTime * 1000);
     }
 
     show() {
         this._render();
         super.show();
-        this.showAnimate();
+        this.showAnimation();
     }
 
     get pageTitle() {
@@ -237,7 +237,7 @@ export class MenuView extends BaseView {
         });
     }
 
-    hideAnimate() {
+    hideAnimation() {
         if (this._side.includes('play')) {
             this.root.parent.classList.add(this.animationClass);
             this.rightContainer.addClass('anim-opacity');
@@ -246,9 +246,9 @@ export class MenuView extends BaseView {
             this.leftContainer.addClass(this.animationClass);
         }
 
-        this.rightContainer.hideContentAnimate();
-        this.leftContainer.hideContentAnimate();
-        this.navbar.hideContentAnimate();
+        this.rightContainer.hideContent();
+        this.leftContainer.hideContent();
+        this.navbar.hideContent();
 
         setTimeout(() => {
             if (this._side.includes('play')) {
@@ -261,9 +261,9 @@ export class MenuView extends BaseView {
         }, animationTime * 1000 + 350);
     }
 
-    showAnimate() {
-        this.rightContainer.showContentAnimate();
-        this.leftContainer.showContentAnimate();
-        this.navbar.showContentAnimate();
+    showAnimation() {
+        this.rightContainer.showContent();
+        this.leftContainer.showContent();
+        this.navbar.showContent();
     }
 }

@@ -59,14 +59,14 @@ export class ContainerComponent {
         return [...this._innerElem.children];
     }
 
-    hideContentAnimate() {
+    hideContent() {
         this.children.forEach(c => c.classList.add('anim-opacity'));
         setTimeout(() => {
             this.children.forEach(c => c.classList.remove('anim-opacity-'));
         }, 1250);
     }
 
-    showContentAnimate() {
+    showContent() {
         this.children.forEach(c => c.classList.add('anim-opacity-2'));
         setTimeout(() => {
             this.children.forEach(c => c.classList.remove('anim-opacity-2'));
