@@ -100,7 +100,7 @@ bus.on('get-profile', () => {
 
 bus.on('update-profile', (data) => {
     ProfileService.updateProfile(data)
-        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatarPath)))
+        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatar_path)))
         .catch(res => bus.emit('error:update-profile', res.data));
 });
 

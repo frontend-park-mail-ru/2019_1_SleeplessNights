@@ -44,6 +44,13 @@ export class AvatarComponent {
         return document.getElementById(this._id);
     }
 
+    get canvasImage() {
+        if (this._canvas)
+            return this._canvas.toDataURL();
+
+        return null;
+    }
+
     set src(path) {
         this.innerElement.src = path;
     }
