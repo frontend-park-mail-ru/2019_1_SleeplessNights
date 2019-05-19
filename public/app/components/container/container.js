@@ -51,6 +51,12 @@ export class ContainerComponent {
         return this._template;
     }
 
+    hideContentAnimate() {
+        [...this._innerElem.children].forEach(c =>
+            c.classList.add('anim-opacity')
+        );
+    }
+
     _render() {
         this._template = template({
             customClasses: this._customClasses,

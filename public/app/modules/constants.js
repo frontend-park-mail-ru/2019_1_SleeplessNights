@@ -69,3 +69,4 @@ export const botConsts = {
 };
 
 export const gameName = 'Quiz Planet';
+export const animationTime = 2;

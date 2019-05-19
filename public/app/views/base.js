@@ -27,11 +27,11 @@ export class BaseView {
         customClasses,
         container = ''
     } = {}) {
-        const base = new ContainerComponent({
+        this.root = new ContainerComponent({
             customClasses,
             content: container
         });
 
-        this._el.innerHTML = base.template;
+        this._el.innerHTML = this.root.template;
     }
 }

@@ -1,3 +1,5 @@
+import { animationTime } from './constants.js';
+
 export class Router {
     constructor (root) {
         this.routes = {};
@@ -24,16 +26,12 @@ export class Router {
     }
 
     open(path) {
+        this.waitingTime = 0;
         const route = this.routes[ path ];
 
         if (!route) {
             this.open('/not-found');
             return;
-        }
-
-        const currentPath = window.location.pathname.replace(/\/$/, '');
-        if (currentPath !== path) {
-            window.history.pushState(null, '', path);
         }
 
         let { View, view, el } = route;
@@ -47,14 +45,22 @@ export class Router {
             view = new View(el);
         }
 
-        Object.values(this.routes).forEach( ({view}) => {
+        Object.values(this.routes).forEach( ({ view }) => {
             if (view && view.active) {
                 view.hide();
+                this.waitingTime = animationTime;
             }
         });
 
-        view.show();
-        document.title = view.pageTitle;
+        setTimeout(() => {
+            const currentPath = window.location.pathname.replace(/\/$/, '');
+            if (currentPath !== path) {
+                window.history.pushState(null, '', path);
+            }
+
+            view.show();
+            document.title = view.pageTitle;
+        }, this.waitingTime * 1000);
 
         this.routes[ path ] = { View, view, el };
     }

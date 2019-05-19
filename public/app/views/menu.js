@@ -1,12 +1,13 @@
-import { gameName } from '../modules/constants.js';
-import { BaseView } from './base.js';
 import { LinkComponent }      from '../components/link/link.js';
 import { IconComponent }      from '../components/icon/icon.js';
 import { ContainerComponent } from '../components/container/container.js';
+import { BaseView } from './base.js';
+import { gameName, animationTime } from '../modules/constants.js';
 
 export class MenuView extends BaseView {
     constructor(el) {
         super(el);
+        this._side = '';
         this._pageTitle = gameName;
         this._items = new Map([
             [
@@ -106,13 +107,34 @@ export class MenuView extends BaseView {
         };
     }
 
+    hide() {
+        const body = this.root._innerElem.parentElement;
+        let animationClass = `anim-page-${this._side}`;
+
+        if (this._side.includes('play')) {
+            body.classList.add(`page-bg-${this._side}`);
+            body.classList.add(animationClass);
+            this.rightContainer._innerElem.classList.add('anim-opacity');
+            this.leftContainer._innerElem.classList.add(`${animationClass.replace('-play', '')}-container`);
+        }
+
+        this.leftContainer._innerElem.classList.add(animationClass);
+        setTimeout(() => {
+            super.hide();
+        }, animationTime * 1000);
+    }
+
     get pageTitle() {
         return this._pageTitle;
     }
 
+    get waitingTime() {
+
+    }
+
     get _leftContainer() {
         const singlePlayerBtn = new LinkComponent(this._singleBtn);
-        const singlePlayer = new ContainerComponent({
+        this.singlePlayer = new ContainerComponent({
             customClasses: 'container__absolute-left w40-vw align-items-center justify-content-center h100',
             content:       singlePlayerBtn.template
         });
@@ -121,14 +143,14 @@ export class MenuView extends BaseView {
             customClasses: 'centered-icon',
             name: 'play_circle_outline'
         });
-        this.leftBtnCotainer = new ContainerComponent({
+        this.leftBtnContainer = new ContainerComponent({
            customClasses: 'container__absolute w100-vw justify-content-center align-items-center',
            content:       playBtn.template
         });
 
         this.leftContainer = new ContainerComponent({
             customClasses: 'container__absolute container_theme-primary1 container_cursor-pointer overflow-hidden w50 width-animation',
-            content: ` ${singlePlayer.template} ${this.leftBtnCotainer.template} `
+            content: ` ${this.singlePlayer.template} ${this.leftBtnContainer.template} `
         });
 
         return this.leftContainer;
@@ -145,14 +167,14 @@ export class MenuView extends BaseView {
             customClasses: 'centered-icon',
             name: 'play_circle_outline'
         });
-        this.rightBtnCotainer = new ContainerComponent({
+        this.rightBtnContainer = new ContainerComponent({
             customClasses: 'container__absolute w100-vw justify-content-center align-items-center',
             content:       playBtn.template
         });
 
         this.rightContainer = new ContainerComponent({
             customClasses: 'container__absolute-right container_cursor-pointer container_theme-primary2 w100',
-            content: ` ${multiPlayer.template} ${this.rightBtnCotainer.template} `
+            content: ` ${multiPlayer.template} ${this.rightBtnContainer.template} `
         });
 
         return this.rightContainer;
@@ -186,10 +208,12 @@ export class MenuView extends BaseView {
             `
         });
 
-        return new ContainerComponent({
+        this.navbar = new ContainerComponent({
             customClasses: 'container__absolute-top container__absolute_skewed container_theme-secondary w100',
             content: ` ${navbarContainer1.template} ${navbarContainer2.template} `
         });
+
+        return this.navbar;
     }
 
     show() {
@@ -208,9 +232,33 @@ export class MenuView extends BaseView {
     }
 
     startListening() {
-        this.rightBtnCotainer.href = '/multiplayer';
-        this.leftBtnCotainer.href = '/singleplayer';
-        this.rightContainer.on('mouseover', () => this.leftContainer.width = '43%');
-        this.leftContainer.on('mouseover', () => this.leftContainer.width = '57%');
+        this.rightBtnContainer.href = '/multiplayer';
+        this.leftBtnContainer.href = '/singleplayer';
+        this.rightContainer.on('mouseover', () => {
+            this.leftContainer.width = '43%';
+            this._side = 'right-play';
+        });
+
+        this.leftContainer.on('mouseover', () => {
+            this.leftContainer.width = '57%';
+            this._side = 'left-play';
+        });
+
+        this.navbar.on('mouseover', () => {
+            this._side = this._side.replace('-play', '');
+            console.log(this._side);
+        });
+
+        this.leftContainer.on('animationstart', () => {
+            this.rightContainer.hideContentAnimate();
+            this.leftContainer.hideContentAnimate();
+            this.navbar.hideContentAnimate();
+        });
+
+        // this.leftContainer.on('animationend', (e) => {
+        //     console.log('Ended animation');
+        //     console.log(e.elapsedTime);
+        //     // this.leftBtnContainer._innerElem.style.opacity = 0;
+        // });
     }
 }

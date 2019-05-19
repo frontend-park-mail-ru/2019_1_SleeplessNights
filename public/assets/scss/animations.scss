@@ -1,0 +1,103 @@
+$animation-time: 2s;
+$animation-type: ease-in-out;
+
+.anim-page-left-container {
+  animation: page-left-play-container $animation-time $animation-type;
+}
+
+@keyframes page-left-play-container {
+  to {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+.anim-page-right-container {
+  animation: page-right-play-container $animation-time $animation-type;
+}
+
+@keyframes page-right-play-container {
+  to {
+    opacity: 0;
+    width: 0;
+  }
+}
+
+.anim-page-right {
+  animation: page-right $animation-time $animation-type;
+}
+
+@keyframes page-right {
+  to {
+    width: 5%;
+  }
+}
+
+.anim-page-left {
+  animation: page-left $animation-time $animation-type;
+}
+
+@keyframes page-left {
+  to {
+    width: 97%;
+  }
+}
+
+.page-bg-left-play {
+  background:
+          linear-gradient(94deg,
+                  var(--primary-color1)   12.45%,
+                  var(--secondary-color2) 12.5%,
+                  var(--secondary-color2) 37.45%,
+                  var(--primary-color1)   37.5%,
+                  var(--primary-color1)   51%,
+                  var(--primary-color2)   51.1%
+          ) 100%;
+  background-size: 200% 100%;
+}
+
+.anim-page-left-play {
+  animation: page-left-play $animation-time $animation-type;
+}
+
+@keyframes page-left-play {
+  to {
+    background-position-x: 0%;
+  }
+}
+
+.anim-page-right-play {
+  animation: page-right-play $animation-time $animation-type;
+}
+
+.page-bg-right-play {
+  background:
+          linear-gradient(94deg,
+                  var(--primary-color1)   48.9%,
+                  var(--primary-color2)   49%,
+                  var(--primary-color2)   62.45%,
+                  var(--secondary-color2) 62.5%,
+                  var(--secondary-color2) 87.45%,
+                  var(--primary-color2)   87.5%) 0;
+  background-size: 200% 100%;
+}
+
+@keyframes page-right-play {
+  to {
+    background-position-x: 100%;
+  }
+}
+
+.anim-opacity {
+  animation: page-opacity $animation-time $animation-type;
+}
+
+@keyframes page-opacity {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
