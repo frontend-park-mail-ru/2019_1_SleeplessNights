@@ -62,8 +62,8 @@ export class ContainerComponent {
     hideContent() {
         this.children.forEach(c => c.classList.add('anim-opacity'));
         setTimeout(() => {
-            this.children.forEach(c => c.classList.remove('anim-opacity-'));
-        }, 1250);
+            this.children.forEach(c => c.classList.remove('anim-opacity'));
+        }, 2250);
     }
 
     showContent() {
@@ -71,6 +71,16 @@ export class ContainerComponent {
         setTimeout(() => {
             this.children.forEach(c => c.classList.remove('anim-opacity-2'));
         }, 1250);
+    }
+
+    show() {
+        this.addClass('anim-opacity-2');
+        setTimeout(() => this.removeClass('anim-opacity-2'), 1250);
+    }
+
+    hide() {
+        this.addClass('anim-opacity');
+        setTimeout(() => this.removeClass('anim-opacity'), 2250);
     }
 
     addClass(name) {

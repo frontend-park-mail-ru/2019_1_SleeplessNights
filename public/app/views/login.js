@@ -4,6 +4,7 @@ import { HeaderComponent } from '../components/header/header.js';
 import { IconComponent }   from '../components/icon/icon.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
 
 export class LoginView extends BaseView {
@@ -107,12 +108,12 @@ export class LoginView extends BaseView {
             `
         });
 
-        const outerContainer = new ContainerComponent({
+        this.outerContainer = new ContainerComponent({
             customClasses: 'w74 container_theme-primary2 justify-content-center align-items-center',
             content: innerContainer.template
         });
 
-        const signupContainer = new ContainerComponent({
+        this.signupContainer = new ContainerComponent({
             customClasses: 'w20 container_theme-secondary1 justify-content-center align-items-center',
             content: `Нет аккаунта? ${link.template}`
         });
@@ -121,8 +122,8 @@ export class LoginView extends BaseView {
             customClasses: 'container_skewed container__absolute h100 w100',
             container: `
                 ${this.backBtn.template}
-                ${outerContainer.template}
-                ${signupContainer.template}
+                ${this.outerContainer.template}
+                ${this.signupContainer.template}
             `,
         });
 
@@ -149,5 +150,24 @@ export class LoginView extends BaseView {
             this._form.reset();
             bus.emit('check-validity-login', inputs);
         });
+    }
+
+    hideAnimation() {
+        this._backBtn.hideContent();
+        this.outerContainer.hideContent();
+        this._backBtn.addClass('anim-page-left');
+        this.outerContainer.addClass('anim-page-left');
+        this.signupContainer.hide();
+
+        setTimeout(() => {
+            this._backBtn.removeClass('anim-page-left');
+            this.outerContainer.removeClass('anim-page-left');
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this._backBtn.showContent();
+        this.outerContainer.showContent();
+        this.signupContainer.show();
     }
 }

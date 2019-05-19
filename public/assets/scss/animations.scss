@@ -1,11 +1,32 @@
+@import 'global';
+
 $animation-time: 2070ms;
 $animation-type: ease-in-out;
+$bg-degree: 94deg;
+$bg-play-left:
+        linear-gradient($bg-degree,
+            var(--primary-color1)   12.45%,
+            var(--secondary-color2) 12.5%,
+            var(--secondary-color2) 37.45%,
+            var(--primary-color1)   37.5%,
+            var(--primary-color1)   74.9%,
+            var(--primary-color2)   75%
+        );
+$bg-play-right:
+        linear-gradient($bg-degree,
+            var(--primary-color1)   24.9%,
+            var(--primary-color2)   25%,
+            var(--primary-color2)   62.45%,
+            var(--secondary-color2) 62.5%,
+            var(--secondary-color2) 87.45%,
+            var(--primary-color2)   87.5%
+        );
 
 .anim-page-left-container {
-  animation: page-left-play-container $animation-time $animation-type;
+  @include animation(page-left-play-container $animation-time $animation-type);
 }
 
-@keyframes page-left-play-container {
+@include keyframes(page-left-play-container) {
   to {
     opacity: 0;
     width: 100%;
@@ -13,10 +34,10 @@ $animation-type: ease-in-out;
 }
 
 .anim-page-right-container {
-  animation: page-right-play-container $animation-time $animation-type;
+  @include animation(page-right-play-container $animation-time $animation-type);
 }
 
-@keyframes page-right-play-container {
+@include keyframes(page-right-play-container) {
   to {
     opacity: 0;
     width: 0;
@@ -24,17 +45,17 @@ $animation-type: ease-in-out;
 }
 
 .anim-page-right {
-  animation: page-right $animation-time $animation-type;
+  @include animation(page-right $animation-time $animation-type);
 }
 
-@keyframes page-right {
+@include keyframes(page-right) {
   to {
     width: 6%;
   }
 }
 
 .anim-page-left {
-  animation: page-left $animation-time $animation-type;
+  @include animation(page-left $animation-time $animation-type);
 }
 
 @keyframes page-left {
@@ -44,49 +65,50 @@ $animation-type: ease-in-out;
 }
 
 .anim-page-left-play {
-  background:
-          linear-gradient(94deg,
-                  var(--primary-color1)   12.45%,
-                  var(--secondary-color2) 12.5%,
-                  var(--secondary-color2) 37.45%,
-                  var(--primary-color1)   37.5%,
-                  var(--primary-color1)   51%,
-                  var(--primary-color2)   51.1%
-          ) 100%;
-  background-size: 200% 100%;
-  animation: page-left-play $animation-time $animation-type;
+  background: $bg-play-left;
+  @include bg-position-x(100%);
+  @include background-size(200% 100%);
+  @include animation(page-left-play $animation-time $animation-type);
 }
 
-@keyframes page-left-play {
+@include keyframes(page-left-play){
   to {
-    background-position-x: 0%;
+    @include bg-position-x(0);
   }
 }
 
 .anim-page-right-play  {
-  background:
-          linear-gradient(94deg,
-                  var(--primary-color1)   48.9%,
-                  var(--primary-color2)   49%,
-                  var(--primary-color2)   62.45%,
-                  var(--secondary-color2) 62.5%,
-                  var(--secondary-color2) 87.45%,
-                  var(--primary-color2)   87.5%) 0;
-  background-size: 200% 100%;
-  animation: page-right-play $animation-time $animation-type;
+  background: $bg-play-right;
+  @include bg-position-x(0);
+  @include background-size(200% 100%);
+  @include animation(page-right-play $animation-time $animation-type);
 }
 
-@keyframes page-right-play {
+.anim-page-play-1 {
+  background: $bg-play-left;
+  @include bg-position-x(0);
+  @include background-size(200% 100%);
+  @include animation(page-right-play $animation-time $animation-type);
+}
+
+.anim-page-play-2 {
+  background: $bg-play-right;
+  @include bg-position-x(100%);
+  @include background-size(200% 100%);
+  @include animation(page-left-play $animation-time $animation-type);
+}
+
+@include keyframes(page-right-play) {
   to {
-    background-position-x: 100%;
+    @include bg-position-x(100%);
   }
 }
 
 .anim-opacity {
-  animation: page-opacity $animation-time $animation-type;
+  @include animation(page-opacity $animation-time $animation-type);
 }
 
-@keyframes page-opacity {
+@include keyframes(page-opacity) {
   from {
     opacity: 1;
   }
@@ -97,10 +119,10 @@ $animation-type: ease-in-out;
 }
 
 .anim-opacity-2 {
-  animation: page-opacity-2 $animation-time / 2 $animation-type;
+  @include animation(page-opacity-2 $animation-time / 2 $animation-type);
 }
 
-@keyframes page-opacity-2 {
+@include keyframes(page-opacity-2) {
   from {
     opacity: 0;
   }

@@ -7,6 +7,7 @@ import { ButtonHomeComponent } from '../components/buttonHome/buttonHome.js';
 import { IconComponent } from '../components/icon/icon.js';
 import { BaseView } from './base.js';
 import bus from '../modules/bus.js';
+import {animationTime} from "../modules/constants";
 
 export class ProfileView extends BaseView {
     _pageTitle;
@@ -209,5 +210,11 @@ export class ProfileView extends BaseView {
             // this._scoreSection = list.template;
             this._avatar.src = profile.avatarPath;
         });
+    }
+
+    hideAnimation() {
+    }
+
+    showAnimation() {
     }
 }

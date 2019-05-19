@@ -11,6 +11,7 @@ import bus from '../../modules/bus.js';
 export class GameScene {
     constructor(root, mode) {
         this.root = root;
+        this.active = true;
         this.avatarMe = null;
         this.avatarOpponent = null;
         this.currentScene = null;
@@ -42,7 +43,7 @@ export class GameScene {
 
         this.timerMe = new TimerComponent();
         this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const leftContainer = new ContainerComponent({
+        this.leftContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
                 ${this.backButton.template}
@@ -54,7 +55,7 @@ export class GameScene {
 
         this.timerOpponent = new TimerComponent();
         this.avatarOpponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const rightContainer = new ContainerComponent({
+        this.rightContainer = new ContainerComponent({
             customClasses: 'w25 align-items-center justify-content-center container_column',
             content: `
                 ${this.timerOpponent.template}
@@ -68,9 +69,9 @@ export class GameScene {
         });
 
         this.root.insertAdjacentHTML('beforeend', `
-                ${leftContainer.template}
+                ${this.leftContainer.template}
                 ${this.centreContainer.template}
-                ${rightContainer.template}
+                ${this.rightContainer.template}
             `);
 
         this.root.style.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
@@ -78,6 +79,7 @@ export class GameScene {
 
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
         this.backButton.addEventListener('click', this.askForExit);
+        this.showAnimation();
     }
 
     onSetMyProfile = (data) => {
@@ -105,13 +107,8 @@ export class GameScene {
         }, 1000);
     };
     
-    startTimeout = (time) => {
-        this.currentTimer.start(time);
-    };
-
-    stopTimeout = () => {
-        this.currentTimer.stop();
-    };
+    startTimeout = (time) => this.currentTimer.start(time);
+    stopTimeout = () => this.currentTimer.stop();
 
     askForExit = (event) => {
         const ask = confirm(`При выходе из игры удаляеться текущая сессия игры.
@@ -125,7 +122,25 @@ export class GameScene {
         }
     };
 
+    showAnimation() {
+        this.centreContainer.showContent();
+        this.leftContainer.showContent();
+        this.rightContainer.showContent();
+    }
+
+    hideAnimation() {
+        this.root.classList.add(`anim-page-play-${this.mode}`);
+        this.root.removeAttribute('style');
+        this.rightContainer.hideContent();
+        this.leftContainer.hideContent();
+        this.centreContainer.hideContent();
+    }
+
     destroy() {
+        if (this.active) {
+            this.hideAnimation();
+            this.active = false;
+        }
         this.currentScene.destroy();
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);

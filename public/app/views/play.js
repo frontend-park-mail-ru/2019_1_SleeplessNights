@@ -1,5 +1,6 @@
 import { BaseView } from './base.js';
 import { Game }  from '../game/game.js';
+import { animationTime } from '../modules/constants.js';
 
 export class PlayView extends BaseView {
     constructor(el) {
@@ -9,6 +10,10 @@ export class PlayView extends BaseView {
 
     get pageTitle() {
         return this._pageTitle;
+    }
+
+    hide() {
+        setTimeout(() => super.hide(), animationTime * 1000);
     }
 
     show() {

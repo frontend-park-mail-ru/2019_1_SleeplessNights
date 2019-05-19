@@ -106,15 +106,14 @@ export class MenuView extends BaseView {
         };
     }
 
-    hide() {
-        this.hideAnimation();
-        setTimeout(() => super.hide(), animationTime * 1000);
-    }
+    // hide() {
+    //     this.hideAnimation();
+    //     setTimeout(() => super.hide(), animationTime * 1000);
+    // }
 
     show() {
         this._render();
         super.show();
-        this.showAnimation();
     }
 
     get pageTitle() {

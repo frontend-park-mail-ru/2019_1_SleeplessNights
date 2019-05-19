@@ -205,6 +205,18 @@ $grid-rows: (
   animation: $args;
 }
 
+@mixin bg-position-x($args) {
+  -ms-background-position-x: $args;
+  background-position-x: $args;
+}
+
+@mixin bg-size($args) {
+  -moz-background-size: $args;
+  -o-background-size: $args;
+  -webkit-background-size: $args;
+  background-size: $args;
+}
+
 @mixin keyframes($name) {
   @-webkit-keyframes #{$name} {
     @content;

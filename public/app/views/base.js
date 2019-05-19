@@ -1,4 +1,5 @@
 import { ContainerComponent } from '../components/container/container.js';
+import { animationTime } from '../modules/constants.js';
 
 export class BaseView {
     constructor(el = document.body) {
@@ -16,11 +17,21 @@ export class BaseView {
     }
 
     hide() {
-        this.el.hidden = true;
+        this.hideAnimation();
+        setTimeout(() => this.el.hidden = true, animationTime * 1000);
     }
 
     show() {
         this.el.hidden = false;
+        this.showAnimation();
+    }
+
+    hideAnimation() {
+        throw new Error('This method must be overridden');
+    }
+
+    showAnimation() {
+        throw new Error('This method must be overridden');
     }
 
     renderContainer({

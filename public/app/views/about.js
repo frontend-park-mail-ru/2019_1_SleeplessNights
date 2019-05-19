@@ -4,6 +4,7 @@ import { LinkComponent }   from '../components/link/link.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 
 export class AboutView extends BaseView {
     _pageTitle;
@@ -137,7 +138,7 @@ export class AboutView extends BaseView {
             `
         });
 
-        const outerContainer = new ContainerComponent({
+        this.outerContainer = new ContainerComponent({
             customClasses: 'w97 container_theme-secondary1 justify-content-center overflow-y-scroll',
             content: innerContainer.template
         });
@@ -145,11 +146,28 @@ export class AboutView extends BaseView {
         super.renderContainer({
             customClasses: 'container_skewed h100 container__absolute',
             container: `
-                ${outerContainer.template}
+                ${this.outerContainer.template}
                 ${this.backBtn.template}
             `,
         });
 
         this._backBtn.href = '/';
+    }
+
+    hideAnimation() {
+        this._backBtn.hideContent();
+        this.outerContainer.hideContent();
+        this._backBtn.addClass('anim-page-left');
+        this.outerContainer.addClass('anim-page-left');
+
+        setTimeout(() => {
+            this._backBtn.removeClass('anim-page-left');
+            this.outerContainer.removeClass('anim-page-left');
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this._backBtn.showContent();
+        this.outerContainer.showContent();
     }
 }

@@ -4,11 +4,10 @@ import { IconComponent }   from '../components/icon/icon.js';
 import { LinkComponent }   from '../components/link/link.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
 
 export class LeadersView extends BaseView {
-    _pageTitle;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Таблица лидеров';
@@ -52,7 +51,7 @@ export class LeadersView extends BaseView {
 
     _render() {
         const board = new BoardComponent();
-        const container = new ContainerComponent({
+        this.container = new ContainerComponent({
            customClasses: 'container_column w97 container_theme-secondary1 align-items-center justify-content-center',
            content: `
               ${this._header.template}
@@ -63,12 +62,29 @@ export class LeadersView extends BaseView {
         super.renderContainer({
             customClasses: 'container_skewed h100 container__absolute w100',
             container: `
-                ${container.template}
+                ${this.container.template}
                 ${this.backBtn.template}
             `,
         });
 
         this._backBtn.href = '/';
         bus.emit('fetch-leaders');
+    }
+
+    hideAnimation() {
+        this._backBtn.hideContent();
+        this.container.hideContent();
+        this._backBtn.addClass('anim-page-left');
+        this.container.addClass('anim-page-left');
+
+        setTimeout(() => {
+            this._backBtn.removeClass('anim-page-left');
+            this.container.removeClass('anim-page-left');
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this._backBtn.showContent();
+        this.container.showContent();
     }
 }

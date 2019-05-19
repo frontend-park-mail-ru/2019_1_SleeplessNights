@@ -170,4 +170,10 @@ export class SignUpView extends BaseView {
             bus.emit('check-validity-signup', inputs);
         });
     }
+
+    hideAnimation() {
+    }
+
+    showAnimation() {
+    }
 }
