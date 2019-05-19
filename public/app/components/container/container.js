@@ -51,10 +51,34 @@ export class ContainerComponent {
         return this._template;
     }
 
+    get parent() {
+        return this._innerElem.parentElement;
+    }
+
+    get children() {
+        return [...this._innerElem.children];
+    }
+
     hideContentAnimate() {
-        [...this._innerElem.children].forEach(c =>
-            c.classList.add('anim-opacity')
-        );
+        this.children.forEach(c => c.classList.add('anim-opacity'));
+        setTimeout(() => {
+            this.children.forEach(c => c.classList.remove('anim-opacity-'));
+        }, 1250);
+    }
+
+    showContentAnimate() {
+        this.children.forEach(c => c.classList.add('anim-opacity-2'));
+        setTimeout(() => {
+            this.children.forEach(c => c.classList.remove('anim-opacity-2'));
+        }, 1250);
+    }
+
+    addClass(name) {
+        this._innerElem.classList.add(name);
+    }
+
+    removeClass(name) {
+        this._innerElem.classList.remove(name);
     }
 
     _render() {

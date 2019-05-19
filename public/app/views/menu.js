@@ -94,7 +94,6 @@ export class MenuView extends BaseView {
                 name: 'person'
             }
         };
-
         this._multiBtn = {
             href: 'play',
             dataHref: 'play',
@@ -108,28 +107,22 @@ export class MenuView extends BaseView {
     }
 
     hide() {
-        const body = this.root._innerElem.parentElement;
-        let animationClass = `anim-page-${this._side}`;
+        this.hideAnimate();
+        setTimeout(() => super.hide(), animationTime * 1000);
+    }
 
-        if (this._side.includes('play')) {
-            body.classList.add(`page-bg-${this._side}`);
-            body.classList.add(animationClass);
-            this.rightContainer._innerElem.classList.add('anim-opacity');
-            this.leftContainer._innerElem.classList.add(`${animationClass.replace('-play', '')}-container`);
-        }
-
-        this.leftContainer._innerElem.classList.add(animationClass);
-        setTimeout(() => {
-            super.hide();
-        }, animationTime * 1000);
+    show() {
+        this._render();
+        super.show();
+        this.showAnimate();
     }
 
     get pageTitle() {
         return this._pageTitle;
     }
 
-    get waitingTime() {
-
+    get animationClass() {
+        return `anim-page-${this._side}`;
     }
 
     get _leftContainer() {
@@ -216,11 +209,6 @@ export class MenuView extends BaseView {
         return this.navbar;
     }
 
-    show() {
-        this._render();
-        super.show();
-    }
-
     _render() {
         super.renderContainer({
             customClasses: 'container_skewed container__absolute-top h100 w100',
@@ -246,19 +234,36 @@ export class MenuView extends BaseView {
 
         this.navbar.on('mouseover', () => {
             this._side = this._side.replace('-play', '');
-            console.log(this._side);
         });
+    }
 
-        this.leftContainer.on('animationstart', () => {
-            this.rightContainer.hideContentAnimate();
-            this.leftContainer.hideContentAnimate();
-            this.navbar.hideContentAnimate();
-        });
+    hideAnimate() {
+        if (this._side.includes('play')) {
+            this.root.parent.classList.add(this.animationClass);
+            this.rightContainer.addClass('anim-opacity');
+            this.leftContainer.addClass(`${this.animationClass.replace('-play', '')}-container`);
+        } else {
+            this.leftContainer.addClass(this.animationClass);
+        }
 
-        // this.leftContainer.on('animationend', (e) => {
-        //     console.log('Ended animation');
-        //     console.log(e.elapsedTime);
-        //     // this.leftBtnContainer._innerElem.style.opacity = 0;
-        // });
+        this.rightContainer.hideContentAnimate();
+        this.leftContainer.hideContentAnimate();
+        this.navbar.hideContentAnimate();
+
+        setTimeout(() => {
+            if (this._side.includes('play')) {
+                this.root.parent.classList.remove(this.animationClass);
+                this.rightContainer.removeClass('anim-opacity');
+                this.leftContainer.removeClass(`${this.animationClass.replace('-play', '')}-container`);
+            } else {
+                this.leftContainer.removeClass(this.animationClass);
+            }
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimate() {
+        this.rightContainer.showContentAnimate();
+        this.leftContainer.showContentAnimate();
+        this.navbar.showContentAnimate();
     }
 }

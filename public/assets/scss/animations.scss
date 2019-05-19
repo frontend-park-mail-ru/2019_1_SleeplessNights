@@ -1,4 +1,4 @@
-$animation-time: 2s;
+$animation-time: 2070ms;
 $animation-type: ease-in-out;
 
 .anim-page-left-container {
@@ -29,7 +29,7 @@ $animation-type: ease-in-out;
 
 @keyframes page-right {
   to {
-    width: 5%;
+    width: 6%;
   }
 }
 
@@ -43,7 +43,7 @@ $animation-type: ease-in-out;
   }
 }
 
-.page-bg-left-play {
+.anim-page-left-play {
   background:
           linear-gradient(94deg,
                   var(--primary-color1)   12.45%,
@@ -54,9 +54,6 @@ $animation-type: ease-in-out;
                   var(--primary-color2)   51.1%
           ) 100%;
   background-size: 200% 100%;
-}
-
-.anim-page-left-play {
   animation: page-left-play $animation-time $animation-type;
 }
 
@@ -66,11 +63,7 @@ $animation-type: ease-in-out;
   }
 }
 
-.anim-page-right-play {
-  animation: page-right-play $animation-time $animation-type;
-}
-
-.page-bg-right-play {
+.anim-page-right-play  {
   background:
           linear-gradient(94deg,
                   var(--primary-color1)   48.9%,
@@ -80,6 +73,7 @@ $animation-type: ease-in-out;
                   var(--secondary-color2) 87.45%,
                   var(--primary-color2)   87.5%) 0;
   background-size: 200% 100%;
+  animation: page-right-play $animation-time $animation-type;
 }
 
 @keyframes page-right-play {
@@ -99,5 +93,19 @@ $animation-type: ease-in-out;
 
   to {
     opacity: 0;
+  }
+}
+
+.anim-opacity-2 {
+  animation: page-opacity-2 $animation-time / 2 $animation-type;
+}
+
+@keyframes page-opacity-2 {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

@@ -126,7 +126,6 @@ export class GameScene {
     };
 
     destroy() {
-        console.log('destroy GameScene');
         this.currentScene.destroy();
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
