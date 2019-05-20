@@ -1,7 +1,4 @@
 import { BoardComponent }  from '../components/scoreboard/board.js';
-import { HeaderComponent } from '../components/header/header.js';
-import { IconComponent }   from '../components/icon/icon.js';
-import { LinkComponent }   from '../components/link/link.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
 import { animationTime } from '../modules/constants.js';
@@ -18,35 +15,21 @@ export class LeadersView extends BaseView {
         return this._pageTitle;
     }
 
-    get backBtn() {
-        const link = new LinkComponent({
-            className: 'link_primary',
-            href: '',
-            dataHref: '/',
-            text: '',
-            icon: {
-                customClasses: 'md-48',
-                name: 'arrow_forward_ios'
-            }
-        });
-
-        this._backBtn = new ContainerComponent({
-            customClasses: 'w3 container_theme-primary2 align-items-center justify-content-center',
-            content: link.template
-        });
-
-        return this._backBtn;
+    get _backBtn() {
+        return {
+            position: 'right',
+            className: 'container_theme-primary2'
+        };
     }
-
+    
     get _header() {
-        const leaderIcon = new IconComponent({
-            customClasses: 'md-inherit md-48',
-            name: 'poll'
-        });
-
-        return new HeaderComponent({
-            title: `${leaderIcon.template} Leader Board`
-        });
+        return {
+            icon: {
+                customClasses: 'md-inherit md-48',
+                name: 'poll'
+            },
+            name: 'Leader Board'
+        };
     }
 
     _render() {
@@ -54,7 +37,7 @@ export class LeadersView extends BaseView {
         this.container = new ContainerComponent({
            customClasses: 'container_column w97 container_theme-secondary1 align-items-center justify-content-center',
            content: `
-              ${this._header.template}
+              ${this.header.template}
               ${board.template}
            `
         });
@@ -67,24 +50,23 @@ export class LeadersView extends BaseView {
             `,
         });
 
-        this._backBtn.href = '/';
         bus.emit('fetch-leaders');
     }
 
     hideAnimation() {
-        this._backBtn.hideContent();
+        this.backBtn.container.hideContent();
         this.container.hideContent();
-        this._backBtn.addClass('anim-page-left');
-        this.container.addClass('anim-page-left');
+        this.backBtn.container.addClass('anim-width-to-50');
+        this.container.addClass('anim-width-to-50');
 
         setTimeout(() => {
-            this._backBtn.removeClass('anim-page-left');
-            this.container.removeClass('anim-page-left');
+            this.backBtn.container.removeClass('anim-width-to-50');
+            this.container.removeClass('anim-width-to-50');
         }, animationTime * 1000 + 350);
     }
 
     showAnimation() {
-        this._backBtn.showContent();
+        this.backBtn.container.showContent();
         this.container.showContent();
     }
 }

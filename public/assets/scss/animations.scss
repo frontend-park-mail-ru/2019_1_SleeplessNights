@@ -131,3 +131,22 @@ $bg-play-right:
     opacity: 1;
   }
 }
+
+$animations-width-to: (
+      0: 0,
+      20: 20%,
+      50: 50%,
+      74: 74%,
+);
+
+@each $key, $size in $animations-width-to {
+  &.anim-width-to-#{$key} {
+    @include animation(width-to-#{$key} $animation-time $animation-type);
+  }
+
+  @include keyframes(width-to-#{$key}) {
+    to {
+      width: $size;
+    }
+  }
+}

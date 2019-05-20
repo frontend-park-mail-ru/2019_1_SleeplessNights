@@ -1,4 +1,5 @@
 import { uniqueId, noop } from '../../modules/utils.js';
+import { animationTime } from '../../modules/constants.js';
 import template from './container.handlebars';
 import './container.scss';
 import './__inline-flex/container__inline-flex.scss';
@@ -63,24 +64,24 @@ export class ContainerComponent {
         this.children.forEach(c => c.classList.add('anim-opacity'));
         setTimeout(() => {
             this.children.forEach(c => c.classList.remove('anim-opacity'));
-        }, 2250);
+        },  animationTime * 1000 + 350);
     }
 
     showContent() {
         this.children.forEach(c => c.classList.add('anim-opacity-2'));
         setTimeout(() => {
             this.children.forEach(c => c.classList.remove('anim-opacity-2'));
-        }, 1250);
+        }, (animationTime / 2) * 1000 + 350);
     }
 
     show() {
         this.addClass('anim-opacity-2');
-        setTimeout(() => this.removeClass('anim-opacity-2'), 1250);
+        setTimeout(() => this.removeClass('anim-opacity-2'), (animationTime / 2) * 1000 + 350);
     }
 
     hide() {
         this.addClass('anim-opacity');
-        setTimeout(() => this.removeClass('anim-opacity'), 2250);
+        setTimeout(() => this.removeClass('anim-opacity'), animationTime * 1000 + 350);
     }
 
     addClass(name) {

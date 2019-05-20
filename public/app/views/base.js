@@ -1,4 +1,7 @@
 import { ContainerComponent } from '../components/container/container.js';
+import { HeaderComponent }    from '../components/header/header.js';
+import { ButtonHomeComponent } from '../components/buttonHome/buttonHome.js';
+import { IconComponent } from '../components/icon/icon.js';
 import { animationTime } from '../modules/constants.js';
 
 export class BaseView {
@@ -6,6 +9,17 @@ export class BaseView {
         this._el = el;
         this._el.dataset.view = this.constructor.name;
         this._el.hidden = true;
+
+        if (this._backBtn) {
+            this.backBtn = new ButtonHomeComponent(this._backBtn);
+        }
+
+        if (this._header) {
+            const icon = new IconComponent(this._header.icon);
+            this.header = new HeaderComponent({
+                title: `${icon.template} ${this._header.name}`
+            });
+        }
     }
 
     get el() {
@@ -14,6 +28,14 @@ export class BaseView {
 
     get active() {
         return !this.el.hidden;
+    }
+
+    get _backBtn() {
+        return null;
+    }
+
+    get _header() {
+        return null;
     }
 
     hide() {
@@ -26,13 +48,9 @@ export class BaseView {
         this.showAnimation();
     }
 
-    hideAnimation() {
-        throw new Error('This method must be overridden');
-    }
+    hideAnimation() {}
 
-    showAnimation() {
-        throw new Error('This method must be overridden');
-    }
+    showAnimation() {}
 
     renderContainer({
         customClasses,

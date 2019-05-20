@@ -12,10 +12,6 @@ export class PlayView extends BaseView {
         return this._pageTitle;
     }
 
-    hide() {
-        setTimeout(() => super.hide(), animationTime * 1000);
-    }
-
     show() {
         this._render();
         super.show();

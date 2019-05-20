@@ -1,21 +1,15 @@
 import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
-import { HeaderComponent } from '../components/header/header.js';
-import { IconComponent }   from '../components/icon/icon.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
 import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
 
 export class LoginView extends BaseView {
-    _pageTitle;
-    _formGroups;
-    _form;
-    _formData;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Авторизация';
+        this._side ='';
         this._formGroups = [
             {
                 customClasses: '',
@@ -52,35 +46,21 @@ export class LoginView extends BaseView {
         return this._pageTitle;
     }
 
-    get backBtn() {
-        const link = new LinkComponent({
-            className: 'link_primary',
-            href: '',
-            dataHref: '/',
-            text: '',
-            icon: {
-                customClasses: 'md-48',
-                name: 'arrow_back_ios'
-            }
-        });
-
-        this._backBtn = new ContainerComponent({
-            customClasses: 'container_theme-primary1 align-items-center justify-content-right w6',
-            content: link.template
-        });
-
-        return this._backBtn;
+    get _backBtn() {
+        return {
+            position: 'left',
+            className: 'container_theme-primary1'
+        };
     }
 
     get _header() {
-        const icon = new IconComponent({
-            customClasses: ' md-inherit md-48',
-            name: 'exit_to_app'
-        });
-
-        return new HeaderComponent({
-            title: `${icon.template} Авторизация`
-        });
+        return {
+            icon: {
+                customClasses: 'md-48',
+                name: 'exit_to_app'
+            },
+            name: 'Авторизация'
+        };
     }
 
     show() {
@@ -103,7 +83,7 @@ export class LoginView extends BaseView {
         const innerContainer = new ContainerComponent({
             customClasses: 'w50 container_column',
             content: `
-                ${this._header.template}
+                ${this.header.template}
                 ${this._form.template} 
             `
         });
@@ -114,8 +94,8 @@ export class LoginView extends BaseView {
         });
 
         this.signupContainer = new ContainerComponent({
-            customClasses: 'w20 container_theme-secondary1 justify-content-center align-items-center',
-            content: `Нет аккаунта? ${link.template}`
+            customClasses: 'w20 container_theme-secondary1 justify-content-center align-items-center overflow-hidden',
+            content: `<p>Нет аккаунта?</p> ${link.template}`
         });
 
         super.renderContainer({
@@ -127,8 +107,8 @@ export class LoginView extends BaseView {
             `,
         });
 
-        this._backBtn.href = '/';
         this._onSubmit();
+        this.startListening();
     }
 
     _onSubmit() {
@@ -152,22 +132,40 @@ export class LoginView extends BaseView {
         });
     }
 
+    startListening() {
+        this.signupContainer.on('mouseover', () => this._side = 'to-signup');
+        this.backBtn.container.on('mouseover', () => this._side = 'to-main');
+    }
+
     hideAnimation() {
-        this._backBtn.hideContent();
+        this.backBtn.container.hideContent();
         this.outerContainer.hideContent();
-        this._backBtn.addClass('anim-page-left');
-        this.outerContainer.addClass('anim-page-left');
-        this.signupContainer.hide();
+        this.signupContainer.hideContent();
+
+        if (this._side === 'to-signup') {
+            this.outerContainer.addClass('anim-width-to-20');
+            this.signupContainer.addClass('anim-width-to-74');
+        } else {
+            this.backBtn.container.addClass('anim-width-to-50');
+            this.outerContainer.addClass('anim-width-to-50');
+            this.signupContainer.addClass('anim-width-to-0');
+        }
 
         setTimeout(() => {
-            this._backBtn.removeClass('anim-page-left');
-            this.outerContainer.removeClass('anim-page-left');
+            if (this._side === 'to-signup') {
+                this.outerContainer.removeClass('anim-width-to-20');
+                this.signupContainer.removeClass('anim-width-to-74');
+            } else {
+                this.backBtn.container.removeClass('anim-width-to-50');
+                this.outerContainer.removeClass('anim-width-to-50');
+                this.signupContainer.removeClass('anim-width-to-0');
+            }
         }, animationTime * 1000 + 350);
     }
 
     showAnimation() {
-        this._backBtn.showContent();
+        this.backBtn.container.showContent();
         this.outerContainer.showContent();
-        this.signupContainer.show();
+        this.signupContainer.showContent();
     }
 }

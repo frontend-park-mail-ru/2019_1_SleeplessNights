@@ -1,23 +1,12 @@
 import { ListComponent } from '../components/list/list.js';
 import { FormComponent } from '../components/form/form.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
-import { HeaderComponent } from '../components/header/header.js';
 import { ContainerComponent }  from '../components/container/container.js';
-import { ButtonHomeComponent } from '../components/buttonHome/buttonHome.js';
-import { IconComponent } from '../components/icon/icon.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
-import {animationTime} from "../modules/constants";
 
 export class ProfileView extends BaseView {
-    _pageTitle;
-    _list;
-    _formGroups;
-    _profile;
-    _form;
-    _avatar;
-    _formData;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Профиль игрока'; 
@@ -80,7 +69,7 @@ export class ProfileView extends BaseView {
         this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
@@ -93,22 +82,21 @@ export class ProfileView extends BaseView {
         ss.innerHTML = data;
     }
 
-    get backBtn() {
-        return new ButtonHomeComponent({
+    get _backBtn() {
+        return {
             position: 'left',
             className: 'container_theme-primary1'
-        });
+        };
     }
 
     get _header() {
-        const icon = new IconComponent({
-            customClasses: 'md-48',
-            name: 'account_circle'
-        });
-
-        return new HeaderComponent({
-            title: `${icon.template} Profile`
-        });
+        return {
+            icon: {
+                customClasses: 'md-48',
+                name: 'account_circle'
+            },
+            name: 'Profile'
+        };
     }
 
     show() {
@@ -138,10 +126,10 @@ export class ProfileView extends BaseView {
 
         const innerContainer = new ContainerComponent({
             customClasses: 'w50 justify-content-center container_column',
-            content: ` ${this._header.template} ${formContainer.template}`
+            content: ` ${this.header.template} ${formContainer.template}`
         });
 
-        const outerContainer = new ContainerComponent({
+        this.outerContainer = new ContainerComponent({
             customClasses: 'w97 container_theme-primary2 align-items-center justify-content-center',
             content: innerContainer.template
         });
@@ -150,7 +138,7 @@ export class ProfileView extends BaseView {
             customClasses: 'container_skewed h100 container__absolute w100',
             container: `
                 ${this.backBtn.template}
-                ${outerContainer.template}
+                ${this.outerContainer.template}
             `,
         });
 
@@ -213,8 +201,19 @@ export class ProfileView extends BaseView {
     }
 
     hideAnimation() {
+        this.backBtn.container.hideContent();
+        this.outerContainer.hideContent();
+
+        this.backBtn.container.addClass('anim-width-to-50');
+        this.outerContainer.addClass('anim-width-to-50');
+        setTimeout(() => {
+            this.backBtn.container.removeClass('anim-width-to-50');
+            this.outerContainer.removeClass('anim-width-to-50');
+        }, animationTime * 1000 + 350);
     }
 
     showAnimation() {
+        this.backBtn.container.showContent();
+        this.outerContainer.showContent();
     }
 }
