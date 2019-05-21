@@ -20,6 +20,7 @@ export class GameCore {
 
     start() {
         this.onGetCells = this.onGetCells.bind(this);
+        this.onSelectedPack = this.onSelectedPack.bind(this);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SELECTED_PACK, this.onSelectedPack);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
@@ -39,15 +40,9 @@ export class GameCore {
         };
     };
 
-    onSelectedPack = (id) => {
+    onSelectedPack(id) {
         if (id === -1) return;
         this.packs[id].state = 'deactive';
-        if (++this.selectedPacks === 4) {
-            bus.emit(events.ENDED_PACK_SELECTION);
-            setTimeout(() => {
-                bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
-            }, 1100);
-        }
     };
 
     onGetPacks = (data) => {

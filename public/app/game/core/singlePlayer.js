@@ -69,6 +69,16 @@ export class SinglePlayer extends GameCore {
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     };
 
+    onSelectedPack(id) {
+        super.onSelectedPack(id);
+        if (++this.selectedPacks === 4) {
+            bus.emit(events.ENDED_PACK_SELECTION);
+            setTimeout(() => {
+                bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
+            }, 1100);
+        }
+    };
+
     setAnsweredCell = (answer) => {
         this.gameMatrix[this.selectedCell].answered = true;
         const cond = this.currentPlayer === 'me';

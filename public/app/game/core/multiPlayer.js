@@ -23,6 +23,22 @@ export class MultiPlayer extends GameCore {
             });
     };
 
+    onSelectedPack(id) {
+        super.onSelectedPack(id);
+        bus.emit('game:send-message',
+            {
+                title: outMessages.NOT_DESIRED_PACK,
+                payload: {
+                    pack_id: id
+                }
+            });
+
+        if (++this.selectedPacks === 4) {
+            bus.emit(events.ENDED_PACK_SELECTION);
+            this.notifyReadiness();
+        }
+    };
+
     onSelectedCell = (cellIndex) => {
         const y = Math.floor(cellIndex / this.cellCount);
         const x = cellIndex - (y * this.cellCount);
@@ -52,10 +68,6 @@ export class MultiPlayer extends GameCore {
 
         bus.emit(events.FINISH_GAME);
         data ? bus.emit(events.GO_TO_PAGE, '/') : bus.emit(events.GO_TO_PAGE, '/multiplayer');
-    };
-
-    onGameFinished = () => {
-        this.destroy();
     };
 
     destroy() {

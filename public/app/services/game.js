@@ -6,6 +6,7 @@ import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';
 import idb from '../modules/indexdb.js';
 import config from '../modules/config.js';
+import {gameConsts} from "../modules/constants";
 
 export class GameService {
     constructor() {
@@ -43,8 +44,11 @@ export class GameService {
                 bus.emit(events.SET_OPPONENT_PROFILE, profile);
             } break;
 
-            case inMessages.THEMES: {
-                bus.emit(`success:${events.GET_PACK}-10`, message.payload);
+            case inMessages.AVAILABLE_PACKS: {
+                const packs = message.payload.Packs;
+                gameConsts.TIMER_PACK = message.payload.Time;
+                packs.forEach(p => p.iconPath = makeAvatarPath(p.iconPath));
+                bus.emit(`success:${events.GET_PACK}-10`, packs);
             } break;
 
             case inMessages.QUESTION_THEMES: {

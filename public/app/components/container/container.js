@@ -40,6 +40,10 @@ export class ContainerComponent {
         this._innerElem.innerHTML = data;
     }
 
+    set background(data) {
+        this._innerElem.style.background = data;
+    }
+
     set width(data) {
         this._innerElem.style.width = data;
     }
@@ -90,6 +94,10 @@ export class ContainerComponent {
 
     removeClass(name) {
         this._innerElem.classList.remove(name);
+    }
+
+    insertAdjacentHTML(position, html) {
+        this._innerElem.insertAdjacentHTML(position, html);
     }
 
     _render() {

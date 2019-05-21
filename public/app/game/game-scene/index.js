@@ -68,13 +68,13 @@ export class GameScene {
             customClasses: 'container_column w50 align-items-center justify-content-center'
         });
 
-        this.root.insertAdjacentHTML('beforeend', `
+        this.root.content =  `
                 ${this.leftContainer.template}
                 ${this.centreContainer.template}
                 ${this.rightContainer.template}
-            `);
+            `;
 
-        this.root.style.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
+        this.root.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
         this.currentScene = new PackSelectScene(this.root, this.centreContainer);
 
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
@@ -129,8 +129,8 @@ export class GameScene {
     }
 
     hideAnimation() {
-        this.root.classList.add(`anim-page-play-${this.mode}`);
-        this.root.removeAttribute('style');
+        this.root.addClass(`anim-page-play-${this.mode}`);
+        this.root._innerElem.removeAttribute('style');
         this.rightContainer.hideContent();
         this.leftContainer.hideContent();
         this.centreContainer.hideContent();
