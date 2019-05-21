@@ -14,6 +14,7 @@ export class GameCore {
         this.prizes = [];
         this.selectedPacks = 0;
         this.opponent = null;
+        this.currentPlayer = 'me';
         this.cellCount = gameConsts.CELL_COUNT;
         this.colors = gameConsts.THEME_COLORS.map(c => { return {color: c} });
     }
@@ -23,6 +24,7 @@ export class GameCore {
         this.onSelectedPack = this.onSelectedPack.bind(this);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SELECTED_PACK, this.onSelectedPack);
+        bus.on(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.on(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
@@ -33,6 +35,8 @@ export class GameCore {
         idb.getAll('user', 'nickname', user.nickname);
     }
 
+    setCurrentPlayer = (pl) => this.currentPlayer = pl;
+
     onSetOpponentProfile = (data) => {
         this.opponent = {
             nickname: data.nickname,
@@ -41,6 +45,7 @@ export class GameCore {
     };
 
     onSelectedPack(id) {
+        bus.emit(events.STOP_TIMEOUT_PACK);
         if (id === -1) return;
         this.packs[id].state = 'deactive';
     };
@@ -112,6 +117,7 @@ export class GameCore {
     destroy() {
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
+        bus.off(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
         bus.off(events.SELECTED_PACK,   this.onSelectedPack);
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);

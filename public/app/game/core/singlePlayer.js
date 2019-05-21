@@ -13,11 +13,9 @@ export class SinglePlayer extends GameCore {
         this.selectedCell = null;
         this.packsSelection = true;
         this.packs = [];
-        this.currentPlayer = 'me';
         this.currentQuestion = null;
 
         bus.on(events.FILL_PACK_LIST,      this.onFillPacksList);
-        bus.on(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
         bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
         bus.on(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
@@ -59,8 +57,6 @@ export class SinglePlayer extends GameCore {
             );
         }
     }
-
-    setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     onEndPackSelection = () => {
         this.packsSelection = false;
@@ -223,7 +219,6 @@ export class SinglePlayer extends GameCore {
         }
 
         bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
-        bus.off(events.SET_CURRENT_PLAYER,  this.setCurrentPlayer);
         bus.off(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
         bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);

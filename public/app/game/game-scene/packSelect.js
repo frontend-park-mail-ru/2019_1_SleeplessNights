@@ -72,7 +72,6 @@ export class PackSelectScene  {
 
         if ('type' in target.dataset && target.dataset.state === 'active') {
             bus.emit(events.SELECTED_PACK, +target.dataset.id);
-            bus.emit(events.STOP_TIMEOUT_PACK);
         }
     };
 

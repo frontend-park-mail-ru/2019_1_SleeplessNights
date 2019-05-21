@@ -18,7 +18,7 @@ export const inMessages = {
     OPPONENT_CONTINUES : 'OPPONENT_CONTINUES',  // Оповещаем клиента о желании выйти из игры
     QUESTION_THEMES    : 'QUESTION_THEMES',     // Массив id тем для вопросов
     SELECTED_CELL      : 'SELECTED_CELL',       // выбранная для хода Клетка
-    SELECTED_PACK      : 'SELECTED_PACk',       //
+    SELECTED_PACK      : 'SELECTED_PACK',       //
 };
 
 // ИСХОДЯЩИЕ
@@ -34,9 +34,9 @@ export const outMessages = {
 };
 
 export const gameConsts = {
-    TIMER_PACK     : 180, // second
-    TIMER_QUESTION : 10, // second
-    TIMER_ANSWER   : 10, // second
+    TIMER_PACK     : 20, // second
+    TIMER_QUESTION : 20, // second
+    TIMER_ANSWER   : 20, // second
     CELL_COUNT     : 8,
     FIRST_INDEX    : 0,
     LAST_INDEX     : 63,

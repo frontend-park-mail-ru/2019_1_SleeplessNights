@@ -95,7 +95,7 @@ export class SelectAnswerScene {
             this.answers.get(given).setCorrect();
             isTrue = true;
         } else {
-            if (given !== -1){
+            if (given !== -1) {
                 this.answers.get(given).setFailed();
             }
             this.answers.get(correct).setCorrect();

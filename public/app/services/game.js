@@ -51,12 +51,19 @@ export class GameService {
                 bus.emit(`success:${events.GET_PACK}-10`, packs);
             } break;
 
+            case inMessages.SELECTED_PACK: {
+                let id = message.payload.pack_id;
+                if (id >= 5) id += 2;
+                bus.emit(events.SELECTED_PACK, id);
+            } break;
+
             case inMessages.QUESTION_THEMES: {
                 bus.emit(`success:${events.GET_CELLS}`, message.payload);
             } break;
 
             case inMessages.AVAILABLE_CELLS: {
-                const arr = message.payload;
+                const arr = message.payload.CellsSlice;
+                gameConsts.TIMER_QUESTION = message.payload.Time;
                 arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
                 setTimeout(() =>
                     bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
@@ -65,7 +72,10 @@ export class GameService {
 
             case inMessages.OPPONENT_QUESTION:
             case inMessages.YOUR_QUESTION: {
-                bus.emit(events.SELECTED_QUESTION, JSON.parse(message.payload));
+                const payload = JSON.parse(message.payload);
+                const question = payload.Question;
+                gameConsts.TIMER_ANSWER = payload.Time;
+                bus.emit(events.SELECTED_QUESTION, question);
             } break;
 
             case inMessages.YOUR_ANSWER:

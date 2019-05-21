@@ -7,6 +7,7 @@ export class MultiPlayer extends GameCore {
     constructor() {
         super();
         bus.on(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
+        bus.on(events.ENDED_TIME_TO_QUESTION, () => null);
         bus.on(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 
@@ -25,24 +26,28 @@ export class MultiPlayer extends GameCore {
 
     onSelectedPack(id) {
         super.onSelectedPack(id);
-        bus.emit('game:send-message',
-            {
-                title: outMessages.NOT_DESIRED_PACK,
-                payload: {
-                    pack_id: id
-                }
-            });
+        if (this.currentPlayer === 'me') {
+            if (id >= 5) id -= 2;
+            bus.emit('game:send-message',
+                {
+                    title: outMessages.NOT_DESIRED_PACK,
+                    payload: {
+                        pack_id: id
+                    }
+                });
+        }
 
         if (++this.selectedPacks === 4) {
             bus.emit(events.ENDED_PACK_SELECTION);
-            this.notifyReadiness();
         }
     };
 
     onSelectedCell = (cellIndex) => {
-        const y = Math.floor(cellIndex / this.cellCount);
-        const x = cellIndex - (y * this.cellCount);
-        bus.emit('game:send-message', { title: outMessages.GO_TO, payload: {x, y} });
+        if (this.currentPlayer === 'me') {
+            const y = Math.floor(cellIndex / this.cellCount);
+            const x = cellIndex - (y * this.cellCount);
+            bus.emit('game:send-message', { title: outMessages.GO_TO, payload: {x, y} });
+        }
     };
 
     onGetCells(data) {
@@ -72,6 +77,7 @@ export class MultiPlayer extends GameCore {
 
     destroy() {
         super.destroy();
+        bus.off(events.ENDED_TIME_TO_QUESTION, () => null);
         bus.off(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 }
