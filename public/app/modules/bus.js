@@ -19,7 +19,7 @@ class Bus {
     }
 
     emit(event, data) {
-        console.log('bus-emit', event, data);
+        // console.log('bus-emit', event, data);
         if (this.listeners[event]) {
             this.listeners[event].forEach(listener => listener(data));
         } else {

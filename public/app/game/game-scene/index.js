@@ -7,6 +7,7 @@ import { PlayingScene } from './playing.js';
 import { modes }  from '../modes.js';
 import { events } from '../core/events.js';
 import bus from '../../modules/bus.js';
+import {OpponentSearch} from "./oponentSearch.js";
 
 export class GameScene {
     constructor(root, mode) {
@@ -15,6 +16,7 @@ export class GameScene {
         this.avatarMe = null;
         this.avatarOpponent = null;
         this.currentScene = null;
+        this.opponentSearch = null;
         this.mode = mode === modes.SINGLE_PLAYER ? '1' : '2';
         this.bgColor = `var(--primary-color${this.mode})`;
 
@@ -76,6 +78,9 @@ export class GameScene {
 
         this.root.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
         this.currentScene = new PackSelectScene(this.root, this.centreContainer);
+        if (this.mode === '2') {
+            new OpponentSearch(this.root, this.centreContainer);
+        }
 
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
         this.backButton.addEventListener('click', this.askForExit);

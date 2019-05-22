@@ -1,0 +1,28 @@
+
+/* creates a small circle to produce a rounded point where the two curves meet */
+.oval__speech__text:before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -36px;
+  right: 40%;
+  width: 10px;
+  height: 6px;
+  margin-right: -10%;
+  background: #6ad7e5;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* creates a white rectangle to cover part of the oval border*/
+.oval__speech__text:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -10px;
+  right: 40%;
+  width: 7%;
+  height: 14px;
+  background: #ffffff;
+}
