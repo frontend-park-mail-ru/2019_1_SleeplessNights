@@ -45,9 +45,9 @@ export class GameCore {
     };
 
     onSelectedPack(id) {
-        bus.emit(events.STOP_TIMEOUT_PACK);
         if (id === -1) return;
         this.packs[id].state = 'deactive';
+        console.log(this.packs[id]);
     };
 
     onGetPacks = (data) => {

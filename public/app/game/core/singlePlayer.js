@@ -19,18 +19,23 @@ export class SinglePlayer extends GameCore {
         bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
         bus.on(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
-        bus.on(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
-        bus.on(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+        // bus.on(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        // bus.on(events.SELECTED_PACK,   this.changePlayerTurn);
         bus.on(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
         bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 
     start() {
         super.start();
-        bus.emit(events.SET_OPPONENT_PROFILE, {
-            avatarPath: '/assets/img/bot.png',
-            nickname: 'Fool bot',
-            lastMove: null
+        // bus.emit(events.SET_OPPONENT_PROFILE, {
+        //     avatarPath: '/assets/img/bot.png',
+        //     nickname: 'Fool bot',
+        //     lastMove: null
+        // });
+
+        this.onSetOpponentProfile({
+            nickname: 'Gopher',
+            lastMove: ''
         });
 
         this.bot = new BotPlayer();
@@ -50,29 +55,35 @@ export class SinglePlayer extends GameCore {
     waitOpponent() {
         bus.emit(events.SET_CURRENT_PLAYER, 'bot');
         if (this.selectedPacks < 4) {
-            bus.emit(events.BOT_CHOOSING_PACK,
-                this.packs
-                    .filter(p => p.type === 'pack' && p.state !== 'deactive')
-                    .map(p => p.index)
-            );
+            setTimeout(() => {
+                bus.emit(events.BOT_CHOOSING_PACK,
+                    this.packs
+                        .filter(p => p.type === 'pack' && p.state !== 'deactive')
+                );
+            }, 100);
         }
     }
 
     onEndPackSelection = () => {
         this.packsSelection = false;
-        bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
-        bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+        // bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        // bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     };
 
     onSelectedPack(id) {
+        bus.emit(events.STOP_TIMEOUT_PACK, 'singlePlayer.js');
         super.onSelectedPack(id);
         if (++this.selectedPacks === 4) {
             bus.emit(events.ENDED_PACK_SELECTION);
             setTimeout(() => {
                 bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
             }, 1100);
+
+            return;
         }
+
+        this.changePlayerTurn();
     };
 
     setAnsweredCell = (answer) => {
@@ -140,6 +151,13 @@ export class SinglePlayer extends GameCore {
                 }, []);
         }
 
+        this.availableCells.forEach((el, i, arr) =>
+            arr[i] = {
+                id:   el,
+                name: this.gameMatrix[el].name
+            }
+        );
+
         bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, this.availableCells);
     };
 
@@ -183,6 +201,7 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
+        bus.emit(events.STOP_TIMEOUT_QUESTION);
         if (cellIndex === -1) return;
 
         this.selectedCell = cellIndex;
@@ -195,6 +214,7 @@ export class SinglePlayer extends GameCore {
     };
 
     onSelectedAnswer = (id) => {
+        bus.emit(events.STOP_TIMEOUT_ANSWER);
         const answer = {
             given: id,
             correct: this.currentQuestion.correct
@@ -213,15 +233,15 @@ export class SinglePlayer extends GameCore {
         this.bot.destroy();
 
         if (this.packsSelection) {
-            bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
-            bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+            // bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+            // bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
             bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
         }
 
         bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
         bus.off(events.ANSWERED_CELL,       this.setAnsweredCell);
         bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
-        bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        // bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
         bus.off(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
         bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }

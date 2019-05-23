@@ -16,7 +16,7 @@ export class BotPlayer {
     get randomTime() {
         return Math.floor(Math.random() * (
             this.waitingTime.max - this.waitingTime.min + 1)
-        ) + this.waitingTime.max;
+        ) + this.waitingTime.min;
     }
 
     getRandomArrayIndex(arrayLength) {
@@ -72,9 +72,9 @@ export class BotPlayer {
         bus.on(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
         this.packTimer = setTimeout(() => {
             bus.off(events.ENDED_TIME_TO_PACK, this.stopPackTimeout);
-            const id = packs[this.getRandomArrayIndex(packs.length)];
-            bus.emit(events.SELECTED_PACK, id);
-            bus.emit(events.STOP_TIMEOUT_PACK);
+            const id = this.getRandomArrayIndex(packs.length);
+            bus.emit(events.BOT_SELECTED_PACK, id);
+            // bus.emit(events.STOP_TIMEOUT_PACK);
         }, this.randomTime * 1000);
     };
 
@@ -92,8 +92,8 @@ export class BotPlayer {
 
         this.answerTimer = setTimeout(() => {
             bus.off(events.ENDED_TIME_TO_ANSWER, this.stopAnswerTimeout);
-            bus.emit(events.STOP_TIMEOUT_ANSWER);
-            bus.emit(events.SELECTED_ANSWER, answer); // Возвращаем выбранный ответ
+            // bus.emit(events.STOP_TIMEOUT_ANSWER);
+            bus.emit(events.BOT_SELECTED_ANSWER, answer); // Возвращаем выбранный ответ
 
             bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);
             bus.off(events.SELECTED_QUESTION, this.botChoosingQuestion);
@@ -106,9 +106,11 @@ export class BotPlayer {
             const mid = gameConsts.CELL_COUNT / 2;
             const aim = {x: 0, y: 0};
             // Найдём номера тех ячеек, путь из которой к центру поля будет минимальным
-            const bestCells = availableCells.reduce((accumulator, currentValue, index) => {
+            const bestCells = availableCells
+                            .map(a => a.id)
+                            .reduce((accumulator, currentValue, index) => {
                 // Приз занимает 4 центральных клетки
-                // Выберем ближ     айшую клетку в формате координат
+                // Выберем ближайшую клетку в формате координат
                 const currentX = currentValue % gameConsts.CELL_COUNT;
                 const currentY = Math.floor(currentValue / gameConsts.CELL_COUNT);
                 aim.x = currentX <= Math.floor(mid) ? Math.floor(mid) : Math.ceil(mid);
@@ -131,8 +133,8 @@ export class BotPlayer {
 
             bus.on(events.SELECTED_QUESTION,  this.botChoosingQuestion);
             bus.off(events.ENDED_TIME_TO_QUESTION, this.stopQuestionTimeout);
-            bus.emit(events.STOP_TIMEOUT_QUESTION, 'bot');
-            bus.emit(events.SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
+            // bus.emit(events.STOP_TIMEOUT_QUESTION, 'bot');
+            bus.emit(events.BOT_SELECTED_CELL, availableCells[cellIndex]); // Возвращаем клетку с кратчайшим путём до цели
         }, this.randomTime * 1000);
     };
 

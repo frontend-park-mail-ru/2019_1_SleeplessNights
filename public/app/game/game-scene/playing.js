@@ -96,6 +96,7 @@ export class PlayingScene {
     };
 
     stopTimeout = () => {
+        console.log('stop');
         if (this.timer) {
             clearTimeout(this.timer);
             this.timer = null;
@@ -110,18 +111,19 @@ export class PlayingScene {
 
         if ('type' in target.dataset && target.dataset.state === 'active') {
             bus.emit(events.SELECTED_CELL, +target.dataset.id);
-            bus.emit(events.STOP_TIMEOUT_QUESTION);
         }
     };
 
     onAnsweredCell = (answer) => {
+        console.log(this.cells);
+        console.log(this.selectedCell);
         const cell = this.cells[this.selectedCell];
         answer ? cell.setAnswered() : cell.setFailed();
     };
 
     onGetAvailableCells = (availableCells) => {
-        this.availableCells = availableCells;
-        availableCells.forEach(i => this.cells[i].setActive());
+        this.availableCells = availableCells.map(el => el.id);
+        this.availableCells.forEach(i => this.cells[i].setActive());
     };
 
     onSelectedCell = (id) => {

@@ -1,6 +1,11 @@
-.gopher {
+.gopher-modal {
   position: absolute;
-  top: 45%;
-  left: 50%;
+  top: 48%;
+  left: 52%;
   z-index: 3;
+}
+
+.gopher {
+  position: relative;
+  z-index: 4;
 }

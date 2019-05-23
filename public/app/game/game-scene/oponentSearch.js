@@ -8,15 +8,16 @@ export class OpponentSearch {
         this.root = root;
         this.mode = mode;
 
-        this.render();
+        // this.render();
     }
 
     render() {
         const gopher = new GopherComponent({
+            customClasses: 'gopher-modal',
             mode: 'modal'
         });
         this.root.insertAdjacentHTML('beforeend', gopher.template);
         gopher.startActing();
-        gopher.say('Привет дружок. Как ты там ?', 100);
+        gopher.think('Привет дружок. Как ты там ?', 100);
     }
 }

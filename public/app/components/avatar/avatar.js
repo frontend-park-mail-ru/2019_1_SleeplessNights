@@ -38,12 +38,20 @@ export class AvatarComponent {
         this.innerElement.src = path;
     }
 
+    hideIcon() {
+        this.innerElement.style.display = 'none';
+    }
+
     addClass(data) {
-        this.innerElement.classList.add(data);
+        this.innerElement.parentElement.classList.add(data);
     }
 
     removeClass(data) {
-        this.innerElement.classList.remove(data);
+        this.innerElement.parentElement.classList.remove(data);
+    }
+
+    insertAdjacentHTML(html) {
+        this.innerElement.parentElement.insertAdjacentHTML('beforeend', html);
     }
 
     _render(form) {

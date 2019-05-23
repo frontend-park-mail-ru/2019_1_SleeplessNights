@@ -38,17 +38,27 @@ export class OvalComponent {
         this._innerElem.style.opacity = 0;
     }
 
-    startTyping(text, timeout) {
-        this.interval ? clearInterval(this.interval) : this.show();
+    startTyping(text, closeable, timeout) {
+        if (this.interval){
+            clearInterval(this.interval);
+        } else {
+            this.show();
+            this._text.innerHTML = '';
+        }
+
         let j = 0;
+        const length = text.length;
         this.interval = setInterval(() => {
             this._text.innerHTML += text[j];
-            if (++j >= text.length) {
-                // this.hide();
+            if (++j >= length) {
                 clearInterval(this.interval);
                 this.interval = null;
             }
         }, timeout);
+
+        if (closeable) {
+            setTimeout(() => this.hide(), timeout * length + 500);
+        }
     }
 
     _render() {

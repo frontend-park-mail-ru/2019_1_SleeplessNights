@@ -3,11 +3,12 @@ import { AvatarComponent }    from '../../components/avatar/avatar.js';
 import { ContainerComponent } from '../../components/container/container.js';
 import { ButtonHomeComponent } from '../../components/buttonHome/buttonHome.js';
 import { PackSelectScene }    from './packSelect.js';
+import { OpponentSearch }  from './oponentSearch.js';
 import { PlayingScene } from './playing.js';
+import { Gopher } from './gopher.js';
 import { modes }  from '../modes.js';
 import { events } from '../core/events.js';
 import bus from '../../modules/bus.js';
-import {OpponentSearch} from "./oponentSearch.js";
 
 export class GameScene {
     constructor(root, mode) {
@@ -28,7 +29,7 @@ export class GameScene {
         bus.on(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.on(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.on(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
-        
+
         this.render();
     }
     
@@ -62,7 +63,7 @@ export class GameScene {
             content: `
                 ${this.timerOpponent.template}
                 ${this.avatarOpponent.template}
-                <h3 id='opponentName' class='container_theme-primary${this.mode}'>Opponent</h3>        
+                ${this.mode === '2' ? `<h3 id='opponentName' class='container_theme-primary${this.mode}'>Opponent</h3>` : ''}         
             `
         });
 
@@ -77,9 +78,12 @@ export class GameScene {
             `;
 
         this.root.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
-        this.currentScene = new PackSelectScene(this.root, this.centreContainer);
+
         if (this.mode === '2') {
-            new OpponentSearch(this.root, this.centreContainer);
+           this.currentScene = new OpponentSearch(this.root, this.centreContainer);
+        } else {
+            this.gopher = new Gopher(this.avatarOpponent);
+            this.currentScene = new PackSelectScene(this.root, this.centreContainer);
         }
 
         this.backButton = document.getElementsByClassName('back-to-menu-btn ')[0];
@@ -112,8 +116,15 @@ export class GameScene {
         }, 1000);
     };
     
-    startTimeout = (time) => this.currentTimer.start(time);
-    stopTimeout = () => this.currentTimer.stop();
+    startTimeout = (time) => {
+        console.log('start timeout');
+        this.currentTimer.start(time);
+    };
+
+    stopTimeout = () => {
+        console.log('stop timeout');
+        this.currentTimer.stop();
+    };
 
     askForExit = (event) => {
         const ask = confirm(`При выходе из игры удаляеться текущая сессия игры.
@@ -146,7 +157,15 @@ export class GameScene {
             this.hideAnimation();
             this.active = false;
         }
+
+        if (this.mode === '1') {
+            this.gopher.destroy();
+        }
+
         this.currentScene.destroy();
+
+        bus.off(events.BOT_CHOOSING_PACK, this.onBotChoosingPack);
+        bus.off(events.BOT_SELECTED_PACK, this.onBotSelectedPack);
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_PACK,  this.stopTimeout);

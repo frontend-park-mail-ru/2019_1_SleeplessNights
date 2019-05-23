@@ -93,12 +93,12 @@ export class GopherComponent {
         window.requestAnimationFrame(this.drawEyes);
     }
     
-    say(text, timeout) {
-        this.sayComponent.startTyping(text, timeout);
+    say(text, closeable=true, timeout=100) {
+        this.sayComponent.startTyping(text, closeable, timeout);
     }
     
-    think(text, timeout) {
-        this.thinkComponent.startTyping(text, timeout);
+    think(text, closeable=true, timeout=100) {
+        this.thinkComponent.startTyping(text, closeable, timeout);
     }
 
     on(event, callback = noop) {

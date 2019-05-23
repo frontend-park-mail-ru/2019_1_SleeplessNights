@@ -69,7 +69,6 @@ export class SelectAnswerScene {
                 if ('index' in target.dataset) {
                     anBlock.removeEventListener('click', answerChoosing);
                     bus.emit(events.SELECTED_ANSWER, +target.dataset.index);
-                    bus.emit(events.STOP_TIMEOUT_ANSWER);
                 }
             };
 

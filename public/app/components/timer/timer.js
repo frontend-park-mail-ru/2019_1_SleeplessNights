@@ -44,9 +44,9 @@ export class TimerComponent {
             const distance = Math.ceil((timerTo - now) / 1000);
             let seconds = Math.floor(distance % 60);
 
+            if (seconds <= 0) this.stop();
             if (seconds < 10) seconds = '0' + seconds;
             if (seconds <= 5) this._innerElem.classList.add('timer_red');
-            if (distance <= 0) this.stop();
 
             this._innerElem.innerHTML = seconds;
         }, 1000);
@@ -56,6 +56,6 @@ export class TimerComponent {
         clearInterval(this.timer);
         this.timer = null;
         this._innerElem.classList.remove('timer_red');
-        this._innerElem.innerHTML = '00';
+        this._innerElem.innerHTML = '';
     }
 }
