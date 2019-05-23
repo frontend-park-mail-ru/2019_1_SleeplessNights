@@ -18,7 +18,7 @@ import { GameService }       from './services/game.js';       /**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
 import { events } from './game/core/events.js';               /**/
-import { LoaderComponent } from './components/loader/loader.js';/**/
+import { GopherComponent } from './components/gopher/gopher.js';/**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
 import '../assets/scss/main.scss';                            /**/
@@ -29,9 +29,13 @@ window.user = {
     isAuthorised: AuthService.isAuthorised
 };
 
-const loader = new LoaderComponent();
+const gopher = new GopherComponent({
+    customClasses: 'gopher-modal',
+    mode: 'modal'
+});
 const app = document.getElementById('app');
-app.insertAdjacentHTML('afterend', loader.template);
+app.insertAdjacentHTML('afterend', gopher.template);
+gopher.startActing();
 
 idb.get('user', 1);
 bus.on('success:get-user-1', (user) => {
@@ -131,8 +135,11 @@ bus.on('logout', () => {
         .catch((err) => console.error(err));
 });
 
-bus.on('show-loader', () => loader.show())
-    .on('hide-loader', () => loader.hide());
+bus.on('show-loader', () => {
+    gopher.showModal();
+    gopher.say('Подождите пожалуйста идёт загрузка', false, 75);
+})
+.on('hide-loader', () => gopher.hideModal() );
 
 bus.on('check-indexedDB', GameService.checkDB);
 bus.on(events.GO_TO_PAGE, (page) => router.open(page));

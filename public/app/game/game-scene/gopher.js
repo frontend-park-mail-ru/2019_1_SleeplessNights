@@ -5,6 +5,9 @@ import bus from '../../modules/bus.js';
 export class Gopher {
     constructor(root) {
         this.root = root;
+        this.currentPlayer = null;
+        this.gopher = null;
+        this.packs = null;
 
         bus.on(events.BOT_CHOOSING_PACK, this.onBotChoosingPack);
         bus.on(events.BOT_SELECTED_PACK, this.onBotSelectedPack);
@@ -16,6 +19,8 @@ export class Gopher {
 
         this.render();
     }
+
+    onChangePlayer = (pl) => this.currentPlayer = pl;
 
     botChoosingCell = () => {
         if (this.currentPlayer === 'bot') {
@@ -45,8 +50,9 @@ export class Gopher {
 
     botChoosingQuestion = (data) => {
         this.currentQuestion = data;
-        if (this.currentPlayer === 'bot')
+        if (this.currentPlayer === 'bot') {
             this.gopher.say(`😀 Везде надо думать`);
+        }
     };
 
     onBotSelectedAnswer = (id) => {
@@ -54,10 +60,6 @@ export class Gopher {
         setTimeout(() => {
             bus.emit(events.SELECTED_ANSWER, id);
         }, 1100)
-    };
-
-    onChangePlayer = (pl) => {
-        this.currentPlayer = pl;
     };
 
     render() {

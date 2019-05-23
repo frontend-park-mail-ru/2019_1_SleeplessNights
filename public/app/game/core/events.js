@@ -1,5 +1,6 @@
 export const events = {
     FINISH_GAME            : 'finish-game',
+    ROOM_SEARCHING         : 'room-searching',
     WS_CONNECT             : 'ws-connect',
     WS_DISCONNECT          : 'ws-dis-connect',
     END_GAME               : 'end-game',

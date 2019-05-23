@@ -150,3 +150,27 @@ $animations-width-to: (
     }
   }
 }
+
+.anim-jumping {
+  animation: jumping 450ms ease;
+  /*animation-iteration-count: 4;*/
+}
+
+.anim-coming {
+  animation: coming 1s ease;
+}
+
+@keyframes jumping {
+  to {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes coming {
+  from {
+    transform: translateX(600px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

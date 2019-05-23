@@ -34,6 +34,10 @@ export class GameService {
 
     receiveMessages = (message) => {
         switch (message.title) {
+            case inMessages.ROOM_SEARCHING: {
+                bus.emit(events.ROOM_SEARCHING);
+            } break;
+
             case inMessages.CONNECTED: {
                 bus.emit(`success:${events.WS_CONNECT}`);
             } break;

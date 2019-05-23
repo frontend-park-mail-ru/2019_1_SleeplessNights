@@ -80,7 +80,7 @@ export class GameScene {
         this.root.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
 
         if (this.mode === '2') {
-           this.currentScene = new OpponentSearch(this.root, this.centreContainer);
+           this.currentScene = new OpponentSearch(this.root);
         } else {
             this.gopher = new Gopher(this.avatarOpponent);
             this.currentScene = new PackSelectScene(this.root, this.centreContainer);
@@ -163,9 +163,6 @@ export class GameScene {
         }
 
         this.currentScene.destroy();
-
-        bus.off(events.BOT_CHOOSING_PACK, this.onBotChoosingPack);
-        bus.off(events.BOT_SELECTED_PACK, this.onBotSelectedPack);
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_PACK,  this.stopTimeout);

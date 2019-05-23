@@ -1,5 +1,6 @@
 // Входящие сообщении по веь-сокету дял игры
 export const inMessages = {
+    ROOM_SEARCHING     : 'ROOM_SEARCHING',      // Поиск соперника
     CONNECTED          : 'CONNECTED',           // Оповещаем клиентов о том, что успешно подключалься по ws
     START_GAME         : 'START_GAME',          // Оповещаем клиентов о том, что комната готова и они могут начать её отрисовывать
     YOUR_TURN          : 'YOUR_TURN',           // Оповещаем клиента о начале его хода
@@ -65,7 +66,7 @@ export const gameConsts = {
 export const botConsts = {
     waitingTime: {
         min: 3, // second
-        max: 7 // second
+        max: 7  // second
     },
     winChance: 75 // %
 };

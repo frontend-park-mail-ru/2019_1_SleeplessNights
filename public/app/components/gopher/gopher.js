@@ -1,5 +1,6 @@
 import { uniqueId, noop } from '../../modules/utils.js';
-import { OvalComponent } from '../oval/oval.js';
+import { OvalComponent }  from '../oval/oval.js';
+import { ButtonComponent} from '../button/button.js';
 import template from './gopher.handlebars';
 import './gopher.scss';
 import './__img/gopher__img.scss';
@@ -12,10 +13,12 @@ export class GopherComponent {
 
     constructor({
         customClasses = '',
-        mode = ''
+        mode = '',
+        button = null
     } = {}) {
         this._customClasses = customClasses;
         this._mode = mode;
+        this._button = button;
         this._id = 'gopher' + uniqueId();
         this._render();
     }
@@ -35,11 +38,16 @@ export class GopherComponent {
     _render() {
         this.thinkComponent = new OvalComponent({ mode: 'thought' });
         this.sayComponent = new OvalComponent({ mode: 'speech' });
+
+        if (this._button) {
+            this.button = new ButtonComponent(this._button);
+        }
         
         this._template = template({
             customClasses: this._customClasses,
-            id:   this._id,
-            modal: this._mode === 'modal'
+            id:     this._id,
+            modal:  this._mode === 'modal',
+            button: this.button ? this.button.template : null
         });
     }
 
@@ -99,6 +107,16 @@ export class GopherComponent {
     
     think(text, closeable=true, timeout=100) {
         this.thinkComponent.startTyping(text, closeable, timeout);
+    }
+
+    showModal() {
+        this._innerElem.parentElement.style.opacity = 1;
+        this._innerElem.parentElement.style.zIndex = 3;
+    }
+
+    hideModal() {
+        this._innerElem.parentElement.style.opacity = 0;
+        this._innerElem.parentElement.style.zIndex = -1;
     }
 
     on(event, callback = noop) {
