@@ -1,23 +1,28 @@
 @import '../../../assets/scss/global';
 
+$width-min: 30;
+$width-max: 50;
+$height-min: 50;
+$height-max: 80;
+
 .back-to-menu-btn {
   position: absolute;
   top: 0;
   left: 0;
-  width: 6.5%;
-  height: 50px;
+  width: px($width-min);
+  height: px($height-min);
 }
 
-@media (min-width: $minimum-width) {
+@include media-min-width() {
   .back-to-menu-btn {
-    width: calc(0.4vw + 4.4%);
-    height: calc(4vw + 30px);
+    width: calcY($width-min, $width-max);
+    height: calcY($height-min, $height-max);
   }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .back-to-menu-btn {
-    width: 4.5%;
-    height: 80px;
+    width: px($width-max);
+    height: px($height-max);
   }
 }

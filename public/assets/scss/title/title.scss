@@ -4,21 +4,21 @@
   display: flex;
   color: inherit;
   text-transform: uppercase;
-  font-size: $title-text-size-min;
+  font-size: px($title-text-size-min);
   font-weight: bold;
   text-decoration: none;
   outline: none;
   margin: $title-padding;
 }
 
-@media (min-width: $minimum-width) {
+@include media-min-width() {
   .title {
-    font-size: calc( 3.3vw + 5.3px);
+    font-size: calcY($title-text-size-min, $title-text-size-max);
   }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .title {
-    font-size: $title-text-size-max;
+    font-size: px($title-text-size-max);
   }
 }

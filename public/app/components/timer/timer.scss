@@ -1,7 +1,22 @@
+@import '../../../assets/scss/global';
+
 .timer {
-    color:#0b9a52;font-size:26px
+    color: var(--success-color);
+    font-size: 26px;
 }
 
 .timer_red {
-    color:#FF2118
+    color: var(--danger-color);
+}
+
+@include media-min-width() {
+    .timer {
+        font-size: calcY(16, 26);
+    }
+}
+
+@include media-max-width() {
+    .timer {
+        font-size: 16px;
+    }
 }

@@ -4,7 +4,7 @@ import './game-board__cell.scss';
 import './_min-size/game-board__cell_min-size.scss';
 import './_pack/pack__cell.scss';
 import './_pack/__img/pack_cell__img.scss';
-import './_prize/game-board__cell_prize.scss';
+import './_pack/__text/pack_cell__text.scss';
 import './_active/game-board__cell_active.scss';
 import './_failed/game-board__cell_failed.scss';
 import './_answered/game-board__cell_answered.scss';
@@ -52,7 +52,7 @@ export class CellComponent {
     }
 
     set text(data) {
-        this.innerElem.insertAdjacentHTML('beforeend', data);
+        this.innerElem.insertAdjacentHTML('beforeend', `<span class="pack__cell__text">${data}</span>`);
     }
 
     setDataset(name, value) {

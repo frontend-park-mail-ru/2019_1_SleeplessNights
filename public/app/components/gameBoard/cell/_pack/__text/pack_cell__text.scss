@@ -1,0 +1,21 @@
+@import '../../../../../../assets/scss/global';
+
+$font-size-min: 6;
+$font-size-max: 14;
+
+.pack__cell__text {
+  font-size: px($font-size-min);
+}
+
+@include media-min-width() {
+  .pack__cell__text {
+    font-size: calcY($font-size-min, $font-size-max);
+  }
+}
+
+@include media-max-width() {
+  .pack__cell__text {
+    font-size: px($font-size-max);
+  }
+}
+

@@ -29,7 +29,7 @@ export class PackSelectScene  {
 
         this.packBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
         this.container.content = `
-            <h3 class="container_theme-secondary3 title_subtitle2">Вибырите тему которая больше всего вам не нравиться</h3>
+            <h3 class="container_theme-secondary3 title_subtitle title_subtitle2">Вибырите тему которая больше всего вам не нравиться</h3>
             ${this.packBoard.template}
         `;
     }

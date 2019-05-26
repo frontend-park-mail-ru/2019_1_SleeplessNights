@@ -41,15 +41,14 @@
   color: color('secondary-light');
 }
 
-
-@media (min-width: $minimum-width) {
-  .material-icons.md-18 { font-size: calc(0.8vw + 8px); }
-  .material-icons.md-24 { font-size: calc(1vw + 10px); }
-  .material-icons.md-36 { font-size: calc(1.5vw + 16px); }
-  .material-icons.md-48 { font-size: calc(1.5vw + 24px); }
+@include media-min-width() {
+  .material-icons.md-18 { font-size: calcY(12, 18); }
+  .material-icons.md-24 { font-size: calcY(16, 24); }
+  .material-icons.md-36 { font-size: calcY(24, 36); }
+  .material-icons.md-48 { font-size: calcY(36, 48); }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .material-icons.md-18 { font-size: 18px; }
   .material-icons.md-24 { font-size: 24px; }
   .material-icons.md-36 { font-size: 36px; }

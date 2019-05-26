@@ -9,29 +9,34 @@
 }
 
 $whitespace-base-size: 10px;
-$avatar-border-max: 8px;
-$avatar-border-min: 4px;
-$play-icon-size-max: 230px;
-$play-icon-size-min: 230px;
+$avatar-border-max: 8;
+$avatar-border-min: 4;
+
+$play-icon-size-max: 230;
+$play-icon-size-min: 100;
+
+$title-text-size-min: 19;
+$title-text-size-max: 45;
+$subtitle-text-size-min: 13;
+$subtitle-text-size-max: 20;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
-$title-text-size-max: 45px;
-$subtitle-text-size-max: 20px;
-$title-text-size-min: 19px;
-$subtitle-text-size-min: 13px;
 $title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
-$avatar-size-max: 220px;
-$avatar-size-min: 90px;
+
+$avatar-size-max: 220;
+$avatar-size-min: 90;
+
 $modal-min-size: 200px;
 $form-control-size: 40px;
 $button-height: 32px;
 $button-font-weight: 600;
 $modal-close-btn-width: 5 * $whitespace-base-size;
-$minimum-width: 320px;
-$maximum-width: 1100px;
+
+$minimum-width: 480;
+$maximum-width: 1100;
 
 $media-breakpoints: (
         s:  576px,
@@ -292,3 +297,24 @@ $grid-rows: (
   margin: 10px 10px 10px -200px;
 }
 
+@function px($arg) {
+  @return $arg + px;
+}
+
+@function calcY($y1, $y2) {
+  $m: ($y2 - $y1) / ($maximum-width - $minimum-width);
+  $b: $y2 - $m * $maximum-width;
+  @return calc(#{$m} * 100vw + #{px($b)});
+}
+
+@mixin media-min-width() {
+  @media (min-width: px($minimum-width)) {
+    @content
+  }
+}
+
+@mixin media-max-width() {
+  @media (min-width: px($maximum-width)) {
+    @content
+  }
+}

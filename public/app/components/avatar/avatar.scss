@@ -1,9 +1,9 @@
 @import '../../../assets/scss/global';
 
 .avatar {
-  width: $avatar-size-min;
-  height: $avatar-size-min;
-  @include border-radius($avatar-size-max / 2 + 10);
+  width: px($avatar-size-min);
+  height: px($avatar-size-min);
+  @include border-radius(px($avatar-size-max / 2 + 10));
   margin-bottom: $whitespace-base-size;
   background: inherit;
   display: flex;
@@ -15,16 +15,16 @@
   @include transform(skewX($skew-angle));
 }
 
-$avatar-size-calc: calc(14.1vw + 35px);
+$avatar-size-calc: calcY($avatar-size-min, $avatar-size-max);
 
-@media (min-width: $minimum-width) {
+@include media-min-width() {
   .avatar {
     width: $avatar-size-calc;
     height: $avatar-size-calc;
   }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .avatar {
     width: $avatar-size-max;
     height: $avatar-size-max;

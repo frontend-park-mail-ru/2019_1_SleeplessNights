@@ -160,13 +160,13 @@ $animations-width-to: (
   animation: coming 1s ease;
 }
 
-@keyframes jumping {
+@include keyframes(jumping) {
   to {
     transform: translateY(-15px);
   }
 }
 
-@keyframes coming {
+@include keyframes(coming) {
   from {
     transform: translateX(600px);
   }

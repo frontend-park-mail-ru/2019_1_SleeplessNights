@@ -2,11 +2,13 @@
 
 .title_subtitle {
   font-weight: normal;
+  font-size: px($subtitle-text-size-min);
 }
 
 .title_subtitle2 {
+  width: 95%;
   font-weight: normal;
-  margin-bottom: 15px;
+  margin-bottom: 1em;
   text-align: center;
 }
 
@@ -14,18 +16,14 @@
   border-bottom: 2px solid var(--secondary-color1);
 }
 
-.title_subtitle {
-  font-size: $subtitle-text-size-min;
-}
-
-@media (min-width: $minimum-width) {
+@include media-min-width() {
   .title_subtitle {
-    font-size: calc( 0.9vw + 10px);
+    font-size: calcY($subtitle-text-size-min, $subtitle-text-size-max);
   }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .title_subtitle {
-    font-size: $subtitle-text-size-max;
+    font-size: px($subtitle-text-size-max);
   }
 }

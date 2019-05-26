@@ -2,17 +2,17 @@
 
 .centered-icon {
   color: inherit;
-  font-size: $play-icon-size-min;
+  font-size: px($play-icon-size-min);
 }
 
-@media (min-width: $minimum-width) {
+@include media-min-width() {
   .centered-icon {
-    font-size: calc( 16.7vw + 26.3px );
+    font-size: calcY($play-icon-size-min, $play-icon-size-max);
   }
 }
 
-@media (min-width: $maximum-width) {
+@include media-max-width() {
   .centered-icon {
-    font-size: $play-icon-size-max;
+    font-size: px($play-icon-size-max);
   }
 }
