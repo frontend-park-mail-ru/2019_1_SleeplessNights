@@ -1,4 +1,18 @@
+@import '../../../../assets/scss/global';
+
 .centered-icon {
-  font-size: 200px;
   color: inherit;
+  font-size: $play-icon-size-min;
+}
+
+@media (min-width: $minimum-width) {
+  .centered-icon {
+    font-size: calc( 16.7vw + 26.3px );
+  }
+}
+
+@media (min-width: $maximum-width) {
+  .centered-icon {
+    font-size: $play-icon-size-max;
+  }
 }

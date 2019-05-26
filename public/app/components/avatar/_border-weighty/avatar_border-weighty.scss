@@ -1,5 +1,17 @@
-@import "../../../../assets/scss/global";
+@import '../../../../assets/scss/global';
 
 .avatar_border-weighty {
-  border: $avatar-border solid var(--success-color) !important;
+  border: $avatar-border-min solid var(--success-color) !important;
+}
+
+@media (min-width: $minimum-width) {
+  .avatar_border-weighty {
+    border-width: calc(0.5vw + 2.5px);
+  }
+}
+
+@media (min-width: $maximum-width) {
+  .avatar_border-weighty {
+    border-width: $avatar-border-max;
+  }
 }

@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 @font-face {
   font-family: 'Material Icons';
@@ -24,19 +24,34 @@
   @include transition(color 0.2s);
 }
 
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-18 { font-size: 12px; }
+.material-icons.md-24 { font-size: 16px; }
+.material-icons.md-36 { font-size: 24px; }
+.material-icons.md-48 { font-size: 36px; }
 .material-icons.md-inherit, .material-icons.md-inherit:hover {
   font-size: inherit;
   color: inherit;
 }
 
 .material-icons.md-button {
-  color: color("secondary");
+  color: color('secondary');
 }
 
 .material-icons.md-button:hover {
-  color: color("secondary-light");
+  color: color('secondary-light');
+}
+
+
+@media (min-width: $minimum-width) {
+  .material-icons.md-18 { font-size: calc(0.8vw + 8px); }
+  .material-icons.md-24 { font-size: calc(1vw + 10px); }
+  .material-icons.md-36 { font-size: calc(1.5vw + 16px); }
+  .material-icons.md-48 { font-size: calc(1.5vw + 24px); }
+}
+
+@media (min-width: $maximum-width) {
+  .material-icons.md-18 { font-size: 18px; }
+  .material-icons.md-24 { font-size: 24px; }
+  .material-icons.md-36 { font-size: 36px; }
+  .material-icons.md-48 { font-size: 48px; }
 }

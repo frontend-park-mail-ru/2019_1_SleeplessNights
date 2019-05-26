@@ -1,7 +1,6 @@
-@import "../../global.scss";
+@import '../../global';
 
 .title_subtitle {
-  font-size: $subtitle-text-size;
   font-weight: normal;
 }
 
@@ -13,4 +12,20 @@
 
 .title_subtitle:hover {
   border-bottom: 2px solid var(--secondary-color1);
+}
+
+.title_subtitle {
+  font-size: $subtitle-text-size-min;
+}
+
+@media (min-width: $minimum-width) {
+  .title_subtitle {
+    font-size: calc( 0.9vw + 10px);
+  }
+}
+
+@media (min-width: $maximum-width) {
+  .title_subtitle {
+    font-size: $subtitle-text-size-max;
+  }
 }

@@ -45,3 +45,17 @@ svg {
 ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.1);
 }
+
+@media only screen and (orientation:portrait){
+  #turn { display: flex; }
+  #app { display: none; }
+}
+
+@media only screen and (orientation:landscape){
+  #turn { display: none; }
+  #app { display: block; }
+}
+
+#turn {
+  background-color: #ffffff;
+}

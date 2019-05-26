@@ -1,10 +1,10 @@
-@import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
 
 .avatar {
-  width:$avatar-size;
-  height:$avatar-size;
-  @include border-radius($avatar-size/2 + 10);
-  margin-bottom:$whitespace-base-size;
+  width: $avatar-size-min;
+  height: $avatar-size-min;
+  @include border-radius($avatar-size-max / 2 + 10);
+  margin-bottom: $whitespace-base-size;
   background: inherit;
   display: flex;
   border: 0.1px solid var(--success-color);
@@ -15,7 +15,18 @@
   @include transform(skewX($skew-angle));
 }
 
-.avatar_game-board {
-  //position:absolute;
-  //top:10 * $whitespace-base-size;
+$avatar-size-calc: calc(14.1vw + 35px);
+
+@media (min-width: $minimum-width) {
+  .avatar {
+    width: $avatar-size-calc;
+    height: $avatar-size-calc;
+  }
+}
+
+@media (min-width: $maximum-width) {
+  .avatar {
+    width: $avatar-size-max;
+    height: $avatar-size-max;
+  }
 }

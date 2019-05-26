@@ -24,6 +24,16 @@ import idb from './modules/indexdb.js';                       /**/
 import '../assets/scss/main.scss';                            /**/
 /************************************************************\/**/
 
+// if (window.innerWidth < window.innerHeight) {
+//     console.log();
+//     document.documentElement.requestFullscreen()
+//         .then(() => console.log('success full screen'))
+//         .catch((e) => console.dir(e));
+//     window.screen.orientation.lock('landscape')
+//         .then(() => console.log('success lock screen'))
+//         .catch((e) => console.dir(e));
+// }
+
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised

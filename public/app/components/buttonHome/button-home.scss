@@ -1,9 +1,23 @@
-@import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
 
 .back-to-menu-btn {
   position: absolute;
   top: 0;
   left: 0;
-  width: 3.5%;
-  height: 80px;
+  width: 6.5%;
+  height: 50px;
+}
+
+@media (min-width: $minimum-width) {
+  .back-to-menu-btn {
+    width: calc(0.4vw + 4.4%);
+    height: calc(4vw + 30px);
+  }
+}
+
+@media (min-width: $maximum-width) {
+  .back-to-menu-btn {
+    width: 4.5%;
+    height: 80px;
+  }
 }

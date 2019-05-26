@@ -9,21 +9,29 @@
 }
 
 $whitespace-base-size: 10px;
-$avatar-border: 8px;
+$avatar-border-max: 8px;
+$avatar-border-min: 4px;
+$play-icon-size-max: 230px;
+$play-icon-size-min: 230px;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
-$title-text-size: 40px;
-$subtitle-text-size: 18px;
+$title-text-size-max: 45px;
+$subtitle-text-size-max: 20px;
+$title-text-size-min: 19px;
+$subtitle-text-size-min: 13px;
 $title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
-$avatar-size: 220px;
+$avatar-size-max: 220px;
+$avatar-size-min: 90px;
 $modal-min-size: 200px;
 $form-control-size: 40px;
 $button-height: 32px;
 $button-font-weight: 600;
 $modal-close-btn-width: 5 * $whitespace-base-size;
+$minimum-width: 320px;
+$maximum-width: 1100px;
 
 $media-breakpoints: (
         s:  576px,
