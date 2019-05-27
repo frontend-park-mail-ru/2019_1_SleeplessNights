@@ -1,3 +1,20 @@
+@import '../../../../assets/scss/global';
+
+$width-min: 60;
+$width-max: 140;
+
 .gopher__img {
-    width: 140px;
+    width: px($width-min);
+}
+
+@include media-min-width() {
+    .gopher__img {
+        width: calcY($width-min, $width-max);
+    }
+}
+
+@include media-max-width() {
+    .gopher__img {
+        width: px($width-max);
+    }
 }

@@ -12,6 +12,7 @@
 @import 'animations';
 
 html, body {
+        font-size: 13px;
         margin: 0;
         padding: 0;
         height: 100%;
@@ -29,19 +30,66 @@ svg {
         fill: #ffffff;
 }
 
+.pr-10px {
+  padding-right: 10px;
+}
+
+.pl-10px {
+  padding-left: 10px;
+}
+
+.md-20px {
+  margin-bottom: 20px;
+}
+
+.profile {
+  padding: 50px 30px 10px;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  margin: 10px;
+}
+
 ::-webkit-scrollbar {
-        width: 6px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.3);
-        @include border-radius(3px)
+  background: rgba(0, 0, 0, 0.3);
+  @include border-radius(3px)
 }
 
 ::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (orientation:portrait){
+  #turn { display: flex; }
+  #app { display: none; }
+}
+
+@media only screen and (orientation:landscape){
+  #turn { display: none; }
+  #app { display: block; }
+}
+
+#turn {
+  background-color: var(--secondary-color2);
+}
+
+@include media-min-width() {
+  body {
+    font-size: calcY(13, 16);
+  }
+}
+
+@include media-max-width() {
+  body {
+    font-size: 16px;
+  }
 }

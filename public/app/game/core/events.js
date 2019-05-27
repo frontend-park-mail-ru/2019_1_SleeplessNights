@@ -35,4 +35,5 @@ export const events = {
     ENDED_TIME_TO_ANSWER   : 'ended-time-to-answer',
     ENDED_TIME_TO_QUESTION : 'ended-time-to-question',
     ENDED_PACK_SELECTION   : 'ended-pack-selection',
+    FOUND_OPPONENT         : 'found-opponent'
 };

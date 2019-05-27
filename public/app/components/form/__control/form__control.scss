@@ -16,3 +16,9 @@
     color: var(--danger-color);
     font-size: small;
 }
+
+@media (max-width: 650px) {
+    .form__control {
+        height: 35px;
+    }
+}

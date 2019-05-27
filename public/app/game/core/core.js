@@ -44,12 +44,6 @@ export class GameCore {
         };
     };
 
-    onSelectedPack(id) {
-        if (id === -1) return;
-        this.packs[id].state = 'deactive';
-        console.log(this.packs[id]);
-    };
-
     onGetPacks = (data) => {
         this.packs = data;
         this.packs.forEach((pack, i) => {
@@ -74,6 +68,7 @@ export class GameCore {
                 ) {
                     this.gameMatrix.push({
                         type: 'prize',
+                        name: 'Приз',
                         color: gameConsts.PRIZE_COLOR
                     });
                 } else {
@@ -97,10 +92,13 @@ export class GameCore {
         });
     }
 
-    onPlayAgain = () => {
+    onSelectedPack() {
         throw new Error('This method must be overridden');
     };
 
+    onPlayAgain = () => {
+        throw new Error('This method must be overridden');
+    };
 
     onFillPacksList = () => {
         throw new Error('This method must be overridden');

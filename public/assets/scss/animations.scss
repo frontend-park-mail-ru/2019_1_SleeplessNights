@@ -1,6 +1,6 @@
 @import 'global';
 
-$animation-time: 2070ms;
+$animation-time: 1070ms;
 $animation-type: ease-in-out;
 $bg-degree: 94deg;
 $bg-play-left:
@@ -160,13 +160,13 @@ $animations-width-to: (
   animation: coming 1s ease;
 }
 
-@keyframes jumping {
+@include keyframes(jumping) {
   to {
     transform: translateY(-15px);
   }
 }
 
-@keyframes coming {
+@include keyframes(coming) {
   from {
     transform: translateX(600px);
   }

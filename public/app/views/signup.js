@@ -103,7 +103,7 @@ export class SignUpView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'w50 justify-content-center container_column',
+            customClasses: 'form_w50 justify-content-center container_column',
             content: ` ${this.header.template} ${this._form.template} `
         });
 
@@ -113,7 +113,7 @@ export class SignUpView extends BaseView {
         });
 
         this.loginContainer = new ContainerComponent({
-            customClasses: 'w20 container_theme-primary2 justify-content-center align-items-center overflow-hidden',
+            customClasses: 'w20 container_column container_theme-primary2 justify-content-center align-items-center overflow-hidden',
             content: `<p>Есть аккаунт?</p> ${link.template}`
         });
 

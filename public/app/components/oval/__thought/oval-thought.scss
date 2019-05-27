@@ -1,40 +1,93 @@
+@import '../../../../assets/scss/global';
+@import '../oval';
+
+$left-min: -135;
+$left-max: -300;
+$top-min: -110;
+$top-max: -230;
+
 .oval__thought {
-  top: -230px;
-  left: -290px;
-  padding: 50px 20px;
+  top: px($top-min);
+  left: px($left-min);
   margin: 1em auto 80px;
-  border: 7px solid var(--primary-color2);
-  text-align: center;
-  color: #333;
-  background: var(--secondary-color2);
-  border-radius: 240px / 140px;
 }
 
+$before-width-min: 25;
+$before-width-max: 50;
+
 .oval__thought:before {
-  content:"";
+  content: "";
   position: absolute;
   z-index: 10;
   bottom: -14%;
   left: 60%;
-  width: 50px;
-  height: 50px;
-  border: 6px solid var(--primary-color2);
+  width: px($before-width-min);
+  height: px($before-width-min);
+  border: px($border-before-min) solid var(--primary-color2);
   background: var(--secondary-color2);
-  border-radius: 50px;
+  border-radius: px($before-width-max);
   display: block;
 }
 
+$after-width-min: 15;
+$after-width-max: 30;
+$after-bottom-min: -35;
+$after-bottom-max: -75;
+$after-right-min: 22;
+$after-right-max: 55;
 /* creates the smaller circle */
 .oval__thought:after {
   content: "";
   position: absolute;
   z-index: 10;
-  bottom: -30%;
-  right: 59px;
-  width: 25px;
-  height: 25px;
-  border: 5px solid var(--primary-color2);
+  bottom: px($after-bottom-min);
+  right: px($after-right-min);
+  width: px($after-width-min);
+  height: px($after-width-min);
+  border: px($border-before-min) solid var(--primary-color2);
   background:var(--secondary-color2);
-  border-radius: 25px;
+  border-radius: px($after-width-max);
   display: block;
+}
+
+@include media-min-width() {
+  .oval__thought {
+    top: calcY($top-min, $top-max);
+    left: calcY($left-min, $left-max);
+  }
+
+  .oval__thought:before {
+    width: calcY($before-width-min, $before-width-max);
+    height: calcY($before-width-min, $before-width-max);
+    border-width: calcY($border-before-min, $border-before-max);
+  }
+
+  .oval__thought:after {
+    bottom: calcY($after-bottom-min, $after-bottom-max);
+    right: calcY($after-right-min, $after-right-max);
+    width: calcY($after-width-min, $after-width-max);
+    height: calcY($after-width-min, $after-width-max);
+    border-width: calcY($border-before-min, $border-before-max);
+  }
+}
+
+@include media-max-width() {
+  .oval__thought {
+    top: px($top-max);
+    left: px($left-max);
+  }
+
+  .oval__thought:before {
+    width: px($before-width-max);
+    height: px($before-width-max);
+    border-width: px($border-before-max);
+  }
+
+  .oval__thought:after {
+    bottom: px($after-bottom-max);
+    right: px($after-right-max);
+    width: px($after-width-max);
+    height: px($after-width-max);
+    border-width: px($border-before-max);
+  }
 }

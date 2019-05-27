@@ -1,10 +1,31 @@
 @import '../../../../assets/scss/global';
 
+$padding1-min: 10;
+$padding2-min: 15;
+$padding1-max: 20;
+$padding2-max: 30;
+$height-min: 110;
+$height-max: 200;
+
 .modal__content {
   position: relative;
-  min-height: $modal-min-size;
+  min-height: px($height-min);
   min-width: $modal-min-size;
-  padding: 2 * $whitespace-base-size 3 * $whitespace-base-size;
+  padding: px($padding1-min) px($padding2-min);
   color: var(--secondary-color1);
   z-index: 4;
+}
+
+@include media-min-width() {
+  .modal__content {
+    min-height: calcY($height-min, $height-max);
+    padding: calcY($padding1-min, $padding1-max) calcY($padding2-min, $padding2-max);
+  }
+}
+
+@include media-max-width() {
+  .modal__content {
+    min-height: px($height-max);
+    padding: px($padding1-max) px($padding2-max);
+  }
 }

@@ -1,5 +1,10 @@
-@import "../vars";
-@import "../../../../assets/scss/global";
+@import '../vars';
+@import '../../../../assets/scss/global';
+
+$padding-min: 3;
+$padding-max: 13;
+$border-radius-min: 3;
+$border-radius-max: 8;
 
 .game-board__cell {
   width: $cell-size;
@@ -9,6 +14,21 @@
   box-sizing: border-box;
   transition: all ease-in-out 750ms;
   cursor: pointer;
-  padding: 13px;
-  border-radius: $cells-border-radius;
+  padding: px($padding-min);
+  border-radius: px($border-radius-min);
+}
+
+
+@include media-min-width() {
+  .game-board__cell {
+    padding: calcY($padding-min, $padding-max);
+    border-radius: calcY($border-radius-min, $border-radius-max);
+  }
+}
+
+@include media-max-width() {
+  .game-board__cell {
+    padding: px($padding-max);
+    border-radius: px($border-radius-max);
+  }
 }

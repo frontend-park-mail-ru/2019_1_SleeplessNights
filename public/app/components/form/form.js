@@ -1,8 +1,9 @@
 import { noop, uniqueId }       from '../../modules/utils.js';
-import { FormControlComponent } from './control/formControl.js';
+import { FormControlComponent } from './__control/formControl.js';
 import template from './form.handlebars';
 import './__group/form__group.scss';
 import './__group/_center/form__group_center.scss';
+import './_w50/form_w50.scss';
 
 export class FormComponent {
     _template;

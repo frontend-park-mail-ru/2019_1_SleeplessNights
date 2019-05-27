@@ -52,6 +52,7 @@ export class GameService {
                 const packs = message.payload.Packs;
                 gameConsts.TIMER_PACK = message.payload.Time;
                 packs.forEach(p => p.iconPath = makeAvatarPath(p.iconPath));
+                bus.emit(events.FOUND_OPPONENT);
                 bus.emit(`success:${events.GET_PACK}-10`, packs);
             } break;
 
@@ -68,7 +69,7 @@ export class GameService {
             case inMessages.AVAILABLE_CELLS: {
                 const arr = message.payload.CellsSlice;
                 gameConsts.TIMER_QUESTION = message.payload.Time;
-                arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
+                arr.forEach((a, i) => arr[i] = { id: a.y * 8 + a.x });
                 setTimeout(() =>
                     bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
                 );
