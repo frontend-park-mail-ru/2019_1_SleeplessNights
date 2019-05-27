@@ -12,22 +12,27 @@ export class OpponentSearch {
         };
 
         bus.on(events.ROOM_SEARCHING, this.render);
+        bus.on(events.FOUND_OPPONENT, this.destroy);
     }
 
     render = () => {
-        const gopher = new GopherComponent({
+        this.gopher = new GopherComponent({
             customClasses: 'gopher-modal',
             mode: 'modal',
             button: this.button
         });
 
-        this.root.insertAdjacentHTML('beforeend', gopher.template);
-        gopher.startActing();
-        gopher.showModal();
-        gopher.think(`Привет ${user.nickname}. Пока что нет никого онлайн чтобы играть с тобой, но ты можешь играть со мной`, false);
+        this.root.insertAdjacentHTML('beforeend', this.gopher.template);
+        this.gopher.startActing();
+        this.gopher.showModal();
+        this.gopher.say(`Привет ${user.nickname}. Пока что нет никого онлайн чтобы играть с тобой, но ты можешь играть со мной`, false);
     };
 
-    destroy() {
+    destroy = () => {
+        this.gopher.hideModal();
+        this.gopher.destroy();
+
         bus.off(events.ROOM_SEARCHING, this.render);
-    }
+        bus.off(events.FOUND_OPPONENT, this.destroy);
+    };
 }

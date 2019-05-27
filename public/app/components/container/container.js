@@ -67,6 +67,7 @@ export class ContainerComponent {
     hideContent() {
         this.children.forEach(c => c.classList.add('anim-opacity'));
         setTimeout(() => {
+            if (!this._innerElem) return;
             this.children.forEach(c => c.classList.remove('anim-opacity'));
         },  animationTime * 1000 + 350);
     }

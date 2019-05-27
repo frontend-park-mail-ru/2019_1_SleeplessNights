@@ -94,6 +94,7 @@ export class CellComponent {
         this.icon.style.opacity = 0;
 
         setTimeout(() => {
+            if (!this.innerElem) return;
             this.innerElem.innerText = '';
             this.removeClass('game-board__cell_failed_1');
             this.addClass('game-board__cell_failed_2');

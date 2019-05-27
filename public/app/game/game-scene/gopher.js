@@ -70,6 +70,7 @@ export class Gopher {
     }
 
     destroy() {
+        this.gopher.destroy();
         bus.off(events.BOT_CHOOSING_PACK, this.onBotChoosingPack);
         bus.off(events.BOT_SELECTED_PACK, this.onBotSelectedPack);
         bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.botChoosingCell);

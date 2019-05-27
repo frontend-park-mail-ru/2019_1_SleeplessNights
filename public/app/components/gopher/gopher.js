@@ -80,7 +80,7 @@ export class GopherComponent {
         const radius2 = Math.atan2(this.height - h, this.width - p);
         this.eye(ctx, this.eyeRightX, this.eyesY, radius2);
 
-        window.requestAnimationFrame(this.drawEyes);
+        this.requestId = requestAnimationFrame(this.drawEyes);
     };
     
     startActing() {
@@ -98,7 +98,7 @@ export class GopherComponent {
             this.height = event.clientY;
         });
 
-        window.requestAnimationFrame(this.drawEyes);
+        this.requestId = requestAnimationFrame(this.drawEyes);
     }
     
     say(text, closeable=true, timeout=100) {
@@ -125,5 +125,9 @@ export class GopherComponent {
 
     off(event, callback = noop) {
         this._innerElem.removeEventListener(event, callback);
+    }
+
+    destroy() {
+        cancelAnimationFrame(this.requestId);
     }
 }

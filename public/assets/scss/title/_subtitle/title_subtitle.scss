@@ -16,6 +16,10 @@
   border-bottom: 2px solid var(--secondary-color1);
 }
 
+.title_subtitle2:hover {
+  border-bottom: none;
+}
+
 @include media-min-width() {
   .title_subtitle {
     font-size: calcY($subtitle-text-size-min, $subtitle-text-size-max);

@@ -22,6 +22,7 @@ $border-before-max: 6;
   width: px($width-min);
   height: px($height-min);
   text-align: center;
+  padding: px($padding1-min) px($padding2-min);
   border: px($border-min) solid var(--primary-color2);
   color: #333;
   background: var(--secondary-color2);
