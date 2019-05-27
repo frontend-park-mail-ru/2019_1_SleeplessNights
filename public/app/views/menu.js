@@ -3,6 +3,7 @@ import { IconComponent }      from '../components/icon/icon.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
 import { gameName, animationTime } from '../modules/constants.js';
+import bus from '../modules/bus.js';
 
 export class MenuView extends BaseView {
     constructor(el) {
@@ -105,8 +106,7 @@ export class MenuView extends BaseView {
             }
         };
     }
-
-
+    
     show() {
         this._render();
         super.show();
@@ -169,30 +169,29 @@ export class MenuView extends BaseView {
     }
 
     get _navbar() {
-        const items = new Map(this._items);
+        this.items = new Map(this._items);
         if (user.isAuthorised) {
-            items.delete('signup');
-            items.delete('login');
+            this.items.delete('signup');
+            this.items.delete('login');
         } else {
-            items.delete('profile');
-            items.delete('logout');
+            this.items.delete('profile');
+            this.items.delete('logout');
         }
 
-        Array.from(items.values()).forEach(item => {
-            const link = new LinkComponent(item);
-            item.template = link.template;
-        });
+        Array.from(this.items.values()).forEach(item => 
+            item.link = new LinkComponent(item)
+        );
 
         const navbarContainer1 = new ContainerComponent({
             customClasses: 'justify-content-left w100 pl-10px',
-            content: ` ${items.get('leaders').template} ${items.get('about').template} `
+            content: ` ${this.items.get('leaders').link.template} ${this.items.get('about').link.template} `
         });
 
         const navbarContainer2 = new ContainerComponent({
             customClasses: 'justify-content-right w100 pr-10px',
             content: `
-                ${items.has('login') ? items.get('login').template : items.get('profile').template}
-                ${items.has('signup') ? items.get('signup').template : items.get('logout').template}
+                ${this.items.has('login') ? this.items.get('login').link.template : this.items.get('profile').link.template}
+                ${this.items.has('signup') ? this.items.get('signup').link.template : this.items.get('logout').link.template}
             `
         });
 
@@ -215,6 +214,10 @@ export class MenuView extends BaseView {
     }
 
     startListening() {
+        if (this.items.has('logout')) {
+            this.items.get('logout').link.on('click', () => bus.emit('logout'));
+        }
+
         this.rightBtnContainer.href = '/multiplayer';
         this.leftBtnContainer.href = '/singleplayer';
         this.rightContainer.on('mouseover', () => {
@@ -227,8 +230,9 @@ export class MenuView extends BaseView {
             this._side = 'left-play';
         });
 
-        this.navbar.on('mouseover', () => {
-            this._side = this._side.replace('-play', '');
+        this.navbar.on('mouseover', (e) => {
+            const percent = Math.floor(e.screenX / screen.width * 100);
+            this._side = percent > 50 ? 'right' : 'left';
         });
     }
 

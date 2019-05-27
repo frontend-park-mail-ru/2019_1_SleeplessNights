@@ -48,6 +48,10 @@ export class AuthService {
         return !!Cookie.read('authorised');
     }
 
+    static get id() {
+        return AuthService.isAuthorised ? +Cookie.read('authorised') : 1;
+    }
+
     static setAuthorised(data) {
         user.isAuthorised = true;
         user.nickname = data.nickname;
@@ -60,10 +64,13 @@ export class AuthService {
                     email: data.email,
                     avatarPath: makeAvatarPath(data.avatarPath)
                 }]);
+
+                AuthService.setAuthorised(data);
+            } else {
+                window.user.id = user[0].id;
+                Cookie.add('authorised', window.user.id, 1);
             }
         });
-
-        Cookie.add('authorised', 1, 1);
     }
 
     static removeAuthorised() {

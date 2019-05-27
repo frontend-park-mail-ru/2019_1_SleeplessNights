@@ -21,6 +21,10 @@ export class BoardComponent {
         return this._template;
     }
 
+    get _innerElem() {
+        return document.getElementById('scoreboard');
+    }
+
     _render() {
         this._template = template({
             players: this._players
@@ -32,6 +36,8 @@ export class BoardComponent {
             .emit('get-leaders', page)
             .on('success:get-leaders', (res) => {
                 this._players = [];
+                if (!res.data) return;
+
                 res.data.forEach((item, i) => {
                     this._players.push({
                         number: i + 1,
@@ -51,23 +57,21 @@ export class BoardComponent {
                         currentPage: res.page
                     });
 
-                    this._template = Handlebars.templates.board({
+                    this._template = template({
                         players: this._players
                     }) + pager.template;
 
                     this._pager = pager;
                 } else {
-                    this._template = Handlebars.templates.board({
+                    this._template = template({
                         players: this._players
-                    }) + '<p>База Данных сервера пока что пусто...</p>';
+                    });
                 }
 
-                bus.emit('update-card', this.template);
+                this.updateContent();
                 this.runGetScoreboardByPage();
             })
-            .on('error:get-leaders', (data) => {
-                bus.emit('update-card', data);
-            });
+            .on('error:get-leaders', (data) => console.log(data));
     }
 
     runGetScoreboardByPage() {
@@ -80,5 +84,9 @@ export class BoardComponent {
             event.preventDefault();
             this._getLeaders(target.innerText);
         });
+    }
+
+    updateContent() {
+        this._innerElem.outerHTML = this.template;
     }
 }
