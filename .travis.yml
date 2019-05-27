@@ -7,7 +7,6 @@ script:
   - chmod 600 ./2019_1_SleeplessNights_id_rsa.pem
   - ssh-keyscan -H 89.208.198.186 >> ~/.ssh/known_hosts
   - scp -i ./2019_1_SleeplessNights_id_rsa.pem -r ./public/ ubuntu@89.208.198.186:/home/ubuntu/Deploy/Frontend
-  -
 
 branches:
   only:
