@@ -1,0 +1,11 @@
+@import '../../../../assets/scss/_global';
+
+.form_w50 { width: 80%; }
+
+@include media-min-width() {
+    .form_w50 { width: calcY(267, 377); }
+}
+
+@include media-max-width() {
+    .form_w50 { width: 50%; }
+}

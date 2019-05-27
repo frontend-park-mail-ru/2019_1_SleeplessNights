@@ -1,0 +1,41 @@
+@import '../../../../assets/scss/global';
+
+$width-min: 34;
+$width-max: 80;
+$height-min: 30;
+$height-max: 70;
+$left-min: 9;
+$left-max: 23;
+$top-min: -1;
+$top-max: -3;
+
+.gopher__eyes {
+  position: absolute;
+  top: px($top-min);
+  left: px($left-min);
+  opacity: 1;
+  z-index: 2;
+  width: px($width-min);
+  height: px($height-min);
+  display: block;
+  margin: 0 auto;
+  transition: opacity .2s ease-in-out .3s, left .3s ease-in-out 0s;
+}
+
+@include media-min-width() {
+  .gopher__eyes {
+    top: calcY($top-min, $top-max);
+    left: calcY($left-min, $left-max);
+    width: calcY($width-min, $width-max);
+    height: calcY($height-min, $height-max);
+  }
+}
+
+@include media-max-width() {
+  .gopher__eyes {
+    top: px($top-max);
+    left: px($left-max);
+    width: px($width-max);
+    height: px($height-max);
+  }
+}

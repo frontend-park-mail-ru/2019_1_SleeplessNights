@@ -13,20 +13,13 @@ export class EndGameScene {
             'В главное меню'
         ];
         this.modal = null;
-        this.currentPlayer = null;
-
-        bus.on('selected-prize', this.showModalEndGame);
-        bus.on('no-available-cells', this.showModalEndGame);
-        bus.on('selected-answer-end-game', this.selectAnswer);
-        bus.on('set-current-player', this.setCurrentPlayer);
+        bus.on(events.END_GAME, this.showModalEndGame);
     }
 
-    setCurrentPlayer = (pl) => this.currentPlayer = pl;
-
-    showModalEndGame = (lost) => {
+    showModalEndGame = (win) => {
         if (this.modal) return;
         const text = `
-            ${ this.currentPlayer === 'me' && !lost ? 'Поздравляем вы победили !!!'
+            ${win ? 'Поздравляем вы победили !!!'
             : 'Вы проиграли.'
             }`;
         const questionText = new QuestionComponent({
@@ -36,9 +29,11 @@ export class EndGameScene {
 
         const answerSection = document.createElement('div');
         answerSection.className = 'answer-block';
+        answerSection.id = 'answer-block-end-game';
 
         this.buttons.forEach((answer, id) => {
             const button = new AnswerComponent({
+                customClasses: 'container_theme-primary2',
                 answerId: id,
                 text: answer
             });
@@ -47,38 +42,28 @@ export class EndGameScene {
         });
 
         this.modal = new ModalComponent({
-            customClasses: 'modal_w-400',
-            isCloseable: true,
-            body: `
-                    ${questionText.template}
-                    ${answerSection.outerHTML}
-                `
+            customClasses: 'w60-vw container_skewed justify-content-center align-items-center container_theme-primary1',
+            isCloseable: false,
+            body: `${questionText.template} ${answerSection.outerHTML}`
         });
 
         this.root.insertAdjacentHTML('beforeend', this.modal.template);
         this.modal.show();
 
-        const anBlock = document.getElementsByClassName('answer-block')[0];
+        const anBlock = document.getElementById('answer-block-end-game');
         const answerChoosing = (event) => {
             const target = event.target;
             event.stopPropagation();
-            if ('chat.js' in target.dataset) {
+            if ('index' in target.dataset) {
                 anBlock.removeEventListener('click', answerChoosing);
-                bus.emit('selected-answer-end-game', +target.dataset.index);
+                bus.emit(events.PLAY_AGAIN_OR_NOT, +target.dataset.index);
             }
         };
 
         anBlock.addEventListener('click', answerChoosing);
     };
 
-    selectAnswer = (id) => {
-        bus.emit(events.FINISH_GAME, id);
-    };
-
     destroy() {
-        bus.off('selected-prize', this.showModalEndGame);
-        bus.off('no-available-cells', this.showModalEndGame);
-        bus.off('selected-answer-end-game', this.selectAnswer);
-        bus.off('set-current-player', this.setCurrentPlayer);
+        bus.off(events.END_GAME, this.showModalEndGame);
     }
 }

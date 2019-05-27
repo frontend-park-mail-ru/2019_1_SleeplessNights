@@ -1,17 +1,16 @@
-import { AvatarComponent } from '../../components/avatar/avatar.js';
-import { CellComponent } from '../../components/gameBoardCell/cell.js';
-import { ContainerComponent } from '../../components/_new/container/container.js';
+import { CellComponent }      from '../../components/gameBoard/cell/cell.js';
 import { GameBoardComponent } from '../../components/gameBoard/gameBoard.js';
 import { PackSectionComponent } from '../../components/pack/pack.js';
-import { SelectAnswerScene }  from './selectAnswer.js';
+import { SelectAnswerScene }    from './selectAnswer.js';
 import { EndGameScene } from './endGame.js';
-import { GameScene }    from './index.js';
+import { events }       from '../core/events.js';
+import { gameConsts }   from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
-export class PlayingScene extends GameScene {
-    constructor(root) {
-        super(root);
-        this.CELL_COUNT = 8;
+export class PlayingScene {
+    constructor(root, container) {
+        this.root = root;
+        this.container = container;
         this.cells = [];
         this.availableCells = [];
         this.gameBoard = null;
@@ -21,12 +20,14 @@ export class PlayingScene extends GameScene {
         this._packsSection = document.createElement('section');
         this._packsSection.id = 'pack-section';
 
-        bus.on('fill-pack-list', this.updatePackList);
-        bus.on('fill-cells', this.fillCells);
-        bus.on('selected-cell', this.onSelectedCell);
-        bus.on('answered-cell', this.onAnsweredCell);
-        bus.on('success:get-available-cells', this.onGetAvailableCells);
-        bus.on('set-current-player', this.onChangePlayer);
+        bus.on(events.FILL_PACK_LIST,     this.updatePackList);
+        bus.on(events.FILL_CELLS,         this.fillCells);
+        bus.on(events.SELECTED_CELL,      this.onSelectedCell);
+        bus.on(events.ANSWERED_CELL,      this.onAnsweredCell);
+        bus.on(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.on(events.START_TIMEOUT_QUESTION, this.startTimeout);
+        bus.on(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
+        bus.on(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
 
         this.render();
     }
@@ -41,99 +42,86 @@ export class PlayingScene extends GameScene {
     }
 
     render() {
-        this.avatarMe = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const leftContainer = new ContainerComponent({
-            customClasses: 'container__col-w25 container_align-items-center',
-            content: `${this.avatarMe.template}`
-        });
-
-        this.avatarOponent = new AvatarComponent({ customClasses: 'avatar_game-board' });
-        const rightContainer = new ContainerComponent({
-            customClasses: 'container__col-w25 container_align-items-center',
-            content: this.avatarOponent.template
-        });
-
-        for (let i = 0; i < this.CELL_COUNT ** 2; i++) {
+        for (let i = 0; i < gameConsts.CELL_COUNT ** 2; i++) {
             const newCell = new CellComponent();
             this.cells.push(newCell);
         }
+
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
-
-        const centreContainer = new ContainerComponent({
-            customClasses: 'container__col-w50 container_align-items-center',
-            content: this.gameBoard.template
-        });
-
-        this.root.insertAdjacentHTML('beforeend', `
-                ${leftContainer.template}
-                ${centreContainer.template}
-                ${rightContainer.template}
-                ${this.packsSection}
-            `);
-
-        this.root.style.background = 'linear-gradient(180deg, #ffffff 50%, #f3f3f3 50%)';
+        this.container.content = this.gameBoard.template;
+        this.root.insertAdjacentHTML('beforeend', this.packsSection);
     }
 
     updatePackList = (packs) => {
-        const packSection = new PackSectionComponent(packs);
+        const packSection = new PackSectionComponent({
+            customClasses: 'container_theme-secondary3',
+            packs
+        });
         this.packsSection = packSection.template;
 
         const icon = document.getElementsByClassName('packs-section__icon')[0];
-        packSection.on('mouseover', () => icon.style.opacity = 0);
+        packSection.on('mouseover',  () => icon.style.opacity = 0);
         packSection.on('mouseleave', () => icon.style.opacity = 1);
     };
 
     fillCells = (data) => {
         const count = data.length;
+        if (!count) return;
         let i = 0;
 
         const timer = setInterval(() => {
             const d = data[i];
-            const cell = this.cells[i].innerElem;
-            cell.dataset.type = d.type;
-            cell.style.backgroundColor = d.color;
-
-            if (d.type === 'question') {
-                cell.dataset.id = i;
-            }
+            const cell = this.cells[i];
+            if (!cell) return;
+            cell.setDataset('type', d.type);
+            cell.bgColor = d.color;
+            cell.icon = d.iconPath;
+            cell.setDataset('id', i);
 
             if (++i >= count) clearInterval(timer);
         }, 10);
     };
 
     onChangePlayer = (pl) => {
-        if (pl === 'me') {
-            this.gameBoard.on('click', this.chooseQuestion);
-        } else {
-            this.gameBoard.off('click', this.chooseQuestion);
+        const cond = pl === 'me';
+        this.gameBoard[cond ? 'on': 'off']('click', this.chooseQuestion);
+        bus.emit(events.START_TIMEOUT_QUESTION, gameConsts.TIMER_QUESTION);
+    };
+
+    startTimeout = () => {
+        this.timer = setTimeout(() => {
+            bus.emit(events.SELECTED_CELL, -1);
+            bus.emit(events.ENDED_TIME_TO_QUESTION);
+        }, gameConsts.TIMER_QUESTION * 1000);
+    };
+
+    stopTimeout = () => {
+        console.log('stop');
+        if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = null;
         }
     };
 
     chooseQuestion = (event) => {
-        const target = event.target;
+        let target = event.target;
+        if (target instanceof HTMLImageElement) {
+            target = target.parentNode;
+        }
+
         if ('type' in target.dataset && target.dataset.state === 'active') {
-            const type = target.dataset.type;
-            if (type === 'question') {
-                bus.emit('selected-cell', +target.dataset.id);
-            } else if (type === 'prize') {
-                bus.emit('selected-prize');
-            }
+            bus.emit(events.SELECTED_CELL, +target.dataset.id);
         }
     };
 
     onAnsweredCell = (answer) => {
         const cell = this.cells[this.selectedCell];
-        if (answer) {
-            cell.setAnswered();
-        } else {
-            cell.setFailed();
-        }
-        bus.emit('set-answered-cell', { id: this.selectedCell, answer });
+        answer ? cell.setAnswered() : cell.setFailed();
     };
 
     onGetAvailableCells = (availableCells) => {
-        this.availableCells = availableCells;
-        availableCells.forEach(i => this.cells[i].setActive());
+        this.availableCells = availableCells.map(el => el.id);
+        this.availableCells.forEach(i => this.cells[i].setActive());
     };
 
     onSelectedCell = (id) => {
@@ -143,15 +131,17 @@ export class PlayingScene extends GameScene {
     };
 
     destroy() {
-        super.destroy();
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
+        this.stopTimeout();
 
-        bus.off('fill-pack-list', this.updatePackList);
-        bus.off('fill-cells', this.fillCells);
-        bus.off('selected-cell', this.onSelectedCell);
-        bus.off('answered-cell', this.onAnsweredCell);
-        bus.off('success:get-available-cells', this.onGetAvailableCells);
-        bus.off('set-current-player', this.onChangePlayer);
+        bus.off(events.FILL_PACK_LIST,     this.updatePackList);
+        bus.off(events.FILL_CELLS,         this.fillCells);
+        bus.off(events.SELECTED_CELL,      this.onSelectedCell);
+        bus.off(events.ANSWERED_CELL,      this.onAnsweredCell);
+        bus.off(events.SET_CURRENT_PLAYER, this.onChangePlayer);
+        bus.off(events.START_TIMEOUT_QUESTION, this.startTimeout);
+        bus.off(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
+        bus.off(`success:${events.GET_AVAILABLE_CELLS}`, this.onGetAvailableCells);
     }
 }

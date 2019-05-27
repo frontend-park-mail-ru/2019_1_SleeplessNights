@@ -1,22 +1,73 @@
+@import '../../../assets/scss/global';
+
+$pack-width-min: 80;
+$pack-width-max: 150;
+$pack-height-min: 40;
+$pack-height-max: 60;
+$border-radius-min: 20;
+$border-radius-max: 40;
+$font-size-min: 12;
+$font-size-max: 20;
+
 .packs-section {
-  position: absolute;
   bottom: 10px;
-  width: 130px;
-  height: 60px;
-  background-color: white;
-  border-radius: 40px;
-  transition: all 1s;
-  cursor: pointer;
+  left: 7%;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  box-sizing: border-box;
   box-shadow:0 0 30px rgba(156,156,156,0.7);
   z-index: 1;
 }
 
+.packs-section, .packs-section__icon {
+  position: absolute;
+  width: px($pack-width-min);
+  height: px($pack-height-min);
+  background-color: var(--secondary-color2);
+  border-radius: px($border-radius-min);
+  transition: all 1s;
+  font-size: px($font-size-min);
+}
+
+$padding-min: 10;
+$padding-max: 40;
+$width-min: 90;
+$width-max: 80;
+$left-min: 5;
+$left-max: 10;
+
 .packs-section:hover {
-  width: 70%;
-  bottom: 0;
-  height: 70px;
+  width: percent($width-min);
+  left: percent($left-min);
+  padding: 0 px($padding-min);
+  justify-content: space-between;
+}
+
+@include media-min-width() {
+  .packs-section, .packs-section__icon {
+    width: calcY($pack-width-min, $pack-width-max);
+    height: calcY($pack-height-min, $pack-height-max);
+    border-radius: calcY($border-radius-min, $border-radius-max);
+    font-size: calcY($font-size-min, $font-size-max);
+  }
+
+  .packs-section:hover {
+    width: calcY($width-min, $width-max, percent);
+    left: calcY($left-min, $left-max, percent);
+    padding: 0 calcY($padding-min, $padding-max);
+  }
+}
+
+@include media-max-width() {
+  .packs-section, .packs-section__icon {
+    width: px($pack-width-max);
+    height: px($pack-height-max);
+    border-radius: px($border-radius-max);
+    font-size: px($font-size-max);
+  }
+
+  .packs-section:hover {
+    width: percent($width-max);
+    left: percent($left-max);
+    padding: 0 px($padding-max);
+  }
 }

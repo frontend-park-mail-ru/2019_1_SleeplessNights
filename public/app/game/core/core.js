@@ -1,67 +1,102 @@
-import { events} from './events.js';
+import { events } from './events.js';
+import { gameConsts } from '../../modules/constants.js';
 import idb from '../../modules/indexdb.js';
 import bus from '../../modules/bus.js'
 
 export class GameCore {
     constructor() {
         this.me = {
-            avatar_path: '/assets/img/default-avatar.png',
-            nickname: 'Guest',
+            nickname: user.nickname,
             lastMove: null
         };
+        this.gameMatrix = [];
+        this.packs = [];
+        this.prizes = [];
+        this.selectedPacks = 0;
         this.opponent = null;
-        this.CELL_COUNT = 8;
-        this.colors = [
-            {
-                color: '#B3B156'
-            },
-            {
-                color: '#FFFD94'
-            },
-            {
-                color: '#ADE0FF'
-            },
-            {
-                color: '#FFB454'
-            },
-            {
-                color:'#00FFC5',
-            },
-            {
-                color: '#CC6264',
-            }
-        ];
+        this.currentPlayer = 'me';
+        this.cellCount = gameConsts.CELL_COUNT;
+        this.colors = gameConsts.THEME_COLORS.map(c => { return {color: c} });
     }
 
     start() {
-        bus.on(events.START_GAME, this.onGameStarted);
-        bus.on(events.FINISH_GAME, this.onGameFinished);
-        bus.on('fill-pack-list', this.onFillPacksList);
-        bus.on('selected-cell', this.onSelectedCell);
-        bus.on('success:get-pack-id-', this.onGetPacks);
-        bus.on(`success:get-user-nickname-${user.nickname}`, this.getMe);
+        this.onGetCells = this.onGetCells.bind(this);
+        this.onSelectedPack = this.onSelectedPack.bind(this);
+        bus.on(events.SELECTED_CELL, this.onSelectedCell);
+        bus.on(events.SELECTED_PACK, this.onSelectedPack);
+        bus.on(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
+        bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
+        bus.on(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
+        bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
+        bus.on(events.GET_CELLS,       this.onGetCells);
+        bus.on(`success:${events.GET_PACK}-10`, this.onGetPacks);
+        bus.on(`success:${events.GET_CELLS}`, this.onGetCells);
 
-        idb.getAll('user', 'nickname', user.nickname, 1);
+        idb.getAll('user', 'nickname', user.nickname);
     }
 
-    getMe = (data) => {
-        if (data.length) {
-            this.me.avatar_path = data[0].avatar_path;
-            this.me.avatar_path = data[0].avatar_path;
-        }
+    setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
-        bus.emit('loaded-users', { me: this.me, opponent: this.opponent });
+    onSetOpponentProfile = (data) => {
+        this.opponent = {
+            nickname: data.nickname,
+            lastMove: null
+        };
     };
 
-    onGameStarted() {
-        throw new Error('This method must be overridden');
+    onGetPacks = (data) => {
+        this.packs = data;
+        this.packs.forEach((pack, i) => {
+            Object.assign(pack, this.colors[i]);
+            Object.assign(pack, { type: 'pack', state: 'active' });
+        });
+
+        this.packs.splice(5, 0, {name: "", iconPath: "#", id: -1, color: gameConsts.PRIZE_COLOR});
+        this.packs.splice(5, 0, {name: "", iconPath: "#", id: -1, color: gameConsts.PRIZE_COLOR});
+
+        bus.emit(events.FILL_PACK_BOARD, this.packs);
+    };
+
+    onGetCells(data) {
+        for (let i = 0; i < gameConsts.CELL_COUNT; i++) {
+            for (let j = 0; j < gameConsts.CELL_COUNT; j++) {
+                if (
+                    (i === gameConsts.PRIZE_INDEXES[0].x && j === gameConsts.PRIZE_INDEXES[0].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[1].x && j === gameConsts.PRIZE_INDEXES[1].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[2].x && j === gameConsts.PRIZE_INDEXES[2].y) ||
+                    (i === gameConsts.PRIZE_INDEXES[3].x && j === gameConsts.PRIZE_INDEXES[3].y)
+                ) {
+                    this.gameMatrix.push({
+                        type: 'prize',
+                        name: 'Приз',
+                        color: gameConsts.PRIZE_COLOR
+                    });
+                } else {
+                    this.gameMatrix.push({
+                        type: 'question'
+                    });
+                }
+            }
+        }
+
+        let c = 0;
+        this.gameMatrix.forEach((cell, i) => {
+            if (cell.type === 'question') {
+                const pack = this.packs.findIndex(p => p.id === data[c]);
+                c++;
+                Object.assign(cell, this.packs[pack]);
+            } else {
+                Object.assign(cell, { iconPath: '#' });
+                this.prizes.push(i);
+            }
+        });
     }
 
-    onGameFinished() {
+    onSelectedPack() {
         throw new Error('This method must be overridden');
-    }
+    };
 
-    onGetPacks = () => {
+    onPlayAgain = () => {
         throw new Error('This method must be overridden');
     };
 
@@ -73,12 +108,19 @@ export class GameCore {
         throw new Error('This method must be overridden');
     };
 
+    onSelectedAnswer = () => {
+        throw new Error('This method must be overridden');
+    };
+
     destroy() {
-        bus.off(events.START_GAME, this.onGameStarted);
-        bus.off(events.FINISH_GAME, this.onGameFinished);
-        bus.off('fill-pack-list', this.onFillPacksList);
-        bus.off('selected-cell', this.onSelectedCell);
-        bus.off('success:get-pack-id-', this.onGetPacks);
-        bus.off(`success:get-user-nickname-${user.nickname}`, this.getMe);
+        bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
+        bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
+        bus.off(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
+        bus.off(events.SELECTED_CELL,   this.onSelectedCell);
+        bus.off(events.SELECTED_PACK,   this.onSelectedPack);
+        bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);
+        bus.off(events.GET_CELLS,       this.onGetCells);
+        bus.off(`success:${events.GET_PACK}-10`, this.onGetPacks);
+        bus.off(`success:${events.GET_CELLS}`,  this.onGetCells);
     }
 }

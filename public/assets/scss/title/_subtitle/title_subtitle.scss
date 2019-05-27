@@ -1,10 +1,33 @@
-@import "../../global.scss";
+@import '../../global';
 
 .title_subtitle {
-  font-size: $subtitle-text-size;
   font-weight: normal;
+  font-size: px($subtitle-text-size-min);
+}
+
+.title_subtitle2 {
+  width: 95%;
+  font-weight: normal;
+  margin-bottom: 1em;
+  text-align: center;
 }
 
 .title_subtitle:hover {
-  border-bottom: 2px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color1);
+}
+
+.title_subtitle2:hover {
+  border-bottom: none;
+}
+
+@include media-min-width() {
+  .title_subtitle {
+    font-size: calcY($subtitle-text-size-min, $subtitle-text-size-max);
+  }
+}
+
+@include media-max-width() {
+  .title_subtitle {
+    font-size: px($subtitle-text-size-max);
+  }
 }

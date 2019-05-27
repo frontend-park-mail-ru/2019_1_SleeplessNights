@@ -1,9 +1,8 @@
-import { modes } from './modes.js';
 import { SinglePlayer } from './core/singlePlayer.js';
 import { MultiPlayer }  from './core/multiPlayer.js';
-import { GameController } from './controller.js';
-import { PlayingScene }   from './game-scene/playing.js';
+import { GameScene } from './game-scene/index.js';
 import { events } from './core/events.js';
+import { modes } from './modes.js';
 import bus from '../modules/bus.js';
 
 export class Game {
@@ -12,9 +11,10 @@ export class Game {
         mode = ''
     } = {}) {
         this.root = root;
+        this.mode = mode;
         this.GameConstructor = null;
 
-        switch (mode) {
+        switch (this.mode) {
         case modes.SINGLE_PLAYER:
             this.GameConstructor = SinglePlayer;
             break;
@@ -27,7 +27,6 @@ export class Game {
 
         this.gameScene = null;
         this.gameCore = null;
-        this.gameContoller = new GameController();
 
         bus.emit('show-loader');
         bus.emit('check-indexedDB');
@@ -37,12 +36,12 @@ export class Game {
     start = () => {
         bus.off('success:check-indexedDB', this.start);
         bus.emit('hide-loader');
-        if (!this.gameScene) {
-            this.gameScene = new PlayingScene(this.root);
-        }
-        if (!this.gameCore) {
+        // if (!this.gameScene) {
+            this.gameScene = new GameScene(this.root, this.mode);
+        // }
+        // if (!this.gameCore) {
             this.gameCore = new this.GameConstructor();
-        }
+        // }
 
         this.gameCore.start();
         bus.on(events.FINISH_GAME, this.destroy);

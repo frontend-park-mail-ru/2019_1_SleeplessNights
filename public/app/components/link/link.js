@@ -1,5 +1,8 @@
 import { noop, uniqueId } from '../../modules/utils.js';
 import { IconComponent }  from '../icon/icon.js';
+import template from './link.handlebars';
+import './link.scss';
+import './_primary/link_primary.scss';
 
 export class LinkComponent {
     _customClasses;
@@ -41,7 +44,7 @@ export class LinkComponent {
     _render() {
         const icon = new IconComponent(this._icon);
 
-        this._template = Handlebars.templates.link({
+        this._template = template({
             id:        this._id,
             customClasses: this._customClasses,
             href:      this._href,

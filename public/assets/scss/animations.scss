@@ -1,0 +1,176 @@
+@import 'global';
+
+$animation-time: 1070ms;
+$animation-type: ease-in-out;
+$bg-degree: 94deg;
+$bg-play-left:
+        linear-gradient($bg-degree,
+            var(--primary-color1)   12.45%,
+            var(--secondary-color2) 12.5%,
+            var(--secondary-color2) 37.45%,
+            var(--primary-color1)   37.5%,
+            var(--primary-color1)   74.9%,
+            var(--primary-color2)   75%
+        );
+$bg-play-right:
+        linear-gradient($bg-degree,
+            var(--primary-color1)   24.9%,
+            var(--primary-color2)   25%,
+            var(--primary-color2)   62.45%,
+            var(--secondary-color2) 62.5%,
+            var(--secondary-color2) 87.45%,
+            var(--primary-color2)   87.5%
+        );
+
+.anim-page-left-container {
+  @include animation(page-left-play-container $animation-time $animation-type);
+}
+
+@include keyframes(page-left-play-container) {
+  to {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+.anim-page-right-container {
+  @include animation(page-right-play-container $animation-time $animation-type);
+}
+
+@include keyframes(page-right-play-container) {
+  to {
+    opacity: 0;
+    width: 0;
+  }
+}
+
+.anim-page-right {
+  @include animation(page-right $animation-time $animation-type);
+}
+
+@include keyframes(page-right) {
+  to {
+    width: 6%;
+  }
+}
+
+.anim-page-left {
+  @include animation(page-left $animation-time $animation-type);
+}
+
+@keyframes page-left {
+  to {
+    width: 97%;
+  }
+}
+
+.anim-page-left-play {
+  background: $bg-play-left;
+  @include bg-position-x(100%);
+  @include background-size(200% 100%);
+  @include animation(page-left-play $animation-time $animation-type);
+}
+
+@include keyframes(page-left-play){
+  to {
+    @include bg-position-x(0);
+  }
+}
+
+.anim-page-right-play  {
+  background: $bg-play-right;
+  @include bg-position-x(0);
+  @include background-size(200% 100%);
+  @include animation(page-right-play $animation-time $animation-type);
+}
+
+.anim-page-play-1 {
+  background: $bg-play-left;
+  @include bg-position-x(0);
+  @include background-size(200% 100%);
+  @include animation(page-right-play $animation-time $animation-type);
+}
+
+.anim-page-play-2 {
+  background: $bg-play-right;
+  @include bg-position-x(100%);
+  @include background-size(200% 100%);
+  @include animation(page-left-play $animation-time $animation-type);
+}
+
+@include keyframes(page-right-play) {
+  to {
+    @include bg-position-x(100%);
+  }
+}
+
+.anim-opacity {
+  @include animation(page-opacity $animation-time $animation-type);
+}
+
+@include keyframes(page-opacity) {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.anim-opacity-2 {
+  @include animation(page-opacity-2 $animation-time / 2 $animation-type);
+}
+
+@include keyframes(page-opacity-2) {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+$animations-width-to: (
+      0: 0,
+      20: 20%,
+      50: 50%,
+      74: 74%,
+);
+
+@each $key, $size in $animations-width-to {
+  &.anim-width-to-#{$key} {
+    @include animation(width-to-#{$key} $animation-time $animation-type);
+  }
+
+  @include keyframes(width-to-#{$key}) {
+    to {
+      width: $size;
+    }
+  }
+}
+
+.anim-jumping {
+  animation: jumping 450ms ease;
+  /*animation-iteration-count: 4;*/
+}
+
+.anim-coming {
+  animation: coming 1s ease;
+}
+
+@include keyframes(jumping) {
+  to {
+    transform: translateY(-15px);
+  }
+}
+
+@include keyframes(coming) {
+  from {
+    transform: translateX(600px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

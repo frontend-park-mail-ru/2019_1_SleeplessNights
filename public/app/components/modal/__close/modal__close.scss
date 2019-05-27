@@ -1,0 +1,14 @@
+@import '../../../../assets/scss/global';
+
+.modal__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  outline: none;
+  cursor: pointer;
+  width: $modal-close-btn-width;
+  margin-right: -($modal-close-btn-width);
+  border: none;
+  @include border-radius(none);
+}

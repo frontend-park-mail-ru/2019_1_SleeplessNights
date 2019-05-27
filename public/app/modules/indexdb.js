@@ -3,7 +3,7 @@ import bus from './bus.js';
 class IndexedDB {
     constructor () {
         this.DB_NAME = 'quiz-planet';
-        this.DB_VERSION = 2;
+        this.DB_VERSION = 3;
         this.db = null;
 
         if (!('indexedDB' in window)) {
@@ -30,7 +30,7 @@ class IndexedDB {
             if (key) index = tx.index(key);
 
             index.getAll(item, count).onsuccess = (event) => {
-                bus.emit(`success:get-${storeName}-${key ? key: 'id'}-${item ? item: ''}`, event.target.result);
+                bus.emit(`success:get-${storeName}-${key ? key: 'id'}${item ? '-' + item: ''}${count ? '-' + count: ''}`, event.target.result);
             };
         });
     }
@@ -74,10 +74,12 @@ class IndexedDB {
 
             const user = this.db.createObjectStore('user', { keyPath: 'id', autoIncrement: true });
             user.createIndex('nickname', 'nickname', { unique: false });
-            user.createIndex('avatar_path', 'avatar_path', { unique: false });
+            user.createIndex('email', 'email', { unique: true });
+            user.createIndex('avatarPath', 'avatarPath', { unique: false });
 
             const pack = this.db.createObjectStore('pack', { keyPath: 'id', autoIncrement: true });
             pack.createIndex('name', 'name', { unique: false });
+            pack.createIndex('iconPath', 'iconPath', { unique: false });
 
             const question = this.db.createObjectStore('question', { keyPath: 'id', autoIncrement: true });
             question.createIndex('answers', 'answers', { unique: false });

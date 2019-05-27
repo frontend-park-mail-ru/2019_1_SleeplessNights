@@ -1,17 +1,22 @@
+import { uniqueId } from '../../modules/utils.js';
+import { events } from '../../game/core/events.js';
+import bus from '../../modules/bus.js';
+import template from './timer.handlebars';
+import './timer.scss';
+
 export class TimerComponent {
     _customClasses;
     _id;
     _template;
-    _time;
 
     constructor({
-        customClasses = '',
-        time = 0
+        customClasses = ''
     } = {}) {
         this._customClasses = customClasses;
-        this._time = time;
+        this._id = 'timer' + uniqueId();
+
         this._render();
-        bus.on('start-timer', () => this._startTimer());
+        bus.on(events.FINISH_GAME, () => this.timer ? this.stop() : null);
     }
 
     get template() {
@@ -19,32 +24,38 @@ export class TimerComponent {
     }
 
     get _innerElem() {
-        return document.getElementsByClassName('timer')[0];
+        return document.getElementById(this._id);
     }
 
     _render() {
-        this._template = Handlebars.templates.timer({
+        this._template = template({
             customClasses: this._customClasses,
             id:            this._id
         });
     }
 
-    _startTimer() {
-        const timerTo = new Date( new Date().getTime() + ++this._time * 1000);
+    start(time) {
+        const timerTo = new Date( new Date().getTime() + time * 1000);
+        if (time < 10) time = '0' + time;
+        this._innerElem.innerHTML = time;
 
-        const timer = setInterval(() => {
+        this.timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = Math.ceil((timerTo - now) / 1000);
-
-            let minutes = Math.floor((distance % (60 * 60)) / 60);
             let seconds = Math.floor(distance % 60);
 
-            if (minutes < 10) minutes = '0' + minutes;
+            if (seconds <= 0) this.stop();
             if (seconds < 10) seconds = '0' + seconds;
             if (seconds <= 5) this._innerElem.classList.add('timer_red');
-            if (distance <= 0) clearInterval(timer);
 
-            this._innerElem.innerHTML = `${minutes}:${seconds}`;
+            this._innerElem.innerHTML = seconds;
         }, 1000);
+    }
+
+    stop() {
+        clearInterval(this.timer);
+        this.timer = null;
+        this._innerElem.classList.remove('timer_red');
+        this._innerElem.innerHTML = '';
     }
 }

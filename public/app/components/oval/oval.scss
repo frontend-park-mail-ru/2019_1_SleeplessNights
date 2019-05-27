@@ -1,0 +1,48 @@
+@import '../../../assets/scss/global';
+
+$width-min: 135;
+$width-max: 300;
+$height-min: 20;
+$height-max: 100;
+
+$padding1-min: 35;
+$padding1-max: 50;
+$padding2-min: 10;
+$padding2-max: 20;
+$border-min: 4;
+$border-max: 7;
+$border-before-min: 3;
+$border-before-max: 6;
+
+.oval {
+  position: absolute;
+  display: flex;
+  opacity: 0;
+  z-index: 3;
+  width: px($width-min);
+  height: px($height-min);
+  text-align: center;
+  padding: px($padding1-min) px($padding2-min);
+  border: px($border-min) solid var(--primary-color2);
+  color: #333;
+  background: var(--secondary-color2);
+  border-radius: 240px / 140px;
+}
+
+@include media-min-width() {
+  .oval {
+    width: calcY($width-min, $width-max);
+    height: calcY($height-min, $height-max);
+    padding: calcY($padding1-min, $padding1-max) calcY($padding2-min, $padding2-max);
+    border-width: calcY($border-min, $border-max);
+  }
+}
+
+@include media-max-width() {
+  .oval {
+    width: px($width-max);
+    height: px($height-max);
+    padding: px($padding1-max) px($padding2-max);
+    border-width: px($border-max);
+  }
+}

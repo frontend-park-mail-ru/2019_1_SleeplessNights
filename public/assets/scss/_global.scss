@@ -1,27 +1,42 @@
 :root {
-  --primary-color: #f8f1b5;
+  --primary-color1: #f8f1b5;
   --primary-color2: #426e86;
-  --secondary-color: #011A27;
+  --secondary-color1: #011A27;
+  --secondary-color2: #fff;
   --success-color: #058e3f;
   --danger-color: #931621;
   --accent-color: #e6af2e;
 }
 
 $whitespace-base-size: 10px;
+$avatar-border-max: 8;
+$avatar-border-min: 4;
+
+$play-icon-size-max: 230;
+$play-icon-size-min: 100;
+
+$title-text-size-min: 19;
+$title-text-size-max: 45;
+$subtitle-text-size-min: 13;
+$subtitle-text-size-max: 20;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
-$title-text-size: 40px;
-$subtitle-text-size: 18px;
 $title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
-$avatar-size: 140px;
+
+$avatar-size-max: 220;
+$avatar-size-min: 90;
+
 $modal-min-size: 200px;
 $form-control-size: 40px;
 $button-height: 32px;
 $button-font-weight: 600;
 $modal-close-btn-width: 5 * $whitespace-base-size;
+
+$minimum-width: 480;
+$maximum-width: 1100;
 
 $media-breakpoints: (
         s:  576px,
@@ -37,7 +52,8 @@ $colors: (
         "secondary-light": #44a9ae,
         "background": #ffffff,
         "success": green,
-        "error": red
+        "error": red,
+        "prize": #0c5460
 );
 
 @function color($color-key) {
@@ -45,16 +61,40 @@ $colors: (
 }
 
 $grid-columns: (
-        w10 : 10%,
+        w3 :  3%,
+        w6 :  6%,
+        w10:  10%,
         w15:  15%,
         w20:  20%,
         w25:  25%,
         w50:  50%,
+        w49:  49.5%,
         w70:  70%,
+        w74:  74%,
         w75:  75%,
         w85:  85%,
         w90:  90%,
+        w94:  94%,
+        w97:  97%,
         w100: 100%
+);
+
+$grid-columns-vw: (
+        w3 :  3vw,
+        w6 :  6vw,
+        w10 : 10vw,
+        w20:  20vw,
+        w30:  30vw,
+        w40:  40vw,
+        w50:  50vw,
+        w60:  60vw,
+        w70:  70vw,
+        w75:  75vw,
+        w85:  85vw,
+        w90:  90vw,
+        w94:  94vw,
+        w97:  97vw,
+        w100: 100vw
 );
 
 $grid-rows: (
@@ -64,6 +104,11 @@ $grid-rows: (
         h75:  75%,
         h100: 100%
 );
+
+@mixin answered($bgColor) {
+  background: $bgColor !important;
+  color: var(--secondary-color2) !important;
+}
 
 @mixin box-shadow($args) {
   -moz-box-shadow: $args;
@@ -130,6 +175,7 @@ $grid-rows: (
   -o-transform: $args;
   -webkit-transform: $args;
   transform: $args;
+  transform-origin: top;
 }
 
 @mixin opacity($args) {
@@ -167,8 +213,7 @@ $grid-rows: (
 
 %border-light {
   @extend %border-default;
-  border-width: 2px;
-  border-color: var(--secondary-color);
+  border: 2px solid var(--secondary-color1);
 }
 
 @mixin animation($args) {
@@ -176,6 +221,18 @@ $grid-rows: (
   -o-animation: $args;
   -webkit-animation: $args;
   animation: $args;
+}
+
+@mixin bg-position-x($args) {
+  -ms-background-position-x: $args;
+  background-position-x: $args;
+}
+
+@mixin bg-size($args) {
+  -moz-background-size: $args;
+  -o-background-size: $args;
+  -webkit-background-size: $args;
+  background-size: $args;
 }
 
 @mixin keyframes($name) {
@@ -219,7 +276,37 @@ $grid-rows: (
   @include background-repeating-linear-gradient((-45deg + $skew-angle,
           rgba(0,0,0,0) 0,
           rgba(0,0,0,0) $stripe-width,
-          var(--secondary-color) $stripe-width + 1px,
-          var(--secondary-color) 2*$stripe-width + 1px,
+          var(--secondary-color1) $stripe-width + 1px,
+          var(--secondary-color1) 2*$stripe-width + 1px,
           rgba(0,0,0,0) 2*$stripe-width + 2px));
+}
+
+@function px($arg) {
+  @return $arg + px;
+}
+
+@function percent($arg) {
+  @return $arg * 1%;
+}
+
+@function vw($arg) {
+  @return $arg + vw;
+}
+
+@function calcY($y1, $y2, $unit:px) {
+  $m: ($y2 - $y1) / ($maximum-width - $minimum-width);
+  $b: $y2 - $m * $maximum-width;
+  @return calc(#{$m} * 100vw + #{call(get_function($unit), $b)});
+}
+
+@mixin media-min-width() {
+  @media (min-width: px($minimum-width)) {
+    @content
+  }
+}
+
+@mixin media-max-width() {
+  @media (min-width: px($maximum-width)) {
+    @content
+  }
 }

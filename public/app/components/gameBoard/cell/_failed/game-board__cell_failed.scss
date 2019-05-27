@@ -1,0 +1,9 @@
+@import "../../vars";
+
+.game-board__cell_failed_2 {
+    @include game-board-cell-answered($cell-failed-color2);
+}
+
+.game-board__cell_failed_1 {
+    @include game-board-cell-answered($cell-failed-color1);
+}

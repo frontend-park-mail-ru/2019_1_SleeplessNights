@@ -1,6 +1,9 @@
 import { Cookie } from '../modules/cookie.js';
 import { AjaxModule } from '../modules/ajax.js';
+import { makeAvatarPath } from '../modules/utils.js';
 import Validators from '../modules/validators.js';
+import idb from '../modules/indexdb.js';
+import bus from '../modules/bus.js';
 
 export class AuthService {
     static auth(data) {
@@ -47,13 +50,18 @@ export class AuthService {
 
     static setAuthorised(data) {
         user.isAuthorised = true;
-        if (data.nickname) {
-            user.nickname = data.nickname;
-        }
+        user.nickname = data.nickname;
 
-        if (data.avatar_path) {
-            user.avatar_path = data.avatar_path;
-        }
+        idb.getAll('user', 'email', data.email);
+        bus.on(`success:get-user-email-${data.email}`, (user) => {
+            if (!user.length) {
+                idb.add('user', [{
+                    nickname: data.nickname,
+                    email: data.email,
+                    avatarPath: makeAvatarPath(data.avatarPath)
+                }]);
+            }
+        });
 
         Cookie.add('authorised', 1, 1);
     }

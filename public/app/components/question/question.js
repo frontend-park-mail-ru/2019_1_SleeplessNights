@@ -1,3 +1,7 @@
+import template from './question.handlebars';
+import './question.scss';
+import './_big/question_big.scss';
+
 export class QuestionComponent {
     _customClasses;
     _text;
@@ -17,7 +21,7 @@ export class QuestionComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.question({
+        this._template = template({
             text:      this._text,
             customClasses:  this._customClasses
         });

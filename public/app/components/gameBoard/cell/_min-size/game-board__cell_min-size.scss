@@ -1,0 +1,29 @@
+@import '../../../../../assets/scss/global';
+
+$cell-min-size: 25;
+$cell-max-size: 40;
+$padding-min: 4;
+$padding-max: 8;
+
+.game-board__cell_min-size {
+    width: px($cell-min-size);
+    height: px($cell-min-size);
+    padding: px($padding-min);
+}
+
+@include media-min-width() {
+    .game-board__cell_min-size {
+        width: calcY($cell-min-size, $cell-max-size);
+        height: calcY($cell-min-size, $cell-max-size);
+        padding: calcY($padding-min, $padding-max);
+    }
+}
+
+@include media-max-width() {
+    .game-board__cell_min-size {
+        width: px($cell-max-size);
+        height: px($cell-max-size);
+        padding: px($padding-max);
+    }
+}
+

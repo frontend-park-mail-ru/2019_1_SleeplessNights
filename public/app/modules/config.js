@@ -5,7 +5,7 @@ export class Config {
             'dev': {
                 'backend': 'http://localhost:8080',
                 'chat': 'ws://localhost:8005/chat/connect',
-                'game': 'ws://localhost:8005/game/connect'
+                'game': 'ws://localhost:8006/api/game'
             },
             'prod': {
                 'backend': 'http://89.208.198.186:8080',
@@ -33,4 +33,4 @@ export class Config {
     }
 }
 
-export default new Config('prodHeroku');
+export default new Config('dev');

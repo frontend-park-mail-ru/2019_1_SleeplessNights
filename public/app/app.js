@@ -1,28 +1,4 @@
 'use strict';
-/************************ Templates *************************\/**/
-import './components/answer/answer.tmpl.js';                  /**/
-import './components/avatar/avatar.tmpl.js';                  /**/
-import './components/button/button.tmpl.js';                  /**/
-import './components/buttonHome/buttonHome.tmpl.js';          /**/
-import './components/card/card.tmpl.js';                      /**/
-import './components/container/container.tmpl.js';            /**/
-import './components/_new/container/container.tmpl.js';       /**/
-import './components/customFileInput/customFileInput.tmpl.js';/**/
-import './components/form/form.tmpl.js';                      /**/
-import './components/formControl/formControl.tmpl.js';        /**/
-import './components/gameBoard/gameBoard.tmpl.js';            /**/
-import './components/gameBoardCell/cell.tmpl.js';             /**/
-import './components/header/header.tmpl.js';                  /**/
-import './components/icon/icon.tmpl.js';                  /**/
-import './components/link/link.tmpl.js';                      /**/
-import './components/list/list.tmpl.js';                      /**/
-import './components/loader/loader.tmpl.js';                  /**/
-import './components/modal/modal.tmpl.js';                    /**/
-import './components/pagination/pagination.tmpl.js';          /**/
-import './components/pack/pack.tmpl.js';                      /**/
-import './components/question/question.tmpl.js';              /**/
-import './components/scoreboard/board.tmpl.js';               /**/
-import './components/timer/timer.tmpl.js';                    /**/
 /*************************** Views **************************\/**/
 import { MenuView }    from './views/menu.js';                /**/
 import { PlayView }    from './views/play.js';                /**/
@@ -41,27 +17,44 @@ import { GameService }       from './services/game.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
+import { events } from './game/core/events.js';               /**/
+import { GopherComponent } from './components/gopher/gopher.js';/**/
 import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
-import { events } from './game/core/events.js';               /**/
-import { LoaderComponent } from './components/loader/loader.js';
+import '../assets/scss/main.scss';                            /**/
 /************************************************************\/**/
 
-// window.bus = bus;
+// if (window.innerWidth < window.innerHeight) {
+//     console.log();
+//     document.documentElement.requestFullscreen()
+//         .then(() => console.log('success full screen'))
+//         .catch((e) => console.dir(e));
+//     window.screen.orientation.lock('landscape')
+//         .then(() => console.log('success lock screen'))
+//         .catch((e) => console.dir(e));
+// }
+
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised
 };
 
-const loader = new LoaderComponent();
+const gopher = new GopherComponent({
+    customClasses: 'gopher-modal',
+    mode: 'modal'
+});
 const app = document.getElementById('app');
-app.insertAdjacentHTML('afterend', loader.template);
+app.insertAdjacentHTML('afterend', gopher.template);
+gopher.startActing();
 
 idb.get('user', 1);
 bus.on('success:get-user-1', (user) => {
     if (!user) {
         GameService.fillTestDB();
+        return;
     }
+
+    window.user.nickname = user.nickname;
 });
 
 bus.on('signup', (data) => {
@@ -109,7 +102,7 @@ bus.on('check-validity-login', (data) => {
 bus.on('get-profile', () => {
     ProfileService.getProfile()
         .then(profile => {
-            profile.avatar_path = makeAvatarPath(profile.avatar_path);
+            profile.avatarPath = makeAvatarPath(profile.avatarPath);
             bus.emit('success:get-profile', profile);
         })
         .catch(error => {
@@ -121,7 +114,7 @@ bus.on('get-profile', () => {
 
 bus.on('update-profile', (data) => {
     ProfileService.updateProfile(data)
-        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatar_path)))
+        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatarPath)))
         .catch(res => bus.emit('error:update-profile', res.data));
 });
 
@@ -147,28 +140,37 @@ bus.on('logout', () => {
     AuthService.logout()
         .then(() => {
             AuthService.removeAuthorised();
-            router.open('/')
+            router.open('/');
         })
         .catch((err) => console.error(err));
 });
 
-bus.on('show-loader', () => loader.show())
-    .on('hide-loader', () => loader.hide());
+bus.on('show-loader', () => {
+    gopher.showModal();
+    gopher.say('Подождите пожалуйста идёт загрузка', false, 75);
+})
+.on('hide-loader', () => gopher.hideModal() );
 
 bus.on('check-indexedDB', GameService.checkDB);
-bus.on(events.FINISH_GAME, (data) => {
-    data ? router.open('/menu') : router.open('/play');
+bus.on(events.GO_TO_PAGE, (page) => router.open(page));
+
+bus.on(events.WS_CONNECT, () => {
+    const gameService = new GameService();
+    bus.on('game:send-message', gameService.sendMessage);
+    bus.on(events.WS_DISCONNECT, () => {
+        bus.off('game:send-message', gameService.sendMessage);
+    });
 });
 
 const router = new Router(app);
-
 router
     .register('/', MenuView)
     .register('/about', AboutView)
     .register('/menu', MenuView)
     .register('/leaders', LeadersView)
     .register('/login', LoginView)
-    .register('/play', PlayView)
+    .register('/singleplayer', PlayView)
+    .register('/multiplayer', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
     .register('/not-found', NotFoundView);

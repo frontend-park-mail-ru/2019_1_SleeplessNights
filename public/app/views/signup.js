@@ -1,20 +1,15 @@
 import { FormComponent } from '../components/form/form.js';
 import { LinkComponent } from '../components/link/link.js';
-import { HeaderComponent } from '../components/header/header.js';
-import { IconComponent }   from '../components/icon/icon.js';
-import { ContainerComponent } from '../components/_new/container/container.js';
+import { ContainerComponent } from '../components/container/container.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
 
 export class SignUpView extends BaseView {
-    _pageTitle;
-    _formGroups;
-    _form;
-    _formData;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Регистрация';
+        this._side ='';
         this._formGroups = [
             {
                 customClasses: '',
@@ -73,35 +68,21 @@ export class SignUpView extends BaseView {
         return this._pageTitle;
     }
 
-    get backBtn() {
-        const link = new LinkComponent({
-            className: 'link_primary',
-            href: '',
-            dataHref: '/',
-            text: '',
-            icon: {
-                customClasses: 'md-48',
-                name: 'arrow_back_ios'
-            }
-        });
-
-        this._backBtn = new ContainerComponent({
-            customClasses: 'container__col-w10 container_theme-primary1 container_align-items-flex-end container_justify-content-center',
-            content: link.template
-        });
-
-        return this._backBtn;
+    get _backBtn() {
+        return {
+            position: 'left',
+            className: 'container_theme-primary1'
+        };
     }
 
     get _header() {
-        const icon = new IconComponent({
-            customClasses: ' md-inherit md-48',
-            name: 'person_add'
-        });
-
-        return new HeaderComponent({
-            title: `${icon.template} Регистрация`
-        });
+        return {
+            icon: {
+                customClasses: 'md-48',
+                name: 'person_add'
+            },
+            name: 'Регистрация'
+        };
     }
 
     show() {
@@ -122,38 +103,34 @@ export class SignUpView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'container__col-w50 container_justify-content-center',
-            content: `
-                ${this._header.template}
-                ${this._form.template} 
-            `
+            customClasses: 'form_w50 justify-content-center container_column',
+            content: ` ${this.header.template} ${this._form.template} `
         });
 
-        const outerContainer = new ContainerComponent({
-            customClasses: 'container__col-w70 container_theme-primary1 container_align-items-center',
+        this.outerContainer = new ContainerComponent({
+            customClasses: 'w74 container_theme-primary1 align-items-center justify-content-center',
             content: innerContainer.template
         });
 
-        const loginContainer = new ContainerComponent({
-            customClasses: 'container__col-w20 container_theme-primary2 container_justify-content-center container_align-items-center',
-            content: `Есть аккаунт? ${link.template}`
+        this.loginContainer = new ContainerComponent({
+            customClasses: 'w20 container_column container_theme-primary2 justify-content-center align-items-center overflow-hidden',
+            content: `<p>Есть аккаунт?</p> ${link.template}`
         });
 
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
+            customClasses: 'container_skewed h100 container__absolute w100',
             container: `
                 ${this.backBtn.template}
-                ${loginContainer.template}
-                ${outerContainer.template}
+                ${this.loginContainer.template}
+                ${this.outerContainer.template}
             `,
         });
-
-        this._backBtn.href = '/';
+        
         this._onSubmit();
+        this.startListening();
     }
 
     _onSubmit() {
-        console.log('on-submit');
         bus.on('error:signup', (data) =>
             Object.entries(data).forEach((item) =>
                 this._form.addError(item[0], item[1])
@@ -173,5 +150,42 @@ export class SignUpView extends BaseView {
             this._form.reset();
             bus.emit('check-validity-signup', inputs);
         });
+    }
+
+    startListening() {
+        this.loginContainer.on('mouseover', () => this._side = 'to-login');
+        this.backBtn.container.on('mouseover', () => this._side = 'to-main');
+    }
+
+    hideAnimation() {
+        this.backBtn.container.hideContent();
+        this.outerContainer.hideContent();
+        this.loginContainer.hideContent();
+
+        if (this._side === 'to-login') {
+            this.outerContainer.addClass('anim-width-to-20');
+            this.loginContainer.addClass('anim-width-to-74');
+        } else {
+            this.backBtn.container.addClass('anim-width-to-50');
+            this.outerContainer.addClass('anim-width-to-0');
+            this.loginContainer.addClass('anim-width-to-50');
+        }
+
+        setTimeout(() => {
+            if (this._side === 'to-login') {
+                this.outerContainer.removeClass('anim-width-to-20');
+                this.loginContainer.removeClass('anim-width-to-74');
+            } else {
+                this.backBtn.container.removeClass('anim-width-to-50');
+                this.outerContainer.removeClass('anim-width-to-0');
+                this.loginContainer.removeClass('anim-width-to-50');
+            }
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this.backBtn.container.showContent();
+        this.outerContainer.showContent();
+        this.loginContainer.showContent();
     }
 }

@@ -1,99 +1,24 @@
-@import "../../app/components/avatar/avatar.scss";
-@import "../../app/components/avatar/_profile/avatar_profile.scss";
-@import "../../app/components/avatar/__choose-photo/avatar__choose-photo.scss";
-@import "../../app/components/avatar/__upload-icon/avatar__upload-icon.scss";
-
-@import "../../app/components/button/btn.scss";
-@import "../../app/components/button/_primary/btn_primary.scss";
-@import "../../app/components/button/_primary2/btn_primary2.scss";
-
-@import "../../app/components/card/card.css";
-@import "../../app/components/card/__body/card__body.css";
-@import "../../app/components/card/__header/card__header.css";
-@import "../../app/components/card/__title/card__title.css";
-@import "../../app/components/card/_centered/card_centered_both.css";
-@import "../../app/components/card/_empty/card_empty.css";
-
-@import "../../app/components/container/container.css";
-@import "../../app/components/container/__content/container__content.css";
-@import "../../app/components/container/_align-y/container_align-y_center.css";
-
-@import "../../app/components/customFileInput/custom-file.css";
-@import "../../app/components/customFileInput/__input/custom-file__input.css";
-@import "../../app/components/customFileInput/__label/custom-file__label.css";
-
-@import "../../app/components/form/__group/form__group.scss";
-@import "../../app/components/form/__group/_center/form__group_center.scss";
-@import "../../app/components/formControl/form__control.scss";
-
-@import "../../app/components/header/header.scss";
-@import "../../app/components/link/link.scss";
-@import "../../app/components/link/_primary/link_primary.scss";
-@import "../../app/components/list/list.scss";
-@import "../../app/components/list/__item/list__item.scss";
-@import "../../app/components/list/__item-row/list__item-row.scss";
-
-@import "../../app/components/loader/loader.scss";
-
-@import "../../app/components/pagination/pagination.scss";
-@import "../../app/components/pagination/__item/pagination__item.scss";
-@import "../../app/components/pack/__item/packs-section__item.scss";
-@import "../../app/components/pack/__icon/packs-section__icon.scss";
-@import "../../app/components/pack/__text/packs-section__text.scss";
-@import "../../app/components/pack/pack.scss";
-
-@import "../../app/components/scoreboard/table.scss";
-@import "../../app/components/scoreboard/_primary/table_primary.scss";
-@import "../../app/components/scoreboard/_primary2/table_primary2.scss";
-@import "../../app/components/scoreboard/__number/table__number.scss";
-@import "../../app/components/scoreboard/__avatar-block/table__avatar-block.scss";
-
-@import "../../app/components/timer/timer.css";
-@import "../../app/components/modal/modal.scss";
-@import "../../app/components/answer/answer.css";
-@import "../../app/components/question/question.css";
-
-@import "../../app/components/icon/icons";
-@import "shadow.scss";
-@import "container/container.scss";
-@import "container/__col/container__col.scss";
-@import "container/__inline-flex/container__inline-flex.scss";
-@import "container/__row/container__row.scss";
-@import "container/__square/container__square.scss";
-@import "container/__absolute/container__absolute.scss";
-@import "container/__absolute/container__absolute-top.scss";
-@import "container/__absolute/_skewed/container__absolute_skewed.scss";
-@import "container/_skewed/container_skewed.scss";
-@import "container/_theme/container_theme-primary1.scss";
-@import "container/_theme/container_theme-primary2.scss";
-@import "container/_theme/container_theme_secondary1.scss";
-@import "container/_theme/container_theme_secondary2.scss";
-@import "container/_overflow/container_overflow.scss";
-@import "container/_justify-content/container_justify-content.scss";
-@import "container/_align-items/container_align-items.scss";
-
-@import "title/title.scss";
-@import "title/_subtitle/title_subtitle.scss";
-@import "centered-icon/centered-icon.scss";
-
-@import "../../app/components/gameBoard/game-board.scss";
-@import "../../app/components/gameBoardCell/game-board__cell.scss";
-@import "../../app/components/gameBoardCell/_min-size/game-board__cell_min-size.scss";
-@import "../../app/components/gameBoardCell/_prize/game-board__cell_prize.scss";
-@import "../../app/components/gameBoardCell/_active/game-board__cell_active.scss";
-@import "../../app/components/gameBoardCell/_failed/game-board__cell_failed.scss";
-@import "../../app/components/gameBoardCell/_answered/game-board__cell_answered.scss";
-@import "../../app/components/buttonHome/button-home.scss";
-
-@import "adaptive-utils.scss";
+@import 'icons.scss';
+@import 'overflow/overflow.scss';
+@import 'justify-content/justify-content.scss';
+@import 'align-items/align-items.scss';
+@import 'width/width.scss';
+@import 'width/animation.scss';
+@import 'height/height.scss';
+@import 'title/title.scss';
+@import 'title/_subtitle/title_subtitle.scss';
+@import 'adaptive-utils.scss';
+@import 'shadow.scss';
+@import 'animations';
 
 html, body {
+        font-size: 13px;
         margin: 0;
         padding: 0;
         height: 100%;
         overflow: hidden;
         font-family: Roboto, sans-serif;
-        background: var(--primary-color);
+        background-color: var(--primary-color2);
 }
 
 h1, h3, p {
@@ -101,19 +26,70 @@ h1, h3, p {
         margin: 0;
 }
 
+svg {
+        fill: #ffffff;
+}
+
+.pr-10px {
+  padding-right: 10px;
+}
+
+.pl-10px {
+  padding-left: 10px;
+}
+
+.md-20px {
+  margin-bottom: 20px;
+}
+
+.profile {
+  padding: 50px 30px 10px;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  margin: 10px;
+}
+
 ::-webkit-scrollbar {
-        width: 6px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.3);
-        @include border-radius(3px)
+  background: rgba(0, 0, 0, 0.3);
+  @include border-radius(3px)
 }
 
 ::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (orientation:portrait){
+  #turn { display: flex; }
+  #app { display: none; }
+}
+
+@media only screen and (orientation:landscape){
+  #turn { display: none; }
+  #app { display: block; }
+}
+
+#turn {
+  background-color: var(--secondary-color2);
+}
+
+@include media-min-width() {
+  body {
+    font-size: calcY(13, 16);
+  }
+}
+
+@include media-max-width() {
+  body {
+    font-size: 16px;
+  }
 }

@@ -1,0 +1,11 @@
+{{#if modal}}
+    <div class="modal h100 w100 overflow-hidden" style="opacity: 0; z-index: -1">
+{{/if}}
+    <div class="gopher anim-coming {{customClasses}}" id="{{id}}">
+        <img src="/assets/img/gopher.svg" alt="" class="gopher__img">
+        <canvas class="gopher__eyes" width="80" height="70"></canvas>
+{{#if modal}}
+        {{{button}}}
+    </div>
+{{/if}}
+</div>

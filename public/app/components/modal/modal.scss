@@ -1,14 +1,11 @@
-@import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
 
 .modal {
     position: fixed;
     z-index: 3;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
     overflow: auto;
-    display: flex;
     @include align-items(center);
     @include justify-content(center);
 }
@@ -20,41 +17,14 @@
     bottom: 0;
     left: 0;
     content: "";
-    background-color: rgba(0,0,0,.4);
+    background-color: rgba(0, 0, 0, .6);
     @include keyframes(opacity) {
         from {
             @include opacity(0);
         }
         to {
-            @include opacity(.5)
+            @include opacity(.6)
         }
     }
     @include animation((opacity 200ms ease-in-out forwards))
-}
-
-.modal__content {
-    position: relative;
-    min-height: $modal-min-size;
-    min-width: $modal-min-size;
-    padding: 2 * $whitespace-base-size 3 * $whitespace-base-size;
-    background-color: var(--primary-color);
-    //@include background-accent(var(--primary-color), var(--primary-color2));
-    color: var(--secondary-color);
-    z-index: 4;
-}
-
-.modal__close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--primary-color2);
-    color: var(--primary-color);
-    font-size: $title-text-size;
-    height: 100%;
-    outline: none;
-    cursor: pointer;
-    width: $modal-close-btn-width;
-    margin-right: -($modal-close-btn-width);
-    border: none;
-    @include border-radius(none);
 }

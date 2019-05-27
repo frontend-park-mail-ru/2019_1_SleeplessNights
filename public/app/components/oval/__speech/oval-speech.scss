@@ -1,0 +1,119 @@
+@import '../../../../assets/scss/global';
+@import '../oval';
+
+$left-min: -120;
+$left-max: -270;
+$top-min: -110;
+$top-max: -210;
+
+.oval__speech {
+  top: px($top-min);
+  left: px($left-min);
+  margin: 1em auto 60px;
+}
+
+$before-width-min: 25;
+$before-width-max: 50;
+$before-height-min: 15;
+$before-height-max: 30;
+$before-bottom-min: -18;
+$before-bottom-max: -36;
+$before-after-max: -34;
+$before-left-min: 81;
+$before-left-max: 180;
+
+/* creates larger curve */
+.oval__speech:before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  bottom: px($before-bottom-min);
+  left: px($before-left-min);
+  width: px($before-width-min);
+  height: px($before-height-min);
+  border-style: solid;
+  border-width: 0 px($border-before-min) px($border-before-min) 0;
+  border-color: var(--primary-color2);
+  margin-right: -10px;
+  background: var(--secondary-color2);
+  clip-path: polygon(100% 100%,0 100%,0 92%,43% 56%,46% 32%,49% 0,100% 0);
+  border-bottom-right-radius: 80px 50px;
+  display: block;
+  transform: rotateY(180deg);
+}
+
+$after-width-min: 10;
+$after-width-max: 30;
+$after-height-min: 15;
+$after-height-max: 28;
+$after-left-min: 93;
+$after-left-max: 204;
+
+/* creates smaller curve */
+.oval__speech:after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  bottom: px($before-bottom-min);
+  left: px($after-left-min);
+  width: px($after-width-min);
+  height: px($after-height-min);
+  border-style: solid;
+  border-width: 0 px($border-before-min) px($border-before-min) 0;
+  border-color: var(--primary-color2);
+  margin-right: 49px;
+  background: transparent;
+  border-bottom-right-radius: 40px 50px;
+  display: block;
+  transform: rotateY(180deg);
+}
+
+@include media-min-width() {
+  .oval__speech {
+    top: calcY($top-min, $top-max);
+    left: calcY($left-min, $left-max);
+  }
+
+  .oval__speech:before {
+    width: calcY($before-width-min, $before-width-max);
+    height: calcY($before-height-min, $before-height-max);
+    border-right-width: calcY($border-before-min, $border-before-max);
+    border-bottom-width: calcY($border-before-min, $border-before-max);
+    left: calcY($before-left-min, $before-left-max);
+    bottom: calcY($before-bottom-min, $before-bottom-max);
+  }
+
+  .oval__speech:after {
+    width: calcY($after-width-min, $after-width-max);
+    height: calcY($after-height-min, $after-height-max);
+    border-right-width: calcY($border-before-min, $border-before-max);
+    border-bottom-width: calcY($border-before-min, $border-before-max);
+    left: calcY($after-left-min, $after-left-max);
+    bottom: calcY($before-bottom-min, $before-after-max);
+  }
+}
+
+@include media-max-width() {
+  .oval__speech {
+    top: px($top-max);
+    left: px($left-max);
+  }
+
+  .oval__speech:before {
+    width: px($before-width-max);
+    height: px($before-height-max);
+    border-right-width: px($border-before-max);
+    border-bottom-width: px($border-before-max);
+    bottom: px($before-bottom-max);
+    left: px($before-left-max);
+  }
+
+  .oval__speech:after {
+    width: px($after-width-max);
+    height: px($after-height-max);
+    border-right-width: px($border-before-max);
+    border-bottom-width: px($border-before-max);
+    bottom: px($before-after-max);
+    left: px($after-left-max);
+  }
+}

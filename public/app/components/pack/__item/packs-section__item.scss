@@ -1,6 +1,21 @@
+@import '../../../../assets/scss/global';
+
+$margin-min: 2;
+$margin-max: 10;
+
 .packs-section__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
+  flex-wrap: wrap;
+  margin-right: px($margin-min);
+}
+
+@include media-min-width() {
+  .packs-section__item {
+    margin-right: calcY($margin-min, $margin-max);
+  }
+}
+
+@include media-max-width() {
+  .packs-section__item {
+    margin-right: px($margin-min);
+  }
 }

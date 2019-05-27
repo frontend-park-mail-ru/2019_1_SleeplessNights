@@ -1,8 +1,14 @@
 import { CustomFileInputComponent } from '../customFileInput/customFileInput.js';
 import { uniqueId } from '../../modules/utils.js';
+import template from './avatar.handlebars';
+import './avatar.scss';
+import './_profile/avatar_profile.scss';
+import './_border-weighty/avatar_border-weighty.scss';
+import './__choose-photo/avatar__choose-photo.scss';
+import './__upload-icon/avatar__upload-icon.scss';
 
 export class AvatarComponent {
-    _avatarUrl;
+    _avatarPath;
     _customClasses;
     _id;
     _isEditable;
@@ -10,12 +16,12 @@ export class AvatarComponent {
 
     constructor({
         customClasses = '',
-        avatarUrl = '/assets/img/default-avatar.png',
+        avatarPath = '/assets/img/default-avatar.png',
         form = ''
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._isEditable = customClasses.includes('isEditable');
-        this._avatarUrl = avatarUrl;
+        this._avatarPath = avatarPath;
         this._id = 'avatar' + uniqueId();
         this._render(form);
     }
@@ -30,6 +36,22 @@ export class AvatarComponent {
 
     set src(path) {
         this.innerElement.src = path;
+    }
+
+    hideIcon() {
+        this.innerElement.style.display = 'none';
+    }
+
+    addClass(data) {
+        this.innerElement.parentElement.classList.add(data);
+    }
+
+    removeClass(data) {
+        this.innerElement.parentElement.classList.remove(data);
+    }
+
+    insertAdjacentHTML(html) {
+        this.innerElement.parentElement.insertAdjacentHTML('beforeend', html);
     }
 
     _render(form) {
@@ -50,8 +72,8 @@ export class AvatarComponent {
             });
         }
 
-        this._template = Handlebars.templates.avatar({
-            avatarUrl:      this._avatarUrl,
+        this._template = template({
+            avatarPath:     this._avatarPath,
             customClasses:  this._customClasses,
             customImgInput: customFileInput ? customFileInput.template: '',
             id:             this._id,

@@ -1,35 +1,27 @@
-import { CardComponent } from '../components/card/card.js';
 import { ListComponent } from '../components/list/list.js';
 import { FormComponent } from '../components/form/form.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
-import { HeaderComponent } from '../components/header/header.js';
+import { ContainerComponent }  from '../components/container/container.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 import bus from '../modules/bus.js';
 
 export class ProfileView extends BaseView {
-    _pageTitle;
-    _list;
-    _formGroups;
-    _profile;
-    _form;
-    _avatar;
-    _formData;
-
     constructor(el) {
         super(el);
         this._pageTitle = 'Профиль игрока'; 
         this._list = [
             {
                 customClasses: '',
-                text: 'Победы'
+                text: 'Победы 0'
             },
             {
                 customClasses: '',
-                text: 'Поражения'
+                text: 'Поражения 0'
             },
             {
                 customClasses: '',
-                text: 'Время в игре'
+                text: 'Время в игре 0'
             }
         ];
         this._formGroups = [
@@ -69,7 +61,7 @@ export class ProfileView extends BaseView {
             won: 0,
             lost: 0,
             play_time: 0,
-            avatar_path: 'static/img/my_avatar.jpeg'
+            avatarPath: 'static/img/my_avatar.jpeg'
         };
 
         this._scoreSectionHTML = document.createElement('section');
@@ -77,7 +69,7 @@ export class ProfileView extends BaseView {
         this._render();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
@@ -90,6 +82,23 @@ export class ProfileView extends BaseView {
         ss.innerHTML = data;
     }
 
+    get _backBtn() {
+        return {
+            position: 'left',
+            className: 'container_theme-primary1'
+        };
+    }
+
+    get _header() {
+        return {
+            icon: {
+                customClasses: 'md-48',
+                name: 'account_circle'
+            },
+            name: 'Profile'
+        };
+    }
+
     show() {
         this._getProfile();
         super.show();
@@ -97,32 +106,52 @@ export class ProfileView extends BaseView {
 
     _render() {
         this._form = new FormComponent({
-            customClasses: 'form_width_60',
+            customClasses: 'w70',
             formGroups:    this._formGroups
         });
+
         this._avatar = new AvatarComponent({
-            customClasses: 'avatar_profile',
+            customClasses: 'avatar_profile isEditable',
             form: this._form.id
         });
 
-        const card = new CardComponent({
-            title: 'Мой профиль',
-            customClasses: 'card_profile shadow-l',
-            body: `${this._form.template} ${this._avatar.template} ${this._scoreSection}`
-        });
-        // const header = new HeaderComponent({ title: 'Профиль игрока' }); ${header.template}
-        super.renderContainer({
-            customClasses: '',
-            btnBack: true,
-            container: ` ${card.template} `
+        const formContainer = new ContainerComponent({
+            customClasses: 'w100 shadow-l profile',
+            content: `
+                ${this._form.template} 
+                ${this._avatar.template} 
+                ${this._scoreSection}
+            `
         });
 
-        const list = new ListComponent({ list: this._list });
+        const innerContainer = new ContainerComponent({
+            customClasses: 'form_w50 justify-content-center container_column',
+            content: ` ${this.header.template} ${formContainer.template}`
+        });
+
+        this.outerContainer = new ContainerComponent({
+            customClasses: 'w97 container_theme-primary2 align-items-center justify-content-center',
+            content: innerContainer.template
+        });
+
+        super.renderContainer({
+            customClasses: 'container_skewed h100 container__absolute w100',
+            container: `
+                ${this.backBtn.template}
+                ${this.outerContainer.template}
+            `,
+        });
+
+        const list = new ListComponent({
+            customClasses: 'w100',
+            list: this._list
+        });
+
         this._scoreSection = list.template;
-        this._submit();
+        this._onSubmit();
     }
 
-    _submit() {
+    _onSubmit() {
         bus.on('error:update-profile', (data) =>
             Object.entries(data).forEach((item) =>
                 this._form.addError(item[0], item[1])
@@ -153,7 +182,7 @@ export class ProfileView extends BaseView {
                 won: profile.won,
                 lost: profile.lost,
                 play_time: profile.play_time,
-                avatar_path: profile.avatar_path
+                avatarPath: profile.avatarPath
             };
 
             if (this._form !== undefined) {
@@ -161,13 +190,30 @@ export class ProfileView extends BaseView {
                 this._form.setFormControlValue('email', this._profile.email);
             }
 
-            this._list[0].text += ` ${profile.won}`;
-            this._list[1].text += ` ${profile.lost}`;
-            this._list[2].text += ` ${profile.play_time}`;
-            const list = new ListComponent({ list: this._list });
-
-            this._scoreSection = list.template;
-            this._avatar.src = profile.avatar_path;
+            // this._list[0].text += ` ${profile.won ? profile.won : '0'}`;
+            // this._list[1].text += ` ${profile.lost ? profile.lost : '0'}`;
+            // this._list[2].text += ` ${profile.play_time ? profile.play_time : '0'}`;
+            // const list = new ListComponent({ list: this._list });
+            //
+            // this._scoreSection = list.template;
+            this._avatar.src = profile.avatarPath;
         });
+    }
+
+    hideAnimation() {
+        this.backBtn.container.hideContent();
+        this.outerContainer.hideContent();
+
+        this.backBtn.container.addClass('anim-width-to-50');
+        this.outerContainer.addClass('anim-width-to-50');
+        setTimeout(() => {
+            this.backBtn.container.removeClass('anim-width-to-50');
+            this.outerContainer.removeClass('anim-width-to-50');
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this.backBtn.container.showContent();
+        this.outerContainer.showContent();
     }
 }

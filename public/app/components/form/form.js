@@ -1,5 +1,9 @@
 import { noop, uniqueId }       from '../../modules/utils.js';
-import { FormControlComponent } from '../formControl/formControl.js';
+import { FormControlComponent } from './__control/formControl.js';
+import template from './form.handlebars';
+import './__group/form__group.scss';
+import './__group/_center/form__group_center.scss';
+import './_w50/form_w50.scss';
 
 export class FormComponent {
     _template;
@@ -67,7 +71,7 @@ export class FormComponent {
     }
 
     render() {
-        this._template = Handlebars.templates.form({
+        this._template = template({
             id:            this._id,
             customClasses: this._customClasses,
             method:        this._method,

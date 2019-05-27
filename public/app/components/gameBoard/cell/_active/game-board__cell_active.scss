@@ -1,0 +1,21 @@
+@keyframes changeBoxShadow {
+  from {
+    box-shadow: 0 0 10px #0c5460;
+  }
+  to {
+    box-shadow: none;
+  }
+}
+
+.game-board__cell_active {
+  cursor: pointer;
+  transition: transfrom 250ms;
+  animation-duration: 400ms;
+  animation-name: changeBoxShadow;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.game-board__cell_active:hover {
+  transform: translate(1.5px, 1.5px);
+}

@@ -1,0 +1,28 @@
+@mixin container__absolute() {
+  position: absolute;
+  opacity: inherit;
+  top: 0;
+}
+
+.container__absolute {
+  @include container__absolute();
+  bottom: 0;
+  z-index: 1;
+}
+
+.container__absolute-top {
+  @include container__absolute();
+  z-index: 1;
+}
+
+.container__absolute-right {
+  @include container__absolute();
+  right: 0;
+  bottom: 0;
+}
+
+.container__absolute-left {
+  @include container__absolute();
+  left: 0;
+  bottom: 0;
+}

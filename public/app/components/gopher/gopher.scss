@@ -1,0 +1,13 @@
+@import '../../../assets/scss/global';
+
+.gopher-modal {
+  position: absolute;
+  top: 48%;
+  left: 56%;
+  z-index: 3;
+}
+
+.gopher {
+  position: relative;
+  z-index: 4;
+}

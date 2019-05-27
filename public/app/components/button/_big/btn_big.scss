@@ -1,0 +1,17 @@
+@import "../../../../assets/scss/global.scss";
+
+.btn_big {
+    width: 200px !important;
+    height: 50px !important;
+    font-size: 21px;
+}
+
+.btn_big:hover {
+
+}
+
+.btn_modal {
+    position: absolute;
+    left: -18%;
+    top: 50%;
+}

@@ -1,62 +1,117 @@
-import { events} from './events.js';
-import { GameCore } from './core.js';
+import { GameCore }  from './core.js';
 import { BotPlayer } from './bot.js';
+import { events}     from './events.js';
+import { gameConsts } from '../../modules/constants.js';
+import { shuffle }    from '../../modules/utils.js';
 import idb from '../../modules/indexdb.js';
-import { shuffle } from '../../modules/utils.js';
 import bus from '../../modules/bus.js';
 
 export class SinglePlayer extends GameCore {
     constructor() {
         super();
         this.availableCells = [];
-        this.GAME_MATRIX = [];
+        this.selectedCell = null;
+        this.packsSelection = true;
         this.packs = [];
-        this.currentPlayer = 'me';
+        this.currentQuestion = null;
 
-        bus.on('set-current-player', this.setCurrentPlayer);
-        bus.on('set-answered-cell', this.setAnsweredCell);
-        bus.on('get-available-cells', this.getAvailableCells);
+        bus.on(events.FILL_PACK_LIST,      this.onFillPacksList);
+        bus.on(events.ANSWERED_CELL,       this.setAnsweredCell);
+        bus.on(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
+        bus.on(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        bus.on(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        // bus.on(events.SELECTED_PACK,   this.changePlayerTurn);
+        bus.on(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
+        bus.on(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 
     start() {
         super.start();
-        bus.emit(events.START_GAME);
-        this.opponent = {
-            avatar_path: '/assets/img/bot.png',
-            nickname: 'Fool bot',
-            lastMove: null
-        };
+        // bus.emit(events.SET_OPPONENT_PROFILE, {
+        //     avatarPath: '/assets/img/bot.png',
+        //     nickname: 'Fool bot',
+        //     lastMove: null
+        // });
+
+        this.onSetOpponentProfile({
+            nickname: 'Gopher',
+            lastMove: ''
+        });
 
         this.bot = new BotPlayer();
+        bus.emit(events.SET_CURRENT_PLAYER, 'me');
+        idb.getAll('pack', null, null, 10);
     }
 
     gameLoop() {
-        bus.emit('set-current-player', 'me');
-        setTimeout(() =>
-            bus.emit('get-available-cells'), 1000
-        );
+        bus.emit(events.SET_CURRENT_PLAYER, 'me');
+        if (!this.packsSelection) {
+            setTimeout(() =>
+                bus.emit(events.GET_AVAILABLE_CELLS, 'me'), 1000
+            );
+        }
     }
 
     waitOpponent() {
-        bus.emit('set-current-player', 'bot');
+        bus.emit(events.SET_CURRENT_PLAYER, 'bot');
+        if (this.selectedPacks < 4) {
+            setTimeout(() => {
+                bus.emit(events.BOT_CHOOSING_PACK,
+                    this.packs
+                        .filter(p => p.type === 'pack' && p.state !== 'deactive')
+                );
+            }, 100);
+        }
     }
 
-    setCurrentPlayer = (pl) => this.currentPlayer = pl;
+    onEndPackSelection = () => {
+        this.packsSelection = false;
+        bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+        // bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+        bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+    };
 
-    setAnsweredCell = ({ id, answer }) => {
-        this.GAME_MATRIX[id].answered = true;
+    onSelectedPack(id) {
+        bus.emit(events.STOP_TIMEOUT_PACK, 'singlePlayer.js');
+        // super.onSelectedPack(id);
+        if (id === -1) return;
+        this.packs[id].state = 'deactive';
+
+        if (++this.selectedPacks === 4) {
+            bus.emit(events.ENDED_PACK_SELECTION);
+            setTimeout(() => {
+                bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
+            }, 1100);
+
+            return;
+        }
+
+        this.changePlayerTurn();
+    };
+
+    setAnsweredCell = (answer) => {
+        this.gameMatrix[this.selectedCell].answered = true;
         const cond = this.currentPlayer === 'me';
         if (answer) {
-            this[cond ? 'me': 'opponent'].lastMove = id;
+            this[cond ? 'me': 'opponent'].lastMove = this.selectedCell;
         } else {
             // is any other available cell or not
             this.availableCells.shift();
             if (!this.availableCells.length) {
-                bus.emit('no-available-cells', true);
+                bus.emit(events.END_GAME, !cond);
                 return;
             }
         }
-        cond ? this.waitOpponent(): this.gameLoop();
+
+        this.changePlayerTurn();
+    };
+
+    changePlayerTurn = () => {
+        this.currentPlayer === 'me' ? this.waitOpponent(): this.gameLoop();
+    };
+
+    onEndAnswerTimer = () => {
+        this.currentPlayer === 'me' ? bus.emit(events.SELECTED_ANSWER, -1) : null;
     };
 
     getAvailableCells = () => {
@@ -66,30 +121,30 @@ export class SinglePlayer extends GameCore {
 
         if (lastMove !== null) {
             let temp = [];
-            let i = lastMove - this.CELL_COUNT;
+            let i = lastMove - this.cellCount;
 
-            for (let j = 0; j < 3; i += this.CELL_COUNT, j++) {
-                const currentRow = Math.floor(i / this.CELL_COUNT);
+            for (let j = 0; j < 3; i += this.cellCount, j++) {
+                const currentRow = Math.floor(i / this.cellCount);
                 [i - 1, i + 1].forEach(el =>
-                    (Math.floor(el / this.CELL_COUNT ) === currentRow) ? temp.push(el): null
+                    (Math.floor(el / this.cellCount ) === currentRow) ? temp.push(el): null
                 );
 
                 temp.push(i);
             }
 
             this.availableCells = temp.filter(el =>
-                el >= 0 &&
+                el >= gameConsts.FIRST_INDEX &&
                 el !== lastMove &&
-                el <= 63 &&
-                !this.GAME_MATRIX[el].answered
+                el <= gameConsts.LAST_INDEX &&
+                !this.gameMatrix[el].answered
             );
         } else {
-            this.availableCells = this.GAME_MATRIX
+            this.availableCells = this.gameMatrix
                 .reduce((accum, cell, i) => {
                     const cond = (
                         this.currentPlayer === 'me'
-                            ? i >= this.CELL_COUNT * (this.CELL_COUNT - 1)
-                            : i < this.CELL_COUNT
+                            ? i >= this.cellCount * (this.cellCount - 1)
+                            : i < this.cellCount
                     );
 
                     if (cond && !cell.answered) {
@@ -99,59 +154,36 @@ export class SinglePlayer extends GameCore {
                 }, []);
         }
 
-        bus.emit('success:get-available-cells', this.availableCells);
-    };
-
-    onGameStarted = () => {
-        idb.getAll('pack', null, null, 6);
-    };
-
-    onGameFinished = () => {
-        this.destroy();
-    };
-
-    onGetPacks = (data) => {
-        const packs = data;
-        packs.forEach((pack, i) =>
-            Object.assign(pack, this.colors[i])
+        this.availableCells.forEach((el, i, arr) =>
+            arr[i] = {
+                id:   el,
+                name: this.gameMatrix[el].name
+            }
         );
 
-        bus.emit('fill-pack-list', packs);
+        bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, this.availableCells);
+    };
 
-        for (let i = 0; i < this.CELL_COUNT; i++) {
-            for (let j = 0; j < this.CELL_COUNT; j++) {
-                if ((i === 3 && j === 3) || (i === 3 && j === 4) ||
-                    (i === 4 && j === 3) || (i === 4 && j === 4)) {
-                    this.GAME_MATRIX.push({
-                        type: 'prize',
-                        color: '#0c5460'
-                    });
-                } else {
-                    this.GAME_MATRIX.push({
-                        type: 'question'
-                    });
-                }
-            }
-        }
+    onGetCells(data) {
+        const questions = data.reduce((ac, d) => {
+                ac.push(...d);
+                return ac;
+            }, [])
+            .map(d => d.packId);
+        shuffle(questions);
+        super.onGetCells(questions);
 
-        const packsCount = packs.length;
-        let p = 0;
-        const prizes = [];
-
-        this.GAME_MATRIX.forEach((cell, i) => {
-            if (cell.type === 'question') {
-                Object.assign(cell, packs[p]);
-                p = (p + 1) % packsCount;
-            } else {
-                prizes.push(i);
-            }
+        this.packs.forEach((pack, pI) => {
+            this.gameMatrix
+                .filter(gm => gm.id === pack.id)
+                .forEach((cell, i) =>
+                    cell['question'] = data[pI][i]
+                );
         });
 
-        shuffle(this.GAME_MATRIX, prizes);
-
-        bus.emit('fill-cells', this.GAME_MATRIX);
+        bus.emit(events.FILL_CELLS, this.gameMatrix);
         this.gameLoop();
-    };
+    }
 
     onFillPacksList = (packs) => {
         this.packs = packs;
@@ -162,39 +194,58 @@ export class SinglePlayer extends GameCore {
             const getQuestions = (data) => {
                 questions.push(data);
                 if (i === this.packs.length - 1) {
-                    this.onQuestionsReady(questions);
-                    bus.off(`success:get-question-packId-${pack.id}`, getQuestions);
+                    bus.emit(`success:${events.GET_CELLS}`, questions);
+                    bus.off(`success:${events.GET_QUESTIONS_PACK}-${pack.id}-10`, getQuestions);
                 }
             };
 
-            bus.on(`success:get-question-packId-${pack.id}`, getQuestions);
-        });
-    };
-
-    onQuestionsReady = (questions) => {
-        this.packs.forEach((pack, pI) => {
-            const packInMatrix = this.GAME_MATRIX.filter(gm => gm.id === pack.id);
-            packInMatrix.forEach((cell, i) =>
-                cell['question'] = questions[pI][i]
-            );
+            bus.on(`success:${events.GET_QUESTIONS_PACK}-${pack.id}-10`, getQuestions);
         });
     };
 
     onSelectedCell = (cellIndex) => {
-        const question = this.GAME_MATRIX[cellIndex].question;
-        if (question) {
-            bus.emit('selected-question', question);
+        bus.emit(events.STOP_TIMEOUT_QUESTION);
+        if (cellIndex === -1) return;
+
+        this.selectedCell = cellIndex;
+        this.currentQuestion = this.gameMatrix[cellIndex].question;
+        if (this.currentQuestion) {
+            bus.emit(events.SELECTED_QUESTION, this.currentQuestion);
         } else {
-            bus.emit('selected-prize');
+            bus.emit(events.END_GAME, this.currentPlayer === 'me');
         }
+    };
+
+    onSelectedAnswer = (id) => {
+        // bus.emit(events.STOP_TIMEOUT_ANSWER);
+        const answer = {
+            given: id,
+            correct: this.currentQuestion.correct
+        };
+
+        bus.emit(events.SET_ANSWER_CORRECTNESS, answer);
+    };
+
+    onPlayAgain = (data) => {
+        bus.emit(events.FINISH_GAME);
+        data ? bus.emit(events.GO_TO_PAGE, '/') : bus.emit(events.GO_TO_PAGE, '/singleplayer');
     };
 
     destroy() {
         super.destroy();
         this.bot.destroy();
 
-        bus.off('set-current-player', this.setCurrentPlayer);
-        bus.off('set-answered-cell', this.setAnsweredCell);
-        bus.off('get-available-cells', this.getAvailableCells);
+        if (this.packsSelection) {
+            bus.off(events.ENDED_TIME_TO_PACK,  this.changePlayerTurn);
+            // bus.off(events.STOP_TIMEOUT_PACK,   this.changePlayerTurn);
+            bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
+        }
+
+        bus.off(events.FILL_PACK_LIST,      this.onFillPacksList);
+        bus.off(events.ANSWERED_CELL,       this.setAnsweredCell);
+        bus.off(events.GET_AVAILABLE_CELLS, this.getAvailableCells);
+        bus.off(events.ENDED_TIME_TO_QUESTION, this.changePlayerTurn);
+        bus.off(events.ENDED_TIME_TO_ANSWER, this.onEndAnswerTimer);
+        // bus.off(events.ENDED_PACK_SELECTION, this.onEndPackSelection);
     }
 }

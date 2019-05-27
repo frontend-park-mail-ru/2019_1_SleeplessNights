@@ -1,0 +1,15 @@
+.align-items-start {
+  @include align-items(start);
+}
+
+.align-items-end {
+  @include align-items(end);
+}
+
+.align-items-flex-end {
+  @include align-items(flex-end);
+}
+
+.align-items-center {
+  @include align-items(center);
+}

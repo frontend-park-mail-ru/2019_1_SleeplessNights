@@ -1,3 +1,6 @@
+import template from './icon.handlebars';
+import './centered-icon/centered-icon.scss';
+
 export class IconComponent {
     _customClasses;
     _template;
@@ -6,7 +9,7 @@ export class IconComponent {
     constructor({
         customClasses = '',
         name = ''
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._name = name;
         this._render();
@@ -17,7 +20,7 @@ export class IconComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.icon({
+        this._template = template({
             customClasses: this._customClasses,
             name: this._name
         });

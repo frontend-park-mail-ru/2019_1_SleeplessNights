@@ -1,10 +1,28 @@
-@import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
+
+$width-min: 30;
+$width-max: 50;
+$height-min: 50;
+$height-max: 80;
 
 .back-to-menu-btn {
   position: absolute;
-  top: $page-padding;
-  left: $page-padding;
-  border: none;
-  background: color("background");
-  cursor: pointer;
+  top: 0;
+  left: 0;
+  width: px($width-min);
+  height: px($height-min);
+}
+
+@include media-min-width() {
+  .back-to-menu-btn {
+    width: calcY($width-min, $width-max);
+    height: calcY($height-min, $height-max);
+  }
+}
+
+@include media-max-width() {
+  .back-to-menu-btn {
+    width: px($width-max);
+    height: px($height-max);
+  }
 }

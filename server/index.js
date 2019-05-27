@@ -1,25 +1,11 @@
 'use strict';
 
 const express = require('express');
-const cookie = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
 app.use(morgan('dev'));
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
-app.use(cookie());
-
-const multer  = require('multer');
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        const ext = file.originalname.split('.')[1];
-        cb(null, `${file.fieldname}-${Date.now()}.${ext}`);
-    }
-});
-const upload = multer({storage: storage});
 
 const leaders = [
     {
@@ -94,13 +80,6 @@ app.get('/scoreboard', function (req, res) {
 
 app.get('/*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
-});
-
-app.patch('/api/profile', upload.single('avatar'), (req, res) => {
-    res.status(400).json({
-        'nickname': 'Nickname is too short',
-        'email': 'This email has already exist'
-    });
 });
 
 const port = process.env.PORT || 8000;

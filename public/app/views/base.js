@@ -1,11 +1,25 @@
 import { ContainerComponent } from '../components/container/container.js';
-import { ButtonHomeComponent} from '../components/buttonHome/buttonHome.js';
+import { HeaderComponent }    from '../components/header/header.js';
+import { ButtonHomeComponent } from '../components/buttonHome/buttonHome.js';
+import { IconComponent } from '../components/icon/icon.js';
+import { animationTime } from '../modules/constants.js';
 
 export class BaseView {
     constructor(el = document.body) {
         this._el = el;
         this._el.dataset.view = this.constructor.name;
         this._el.hidden = true;
+
+        if (this._backBtn) {
+            this.backBtn = new ButtonHomeComponent(this._backBtn);
+        }
+
+        if (this._header) {
+            const icon = new IconComponent(this._header.icon);
+            this.header = new HeaderComponent({
+                title: `${icon.template} ${this._header.name}`
+            });
+        }
     }
 
     get el() {
@@ -16,31 +30,37 @@ export class BaseView {
         return !this.el.hidden;
     }
 
+    get _backBtn() {
+        return null;
+    }
+
+    get _header() {
+        return null;
+    }
+
     hide() {
-        this.el.hidden = true;
+        this.hideAnimation();
+        setTimeout(() => this.el.hidden = true, animationTime * 1000);
     }
 
     show() {
         this.el.hidden = false;
+        this.showAnimation();
     }
+
+    hideAnimation() {}
+
+    showAnimation() {}
 
     renderContainer({
         customClasses,
-        btnBack = false,
-        container = '',
-        sideBar
+        container = ''
     } = {}) {
-        const base = new ContainerComponent({
+        this.root = new ContainerComponent({
             customClasses,
-            content: container,
-            sideBar
+            content: container
         });
 
-        this._el.innerHTML = base.template;
-
-        if (btnBack) {
-            const buttonHome = new ButtonHomeComponent();
-            this._el.insertAdjacentHTML('beforeend', buttonHome.template);
-        }
+        this._el.innerHTML = this.root.template;
     }
 }

@@ -1,12 +1,13 @@
-import { gameName } from '../modules/constants.js';
-import { BaseView } from './base.js';
 import { LinkComponent }      from '../components/link/link.js';
 import { IconComponent }      from '../components/icon/icon.js';
-import { ContainerComponent } from '../components/_new/container/container.js';
+import { ContainerComponent } from '../components/container/container.js';
+import { BaseView } from './base.js';
+import { gameName, animationTime } from '../modules/constants.js';
 
 export class MenuView extends BaseView {
     constructor(el) {
         super(el);
+        this._side = '';
         this._pageTitle = gameName;
         this._items = new Map([
             [
@@ -93,7 +94,6 @@ export class MenuView extends BaseView {
                 name: 'person'
             }
         };
-
         this._multiBtn = {
             href: 'play',
             dataHref: 'play',
@@ -106,50 +106,66 @@ export class MenuView extends BaseView {
         };
     }
 
-    get pageTitle(){
+
+    show() {
+        this._render();
+        super.show();
+    }
+
+    get pageTitle() {
         return this._pageTitle;
+    }
+
+    get animationClass() {
+        return `anim-page-${this._side}`;
     }
 
     get _leftContainer() {
         const singlePlayerBtn = new LinkComponent(this._singleBtn);
-        const singlePlayer = new ContainerComponent({
-            customClasses: 'container__row-h10 container_justify-content-center',
-            content: singlePlayerBtn.template
+        this.singlePlayer = new ContainerComponent({
+            customClasses: 'container__absolute-left w40-vw align-items-center justify-content-center h100',
+            content:       singlePlayerBtn.template
         });
 
-        const playBtnLeft = new IconComponent({
-            customClasses: 'centered-icon-left',
+        const playBtn = new IconComponent({
+            customClasses: 'centered-icon',
             name: 'play_circle_outline'
         });
-
-        return new ContainerComponent({
-            customClasses: 'container__row-h100 container_theme-primary1 container_align-items-center',
-            content: `
-                ${singlePlayer.template}
-                ${playBtnLeft.template}
-            `
+        this.leftBtnContainer = new ContainerComponent({
+           customClasses: 'container__absolute w100-vw justify-content-center align-items-center',
+           content:       playBtn.template
         });
+
+        this.leftContainer = new ContainerComponent({
+            customClasses: 'container__absolute container_theme-primary1 container_cursor-pointer overflow-hidden w50 width-animation',
+            content: ` ${this.singlePlayer.template} ${this.leftBtnContainer.template} `
+        });
+
+        return this.leftContainer;
     }
 
     get _rightContainer() {
         const multiPlayerBtn = new LinkComponent(this._multiBtn);
         const multiPlayer = new ContainerComponent({
-            customClasses: 'container__row-h10 container_justify-content-center',
+            customClasses: 'container__absolute-right align-items-center justify-content-center h100 w40-vw',
             content: multiPlayerBtn.template
         });
 
-        const playBtnRight = new IconComponent({
-            customClasses: 'centered-icon-right',
+        const playBtn = new IconComponent({
+            customClasses: 'centered-icon',
             name: 'play_circle_outline'
         });
-
-        return new ContainerComponent({
-            customClasses: 'container__row-h100 container_theme-primary2 container_align-items-center container_overflow-hidden',
-            content: `
-                ${playBtnRight.template}
-                ${multiPlayer.template}               
-            `
+        this.rightBtnContainer = new ContainerComponent({
+            customClasses: 'container__absolute w100-vw justify-content-center align-items-center',
+            content:       playBtn.template
         });
+
+        this.rightContainer = new ContainerComponent({
+            customClasses: 'container__absolute-right container_cursor-pointer container_theme-primary2 w100',
+            content: ` ${multiPlayer.template} ${this.rightBtnContainer.template} `
+        });
+
+        return this.rightContainer;
     }
 
     get _navbar() {
@@ -168,44 +184,81 @@ export class MenuView extends BaseView {
         });
 
         const navbarContainer1 = new ContainerComponent({
-            customClasses: 'container__row-h10 container_justify-content-left',
-            content: `
-                ${items.get('leaders').template}
-                ${items.get('about').template}
-            `
+            customClasses: 'justify-content-left w100 pl-10px',
+            content: ` ${items.get('leaders').template} ${items.get('about').template} `
         });
 
         const navbarContainer2 = new ContainerComponent({
-            customClasses: 'container__row-h10 container_justify-content-right',
+            customClasses: 'justify-content-right w100 pr-10px',
             content: `
                 ${items.has('login') ? items.get('login').template : items.get('profile').template}
                 ${items.has('signup') ? items.get('signup').template : items.get('logout').template}
             `
         });
 
-        return new ContainerComponent({
-            customClasses: 'container-new container__absolute-top container__absolute_skewed container_theme-secondary',
-            content: `
-                ${navbarContainer1.template}
-                ${navbarContainer2.template}               
-            `
+        this.navbar = new ContainerComponent({
+            customClasses: 'container__absolute-top container__absolute_skewed container_theme-secondary w100',
+            content: ` ${navbarContainer1.template} ${navbarContainer2.template} `
         });
-    }
 
-    show() {
-        this._render();
-        super.show();
+        return this.navbar;
     }
 
     _render() {
         super.renderContainer({
-            customClasses: 'container_skewed container__row-h100 container__absolute',
-            container: `
-                ${this._leftContainer.template}
-                ${this._rightContainer.template}
-            `
+            customClasses: 'container_skewed container__absolute-top h100 w100',
+            container: ` ${this._leftContainer.template} ${this._rightContainer.template} `
         });
 
         this._el.insertAdjacentHTML('beforeend', this._navbar.template);
+        this.startListening();
+    }
+
+    startListening() {
+        this.rightBtnContainer.href = '/multiplayer';
+        this.leftBtnContainer.href = '/singleplayer';
+        this.rightContainer.on('mouseover', () => {
+            this.leftContainer.width = '43%';
+            this._side = 'right-play';
+        });
+
+        this.leftContainer.on('mouseover', () => {
+            this.leftContainer.width = '57%';
+            this._side = 'left-play';
+        });
+
+        this.navbar.on('mouseover', () => {
+            this._side = this._side.replace('-play', '');
+        });
+    }
+
+    hideAnimation() {
+        if (this._side.includes('play')) {
+            this.root.parent.classList.add(this.animationClass);
+            this.rightContainer.addClass('anim-opacity');
+            this.leftContainer.addClass(`${this.animationClass.replace('-play', '')}-container`);
+        } else {
+            this.leftContainer.addClass(this.animationClass);
+        }
+
+        this.rightContainer.hideContent();
+        this.leftContainer.hideContent();
+        this.navbar.hideContent();
+
+        setTimeout(() => {
+            if (this._side.includes('play')) {
+                this.root.parent.classList.remove(this.animationClass);
+                this.rightContainer.removeClass('anim-opacity');
+                this.leftContainer.removeClass(`${this.animationClass.replace('-play', '')}-container`);
+            } else {
+                this.leftContainer.removeClass(this.animationClass);
+            }
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this.rightContainer.showContent();
+        this.leftContainer.showContent();
+        this.navbar.showContent();
     }
 }

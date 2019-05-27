@@ -1,4 +1,9 @@
 import { uniqueId } from '../../modules/utils.js';
+import template from './modal.handlebars';
+import './modal.scss';
+import './__content/modal__content.scss';
+import './__close/modal__close.scss';
+import './__body/modal__body.scss';
 
 export class ModalComponent {
     _body;
@@ -13,7 +18,7 @@ export class ModalComponent {
         header = '',
         isCloseable = true,
         body = ''
-    } = {}){
+    } = {}) {
         this._body = body;
         this._customClasses = customClasses;
         this._id = `modal_${uniqueId()}`;
@@ -32,7 +37,7 @@ export class ModalComponent {
     }
 
     _render() {
-        this._template = Handlebars.templates.modal({
+        this._template = template({
             body: this._body,
             customClasses: this._customClasses,
             id: this._id,

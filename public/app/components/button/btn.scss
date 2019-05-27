@@ -5,13 +5,13 @@
     @extend %border-default;
     padding: 0 3*$whitespace-base-size !important;
     font-weight: $button-font-weight;
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color1);
     cursor: pointer;
-    width: fit-content !important;
+    width: fit-content;
     color: white;
     overflow: hidden;
 }
 
 .btn:hover {
-    @include background-accent(var(--secondary-color), var(--accent-color));
+    @include background-accent(var(--secondary-color1), var(--accent-color));
 }

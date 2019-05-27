@@ -1,0 +1,19 @@
+@import '../../../../assets/scss/global';
+
+.avatar_border-weighty {
+  border-width: px($avatar-border-min);
+  border-style: solid;
+  border-color: var(--success-color) !important;
+}
+
+@include media-min-width() {
+  .avatar_border-weighty {
+    border-width: calcY($avatar-border-min, $avatar-border-max);
+  }
+}
+
+@include media-max-width() {
+  .avatar_border-weighty {
+    border-width: px($avatar-border-max);
+  }
+}

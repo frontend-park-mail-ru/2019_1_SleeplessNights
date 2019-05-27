@@ -1,3 +1,8 @@
+import template from './customFileInput.handlebars';
+import './custom-file.scss';
+import './__input/custom-file__input.scss';
+import './__label/custom-file__label.scss';
+
 export class CustomFileInputComponent {
     _template;
     _customClasses;
@@ -16,12 +21,12 @@ export class CustomFileInputComponent {
             customClasses: '',
             icon: 'description'
         }
-    } = {}){
+    } = {}) {
         this._customClasses = customClasses;
         this._input = input;
         this._label = label;
 
-        this._template = Handlebars.templates.customFileInput({
+        this._template = template({
             customClasses: this._customClasses,
             input:         this._input,
             label:         this._label

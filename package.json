@@ -4,11 +4,10 @@
   "description": "Educational project for Technopark 2019",
   "main": "index.js",
   "scripts": {
-    "build": "webpack -w",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development -w",
     "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass --watch public/assets/scss --recursive -o public/assets/css --output-style compressed",
-    "main-scss": "node-sass public/assets/scss/main.scss -o public/assets/css --output-style compressed"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,12 +21,8 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2019_1_SleeplessNights#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
-    "handlebars": "^4.1.0",
     "morgan": "^1.9.1",
-    "multer": "^1.4.1",
-    "node-sass": "^4.11.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
@@ -36,7 +31,17 @@
     "@babel/preset-env": "^7.4.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
     "eslint": "^5.15.1",
+    "file-loader": "^3.0.1",
+    "handlebars": "^4.1.2",
+    "handlebars-loader": "^1.7.1",
+    "mini-css-extract-plugin": "^0.6.0",
+    "node-sass": "^4.12.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "terser-webpack-plugin": "^1.2.3",
+    "url-loader": "^1.1.2",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
   }
