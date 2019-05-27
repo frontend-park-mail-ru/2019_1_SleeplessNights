@@ -17,7 +17,6 @@ export class GameScene {
         this.avatarMe = null;
         this.avatarOpponent = null;
         this.currentScene = null;
-        this.opponentSearch = null;
         this.mode = mode === modes.SINGLE_PLAYER ? '1' : '2';
         this.bgColor = `var(--primary-color${this.mode})`;
 
