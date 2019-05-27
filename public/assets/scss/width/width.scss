@@ -1,11 +1,37 @@
+@import '../global';
+
 @each $key, $size in $grid-columns {
-  &.#{$key} {
-    width: $size;
-  }
+    &.#{$key} {
+      width: $size;
+    }
 }
 
 @each $key, $size in $grid-columns-vw {
   &.#{$key}-vw {
     width: $size;
+  }
+}
+
+@include media-min-width() {
+  .w3 { width: calcY(24, 33) !important; }
+  .w6 { width: calcY(48, 66) !important; }
+  .w20 { width: calcY(124, 220) !important; }
+  .w74 { width: calcY(307, 814) !important; }
+  .w97 { width: calcY(456, 1067) !important; }
+}
+
+.w3 { width: 5%; }
+.w6 { width: 10%; }
+.w20 { width: 26%; }
+.w74 { width: 64%; }
+.w97 { width: 95%; }
+
+@media (max-width: 650px) {
+  .w49 {
+    width: 100%;
+  }
+
+  .developer:nth-child(even) {
+    flex-direction: row-reverse;
   }
 }

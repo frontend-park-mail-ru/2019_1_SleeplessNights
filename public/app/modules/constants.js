@@ -36,8 +36,8 @@ export const outMessages = {
 
 export const gameConsts = {
     TIMER_PACK     : 10, // second
-    TIMER_QUESTION : 2000, // second
-    TIMER_ANSWER   : 20, // second
+    TIMER_QUESTION : 10, // second
+    TIMER_ANSWER   : 2000, // second
     CELL_COUNT     : 8,
     FIRST_INDEX    : 0,
     LAST_INDEX     : 63,

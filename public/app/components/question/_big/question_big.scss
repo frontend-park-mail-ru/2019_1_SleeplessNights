@@ -1,4 +1,21 @@
+@import '../../../../assets/scss/global';
+
+$font-size-min: 22;
+$font-size-max: 50;
+
 .question_big {
-  font-size: 50px;
-  margin-bottom: 40px;
+  font-size: px($font-size-min);
+  margin-bottom: 0.9em;
+}
+
+@include media-min-width() {
+  .question_big {
+    font-size: calcY($font-size-min, $font-size-max);
+  }
+}
+
+@include media-max-width() {
+  .question_big {
+    font-size: px($font-size-max);
+  }
 }

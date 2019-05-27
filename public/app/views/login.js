@@ -81,7 +81,7 @@ export class LoginView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'w50 container_column',
+            customClasses: 'form_w50 container_column',
             content: `
                 ${this.header.template}
                 ${this._form.template} 
@@ -94,7 +94,7 @@ export class LoginView extends BaseView {
         });
 
         this.signupContainer = new ContainerComponent({
-            customClasses: 'w20 container_theme-secondary1 justify-content-center align-items-center overflow-hidden',
+            customClasses: 'w20 container_column container_theme-secondary1 justify-content-center align-items-center overflow-hidden',
             content: `<p>Нет аккаунта?</p> ${link.template}`
         });
 

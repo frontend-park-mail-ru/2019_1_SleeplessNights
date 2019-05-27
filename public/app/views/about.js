@@ -72,7 +72,7 @@ export class AboutView extends BaseView {
             });
 
             const container = new ContainerComponent({
-                customClasses: (i === 0 ? 'w100 justify-content-center': 'w49 container__inline-flex'),
+                customClasses: (i === 0 ? 'w100 justify-content-center': 'w49 developer container__inline-flex'),
                 content: `
                     ${avatar.template}
                     <div class="container container_column justify-content-center pl-10px">
