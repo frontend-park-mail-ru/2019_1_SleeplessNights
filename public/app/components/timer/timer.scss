@@ -2,7 +2,7 @@
 
 .timer {
     color: var(--success-color);
-    font-size: 26px;
+    font-size: 16px;
 }
 
 .timer_red {
@@ -17,6 +17,6 @@
 
 @include media-max-width() {
     .timer {
-        font-size: 16px;
+        font-size: 26px;
     }
 }

@@ -301,10 +301,14 @@ $grid-rows: (
   @return $arg + px;
 }
 
-@function calcY($y1, $y2) {
+@function percent($arg) {
+  @return $arg * 1%;
+}
+
+@function calcY($y1, $y2, $unit:px) {
   $m: ($y2 - $y1) / ($maximum-width - $minimum-width);
   $b: $y2 - $m * $maximum-width;
-  @return calc(#{$m} * 100vw + #{px($b)});
+  @return calc(#{$m} * 100vw + #{call(get_function($unit), $b)});
 }
 
 @mixin media-min-width() {

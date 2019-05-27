@@ -26,7 +26,7 @@ $avatar-size-calc: calcY($avatar-size-min, $avatar-size-max);
 
 @include media-max-width() {
   .avatar {
-    width: $avatar-size-max;
-    height: $avatar-size-max;
+    width: px($avatar-size-max);
+    height: px($avatar-size-max);
   }
 }
