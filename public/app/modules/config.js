@@ -8,7 +8,7 @@ export class Config {
                 'game': 'ws://localhost:8006/api/game'
             },
             'prod': {
-                'backend': 'http://89.208.198.186:8080',
+                'backend': 'https://89.208.198.186:8080',
                 'chat': 'ws://89.208.198.186:8005/chat/connect',
                 'game': 'ws://localhost:8005/game/connect'
             },
