@@ -1,13 +1,14 @@
 import { GameCore } from './core.js';
 import { events } from './events.js';
+import { noop }   from '../../modules/utils.js';
 import { outMessages } from '../../modules/constants.js';
 import bus from '../../modules/bus.js';
 
 export class MultiPlayer extends GameCore {
     constructor() {
         super();
-        bus.on(events.PLAY_AGAIN_OR_NOT, this.onPlayAgain);
-        bus.on(events.ENDED_TIME_TO_QUESTION, () => null);
+        bus.on(events.ENDED_TIME_TO_QUESTION, noop);
+        bus.on(events.ENDED_TIME_TO_PACK,     noop);
         bus.on(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 
@@ -25,7 +26,10 @@ export class MultiPlayer extends GameCore {
     };
 
     onSelectedPack(id) {
-        super.onSelectedPack(id);
+        bus.emit(events.STOP_TIMEOUT_PACK, 'multiPlayer');
+        if (id === -1) return;
+        this.packs[id].state = 'deactive';
+
         if (this.currentPlayer === 'me') {
             if (id >= 5) id -= 2;
             bus.emit('game:send-message',
@@ -43,6 +47,9 @@ export class MultiPlayer extends GameCore {
     };
 
     onSelectedCell = (cellIndex) => {
+        bus.emit(events.STOP_TIMEOUT_QUESTION);
+        if (cellIndex === -1) return;
+
         if (this.currentPlayer === 'me') {
             const y = Math.floor(cellIndex / this.cellCount);
             const x = cellIndex - (y * this.cellCount);
@@ -56,12 +63,14 @@ export class MultiPlayer extends GameCore {
     }
 
     onSelectedAnswer = (id) => {
-        bus.emit('game:send-message', {
-            title: outMessages.ANSWER,
-            payload: {
-                answer_id: id
-            }
-        });
+        if (this.currentPlayer === 'me') {
+            bus.emit('game:send-message', {
+                title: outMessages.ANSWER,
+                payload: {
+                    answer_id: id
+                }
+            });
+        }
     };
 
     onPlayAgain = (data) => {
@@ -77,7 +86,8 @@ export class MultiPlayer extends GameCore {
 
     destroy() {
         super.destroy();
-        bus.off(events.ENDED_TIME_TO_QUESTION, () => null);
+        bus.off(events.ENDED_TIME_TO_QUESTION, noop);
+        bus.off(events.ENDED_TIME_TO_PACK,     noop);
         bus.off(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 }

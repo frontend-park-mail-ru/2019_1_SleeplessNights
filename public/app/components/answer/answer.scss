@@ -1,16 +1,37 @@
+@import '../../../assets/scss/global';
+
+$font-size-min: 12;
+$font-size-max: 18;
+$height-min: 60;
+$height-max: 100;
+
 .answer {
     padding: 5px;
     border-radius: 2px;
-    font-size: 18px;
+    font-size: px($font-size-min);
+    height: px($height-min);
     width: 48.5%;
-    height: 100px;
     text-align: center;
     cursor: pointer;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 0.8em;
     transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
 }
 
 .answer:hover {
     transform: translate(0.4rem, 0.4rem);
+}
+
+@include media-min-width() {
+    .answer {
+        font-size: calcY($font-size-min, $font-size-max);
+        height: calcY($height-min, $height-max);
+    }
+}
+
+@include media-max-width() {
+    .answer {
+        font-size: px($font-size-max);
+        height: px($height-max);
+    }
 }

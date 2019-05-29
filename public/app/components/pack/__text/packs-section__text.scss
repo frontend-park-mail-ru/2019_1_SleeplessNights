@@ -1,3 +1,23 @@
+@import '../../../../assets/scss/global';
+
+$font-size-min: 9;
+$font-size-max: 16;
+
 .packs-section__item__text {
+  text-align: center;
   margin-left: 0.5em;
+  font-size: px($font-size-min);
 }
+
+@include media-min-width() {
+  .packs-section__item__text {
+    font-size: calcY($font-size-min, $font-size-max);
+  }
+}
+
+@include media-max-width() {
+  .packs-section__item__text {
+    font-size: px($font-size-max);
+  }
+}
+

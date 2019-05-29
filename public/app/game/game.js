@@ -36,12 +36,9 @@ export class Game {
     start = () => {
         bus.off('success:check-indexedDB', this.start);
         bus.emit('hide-loader');
-        // if (!this.gameScene) {
-            this.gameScene = new GameScene(this.root, this.mode);
-        // }
-        // if (!this.gameCore) {
-            this.gameCore = new this.GameConstructor();
-        // }
+
+        this.gameScene = new GameScene(this.root, this.mode);
+        this.gameCore = new this.GameConstructor();
 
         this.gameCore.start();
         bus.on(events.FINISH_GAME, this.destroy);

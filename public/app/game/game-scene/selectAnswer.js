@@ -89,6 +89,7 @@ export class SelectAnswerScene {
     };
 
     setAnswer = ({ given, correct }) => {
+        bus.emit(events.STOP_TIMEOUT_ANSWER);
         let isTrue;
         if (given === correct) {
             this.answers.get(given).setCorrect();

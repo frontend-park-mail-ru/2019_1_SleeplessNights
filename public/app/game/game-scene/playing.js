@@ -115,8 +115,6 @@ export class PlayingScene {
     };
 
     onAnsweredCell = (answer) => {
-        console.log(this.cells);
-        console.log(this.selectedCell);
         const cell = this.cells[this.selectedCell];
         answer ? cell.setAnswered() : cell.setFailed();
     };
@@ -136,6 +134,7 @@ export class PlayingScene {
         this.selectAnswerScene.destroy();
         this.endGameScene.destroy();
         this.stopTimeout();
+
         bus.off(events.FILL_PACK_LIST,     this.updatePackList);
         bus.off(events.FILL_CELLS,         this.fillCells);
         bus.off(events.SELECTED_CELL,      this.onSelectedCell);

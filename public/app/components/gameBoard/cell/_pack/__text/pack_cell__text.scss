@@ -1,21 +1,21 @@
-@import '../../../../assets/scss/global';
+@import '../../../../../../assets/scss/global';
 
-$font-size-min: 22;
-$font-size-max: 50;
+$font-size-min: 6;
+$font-size-max: 14;
 
-.question_big {
+.pack__cell__text {
   font-size: px($font-size-min);
-  margin-bottom: 0.9em;
 }
 
 @include media-min-width() {
-  .question_big {
+  .pack__cell__text {
     font-size: calcY($font-size-min, $font-size-max);
   }
 }
 
 @include media-max-width() {
-  .question_big {
+  .pack__cell__text {
     font-size: px($font-size-max);
   }
 }
+

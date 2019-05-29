@@ -17,7 +17,6 @@ export class GameScene {
         this.avatarMe = null;
         this.avatarOpponent = null;
         this.currentScene = null;
-        this.opponentSearch = null;
         this.mode = mode === modes.SINGLE_PLAYER ? '1' : '2';
         this.bgColor = `var(--primary-color${this.mode})`;
 
@@ -29,6 +28,7 @@ export class GameScene {
         bus.on(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.on(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.on(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
+        bus.on(events.FOUND_OPPONENT, this.onFoundOpponent);
 
         this.render();
     }
@@ -110,21 +110,18 @@ export class GameScene {
         this[cond ? 'avatarOpponent': 'avatarMe'].removeClass('avatar_border-weighty');
     };
 
+    onFoundOpponent = () => {
+        this.currentScene = new PackSelectScene(this.root, this.centreContainer);
+    };
+
     onEndPackSelection = () => {
         setTimeout(() => {
             this.currentScene = new PlayingScene(this.root, this.centreContainer);
         }, 1000);
     };
     
-    startTimeout = (time) => {
-        console.log('start timeout');
-        this.currentTimer.start(time);
-    };
-
-    stopTimeout = () => {
-        console.log('stop timeout');
-        this.currentTimer.stop();
-    };
+    startTimeout = (time) => this.currentTimer.start(time);
+    stopTimeout = () => this.currentTimer.stop();
 
     askForExit = (event) => {
         const ask = confirm(`При выходе из игры удаляеться текущая сессия игры.
@@ -172,6 +169,7 @@ export class GameScene {
         bus.off(events.START_TIMEOUT_QUESTION, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_QUESTION,  this.stopTimeout);
         bus.off(`success:${events.GET_USER}-${user.nickname}`, this.onSetMyProfile);
+        bus.off(events.FOUND_OPPONENT, this.onFoundOpponent);
         this.backButton.removeEventListener('click', this.askForExit);
     }
 }
