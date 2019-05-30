@@ -11,7 +11,7 @@ export class Config {
                 /*'backend': 'https://89.208.198.186:8080',
                 'chat': 'ws://89.208.198.186:8005/chat/connect',
                 'game': 'ws://localhost:8005/game/connect'*/
-                'backend': 'https://techno-quiz.com/',
+                'backend': 'https://techno-quiz.com',
                 'chat': 'ws://techno-quiz.com/api/chat',
                 'game': 'ws://techno-quiz.com/api/game'
             },
