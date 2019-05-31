@@ -12,8 +12,8 @@ export class Config {
                 'chat': 'ws://89.208.198.186:8005/chat/connect',
                 'game': 'ws://localhost:8005/game/connect'*/
                 'backend': 'https://techno-quiz.com',
-                'chat': 'ws://techno-quiz.com/api/chat',
-                'game': 'ws://techno-quiz.com/api/game'
+                'chat': 'wss://techno-quiz.com/api/chat',
+                'game': 'wss://techno-quiz.com/api/game'
             },
             'prodHeroku': {
                 'backend': 'https://sleepless-nights--backend.herokuapp.com',
