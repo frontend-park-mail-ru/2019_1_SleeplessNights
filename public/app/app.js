@@ -7,6 +7,7 @@ import { LeadersView } from './views/leaders.js';             /**/
 import { LoginView }   from './views/login.js';               /**/
 import { SignUpView }  from './views/signup.js';              /**/
 import { ProfileView } from './views/profile.js';             /**/
+import { ChatView }    from './views/chat.js';                /**/
 import { NotFoundView } from './views/notFound.js';           /**/
 /************************* Services *************************\/**/
 import { RegisterService }   from './services/register.js';   /**/
@@ -14,6 +15,7 @@ import { ProfileService }    from './services/profile.js';    /**/
 import { AuthService }       from './services/auth.js';       /**/
 import { ScoreboardService } from './services/scoreboard.js'; /**/
 import { GameService }       from './services/game.js';       /**/
+import { ChatService }       from './services/chat.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
@@ -105,7 +107,7 @@ bus.on('get-profile', () => {
 
 bus.on('update-profile', (data) => {
     ProfileService.updateProfile(data)
-        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatarPath)))
+        .then(res => bus.emit('success:update-profile', makeAvatarPath(res.avatar_path)))
         .catch(res => bus.emit('error:update-profile', res.data));
 });
 
@@ -153,6 +155,11 @@ bus.on(events.WS_CONNECT, () => {
     });
 });
 
+bus.on('created-chat', () => {
+    const chatService = new ChatService();
+    bus.on('chat:send-message', chatService.sendMessage);
+});
+
 const router = new Router(app);
 router
     .register('/', MenuView)
@@ -164,6 +171,7 @@ router
     .register('/multiplayer', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
+    .register('/chat', ChatView)
     .register('/not-found', NotFoundView);
 
 router

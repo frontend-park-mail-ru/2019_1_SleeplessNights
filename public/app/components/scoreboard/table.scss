@@ -1,5 +1,6 @@
 .table {
     width: 60%;
+    color: var(--secondary-color1);
     border-collapse: collapse;
 }
 
@@ -10,6 +11,6 @@
 
 .table td {
     padding: 5px 10px;
-    border-bottom: 2px solid var(--second);
+    border-bottom: 2px solid var(--secondary-color1);
     text-align: center;
 }

@@ -7,3 +7,11 @@
     {{/if}}
 </div>
 
+{{#if isEditable}}
+    <div class="avatar__edit-photo justify-content-center align-items-center hidden" hidden>
+        <div class="{{customClasses}} h100 w100">
+            <canvas id="avatarCanvas" class="w100 h100"></canvas>
+        </div>
+        {{{buttons}}}
+    </div>
+{{/if}}

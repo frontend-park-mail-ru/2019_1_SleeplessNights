@@ -37,7 +37,7 @@ export class ProfileView extends BaseView {
             {
                 customClasses: '',
                 content: {
-                    attributes: 'disabled',
+                    attributes: '',
                     type: 'email',
                     customClasses: '',
                     placeholder: 'test@mail.ru',
@@ -66,6 +66,7 @@ export class ProfileView extends BaseView {
 
         this._scoreSectionHTML = document.createElement('section');
         this._scoreSectionHTML.id = 'profile-score';
+        this._scoreSectionHTML.className = 'w100';
         this._render();
     }
 
@@ -121,6 +122,7 @@ export class ProfileView extends BaseView {
                 ${this._form.template} 
                 ${this._avatar.template} 
                 ${this._scoreSection}
+                <h6>* Для улучшения качествы показа вашей автарки пожалуйста загрузите квадратную или круглую автарку </h6>
             `
         });
 
@@ -149,6 +151,7 @@ export class ProfileView extends BaseView {
 
         this._scoreSection = list.template;
         this._onSubmit();
+        bus.emit('avatar-loading');
     }
 
     _onSubmit() {
@@ -166,6 +169,18 @@ export class ProfileView extends BaseView {
         this._form.on('submit', (event) => {
             event.preventDefault();
             this._formData = new FormData(event.target);
+            const img = this._avatar.canvasImage;
+            if (img.length > 2000) {
+                const blobBin = atob(img.split(',')[1]);
+                const array = [];
+                for(let i = 0; i < blobBin.length; i++) {
+                    array.push(blobBin.charCodeAt(i));
+                }
+
+                const file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+                this._formData.delete('avatar');
+                this._formData.append('avatar', file);
+            }
 
             const inputs = this._form.formControls.filter(fc => fc.type === 'text');
             this._form.reset();

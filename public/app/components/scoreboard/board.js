@@ -6,6 +6,7 @@ import './_primary/table_primary.scss';
 import './_primary2/table_primary2.scss';
 import './__number/table__number.scss';
 import './__avatar-block/table__avatar-block.scss';
+import './__avatar-block/__img/table__avatar-block__img.scss';
 
 export class BoardComponent {
     _template;
@@ -41,15 +42,15 @@ export class BoardComponent {
                 res.data.forEach((item, i) => {
                     this._players.push({
                         number: i + 1,
-                        name: item.nickname,
+                        nickname: item.nickname,
                         avatarPath: item.avatarPath,
-                        win: item.won,
-                        lost: item.lost,
-                        playingTime: item.play_time
+                        rating: item.rating || 0,
+                        winRate: item.winRate || 0,
+                        matches: item.matches || 0
                     });
                 });
 
-                const pageCount = res.pages_total;
+                const pageCount = res.pagesCount || 10;
                 if (pageCount && pageCount < 1) {
                     const pager = new PaginationComponent({
                         baseUrl:    'scoreboard',

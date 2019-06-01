@@ -40,20 +40,19 @@ export class ButtonHomeComponent {
         });
 
         if (this._mode === 'minified') {
-
             this._template = template({
                 dataHref:  '/',
                 className: `${this._className} container container_skewed align-items-center justify-content-right`,
                 icon: link.template
             });
-
         } else {
             let customClasses = `${this._className} align-items-center `;
             customClasses += this._position === 'right' ? 'w3 justify-content-center' : 'justify-content-right w6';
 
             this.container = new ContainerComponent({
                 customClasses,
-                content: link.template
+                content: link.template,
+                href: '/'
             });
 
             this._template = this.container.template;

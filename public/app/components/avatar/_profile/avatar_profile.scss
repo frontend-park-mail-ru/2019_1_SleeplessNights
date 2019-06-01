@@ -1,8 +1,7 @@
 @import '../../../../assets/scss/global';
 
 .avatar_profile {
-    margin-left: 10px;
-    margin-top: -20px;
-    width: 140px;
-    height: 140px;
+    margin: -20px 0 10px 10px;
+    @include border-radius($avatar-size-max/ 2);
+    overflow: hidden;
 }
