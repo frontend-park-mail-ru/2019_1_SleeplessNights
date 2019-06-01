@@ -16,9 +16,6 @@ export class BaseChatView {
             name: 'message'
         };
 
-        // this.messagesSection = document.createElement('div');
-        // this.root.insertAdjacentHTML('beforeend', this.messagesSection);
-
         bus.on('chat:get-message', this.onMessageCome);
     }
 

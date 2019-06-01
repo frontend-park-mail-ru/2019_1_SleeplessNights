@@ -15,20 +15,24 @@ export class ChatView extends BaseView {
         super.show();
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return this._pageTitle;
     }
 
     _render() {
         super.renderContainer({
-            customClasses: 'container_skewed h100 container__absolute'
+            customClasses: 'container_skewed h100 w100 container__absolute'
         });
 
-        new Chat({
+        this.chat = new Chat({
             root: this.root,
             mode: this.mode
         });
 
         bus.emit('created-chat');
+    }
+
+    hideAnimation() {
+        this.chat.hide();
     }
 }

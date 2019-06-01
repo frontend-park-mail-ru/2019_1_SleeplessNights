@@ -8,9 +8,11 @@ export class Chat {
         mode = ''
     } = {}) {
         this.root = root;
+        this.mode = mode;
         this.chatView = null;
+        this.core = null;
 
-        switch(mode) {
+        switch(this.mode) {
             case modes.FULL_PAGE:
                 this.chatView = FullPageChat;
                 break;
@@ -18,9 +20,15 @@ export class Chat {
                 this.chatView = MinimizedChat;
                 break;
             default:
-                throw new Error(`Invalid game mode ${mode}`);
+                throw new Error(`Invalid game mode ${this.mode}`);
         }
 
-        new this.chatView(this.root);
+        this.core = new this.chatView(this.root);
+    }
+
+    hide() {
+        if (this.mode === modes.FULL_PAGE) {
+            this.core.hide();
+        }
     }
 }
