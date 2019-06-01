@@ -2,6 +2,6 @@
 
 .avatar_profile {
     margin: -20px 0 10px 10px;
-    @include border-radius($avatar-size/2);
+    @include border-radius($avatar-size-max/ 2);
     overflow: hidden;
 }

@@ -3,6 +3,6 @@
 .avatar__edit-photo {
   display: flex;
   flex-wrap: wrap;
-  width:$avatar-size;
-  height:$avatar-size;
+  width: $avatar-size-min;
+  height: $avatar-size-min;
 }

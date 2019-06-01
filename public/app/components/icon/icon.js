@@ -24,12 +24,15 @@ export class IconComponent {
     }
 
     get parent() {
-        console.log(this._innerElem.parentElement);
         return this._innerElem.parentElement;
     }
 
     get template() {
         return this._template;
+    }
+
+    set name(data) {
+        this._innerElem.innerHTML = data;
     }
 
     _render() {

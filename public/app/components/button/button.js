@@ -1,4 +1,4 @@
-import { uniqueId } from '../../modules/utils.js';
+import { uniqueId, noop } from '../../modules/utils.js';
 import template from './button.handlebars';
 import './btn.scss';
 import './_primary/btn_primary.scss';
@@ -16,13 +16,12 @@ export class ButtonComponent {
         type = 'button',
         className = 'btn-primary',
         text = 'Кнопка',
-        dataHref = '/',
-        id = 'btn' + uniqueId()
+        dataHref = '/'
     } = {}) {
         this._type = type;
         this._className = className;
         this._text = text;
-        this._id = id;
+        this._id = 'btn' + uniqueId();
         this._dataHref = dataHref;
 
         this.render();
@@ -44,5 +43,13 @@ export class ButtonComponent {
             text:      this._text,
             dataHref:  this._dataHref
         });
+    }
+
+    on(event, callback = noop) {
+        this._innerElem.addEventListener(event, callback);
+    }
+
+    off(event, callback = noop) {
+        this._innerElem.removeEventListener(event, callback);
     }
 }
