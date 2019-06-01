@@ -33,4 +33,4 @@ export class Config {
     }
 }
 
-export default new Config('dev');
+export default new Config('prodHeroku');
