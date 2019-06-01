@@ -14,7 +14,7 @@ export class MultiPlayer extends GameCore {
 
     start() {
         super.start();
-        bus.emit(events.WS_CONNECT);
+        bus.emit(user.isAuthorised ? events.WS_CONNECT : events.NOT_AUTHORISED);
     }
 
     notifyReadiness = () => {

@@ -29,6 +29,7 @@ export class FullPageChat extends BaseChatView {
         this.root.insertAdjacentHTML('beforeend', `${this.outerContainer.template}`);
         this.root.insertAdjacentHTML('beforeend', `${this.backButton.template}`);
         this.startListening();
+
         this.backButton.container.showContent();
         this.outerContainer.showContent();
     }

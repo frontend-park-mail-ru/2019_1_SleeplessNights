@@ -5,13 +5,13 @@
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-}
 
-.msg-container > div:first-child {
-    width: 85%;
-}
+    > div:first-child {
+        width: 85%;
+    }
 
-.msg-container > div:last-child {
-    position: relative;
-    width: 14%;
+    > div:last-child {
+        position: relative;
+        width: 14%;
+    }
 }

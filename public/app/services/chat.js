@@ -1,4 +1,4 @@
-import { IWebSocket } from "../modules/websocket.js";
+import { IWebSocket } from '../modules/websocket.js';
 import config from '../modules/config.js';
 import bus from '../modules/bus.js';
 

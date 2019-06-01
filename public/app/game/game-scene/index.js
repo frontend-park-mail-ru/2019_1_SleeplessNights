@@ -3,8 +3,8 @@ import { AvatarComponent }    from '../../components/avatar/avatar.js';
 import { ContainerComponent } from '../../components/container/container.js';
 import { ButtonHomeComponent } from '../../components/buttonHome/buttonHome.js';
 import { PackSelectScene }    from './packSelect.js';
-import { OpponentSearch } from './oponentSearch.js';
 import { PlayingScene }   from './playing.js';
+import { Modal }  from './modal.js';
 import { Gopher } from './gopher.js';
 import { modes }  from '../modes.js';
 import { events } from '../core/events.js';
@@ -79,9 +79,8 @@ export class GameScene {
 
         this.root.background = `linear-gradient(94deg, ${this.bgColor} 24.9%, #fff 25%, #fff 74.9%, ${this.bgColor} 75%)`;
 
-        if (this.mode === '2') {
-           this.currentScene = new OpponentSearch(this.root);
-        } else {
+        this.modal = new Modal(this.root);
+        if (this.mode === '1') {
             this.gopher = new Gopher(this.avatarOpponent);
             this.currentScene = new PackSelectScene(this.root, this.centreContainer);
         }
@@ -124,15 +123,18 @@ export class GameScene {
     stopTimeout = () => this.currentTimer.stop();
 
     askForExit = (event) => {
-        const ask = confirm(`При выходе из игры удаляеться текущая сессия игры.
-                        Действительно ли хотите выйти ?`);
+        // const ask = confirm(`При выходе из игры удаляеться текущая сессия игры.
+        //                 Действительно ли хотите выйти ?`);
+        bus.emit(events.LEAVE_GAME);
+        event.preventDefault();
+        event.stopPropagation();
 
-        if (ask) {
-            bus.emit(events.FINISH_GAME, true);
-        } else {
-            event.preventDefault();
-            event.stopPropagation();
-        }
+        // if (ask) {
+        //     bus.emit(events.FINISH_GAME, true);
+        // } else {
+        //     event.preventDefault();
+        //     event.stopPropagation();
+        // }
     };
 
     showAnimation() {
@@ -159,7 +161,8 @@ export class GameScene {
             this.gopher.destroy();
         }
 
-        this.currentScene.destroy();
+        if (this.currentScene) this.currentScene.destroy();
+        this.modal.destroy();
 
         bus.off(events.START_TIMEOUT_PACK, this.startTimeout);
         bus.off(events.STOP_TIMEOUT_PACK,  this.stopTimeout);
