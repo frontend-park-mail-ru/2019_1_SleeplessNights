@@ -23,11 +23,13 @@ export class ContainerComponent {
 
     constructor({
         customClasses = '',
-        content = ''
+        content = '',
+        href = ''
     } = {}) {
         this._customClasses = customClasses;
         this._content = content;
         this._id = 'container' + uniqueId();
+        this._href = href;
 
         this._render();
     }
@@ -105,7 +107,8 @@ export class ContainerComponent {
         this._template = template({
             customClasses: this._customClasses,
             content:  this._content,
-            id:       this._id
+            id:       this._id,
+            href:     this._href
         });
     }
 

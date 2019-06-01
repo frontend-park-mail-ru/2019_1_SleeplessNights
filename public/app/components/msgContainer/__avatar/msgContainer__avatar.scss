@@ -1,0 +1,29 @@
+.msg-container_receive > .msg-container__avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid #FFF;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.msg-container_sent > .msg-container__avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+}
+
+.msg-container__avatar img {
+    width: 90%;
+    border-radius: 50px;
+    overflow: hidden;
+}

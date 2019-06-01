@@ -1,8 +1,8 @@
-@import "../../../../assets/scss/global";
+@import '../../../../assets/scss/global';
 
 .form__control {
     height: $form-control-size;
-    padding: .5*$whitespace-base-size 0 .5*$whitespace-base-size $whitespace-base-size;
+    padding: .5 * $whitespace-base-size 0 .5*$whitespace-base-size $whitespace-base-size;
     border: 1px solid #EBEBEB;
     @include border-radius(2px);
     @include box-sizing(border-box);
