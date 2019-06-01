@@ -47,6 +47,7 @@ export class BaseChatView {
         });
         
         this.button = new ButtonComponent({
+            className: 'btn_primary2',
             text: icon.template
         });
 
@@ -56,7 +57,7 @@ export class BaseChatView {
     renderPanel(classes, header) {
         this.panel = new PanelComponent({
             customPanelClass: `${classes}`,
-            customClasses: `msg-container-base`,
+            customClasses: `msg-container_base`,
             header: header,
             body: ``,
             footer: `

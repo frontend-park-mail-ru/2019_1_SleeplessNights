@@ -1,7 +1,7 @@
 import { BaseChatView } from './base.js';
 import { IconComponent } from '../../components/icon/icon.js';
 import { ButtonHomeComponent } from '../../components/buttonHome/buttonHome.js';
-import {ContainerComponent} from "../../components/container/container";
+import { ContainerComponent }  from '../../components/container/container.js';
 
 export class FullPageChat extends BaseChatView {
     constructor(root) {

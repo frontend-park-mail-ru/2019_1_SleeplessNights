@@ -1,0 +1,12 @@
+.panel_shorted {
+    min-height: 0;
+    height: 53px;
+}
+
+.panel_shorted .panel__body {
+    display: none;
+}
+
+.panel_shorted .panel__footer {
+    display: none;
+}

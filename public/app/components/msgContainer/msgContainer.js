@@ -1,11 +1,15 @@
 import { uniqueId } from '../../modules/utils.js';
 import template from './msgContainer.handlebars';
 import './msgContainer.scss'
+import './__avatar/msgContainer__avatar.scss';
+import './__messages/msgContainer__messages.scss';
+import './__messages/__text/msgContainer__text.scss';
+import './__messages/__time/msgContainer__time.scss';
+import './_base/msgContainer_base.scss';
+import './_receive/msgContainer_receive.scss';
+import './_sent/msgContainer_sent.scss';
 
 export class MsgContainerComponent {
-    _template;
-    _type;
-
     constructor({
         type = 'sent',
         datetime = '',

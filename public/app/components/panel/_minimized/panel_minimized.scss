@@ -1,0 +1,31 @@
+.panel_minimized {
+    min-height: 400px;
+    height: 40vh;
+    width: 27%;
+    min-width: 350px;
+    position: fixed;
+    z-index: 10;
+}
+
+.panel_minimized .panel__header > div:first-child {
+    display: flex;
+    align-items: center;
+}
+
+.panel_minimized .msg-container__messages {
+    min-height: 50px;
+}
+
+.panel_minimized .panel__header {
+    justify-content: space-between;
+}
+
+.panel_minimized-right{
+    right: 20px;
+    bottom: 0;
+}
+
+.panel_minimized-left {
+    left: 10px;
+    bottom: 0;
+}
