@@ -1,11 +1,15 @@
 export const events = {
     FINISH_GAME            : 'finish-game',
+    ROOM_SEARCHING         : 'room-searching',
     WS_CONNECT             : 'ws-connect',
     WS_DISCONNECT          : 'ws-dis-connect',
     END_GAME               : 'end-game',
     SELECTED_CELL          : 'selected-cell',
+    BOT_SELECTED_CELL      : 'bot-selected-cell',
     SELECTED_PACK          : 'selected-pack',
+    BOT_SELECTED_PACK      : 'bot-selected-pack',
     SELECTED_ANSWER        : 'selected-answer',
+    BOT_SELECTED_ANSWER    : 'bot-selected-answer',
     SELECTED_QUESTION      : 'selected-question',
     SET_OPPONENT_PROFILE   : 'set-opponent-profile',
     GET_PACK               : 'get-pack-id',
@@ -31,4 +35,5 @@ export const events = {
     ENDED_TIME_TO_ANSWER   : 'ended-time-to-answer',
     ENDED_TIME_TO_QUESTION : 'ended-time-to-question',
     ENDED_PACK_SELECTION   : 'ended-pack-selection',
+    FOUND_OPPONENT         : 'found-opponent'
 };

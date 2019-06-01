@@ -1,9 +1,8 @@
-import { HeaderComponent }  from '../components/header/header.js';
 import { IconComponent }   from '../components/icon/icon.js';
-import { LinkComponent }   from '../components/link/link.js';
 import { ContainerComponent } from '../components/container/container.js';
 import { AvatarComponent } from '../components/avatar/avatar.js';
 import { BaseView } from './base.js';
+import { animationTime } from '../modules/constants.js';
 
 export class AboutView extends BaseView {
     _pageTitle;
@@ -48,35 +47,21 @@ export class AboutView extends BaseView {
         return this._pageTitle;
     }
 
-    get backBtn() {
-        const link = new LinkComponent({
-            className: 'link_primary',
-            href: '',
-            dataHref: '/',
-            text: '',
-            icon: {
-                customClasses: 'md-48',
-                name: 'arrow_forward_ios'
-            }
-        });
-
-        this._backBtn = new ContainerComponent({
-            customClasses: 'w3 container_theme-primary2 align-items-center',
-            content: link.template
-        });
-
-        return this._backBtn;
+    get _backBtn() {
+        return {
+            position: 'right',
+            className: 'container_theme-primary2'
+        };
     }
 
     get _header() {
-        const leaderIcon = new IconComponent({
-            customClasses: 'md-inherit md-48',
-            name: 'info'
-        });
-
-        return new HeaderComponent({
-            title: `${leaderIcon.template} About`
-        });
+        return {
+            icon: {
+                customClasses: 'md-inherit md-48',
+                name: 'info'
+            },
+            name: 'About'
+        };
     }
 
     get _authorList() {
@@ -87,7 +72,7 @@ export class AboutView extends BaseView {
             });
 
             const container = new ContainerComponent({
-                customClasses: (i === 0 ? 'w100 justify-content-center': 'w49 container__inline-flex'),
+                customClasses: (i === 0 ? 'w100 justify-content-center': 'w49 developer container__inline-flex'),
                 content: `
                     ${avatar.template}
                     <div class="container container_column justify-content-center pl-10px">
@@ -119,7 +104,7 @@ export class AboutView extends BaseView {
         const innerContainer = new ContainerComponent({
             customClasses: 'w75 container_column',
             content: `
-                   ${this._header.template}
+                   ${this.header.template}
                    <p>Quiz planet – это классическая игра-викторина элементами стратегии. Вам предстоит сразиться в умственном поединке с лучшими из лучших. Более 5000 текстовых и визуальных вопросов из различных областей.</p>
                    <p>Боритесь за право быть на вершине рейтинга!</p>
                    <ul>
@@ -137,7 +122,7 @@ export class AboutView extends BaseView {
             `
         });
 
-        const outerContainer = new ContainerComponent({
+        this.outerContainer = new ContainerComponent({
             customClasses: 'w97 container_theme-secondary1 justify-content-center overflow-y-scroll',
             content: innerContainer.template
         });
@@ -145,11 +130,26 @@ export class AboutView extends BaseView {
         super.renderContainer({
             customClasses: 'container_skewed h100 container__absolute',
             container: `
-                ${outerContainer.template}
+                ${this.outerContainer.template}
                 ${this.backBtn.template}
             `,
         });
+    }
 
-        this._backBtn.href = '/';
+    hideAnimation() {
+        this.backBtn.container.hideContent();
+        this.outerContainer.hideContent();
+        this.backBtn.container.addClass('anim-width-to-50');
+        this.outerContainer.addClass('anim-width-to-50');
+
+        setTimeout(() => {
+            this.backBtn.container.removeClass('anim-width-to-50');
+            this.outerContainer.removeClass('anim-width-to-50');
+        }, animationTime * 1000 + 350);
+    }
+
+    showAnimation() {
+        this.backBtn.container.showContent();
+        this.outerContainer.showContent();
     }
 }

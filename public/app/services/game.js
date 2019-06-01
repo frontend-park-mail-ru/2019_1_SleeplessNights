@@ -6,6 +6,7 @@ import { makeAvatarPath } from '../modules/utils.js';
 import bus from '../modules/bus.js';
 import idb from '../modules/indexdb.js';
 import config from '../modules/config.js';
+import {gameConsts} from "../modules/constants";
 
 export class GameService {
     constructor() {
@@ -33,6 +34,10 @@ export class GameService {
 
     receiveMessages = (message) => {
         switch (message.title) {
+            case inMessages.ROOM_SEARCHING: {
+                bus.emit(events.ROOM_SEARCHING);
+            } break;
+
             case inMessages.CONNECTED: {
                 bus.emit(`success:${events.WS_CONNECT}`);
             } break;
@@ -43,8 +48,18 @@ export class GameService {
                 bus.emit(events.SET_OPPONENT_PROFILE, profile);
             } break;
 
-            case inMessages.THEMES: {
-                bus.emit(`success:${events.GET_PACK}-10`, message.payload);
+            case inMessages.AVAILABLE_PACKS: {
+                const packs = message.payload.Packs;
+                gameConsts.TIMER_PACK = message.payload.Time;
+                packs.forEach(p => p.iconPath = makeAvatarPath(p.iconPath));
+                bus.emit(events.FOUND_OPPONENT);
+                bus.emit(`success:${events.GET_PACK}-10`, packs);
+            } break;
+
+            case inMessages.SELECTED_PACK: {
+                let id = message.payload.pack_id;
+                if (id >= 5) id += 2;
+                bus.emit(events.SELECTED_PACK, id);
             } break;
 
             case inMessages.QUESTION_THEMES: {
@@ -52,8 +67,9 @@ export class GameService {
             } break;
 
             case inMessages.AVAILABLE_CELLS: {
-                const arr = message.payload;
-                arr.forEach((a, i) => arr[i] = a.y * 8 + a.x );
+                const arr = message.payload.CellsSlice;
+                gameConsts.TIMER_QUESTION = message.payload.Time;
+                arr.forEach((a, i) => arr[i] = { id: a.y * 8 + a.x });
                 setTimeout(() =>
                     bus.emit(`success:${events.GET_AVAILABLE_CELLS}`, arr), 1000
                 );
@@ -61,7 +77,10 @@ export class GameService {
 
             case inMessages.OPPONENT_QUESTION:
             case inMessages.YOUR_QUESTION: {
-                bus.emit(events.SELECTED_QUESTION, JSON.parse(message.payload));
+                const payload = JSON.parse(message.payload);
+                const question = payload.Question;
+                gameConsts.TIMER_ANSWER = payload.Time;
+                bus.emit(events.SELECTED_QUESTION, question);
             } break;
 
             case inMessages.YOUR_ANSWER:

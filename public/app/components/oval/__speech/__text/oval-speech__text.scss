@@ -1,0 +1,71 @@
+@import '../../../../../assets/scss/global';
+@import '../oval-speech';
+@import '../../oval';
+
+$text-before-width-min: 5;
+$text-before-width-max: 8;
+$text-before-right-min: 59;
+$text-before-right-max: 132;
+/* creates a small circle to produce a rounded point where the two curves meet */
+.oval__speech__text:before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: px($before-bottom-min);
+  right: px($text-before-right-min);
+  width: px($text-before-width-min);
+  height: px($border-before-min);
+  margin-right: -9%;
+  background: var(--primary-color2);
+  border-radius: 10px;
+}
+
+$text-after-width-min: 12;
+$text-after-width-max: 23;
+$text-after-right-min: 59;
+$text-after-right-max: 135;
+$text-after-bottom-min: -1;
+$text-after-bottom-max: -4;
+/* creates a white rectangle to cover part of the oval border*/
+.oval__speech__text:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: px($text-after-bottom-min);
+  right: px($text-after-right-min);
+  width: px($text-after-width-min);
+  height: px($border-before-min);
+  background: var(--secondary-color2);
+}
+
+@include media-min-width() {
+  .oval__speech__text:before {
+    bottom: calcY($before-bottom-min, $before-bottom-max);
+    right: calcY($text-before-right-min, $text-before-right-max);
+    width: calcY($text-before-width-min, $text-before-width-max);
+    height: calcY($border-before-min, $border-before-max);
+  }
+
+  .oval__speech__text:after {
+    bottom: calcY($text-after-bottom-min, $text-after-bottom-max);
+    right: calcY($text-after-right-min, $text-after-right-max);
+    width: calcY($text-after-width-min, $text-after-width-max);
+    height: calcY($border-before-min, $border-before-max);
+  }
+}
+
+@include media-max-width() {
+  .oval__speech__text:before {
+    bottom: px($before-bottom-max);
+    right: px($text-before-right-max);
+    width: px($text-before-width-max);
+    height: px($border-before-max);
+  }
+
+  .oval__speech__text:after {
+    bottom: px($text-after-bottom-max);
+    right: px($text-after-right-max);
+    width: px($text-after-width-max);
+    height: px($border-before-max);
+  }
+}

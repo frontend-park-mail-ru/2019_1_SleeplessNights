@@ -1,5 +1,6 @@
 @mixin container__absolute() {
   position: absolute;
+  opacity: inherit;
   top: 0;
 }
 

@@ -1,0 +1,14 @@
+@import '../../../../assets/scss/global';
+
+$font-size-min: 10;
+$font-size-max: 20;
+
+.oval__text { font-size: px($font-size-min); }
+
+@include media-min-width() {
+  .oval__text { font-size: calcY($font-size-min, $font-size-max); }
+}
+
+@include media-max-width() {
+  .oval__text { font-size: px($font-size-max); }
+}

@@ -1,7 +1,26 @@
+@import '../../../../../assets/scss/global';
+
+$padding1-min: 1.6;
+$padding1-max: 12;
+$padding2-min: 6;
+$padding2-max: 16;
+
 .pack__cell {
   width: 24%;
   height: 32%;
-  color: #ffffff;
+  color: var(--secondary-color2);
   text-align: center;
-  padding: 0.75rem 1rem;
+  padding: px($padding1-min) px($padding2-min);
+}
+
+@include media-min-width() {
+  .pack__cell {
+    padding: calcY($padding1-min, $padding1-max) calcY($padding2-min, $padding2-max);
+  }
+}
+
+@include media-max-width() {
+  .pack__cell {
+    padding: px($padding1-max) px($padding2-max);
+  }
 }

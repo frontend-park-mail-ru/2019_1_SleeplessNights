@@ -14,14 +14,17 @@ export class GameCore {
         this.prizes = [];
         this.selectedPacks = 0;
         this.opponent = null;
+        this.currentPlayer = 'me';
         this.cellCount = gameConsts.CELL_COUNT;
         this.colors = gameConsts.THEME_COLORS.map(c => { return {color: c} });
     }
 
     start() {
         this.onGetCells = this.onGetCells.bind(this);
+        this.onSelectedPack = this.onSelectedPack.bind(this);
         bus.on(events.SELECTED_CELL, this.onSelectedCell);
         bus.on(events.SELECTED_PACK, this.onSelectedPack);
+        bus.on(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
         bus.on(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.on(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
         bus.on(events.SELECTED_ANSWER, this.onSelectedAnswer);
@@ -32,22 +35,13 @@ export class GameCore {
         idb.getAll('user', 'nickname', user.nickname);
     }
 
+    setCurrentPlayer = (pl) => this.currentPlayer = pl;
+
     onSetOpponentProfile = (data) => {
         this.opponent = {
             nickname: data.nickname,
             lastMove: null
         };
-    };
-
-    onSelectedPack = (id) => {
-        if (id === -1) return;
-        this.packs[id].state = 'deactive';
-        if (++this.selectedPacks === 4) {
-            bus.emit(events.ENDED_PACK_SELECTION);
-            setTimeout(() => {
-                bus.emit(events.FILL_PACK_LIST, this.packs.filter(p => p.type === 'pack' && p.state !== 'deactive'));
-            }, 1100);
-        }
     };
 
     onGetPacks = (data) => {
@@ -74,6 +68,7 @@ export class GameCore {
                 ) {
                     this.gameMatrix.push({
                         type: 'prize',
+                        name: 'Приз',
                         color: gameConsts.PRIZE_COLOR
                     });
                 } else {
@@ -97,10 +92,13 @@ export class GameCore {
         });
     }
 
-    onPlayAgain = () => {
+    onSelectedPack() {
         throw new Error('This method must be overridden');
     };
 
+    onPlayAgain = () => {
+        throw new Error('This method must be overridden');
+    };
 
     onFillPacksList = () => {
         throw new Error('This method must be overridden');
@@ -117,6 +115,7 @@ export class GameCore {
     destroy() {
         bus.off(events.SET_OPPONENT_PROFILE, this.onSetOpponentProfile);
         bus.off(events.PLAY_AGAIN_OR_NOT,    this.onPlayAgain);
+        bus.off(events.SET_CURRENT_PLAYER,   this.setCurrentPlayer);
         bus.off(events.SELECTED_CELL,   this.onSelectedCell);
         bus.off(events.SELECTED_PACK,   this.onSelectedPack);
         bus.off(events.SELECTED_ANSWER, this.onSelectedAnswer);

@@ -1,4 +1,4 @@
-    @import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
 
 .modal {
     position: fixed;
@@ -17,7 +17,7 @@
     bottom: 0;
     left: 0;
     content: "";
-    background-color: rgba(0,0,0,.6);
+    background-color: rgba(0, 0, 0, .6);
     @include keyframes(opacity) {
         from {
             @include opacity(0);

@@ -1,4 +1,5 @@
 import { uniqueId, noop } from '../../modules/utils.js';
+import { animationTime } from '../../modules/constants.js';
 import template from './container.handlebars';
 import './container.scss';
 import './__inline-flex/container__inline-flex.scss';
@@ -39,6 +40,10 @@ export class ContainerComponent {
         this._innerElem.innerHTML = data;
     }
 
+    set background(data) {
+        this._innerElem.style.background = data;
+    }
+
     set width(data) {
         this._innerElem.style.width = data;
     }
@@ -49,6 +54,51 @@ export class ContainerComponent {
 
     get template() {
         return this._template;
+    }
+
+    get parent() {
+        return this._innerElem.parentElement;
+    }
+
+    get children() {
+        return [...this._innerElem.children];
+    }
+
+    hideContent() {
+        this.children.forEach(c => c.classList.add('anim-opacity'));
+        setTimeout(() => {
+            if (!this._innerElem) return;
+            this.children.forEach(c => c.classList.remove('anim-opacity'));
+        },  animationTime * 1000 + 350);
+    }
+
+    showContent() {
+        this.children.forEach(c => c.classList.add('anim-opacity-2'));
+        setTimeout(() => {
+            this.children.forEach(c => c.classList.remove('anim-opacity-2'));
+        }, (animationTime / 2) * 1000 + 350);
+    }
+
+    show() {
+        this.addClass('anim-opacity-2');
+        setTimeout(() => this.removeClass('anim-opacity-2'), (animationTime / 2) * 1000 + 350);
+    }
+
+    hide() {
+        this.addClass('anim-opacity');
+        setTimeout(() => this.removeClass('anim-opacity'), animationTime * 1000 + 350);
+    }
+
+    addClass(name) {
+        this._innerElem.classList.add(name);
+    }
+
+    removeClass(name) {
+        this._innerElem.classList.remove(name);
+    }
+
+    insertAdjacentHTML(position, html) {
+        this._innerElem.insertAdjacentHTML(position, html);
     }
 
     _render() {

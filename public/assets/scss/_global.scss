@@ -9,21 +9,34 @@
 }
 
 $whitespace-base-size: 10px;
-$avatar-border: 8px;
+$avatar-border-max: 8;
+$avatar-border-min: 4;
+
+$play-icon-size-max: 230;
+$play-icon-size-min: 100;
+
+$title-text-size-min: 19;
+$title-text-size-max: 45;
+$subtitle-text-size-min: 13;
+$subtitle-text-size-max: 20;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
-$title-text-size: 40px;
-$subtitle-text-size: 18px;
 $title-padding: $whitespace-base-size $whitespace-base-size / 2;
 $page-padding: $whitespace-base-size;
 $list-margin: .8 * $whitespace-base-size;
-$avatar-size: 160px;
+
+$avatar-size-max: 220;
+$avatar-size-min: 90;
+
 $modal-min-size: 200px;
 $form-control-size: 40px;
 $button-height: 32px;
 $button-font-weight: 600;
 $modal-close-btn-width: 5 * $whitespace-base-size;
+
+$minimum-width: 480;
+$maximum-width: 1100;
 
 $media-breakpoints: (
         s:  576px,
@@ -67,6 +80,8 @@ $grid-columns: (
 );
 
 $grid-columns-vw: (
+        w3 :  3vw,
+        w6 :  6vw,
         w10 : 10vw,
         w20:  20vw,
         w30:  30vw,
@@ -74,8 +89,11 @@ $grid-columns-vw: (
         w50:  50vw,
         w60:  60vw,
         w70:  70vw,
-        w80:  80vw,
+        w75:  75vw,
+        w85:  85vw,
         w90:  90vw,
+        w94:  94vw,
+        w97:  97vw,
         w100: 100vw
 );
 
@@ -205,6 +223,18 @@ $grid-rows: (
   animation: $args;
 }
 
+@mixin bg-position-x($args) {
+  -ms-background-position-x: $args;
+  background-position-x: $args;
+}
+
+@mixin bg-size($args) {
+  -moz-background-size: $args;
+  -o-background-size: $args;
+  -webkit-background-size: $args;
+  background-size: $args;
+}
+
 @mixin keyframes($name) {
   @-webkit-keyframes #{$name} {
     @content;
@@ -251,25 +281,34 @@ $grid-rows: (
           rgba(0,0,0,0) 2*$stripe-width + 2px));
 }
 
-.pr-10px {
-  padding-right: 10px;
+@function px($arg) {
+  @return $arg + px;
 }
 
-.pl-10px {
-  padding-left: 10px;
+@function percent($arg) {
+  @return $arg * 1%;
 }
 
-.md-20px {
-  margin-bottom: 20px;
+@function vw($arg) {
+  @return $arg + vw;
 }
 
-.profile {
-  padding: 50px 30px 10px;
-  flex-wrap: wrap;
+@function calcY($y1, $y2, $unit:px) {
+  $m: ($y2 - $y1) / ($maximum-width - $minimum-width);
+  $b: $y2 - $m * $maximum-width;
+  @return calc(#{$m} * 100vw + #{call(get_function($unit), $b)});
 }
 
-.copyright {
-  margin: 10px 10px 10px -200px;
+@mixin media-min-width() {
+  @media (min-width: px($minimum-width)) {
+    @content
+  }
+}
+
+@mixin media-max-width() {
+  @media (min-width: px($maximum-width)) {
+    @content
+  }
 }
 
 .hidden {

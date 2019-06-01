@@ -29,7 +29,7 @@ export class PackSelectScene  {
 
         this.packBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
         this.container.content = `
-            <h3 class="container_theme-secondary3 title_subtitle2">Вибырите тему которая больше всего вам не нравиться</h3>
+            <h3 class="container_theme-secondary3 title_subtitle title_subtitle2">Выберите тему которая больше всего вам не нравится</h3>
             ${this.packBoard.template}
         `;
     }
@@ -71,13 +71,13 @@ export class PackSelectScene  {
         }
 
         if ('type' in target.dataset && target.dataset.state === 'active') {
+            // bus.emit(events.STOP_TIMEOUT_PACK, 'packSelect');
             bus.emit(events.SELECTED_PACK, +target.dataset.id);
-            bus.emit(events.STOP_TIMEOUT_PACK);
         }
     };
 
     onSelectedPack = (id) => {
-        if (id !== -1) {
+        if (this.cells[id]) {
             this.cells[id].setFailed();
         }
     };

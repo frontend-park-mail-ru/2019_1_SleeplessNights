@@ -69,7 +69,6 @@ export class SelectAnswerScene {
                 if ('index' in target.dataset) {
                     anBlock.removeEventListener('click', answerChoosing);
                     bus.emit(events.SELECTED_ANSWER, +target.dataset.index);
-                    bus.emit(events.STOP_TIMEOUT_ANSWER);
                 }
             };
 
@@ -90,12 +89,13 @@ export class SelectAnswerScene {
     };
 
     setAnswer = ({ given, correct }) => {
+        bus.emit(events.STOP_TIMEOUT_ANSWER);
         let isTrue;
         if (given === correct) {
             this.answers.get(given).setCorrect();
             isTrue = true;
         } else {
-            if (given !== -1){
+            if (given !== -1) {
                 this.answers.get(given).setFailed();
             }
             this.answers.get(correct).setCorrect();

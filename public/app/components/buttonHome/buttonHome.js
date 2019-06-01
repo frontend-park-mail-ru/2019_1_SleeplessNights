@@ -51,12 +51,12 @@ export class ButtonHomeComponent {
             let customClasses = `${this._className} align-items-center `;
             customClasses += this._position === 'right' ? 'w3 justify-content-center' : 'justify-content-right w6';
 
-            const container = new ContainerComponent({
+            this.container = new ContainerComponent({
                 customClasses,
                 content: link.template
             });
 
-            this._template = container.template;
+            this._template = this.container.template;
         }
     }
 }

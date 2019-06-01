@@ -1,18 +1,32 @@
-@import "../../../assets/scss/global";
+@import '../../../assets/scss/global';
 
 .avatar {
-  width:$avatar-size;
-  height:$avatar-size;
-  @include border-radius($avatar-size/2);
-  margin-bottom:$whitespace-base-size;
+  width: px($avatar-size-min);
+  height: px($avatar-size-min);
+  @include border-radius(px($avatar-size-max / 2 + 10));
+  margin-bottom: $whitespace-base-size;
   background: inherit;
+  display: flex;
+  border: 0.1px solid var(--success-color);
+  transition: all 750ms ease-in-out;
 }
 
 .container_skewed .avatar {
   @include transform(skewX($skew-angle));
 }
 
-.avatar_game-board {
-  //position:absolute;
-  //top:10 * $whitespace-base-size;
+$avatar-size-calc: calcY($avatar-size-min, $avatar-size-max);
+
+@include media-min-width() {
+  .avatar {
+    width: $avatar-size-calc;
+    height: $avatar-size-calc;
+  }
+}
+
+@include media-max-width() {
+  .avatar {
+    width: px($avatar-size-max);
+    height: px($avatar-size-max);
+  }
 }

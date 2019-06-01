@@ -18,13 +18,11 @@ export class PlayView extends BaseView {
 
     _render() {
         super.renderContainer({
-            customClasses: 'game h100',
-            btnBack: true
+            customClasses: 'game h100'
         });
 
-        const container = document.getElementsByClassName('game')[0];
         new Game({
-            root: container,
+            root: this.root,
             mode: window.location.pathname.replace(/\//g, '')
         });
     }
