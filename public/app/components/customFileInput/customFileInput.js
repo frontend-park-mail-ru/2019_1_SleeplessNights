@@ -43,6 +43,10 @@ export class CustomFileInputComponent {
         return this._template;
     }
 
+    reset() {
+        this._innerElem.value = '';
+    }
+
     on(event, callback = noop) {
         this._innerElem.addEventListener(event, callback);
     }

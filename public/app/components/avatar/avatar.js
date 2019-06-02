@@ -7,6 +7,7 @@ import './avatar.scss';
 import './_profile/avatar_profile.scss';
 import './_border-weighty/avatar_border-weighty.scss';
 import './__choose-photo/avatar__choose-photo.scss';
+import './__close-edit/avatar__close-edit.scss';
 import './__edit-photo/avatar__edit-photo.scss';
 import './__upload-icon/avatar__upload-icon.scss';
 
@@ -24,7 +25,7 @@ export class AvatarComponent {
 
     constructor({
         customClasses = '',
-        avatarPath = '/assets/this._img/default-avatar.png',
+        avatarPath = '/assets/img/default_avatar.jpg',
         form = ''
     } = {}) {
         this._customClasses = customClasses;
@@ -55,6 +56,12 @@ export class AvatarComponent {
         this.innerElement.src = path;
     }
 
+    resetEdit = () => {
+        this.innerElement.parentElement.classList.remove('hidden');
+        this._rotateRight.parent.classList.add('hidden');
+        this._customFileInput.reset();
+    };
+
     hideIcon() {
         this.innerElement.style.display = 'none';
     }
@@ -75,7 +82,7 @@ export class AvatarComponent {
         this._canvas = document.getElementById('avatarCanvas');
         const ctx = this._canvas.getContext('2d');
         this._img = null;
-        
+
         this._customFileInput.on('change', (e) => {
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -88,7 +95,6 @@ export class AvatarComponent {
 
                 this._img.src = event.target.result;
                 this.innerElement.parentElement.classList.add('hidden');
-
                 this._rotateRight.parent.classList.remove('hidden');
             };
             reader.readAsDataURL(e.target.files[0]);
@@ -112,6 +118,8 @@ export class AvatarComponent {
             degree += 90;
             this.rotateImage(degree);
         });
+
+        this._closeEdit.on('click', this.resetEdit);
     };
 
     rotateImage = (degree) => {
@@ -181,6 +189,11 @@ export class AvatarComponent {
                 customClasses: 'md-24',
                 name: 'rotate_right'
             });
+
+            this._closeEdit = new IconComponent({
+                customClasses: 'md-24 avatar__close-edit',
+                name: 'close'
+            });
         }
 
         this._template = template({
@@ -189,7 +202,12 @@ export class AvatarComponent {
             customImgInput: this._customFileInput ? this._customFileInput.template: '',
             id:             this._id,
             isEditable:     this._isEditable,
-            buttons:        this._isEditable ? this._rotateLeft.template + this._rotateRight.template : ''
+            buttons:        this._isEditable ?
+                            `
+                                ${this._rotateLeft.template} 
+                                ${this._rotateRight.template}
+                                ${this._closeEdit.template}
+                            `  : ''
         });
     }
 }

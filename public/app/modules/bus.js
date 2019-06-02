@@ -12,7 +12,7 @@ class Bus {
     off(event, callback) {
         if (this.listeners[ event ]) {
             this.listeners[ event ] = this.listeners[ event ]
-                .filter(listener => listener !== callback);
+                    .filter(listener => listener !== callback);
         } else {
             console.error(`Bus off: there is no subscribed such event: ${event}`);
         }
@@ -20,7 +20,7 @@ class Bus {
 
     emit(event, data) {
         console.log('bus-emit', event, data);
-        if (this.listeners[event]) {
+            if (this.listeners[event]) {
             this.listeners[event].forEach(listener => listener(data));
         } else {
             console.error(`Bus emit: there is no subscribed such event: ${event}`);

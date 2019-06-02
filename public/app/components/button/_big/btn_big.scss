@@ -1,4 +1,4 @@
-@import "../../../../assets/scss/global.scss";
+@import '../../../../assets/scss/global';
 
 .btn_big {
     min-width: 200px !important;
@@ -17,3 +17,17 @@
     left: 11%;
     top: 50%;
 }
+
+//@include media-min-width() {
+//    .avatar {
+//        width: $avatar-size-calc;
+//        height: $avatar-size-calc;
+//    }
+//}
+//
+//@include media-max-width() {
+//    .avatar {
+//        width: px($avatar-size-max);
+//        height: px($avatar-size-max);
+//    }
+//}

@@ -1,7 +1,26 @@
 @import '../../../../assets/scss/global';
 
+$profile-avatar-size-max: 160;
+$profile-avatar-size-min: 80;
+
 .avatar_profile {
-    margin: -20px 0 10px 10px;
-    @include border-radius($avatar-size-max/ 2);
+    margin: -10px 0 10px 10px;
+    @include border-radius(px($avatar-size-max / 2));
     overflow: hidden;
+}
+
+$avatar-size-calc: calcY($profile-avatar-size-min, $profile-avatar-size-max);
+
+@include media-min-width() {
+    .avatar_profile {
+        width: $avatar-size-calc;
+        height: $avatar-size-calc;
+    }
+}
+
+@include media-max-width() {
+    .avatar_profile {
+        width: px($profile-avatar-size-max);
+        height: px($profile-avatar-size-max);
+    }
 }

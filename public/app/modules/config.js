@@ -4,7 +4,7 @@ export class Config {
         this.urls = {
             'dev': {
                 'backend': 'http://localhost:8080',
-                'chat': 'ws://localhost:8005/chat/connect',
+                'chat': 'ws://localhost:8005/api/chat',
                 'game': 'ws://localhost:8006/api/game'
             },
             'prod': {
@@ -36,4 +36,4 @@ export class Config {
     }
 }
 
-export default new Config('prod');
+export default new Config('dev');

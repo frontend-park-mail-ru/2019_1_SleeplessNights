@@ -11,7 +11,7 @@ export class BaseChatView {
         this.root = root;
         this._input = {
             type: 'text',
-            customClasses: '',
+            customClasses: 'form__control_chat',
             placeholder: 'Type something ...',
             name: 'message'
         };
@@ -83,7 +83,7 @@ export class BaseChatView {
                 type: 'sent',
                 datetime: '2009-11-13T20:00',
                 nickname: user.nickname,
-                avatarUrl: '/assets/img/default-avatar.png',
+                avatarUrl: '/assets/img/default_avatar.jpg',
                 msgText: this.input.value
             });
 
