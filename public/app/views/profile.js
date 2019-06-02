@@ -195,6 +195,7 @@ export class ProfileView extends BaseView {
     _getProfile() {
         bus.emit('get-profile');
         bus.on('success:get-profile', (profile) => {
+            if (profile.user) profile = profile.user;
             this._profile = {
                 nickname: profile.nickname,
                 email:    profile.email,

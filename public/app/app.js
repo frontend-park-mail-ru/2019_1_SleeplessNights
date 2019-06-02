@@ -26,6 +26,18 @@ import idb from './modules/indexdb.js';                       /**/
 import '../assets/scss/main.scss';                            /**/
 /************************************************************\/**/
 
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    if (document.requestFullscreen) {
+        document.requestFullscreen();
+    } else if (document.mozRequestFullScreen) { /* Firefox */
+        document.mozRequestFullScreen();
+    } else if (document.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        document.webkitRequestFullscreen();
+    } else if (document.msRequestFullscreen) { /* IE/Edge */
+        document.msRequestFullscreen();
+    }
+}
+
 window.user = {
     nickname: 'guest',
     isAuthorised: AuthService.isAuthorised,
