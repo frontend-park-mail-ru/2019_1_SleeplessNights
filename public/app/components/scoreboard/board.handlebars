@@ -12,7 +12,8 @@
             <td>
                 <div class="container align-items-center">
                     <div class="table__avatar-block">
-                        <img class="table__avatar-block__img" src="{{avatarPath}}" alt="avt">
+                        <img class="table__avatar-block__img" onerror="this.onerror=null; this.src='/assets/img/default_avatar.jpg'"
+                             src="{{avatarPath}}" alt="avt">
                     </div>
                     {{nickname}}
                 </div>

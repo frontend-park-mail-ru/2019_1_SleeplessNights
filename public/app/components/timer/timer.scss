@@ -1,8 +1,11 @@
 @import '../../../assets/scss/global';
 
+$font-size-min: 20;
+$font-size-max: 60;
+
 .timer {
     color: var(--success-color);
-    font-size: 16px;
+    font-size: px($font-size-min);
 }
 
 .timer_red {
@@ -11,12 +14,12 @@
 
 @include media-min-width() {
     .timer {
-        font-size: calcY(16, 26);
+        font-size: calcY($font-size-min, $font-size-max);
     }
 }
 
 @include media-max-width() {
     .timer {
-        font-size: 26px;
+        font-size: px($font-size-max);
     }
 }

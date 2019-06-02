@@ -42,7 +42,7 @@ svg {
 }
 
 .profile {
-  padding: 50px 30px 10px;
+  padding: 20px;
   flex-wrap: wrap;
 }
 
@@ -82,13 +82,21 @@ svg {
 }
 
 @include media-min-width() {
-  body {
-    font-size: calcY(13, 16);
-  }
+    body {
+        font-size: calcY(13, 16);
+    }
+
+    .profile {
+        padding: calcY(20, 50);
+    }
 }
 
 @include media-max-width() {
-  body {
-    font-size: 16px;
-  }
+    body {
+        font-size: 16px;
+    }
+
+    .profile {
+        padding: 40px 20px;
+    }
 }

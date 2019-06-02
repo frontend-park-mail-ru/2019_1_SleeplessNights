@@ -127,7 +127,7 @@ export class ProfileView extends BaseView {
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'form_w50 justify-content-center container_column',
+            customClasses: 'form_w60 justify-content-center container_column',
             content: ` ${this.header.template} ${formContainer.template}`
         });
 

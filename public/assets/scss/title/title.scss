@@ -8,17 +8,19 @@
   font-weight: bold;
   text-decoration: none;
   outline: none;
-  margin: $title-padding;
+  margin: 0;
 }
 
 @include media-min-width() {
   .title {
     font-size: calcY($title-text-size-min, $title-text-size-max);
+    margin: calcY(0, 10) 5px;
   }
 }
 
 @include media-max-width() {
   .title {
     font-size: px($title-text-size-max);
+    margin: $title-padding;
   }
 }

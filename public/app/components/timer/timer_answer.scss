@@ -1,0 +1,28 @@
+@import '../../../assets/scss/global';
+
+$font-size-min: 50;
+$font-size-max: 150;
+$left-min: -60;
+$left-max: -180;
+
+.timer_answer {
+    position: absolute;
+    top: 60px;
+    left: px($left-min);
+    font-size: px($font-size-min);
+    color: var(--primary-color1)
+}
+
+@include media-min-width() {
+    .timer_answer {
+        font-size: calcY($font-size-min, $font-size-max);
+        left: calcY($left-min, $left-max);
+    }
+}
+
+@include media-max-width() {
+    .timer_answer {
+        font-size: px($font-size-max);
+        left: px($left-max);
+    }
+}

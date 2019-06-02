@@ -20,21 +20,19 @@ export class BaseChatView {
     }
 
     onMessageCome = (message) => {
-        if (message.nickname === 'Guest' || message.nickname !== user.nickname) {
-            const msgContainer = new MsgContainerComponent({
-                type: 'receive',
-                datetime: '2009-11-13T20:00',
-                nickname: message.nickname,
-                avatarUrl: makeAvatarPath(message.avatarPath),
-                msgText: message.text
-            });
+        const msgContainer = new MsgContainerComponent({
+            type: message.nickname === user.nickname ? 'sent' : 'receive',
+            datetime: '2009-11-13T20:00',
+            nickname: message.nickname,
+            avatarUrl: makeAvatarPath(message.avatarPath),
+            msgText: message.text
+        });
 
-            bus.emit('chat:update-container', msgContainer.template);
+        bus.emit('chat:update-container', msgContainer.template);
 
-            setTimeout(() => {
-                msgContainer.show();
-            }, 100);
-        }
+        setTimeout(() => {
+            msgContainer.show();
+        }, 100);
     };
 
     renderButton() {
@@ -45,7 +43,8 @@ export class BaseChatView {
         
         this.button = new ButtonComponent({
             className: 'btn_primary2',
-            text: icon.template
+            text: icon.template,
+            dataHref: ''
         });
 
         this.input = new FormControlComponent(this._input);

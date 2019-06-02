@@ -1,5 +1,6 @@
 <div class="avatar justify-content-center align-items-center {{customClasses}}">
-    <img src="{{ avatarPath }}" id="{{id}}" alt="avatar" class="avatar__upload-icon">
+    <img src="{{ avatarPath }}"  onerror="this.onerror=null; this.src='/assets/img/default_avatar.jpg'"
+         id="{{id}}" alt="avatar" class="avatar__upload-icon">
     {{#if isEditable}}
         <div class="avatar__choose-photo">
             {{{customImgInput}}}

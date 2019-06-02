@@ -23,7 +23,10 @@ export class SelectAnswerScene {
     setCurrentPlayer = (pl) => this.currentPlayer = pl;
 
     onSelectedQuestion = (question) => {
-        this.timerComp = new TimerComponent();
+        this.timerComp = new TimerComponent({
+            customClasses: 'timer_answer'
+        });
+
         const questionText = new QuestionComponent({
             text: question.text
         });

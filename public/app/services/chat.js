@@ -4,8 +4,10 @@ import bus from '../modules/bus.js';
 
 export class ChatService {
     constructor() {
-        this.ws = new IWebSocket(config.chatUrl);
+        this.ws = new IWebSocket(config.chatUrl, 'chat');
         this.getMessage();
+
+        bus.on('chat:ws-failed', console.log('WS Chat Failed'));
         setTimeout(() => {
             this.getOldMessages();
         }, 1000);
@@ -34,8 +36,12 @@ export class ChatService {
     }
 
     getMessage() {
-        bus.on('ws-message', (message) => {
-            bus.emit('chat:get-message', message);
+        bus.on('chat:ws-message', (message) => {
+            if (message.length) {
+                message.forEach(m => bus.emit('chat:get-message', m));
+            } else {
+                bus.emit('chat:get-message', message);
+            }
         });
     }
 }

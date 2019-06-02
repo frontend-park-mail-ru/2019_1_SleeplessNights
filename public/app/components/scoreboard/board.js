@@ -1,4 +1,5 @@
 import { PaginationComponent } from '../pagination/pagination.js';
+import { makeAvatarPath } from '../../modules/utils.js';
 import bus from '../../modules/bus.js';
 import template from './board.handlebars';
 import './table.scss';
@@ -37,13 +38,14 @@ export class BoardComponent {
             .emit('get-leaders', page)
             .on('success:get-leaders', (res) => {
                 this._players = [];
-                if (!res.data) return;
+                if (!res.leaders) return;
 
-                res.data.forEach((item, i) => {
+                res.leaders.forEach((item, i) => {
+                    item = item.user;
                     this._players.push({
                         number: i + 1,
                         nickname: item.nickname,
-                        avatarPath: item.avatarPath,
+                        avatarPath: makeAvatarPath(item.avatarPath),
                         rating: item.rating || 0,
                         winRate: item.winRate || 0,
                         matches: item.matches || 0
@@ -63,6 +65,7 @@ export class BoardComponent {
                     }) + pager.template;
 
                     this._pager = pager;
+                    this.runGetScoreboardByPage();
                 } else {
                     this._template = template({
                         players: this._players
@@ -70,7 +73,6 @@ export class BoardComponent {
                 }
 
                 this.updateContent();
-                this.runGetScoreboardByPage();
             })
             .on('error:get-leaders', (data) => console.log(data));
     }

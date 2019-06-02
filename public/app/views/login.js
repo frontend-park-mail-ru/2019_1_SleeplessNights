@@ -33,7 +33,7 @@ export class LoginView extends BaseView {
                 customClasses: 'form__group_center',
                 content: {
                     type: 'submit',
-                    customClasses: 'btn btn_primary1',
+                    customClasses: 'btn btn_primary',
                     placeholder: '',
                     name: '',
                     value: 'Войти'
