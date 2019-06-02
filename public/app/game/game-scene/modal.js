@@ -28,7 +28,7 @@ export class Modal {
         });
 
         this.renderGopher();
-        this.gopher.say(`Привет ${user.nickname}. Что-то случилось с сервером, но ты можешь играть со мной`, false);
+        this.gopher.say(`Привет ${user.nickname}. Что-то случилось с сервером, но ты можешь поиграть со мной`, false);
     };
 
     onLeaveGame = () => {
@@ -55,7 +55,7 @@ export class Modal {
             this.gopher.hideModal();
             this.gopher.destroy();
         });
-        this.gopher.say(`Твоя текущая сессия игры удаляеться. Действительно ли хочеш выйти ?`, false);
+        this.gopher.say(`Твоя текущая сессия игры удалится. Ты действительно хочешь выйти?`, false);
     };
 
     onNotAuthorised = () => {
@@ -78,7 +78,7 @@ export class Modal {
         });
 
         this.renderGopher();
-        this.gopher.say(`Привет ${user.nickname}. К сожелению в мультиплеер нельзя играть без регистрации`, false);
+        this.gopher.say(`Привет ${user.nickname}. К сожалению, в мультиплеере нельзя играть без регистрации!`, false);
     };
 
     onRoomSearching = () => {
@@ -95,7 +95,7 @@ export class Modal {
         });
 
         this.renderGopher();
-        this.gopher.say(`Привет ${user.nickname}. Пока что нет никого онлайн чтобы играть с тобой, но ты можешь играть со мной`, false);
+        this.gopher.say(`Привет ${user.nickname}. Нет никого онлайн, чтобы поиграть с тобой, но ты можешь поиграть со мной`, false);
     };
 
     onFoundOpponent = () => {

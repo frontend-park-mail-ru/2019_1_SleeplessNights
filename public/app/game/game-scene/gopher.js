@@ -42,7 +42,7 @@ export class Gopher {
 
     onBotSelectedPack = (id) => {
         bus.emit(events.STOP_TIMEOUT_PACK);
-        this.gopher.say(`А давайка выбрать ${this.packs[id].name}`, true, 50);
+        this.gopher.say(`А давай выберем ${this.packs[id].name}`, true, 50);
         setTimeout(() => {
             bus.emit(events.SELECTED_PACK, this.packs[id].index);
         }, 1500)
@@ -51,7 +51,7 @@ export class Gopher {
     botChoosingQuestion = (data) => {
         this.currentQuestion = data;
         if (this.currentPlayer === 'bot') {
-            this.gopher.say(`😀 Везде надо думать`);
+            this.gopher.say(`😀 Всегда и везде надо думать!`);
         }
     };
 
