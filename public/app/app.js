@@ -7,6 +7,7 @@ import { LeadersView } from './views/leaders.js';             /**/
 import { LoginView }   from './views/login.js';               /**/
 import { SignUpView }  from './views/signup.js';              /**/
 import { ProfileView } from './views/profile.js';             /**/
+import { ChatView }    from './views/chat.js';                /**/
 import { NotFoundView } from './views/notFound.js';           /**/
 /************************* Services *************************\/**/
 import { RegisterService }   from './services/register.js';   /**/
@@ -14,6 +15,7 @@ import { ProfileService }    from './services/profile.js';    /**/
 import { AuthService }       from './services/auth.js';       /**/
 import { ScoreboardService } from './services/scoreboard.js'; /**/
 import { GameService }       from './services/game.js';       /**/
+import { ChatService }       from './services/chat.js';       /**/
 /************************** Others **************************\/**/
 import { makeAvatarPath } from './modules/utils.js';          /**/
 import { Router } from './modules/router.js';                 /**/
@@ -23,6 +25,18 @@ import bus from './modules/bus.js';                           /**/
 import idb from './modules/indexdb.js';                       /**/
 import '../assets/scss/main.scss';                            /**/
 /************************************************************\/**/
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    if (document.requestFullscreen) {
+        document.requestFullscreen();
+    } else if (document.mozRequestFullScreen) { /* Firefox */
+        document.mozRequestFullScreen();
+    } else if (document.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        document.webkitRequestFullscreen();
+    } else if (document.msRequestFullscreen) { /* IE/Edge */
+        document.msRequestFullscreen();
+    }
+}
 
 window.user = {
     nickname: 'guest',
@@ -153,6 +167,11 @@ bus.on(events.WS_CONNECT, () => {
     });
 });
 
+bus.on('created-chat', () => {
+    const chatService = new ChatService();
+    bus.on('chat:send-message', chatService.sendMessage);
+});
+
 const router = new Router(app);
 router
     .register('/', MenuView)
@@ -164,6 +183,7 @@ router
     .register('/multiplayer', PlayView)
     .register('/profile', ProfileView)
     .register('/signup', SignUpView)
+    .register('/chat', ChatView)
     .register('/not-found', NotFoundView);
 
 router

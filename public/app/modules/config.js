@@ -4,13 +4,16 @@ export class Config {
         this.urls = {
             'dev': {
                 'backend': 'http://localhost:8080',
-                'chat': 'ws://localhost:8005/chat/connect',
+                'chat': 'ws://localhost:8005/api/chat',
                 'game': 'ws://localhost:8006/api/game'
             },
             'prod': {
-                'backend': 'http://89.208.198.186:8080',
+                /*'backend': 'https://89.208.198.186:8080',
                 'chat': 'ws://89.208.198.186:8005/chat/connect',
-                'game': 'ws://localhost:8005/game/connect'
+                'game': 'ws://localhost:8005/game/connect'*/
+                'backend': 'https://techno-quiz.com',
+                'chat': 'wss://techno-quiz.com/api/chat',
+                'game': 'wss://techno-quiz.com/api/game'
             },
             'prodHeroku': {
                 'backend': 'https://sleepless-nights--backend.herokuapp.com',
@@ -33,4 +36,4 @@ export class Config {
     }
 }
 
-export default new Config('dev');
+export default new Config('prod');

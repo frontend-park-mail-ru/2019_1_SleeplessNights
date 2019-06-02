@@ -48,7 +48,10 @@ export class PlayingScene {
         }
 
         this.gameBoard = new GameBoardComponent(this.cells.map(cell => cell.template));
-        this.container.content = this.gameBoard.template;
+        this.container.content = `
+            <h3 class="container_theme-secondary3 title_subtitle title_subtitle2">Ваша цель - дойти до центра!</h3>
+            ${this.gameBoard.template}
+            `;
         this.root.insertAdjacentHTML('beforeend', this.packsSection);
     }
 
@@ -96,7 +99,6 @@ export class PlayingScene {
     };
 
     stopTimeout = () => {
-        console.log('stop');
         if (this.timer) {
             clearTimeout(this.timer);
             this.timer = null;

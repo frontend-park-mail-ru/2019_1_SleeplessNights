@@ -2,6 +2,7 @@
 
 .avatar__upload-icon{
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
   @include border-radius(px($avatar-size-max / 2 + 10));
 }

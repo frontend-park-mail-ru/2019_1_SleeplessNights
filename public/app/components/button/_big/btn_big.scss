@@ -1,17 +1,42 @@
-@import "../../../../assets/scss/global.scss";
+@import '../../../../assets/scss/global';
+
+$width-min: 80;
+$width-max: 200;
+$height-min: 25;
+$height-max: 50;
+$font-size-min: 9;
+$font-size-max: 21;
 
 .btn_big {
-    width: 200px !important;
-    height: 50px !important;
-    font-size: 21px;
-}
-
-.btn_big:hover {
-
+    min-width: px($width-min);
+    height: px($height-min);
+    font-size: px($font-size-min);
 }
 
 .btn_modal {
     position: absolute;
-    left: -18%;
+    left: -21%;
     top: 50%;
+}
+
+.btn_modal2 {
+    position: absolute;
+    left: 13%;
+    top: 50%;
+}
+
+@include media-min-width() {
+    .btn_big {
+        min-width: calcY($width-min, $width-max);
+        height: calcY($height-min, $height-max);
+        font-size: calcY($font-size-min, $font-size-max);
+    }
+}
+
+@include media-max-width() {
+    .btn_big {
+        min-width: px($width-max);
+        height: px($height-max);
+        font-size: px($font-size-max);
+    }
 }

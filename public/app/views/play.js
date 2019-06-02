@@ -21,9 +21,13 @@ export class PlayView extends BaseView {
             customClasses: 'game h100'
         });
 
-        new Game({
+        this.game = new Game({
             root: this.root,
             mode: window.location.pathname.replace(/\//g, '')
         });
+    }
+
+    hideAnimation() {
+        this.game.destroy();
     }
 }

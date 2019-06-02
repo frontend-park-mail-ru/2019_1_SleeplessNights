@@ -3,6 +3,7 @@ import { events } from '../../game/core/events.js';
 import bus from '../../modules/bus.js';
 import template from './timer.handlebars';
 import './timer.scss';
+import './timer_answer.scss';
 
 export class TimerComponent {
     _customClasses;
@@ -56,6 +57,6 @@ export class TimerComponent {
         clearInterval(this.timer);
         this.timer = null;
         this._innerElem.classList.remove('timer_red');
-        this._innerElem.innerHTML = '';
+        this._innerElem.innerHTML = '00';
     }
 }

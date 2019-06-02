@@ -1,6 +1,7 @@
 import { noop, uniqueId } from '../../../modules/utils.js';
 import template from './formControl.handlebars';
 import './form__control.scss';
+import './_chat/form__control_chat.scss';
 
 export class FormControlComponent {
     _attributes;

@@ -82,6 +82,18 @@ export class MenuView extends BaseView {
                         name: 'info'
                     }
                 },
+            ],
+            [
+                'chat', {
+                    href: 'chat',
+                    dataHref: 'chat',
+                    customClasses: 'title title_subtitle',
+                    text: 'Chat',
+                    icon: {
+                        customClasses: 'md-24 md-inherit',
+                        name: 'chat_bubble'
+                    }
+                },
             ]
         ]);
 
@@ -184,7 +196,7 @@ export class MenuView extends BaseView {
 
         const navbarContainer1 = new ContainerComponent({
             customClasses: 'justify-content-left w100 pl-10px',
-            content: ` ${this.items.get('leaders').link.template} ${this.items.get('about').link.template} `
+            content: ` ${this.items.get('leaders').link.template} ${this.items.get('about').link.template}  ${this.items.get('chat').link.template} `
         });
 
         const navbarContainer2 = new ContainerComponent({

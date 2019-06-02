@@ -2,24 +2,25 @@
     <tr>
         <th class="table__number">№</th>
         <th>Игрок</th>
-        <th>Победы</th>
-        <th>Поражения</th>
-        <th>Время в игре</th>
+        <th>Рейтинг</th>
+        <th>Процент побед</th>
+        <th>Всего матчей</th>
     </tr>
     {{#each players}}
         <tr>
             <td>{{number}}</td>
             <td>
-                <div class="container__align-items-center">
-                    <div class="table_new__avatar-block">
-                        <img class="table_new__avatar" src="{{avatarUrl}}" alt="avt">
+                <div class="container align-items-center">
+                    <div class="table__avatar-block">
+                        <img class="table__avatar-block__img" onerror="this.onerror=null; this.src='/assets/img/default_avatar.jpg'"
+                             src="{{avatarPath}}" alt="avt">
                     </div>
-                    {{name}}
+                    {{nickname}}
                 </div>
             </td>
-            <td>{{win}}</td>
-            <td>{{lost}}</td>
-            <td>{{playingTime}}</td>
+            <td>{{rating}}</td>
+            <td>{{winRate}}</td>
+            <td>{{matches}}</td>
         </tr>
     {{/each}}
 </table>

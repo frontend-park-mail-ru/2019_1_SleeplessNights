@@ -1,0 +1,17 @@
+.msg-container {
+    opacity: 0;
+    transition: opacity 500ms;
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+
+    > div:first-child {
+        width: 85%;
+    }
+
+    > div:last-child {
+        position: relative;
+        width: 14%;
+    }
+}

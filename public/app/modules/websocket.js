@@ -16,6 +16,7 @@ export class IWebSocket {
     };
 
     onError = (event) => {
+        bus.emit(`${this.type}:ws-failed`);
         console.log(`Websocket failed trying to connect ${this.url}`);
         console.log(event);
     };

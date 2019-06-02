@@ -1,0 +1,26 @@
+@import '../../../../assets/scss/global';
+@import '../_profile/avatar_profile';
+
+.avatar__edit-photo {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: px($profile-avatar-size-min);
+  height: px($avatar-size-min);
+}
+
+$avatar-size-calc: calcY($profile-avatar-size-min, $profile-avatar-size-max);
+
+@include media-min-width() {
+  .avatar__edit-photo {
+    width: $avatar-size-calc;
+    height: $avatar-size-calc;
+  }
+}
+
+@include media-max-width() {
+  .avatar__edit-photo {
+    width: px($profile-avatar-size-max);
+    height: px($profile-avatar-size-max);
+  }
+}

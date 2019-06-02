@@ -1,8 +1,30 @@
 @import '../../../../assets/scss/global';
 
+$profile-avatar-size-max: 160;
+$profile-avatar-size-min: 90;
+
 .avatar_profile {
-    margin-left: 10px;
-    margin-top: -20px;
-    width: 140px;
-    height: 140px;
+    width: px($profile-avatar-size-min);
+    height: px($profile-avatar-size-min);
+    margin: 10px 0 10px 10px;
+    @include border-radius(px($avatar-size-max / 2));
+    overflow: hidden;
+}
+
+$avatar-size-calc: calcY($profile-avatar-size-min, $profile-avatar-size-max);
+
+@include media-min-width() {
+    .avatar_profile {
+        width: $avatar-size-calc;
+        height: $avatar-size-calc;
+        margin-top: calcY(10, -10);
+    }
+}
+
+@include media-max-width() {
+    .avatar_profile {
+        width: px($profile-avatar-size-max);
+        height: px($profile-avatar-size-max);
+        margin-top: -10px;
+    }
 }

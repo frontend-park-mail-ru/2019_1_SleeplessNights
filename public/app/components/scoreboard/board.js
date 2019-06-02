@@ -1,4 +1,5 @@
 import { PaginationComponent } from '../pagination/pagination.js';
+import { makeAvatarPath } from '../../modules/utils.js';
 import bus from '../../modules/bus.js';
 import template from './board.handlebars';
 import './table.scss';
@@ -6,6 +7,7 @@ import './_primary/table_primary.scss';
 import './_primary2/table_primary2.scss';
 import './__number/table__number.scss';
 import './__avatar-block/table__avatar-block.scss';
+import './__avatar-block/__img/table__avatar-block__img.scss';
 
 export class BoardComponent {
     _template;
@@ -36,20 +38,21 @@ export class BoardComponent {
             .emit('get-leaders', page)
             .on('success:get-leaders', (res) => {
                 this._players = [];
-                if (!res.data) return;
+                if (!res.leaders) return;
 
-                res.data.forEach((item, i) => {
+                res.leaders.forEach((item, i) => {
+                    item = item.user;
                     this._players.push({
                         number: i + 1,
-                        name: item.nickname,
-                        avatarPath: item.avatarPath,
-                        win: item.won,
-                        lost: item.lost,
-                        playingTime: item.play_time
+                        nickname: item.nickname,
+                        avatarPath: makeAvatarPath(item.avatarPath),
+                        rating: item.rating || 0,
+                        winRate: item.winRate || 0,
+                        matches: item.matches || 0
                     });
                 });
 
-                const pageCount = res.pages_total;
+                const pageCount = res.pagesCount || 10;
                 if (pageCount && pageCount < 1) {
                     const pager = new PaginationComponent({
                         baseUrl:    'scoreboard',
@@ -62,6 +65,7 @@ export class BoardComponent {
                     }) + pager.template;
 
                     this._pager = pager;
+                    this.runGetScoreboardByPage();
                 } else {
                     this._template = template({
                         players: this._players
@@ -69,7 +73,6 @@ export class BoardComponent {
                 }
 
                 this.updateContent();
-                this.runGetScoreboardByPage();
             })
             .on('error:get-leaders', (data) => console.log(data));
     }

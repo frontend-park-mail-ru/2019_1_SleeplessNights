@@ -1,0 +1,9 @@
+.panel_primary {
+    border-color: var(--primary-color2);
+}
+
+.panel_primary .panel__header {
+    background-color: var(--primary-color2);
+    border-color: var(--primary-color2);
+    color: white;
+}

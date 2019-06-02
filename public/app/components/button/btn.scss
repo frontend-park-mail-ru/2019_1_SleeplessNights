@@ -1,9 +1,9 @@
-@import "../../../assets/scss/global.scss";
+@import '../../../assets/scss/global';
 
 .btn {
     height: $button-height;
     @extend %border-default;
-    padding: 0 3*$whitespace-base-size !important;
+    padding: 0 $whitespace-base-size !important;
     font-weight: $button-font-weight;
     background-color: var(--secondary-color1);
     cursor: pointer;
@@ -14,4 +14,22 @@
 
 .btn:hover {
     @include background-accent(var(--secondary-color1), var(--accent-color));
+}
+
+@media (max-width: 650px) {
+    .btn {
+        height: 35px;
+    }
+}
+
+@include media-min-width() {
+    .btn {
+        padding: 0 calcY(10, 30);
+    }
+}
+
+@include media-max-width() {
+    .btn {
+        padding: 0 3 * $whitespace-base-size !important;
+    }
 }

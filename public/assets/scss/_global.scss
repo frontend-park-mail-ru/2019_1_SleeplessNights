@@ -18,7 +18,7 @@ $play-icon-size-min: 100;
 $title-text-size-min: 19;
 $title-text-size-max: 45;
 $subtitle-text-size-min: 13;
-$subtitle-text-size-max: 20;
+$subtitle-text-size-max: 23;
 
 $skew-angle: 4deg;
 $skew-shift: 110px;
@@ -31,7 +31,7 @@ $avatar-size-min: 90;
 
 $modal-min-size: 200px;
 $form-control-size: 40px;
-$button-height: 32px;
+$button-height: 40px;
 $button-font-weight: 600;
 $modal-close-btn-width: 5 * $whitespace-base-size;
 
@@ -310,3 +310,8 @@ $grid-rows: (
     @content
   }
 }
+
+.hidden {
+  display: none;
+}
+

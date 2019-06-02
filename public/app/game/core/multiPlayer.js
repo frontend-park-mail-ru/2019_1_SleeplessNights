@@ -8,13 +8,14 @@ export class MultiPlayer extends GameCore {
     constructor() {
         super();
         bus.on(events.ENDED_TIME_TO_QUESTION, noop);
+        bus.on(events.ENDED_TIME_TO_ANSWER,   noop);
         bus.on(events.ENDED_TIME_TO_PACK,     noop);
         bus.on(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 
     start() {
         super.start();
-        bus.emit(events.WS_CONNECT);
+        bus.emit(user.isAuthorised ? events.WS_CONNECT : events.NOT_AUTHORISED);
     }
 
     notifyReadiness = () => {
@@ -88,6 +89,7 @@ export class MultiPlayer extends GameCore {
         super.destroy();
         bus.off(events.ENDED_TIME_TO_QUESTION, noop);
         bus.off(events.ENDED_TIME_TO_PACK,     noop);
+        bus.on(events.ENDED_TIME_TO_ANSWER,   noop);
         bus.off(`success:${events.WS_CONNECT}`, this.notifyReadiness);
     }
 }

@@ -13,15 +13,15 @@ export class ProfileView extends BaseView {
         this._list = [
             {
                 customClasses: '',
-                text: 'Победы 0'
+                text: 'Рейтинг'
             },
             {
                 customClasses: '',
-                text: 'Поражения 0'
+                text: 'Процент побед'
             },
             {
                 customClasses: '',
-                text: 'Время в игре 0'
+                text: 'Всего матчей'
             }
         ];
         this._formGroups = [
@@ -66,6 +66,7 @@ export class ProfileView extends BaseView {
 
         this._scoreSectionHTML = document.createElement('section');
         this._scoreSectionHTML.id = 'profile-score';
+        this._scoreSectionHTML.className = 'w70';
         this._render();
     }
 
@@ -121,11 +122,12 @@ export class ProfileView extends BaseView {
                 ${this._form.template} 
                 ${this._avatar.template} 
                 ${this._scoreSection}
+                <h6>* Для улучшения качествы показа вашей автарки пожалуйста загрузите квадратную или круглую автарку </h6>
             `
         });
 
         const innerContainer = new ContainerComponent({
-            customClasses: 'form_w50 justify-content-center container_column',
+            customClasses: 'form_w60 justify-content-center container_column',
             content: ` ${this.header.template} ${formContainer.template}`
         });
 
@@ -143,12 +145,13 @@ export class ProfileView extends BaseView {
         });
 
         const list = new ListComponent({
-            customClasses: 'w100',
+            customClasses: 'w70',
             list: this._list
         });
 
         this._scoreSection = list.template;
         this._onSubmit();
+        bus.emit('avatar-loading');
     }
 
     _onSubmit() {
@@ -160,12 +163,28 @@ export class ProfileView extends BaseView {
 
         bus.on('success:check-validity-profile', () => {
             bus.emit('update-profile', this._formData)
-                .on('success:update-profile', (path) => this._avatar.src = path);
+                .on('success:update-profile', (path) => {
+                    this._avatar.resetEdit();
+                    this._avatar.src = path
+                });
         });
 
         this._form.on('submit', (event) => {
             event.preventDefault();
             this._formData = new FormData(event.target);
+            const img = this._avatar.canvasImage;
+            if (img.length > 2000) {
+                const blobBin = atob(img.split(',')[1]);
+                const array = [];
+                for(let i = 0; i < blobBin.length; i++) {
+                    array.push(blobBin.charCodeAt(i));
+                }
+
+                const _file = this._formData.get('avatar');
+                const file = new Blob([new Uint8Array(array)], { type: _file.type });
+                this._formData.delete('avatar');
+                this._formData.append('avatar', file, _file.name);
+            }
 
             const inputs = this._form.formControls.filter(fc => fc.type === 'text');
             this._form.reset();
@@ -176,12 +195,13 @@ export class ProfileView extends BaseView {
     _getProfile() {
         bus.emit('get-profile');
         bus.on('success:get-profile', (profile) => {
+            if (profile.user) profile = profile.user;
             this._profile = {
                 nickname: profile.nickname,
-                email: profile.email,
-                won: profile.won,
-                lost: profile.lost,
-                play_time: profile.play_time,
+                email:    profile.email,
+                rating:   profile.rating || 0 ,
+                winRate:  profile.winRate || 0,
+                matches:  profile.matches || 0,
                 avatarPath: profile.avatarPath
             };
 
@@ -190,12 +210,12 @@ export class ProfileView extends BaseView {
                 this._form.setFormControlValue('email', this._profile.email);
             }
 
-            // this._list[0].text += ` ${profile.won ? profile.won : '0'}`;
-            // this._list[1].text += ` ${profile.lost ? profile.lost : '0'}`;
-            // this._list[2].text += ` ${profile.play_time ? profile.play_time : '0'}`;
-            // const list = new ListComponent({ list: this._list });
-            //
-            // this._scoreSection = list.template;
+            this._list[0].text = `Рейтинг ${this._profile.rating}`;
+            this._list[1].text = `Процент побед ${this._profile.winRate}`;
+            this._list[2].text = `Всего матчей ${this._profile.matches}`;
+            const list = new ListComponent({ list: this._list });
+
+            this._scoreSection = list.template;
             this._avatar.src = profile.avatarPath;
         });
     }

@@ -34,4 +34,17 @@
   .developer:nth-child(even) {
     flex-direction: row-reverse;
   }
+
+  #profile-score {
+    width: 100%;
+  }
+
+  #profile-score .list {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  #profile-score .list .list__item {
+    width: 33%;
+  }
 }
