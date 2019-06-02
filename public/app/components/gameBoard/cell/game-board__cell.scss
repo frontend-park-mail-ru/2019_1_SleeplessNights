@@ -18,6 +18,9 @@ $border-radius-max: 8;
   border-radius: px($border-radius-min);
 }
 
+.game-board__cell img {
+  width: 100%;
+}
 
 @include media-min-width() {
   .game-board__cell {
