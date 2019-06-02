@@ -21,17 +21,17 @@ export class AboutView extends BaseView {
             {
                 name: 'Максим Пирмамедов',
                 position: 'Backend',
-                avatarPath: '/assets/img/default_avatar.jpg'
+                avatarPath: '/assets/img/maksP.jpg'
             },
             {
                 name: 'Алексей Ларютин',
                 position: 'Backend',
-                avatarPath: '/assets/img/default_avatar.jpg'
+                avatarPath: '/assets/img/lesha.jpg'
             },
             {
                 name: 'Максим Уймин',
                 position: 'Full-stack',
-                avatarPath: '/assets/img/default_avatar.jpg'
+                avatarPath: '/assets/img/maksU.jpg'
             },
             {
                 name: 'Джахонгир Тулфоров',
