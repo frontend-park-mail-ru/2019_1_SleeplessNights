@@ -50,6 +50,14 @@ svg {
   margin: 10px;
 }
 
+$font-size-min: 15;
+$font-size-max: 25;
+
+.font-size_xl {
+    cursor: pointer;
+    font-size: px($font-size-min);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -89,6 +97,10 @@ svg {
     .profile {
         padding: calcY(20, 50);
     }
+
+    .font-size_xl {
+        font-size: calcY($font-size-min, $font-size-max);
+    }
 }
 
 @include media-max-width() {
@@ -98,5 +110,9 @@ svg {
 
     .profile {
         padding: 40px 20px;
+    }
+
+    .font-size_xl {
+        font-size: px($font-size-max);
     }
 }

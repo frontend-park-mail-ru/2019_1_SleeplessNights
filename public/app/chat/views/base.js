@@ -96,4 +96,9 @@ export class BaseChatView {
             this.input.value = '';
         }
     };
+
+    destroy() {
+        bus.off('chat:get-message', this.onMessageCome);
+        bus.emit('chat:close-connection');
+    }
 }

@@ -57,6 +57,8 @@ export class PanelComponent {
     }
 
     updateBody = (data) => {
-        this._innerElement.children[1].insertAdjacentHTML('beforeend', data);
+        if (this._innerElement) {
+            this._innerElement.children[1].insertAdjacentHTML('beforeend', data);
+        }
     };
 }

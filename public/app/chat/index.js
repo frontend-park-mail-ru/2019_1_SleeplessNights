@@ -30,5 +30,7 @@ export class Chat {
         if (this.mode === modes.FULL_PAGE) {
             this.core.hide();
         }
+
+        this.core.destroy();
     }
 }

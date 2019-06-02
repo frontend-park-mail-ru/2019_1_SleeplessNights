@@ -113,8 +113,9 @@ export class SignUpView extends BaseView {
         });
 
         this.loginContainer = new ContainerComponent({
-            customClasses: 'w20 container_column container_theme-primary2 justify-content-center align-items-center overflow-hidden',
-            content: `<p>Есть аккаунт?</p> ${link.template}`
+            customClasses: 'w20 container_column container_theme-primary2 justify-content-center align-items-center overflow-hidden font-size_xl',
+            content: `<p>Есть аккаунт?</p> ${link.template}`,
+            href: '/login'
         });
 
         super.renderContainer({

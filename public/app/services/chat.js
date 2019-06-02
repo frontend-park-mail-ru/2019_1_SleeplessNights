@@ -5,13 +5,19 @@ import bus from '../modules/bus.js';
 export class ChatService {
     constructor() {
         this.ws = new IWebSocket(config.chatUrl, 'chat');
-        this.getMessage();
-
         bus.on('chat:ws-failed', console.log('WS Chat Failed'));
+        bus.on('chat:ws-message', this.getMessage);
+        bus.on('chat:close-connection', this.closeConnection);
         setTimeout(() => {
             this.getOldMessages();
         }, 1000);
     }
+
+    closeConnection = () => {
+        this.ws.close();
+        bus.off('chat:close-connection', this.closeConnection);
+        bus.off(`chat:ws-message`, this.getMessage);
+    };
 
     sendMessage = (text) => {
         const message = {
@@ -35,13 +41,11 @@ export class ChatService {
         this.ws.sendMessage(JSON.stringify(message));
     }
 
-    getMessage() {
-        bus.on('chat:ws-message', (message) => {
-            if (message.length) {
-                message.forEach(m => bus.emit('chat:get-message', m));
-            } else {
-                bus.emit('chat:get-message', message);
-            }
-        });
-    }
+    getMessage = (message) => {
+        if (message.length) {
+            message.forEach(m => bus.emit('chat:get-message', m));
+        } else {
+            bus.emit('chat:get-message', message);
+        }
+    };
 }
